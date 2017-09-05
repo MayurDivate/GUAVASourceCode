@@ -48,48 +48,6 @@ public class GUAVA {
         pwd = file.getAbsolutePath();
     }
 
-    private static void commandLineVersion(String[] args) {
-
-        // check format and duplicates in parameter input list
-        
-        
-//        if(commandLineFormValidation(args)){
-//        
-//                if(!AnalysisWorkflow.validateToolPaths()){
-//                    System.exit(1);
-//                }
-//
-//            Input atacAnalyzerInput = new ToolOptions().getInput(args);
-//            AnalysisWorkflow.commandLine = true;
-//            System.out.println(atacAnalyzerInput);
-//            new AnalysisWorkflow().runStepWiseAnalysis(atacAnalyzerInput);
-//        }
-    }
-    
-    private static boolean commandLineFormValidation(String[] args){
-
-        ToolOptions toolOptions = new ToolOptions();
-        boolean optionFlag = false;
-        
-        if(args.length == 1){
-            if(toolOptions.isHelpCall(args[0])){
-                System.exit(1);
-            }
-        }
-        else{
-            optionFlag = true;
-        }
-        
-        if(optionFlag){
-            //optionFlag = toolOptions.checkFormat(args);
-            optionFlag = false;
-            
-        }
-      
-        return optionFlag;
-
-    }
-    
     private static void runGUAVAcommandline(String[] args){
         
         System.out.println();
