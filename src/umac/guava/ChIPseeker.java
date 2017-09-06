@@ -48,9 +48,9 @@ public class ChIPseeker extends Tool {
     
     public static ChIPseeker getChIPSeekerObject(){
         
-        if(OutputFiles.rootDir != null){
-            String sampleBasename = OutputFiles.rootDir.getName().replaceAll("_OUTPUT", "");
-            File csDir          =  new File(OutputFiles.rootDir.getAbsolutePath()+System.getProperty("file.separator")+sampleBasename+"_ChIPseeker_out");
+        if(GuavaOutputFiles.rootDir != null){
+            String sampleBasename = GuavaOutputFiles.rootDir.getName().replaceAll("_OUTPUT", "");
+            File csDir          =  new File(GuavaOutputFiles.rootDir.getAbsolutePath()+System.getProperty("file.separator")+sampleBasename+"_Functional_Analysis");
             File csPie          =  new File(csDir.getAbsolutePath()+System.getProperty("file.separator")+sampleBasename+"_PieChart.jpg");
             File csBar          =  new File(csDir.getAbsolutePath()+System.getProperty("file.separator")+sampleBasename+"_BarChart.jpg");
             File csGanno        =  new File(csDir.getAbsolutePath()+System.getProperty("file.separator")+sampleBasename+"_Gene_annotation.txt");
@@ -83,7 +83,7 @@ public class ChIPseeker extends Tool {
         }
     }
 
-    public boolean createChiPseekerCode(OutputFiles outFiles, GuavaInput atacInput){
+    public boolean createChiPseekerCode(GuavaOutputFiles outFiles, GuavaInput atacInput){
         String txdb = ChIPseeker.getTXDB();
         String annodb = ChIPseeker.getAnnoDB(atacInput) ;
         ChIPseeker chipSeeker = outFiles.getChipSeeker();

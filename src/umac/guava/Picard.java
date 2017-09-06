@@ -36,7 +36,7 @@ public class Picard extends Tool{
         String[] commandStrings =  
                 {   
                     "java","-Xmx"+atacseqInput.getRamMemory()+"g",
-                    "-Djava.io.tmpdir="+OutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp", 
+                    "-Djava.io.tmpdir="+GuavaOutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp", 
                     "-jar",
                     PICARD+System.getProperty("file.separator")+"MarkDuplicates.jar",
                     "REMOVE_DUPLICATES=true",
@@ -53,7 +53,7 @@ public class Picard extends Tool{
         String[] commandStrings =  
                 {   
                     "java","-Xmx"+atacseqInput.getRamMemory()+"g",
-                    "-Djava.io.tmpdir="+OutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp", 
+                    "-Djava.io.tmpdir="+GuavaOutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp", 
                     "-jar",
                     PICARD+System.getProperty("file.separator")+"CollectInsertSizeMetrics.jar",
                     "I="+inputFile.getAbsolutePath(),
@@ -78,7 +78,7 @@ public class Picard extends Tool{
         String[] log =  new String[2];
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(commandStrings);
-            processBuilder.directory(OutputFiles.rootDir);
+            processBuilder.directory(GuavaOutputFiles.rootDir);
             Process process =  processBuilder.start();
             String stdOUT = new Picard().getSTDoutput(process);
             String errorLog = new Picard().getSTDerror(process);

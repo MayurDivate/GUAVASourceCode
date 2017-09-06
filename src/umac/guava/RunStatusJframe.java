@@ -570,7 +570,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private void outputDirJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputDirJButtonActionPerformed
         try {
             Desktop desktop = Desktop.getDesktop();
-            desktop.open(OutputFiles.rootDir.getAbsoluteFile());
+            desktop.open(GuavaOutputFiles.rootDir.getAbsoluteFile());
         } catch (IOException ex) {
             Logger.getLogger(RunStatusJframe.class.getName()).log(Level.SEVERE, null, ex);
         }

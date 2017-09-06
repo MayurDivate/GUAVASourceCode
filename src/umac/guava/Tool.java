@@ -76,7 +76,7 @@ public abstract class Tool {
     void writeLog(String[] logs,String header){
         
         try {
-            FileWriter logFileWriter = new FileWriter(OutputFiles.logFile,true);
+            FileWriter logFileWriter = new FileWriter(GuavaOutputFiles.logFile,true);
             BufferedWriter logFileBufferedWriter =  new BufferedWriter(logFileWriter);
             PrintWriter logPrintWriter = new PrintWriter(logFileBufferedWriter);
             

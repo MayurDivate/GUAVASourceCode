@@ -138,7 +138,7 @@ public class IGV extends Tool implements Runnable{
 
     static File[] getIGVTracks() {
         File[] igvtracks =  new File[]{
-            OutputFiles.getOutputFiles().getBigwigFile(),
+            GuavaOutputFiles.getOutputFiles().getBigwigFile(),
             MACS2.getMACS2().getNarrowPeak()
         };
         return igvtracks;

@@ -36,7 +36,7 @@ public class Bowtie2 extends Tool{
     private int cpu;
     private int insertSize;
     
-    public static Bowtie2 getBowtie2(GuavaInput input, OutputFiles outputFiles) {
+    public static Bowtie2 getBowtie2(GuavaInput input, GuavaOutputFiles outputFiles) {
         
         String outSam =  outputFiles.getAlignedSam().getAbsolutePath().replaceAll(".sam$", "_bowtie2.sam");
         String mapQ_Bam =  outputFiles.getAlignedSam().getAbsolutePath().replaceAll(".sam$", "_mapQ_filtered.bam");

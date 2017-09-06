@@ -32,8 +32,8 @@ public class MACS2 extends Tool{
     
     public static MACS2 getMACS2(){
         
-        String sampleBasename = OutputFiles.rootDir.getName().replaceAll("_OUTPUT", "");
-        String macs2ParentName = OutputFiles.rootDir.getAbsolutePath()+System.getProperty("file.separator")+sampleBasename+"_PEAK_CALLING"+System.getProperty("file.separator");
+        String sampleBasename = GuavaOutputFiles.rootDir.getName().replaceAll("_OUTPUT", "");
+        String macs2ParentName = GuavaOutputFiles.rootDir.getAbsolutePath()+System.getProperty("file.separator")+sampleBasename+"_PEAK_CALLING"+System.getProperty("file.separator");
             File xls = new File(macs2ParentName+""+sampleBasename+"_peaks.xls");
             File cBdg = new File(macs2ParentName+""+sampleBasename+"_control_lambda.bdg");
             File nPeak = new File(macs2ParentName+""+sampleBasename+"_peaks.narrowPeak");
@@ -77,7 +77,7 @@ public class MACS2 extends Tool{
     @Override
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outputFile) {
         
-        String name = OutputFiles.rootDir.getName().replaceAll("_OUTPUT", "");
+        String name = GuavaOutputFiles.rootDir.getName().replaceAll("_OUTPUT", "");
              
         String[] commandArray =  
                     {   getMACS(),

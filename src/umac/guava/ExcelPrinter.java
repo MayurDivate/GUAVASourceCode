@@ -50,8 +50,8 @@ public class ExcelPrinter {
     public static void createExcelWoorkBook(){
         
         try{
-            String sname = OutputFiles.rootDir.getName().replaceAll("_OUTPUT", "");
-            excelWorkBook = new File(OutputFiles.rootDir.getAbsolutePath()+System.getProperty("file.separator")+sname+"_Result.xlsx");
+            String sname = GuavaOutputFiles.rootDir.getName().replaceAll("_OUTPUT", "");
+            excelWorkBook = new File(GuavaOutputFiles.rootDir.getAbsolutePath()+System.getProperty("file.separator")+sname+"_Result.xlsx");
             XSSFWorkbook xssfw = new XSSFWorkbook();
             FileOutputStream xssfwOutputStream = new FileOutputStream(excelWorkBook);
             xssfw.write(xssfwOutputStream);

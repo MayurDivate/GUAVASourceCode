@@ -25,7 +25,7 @@ public class R extends Tool{
     
     public static File fragmentSizeDistributionPlot;
     
-    public boolean createRcode(OutputFiles outFiles){
+    public boolean createRcode(GuavaOutputFiles outFiles){
         int height = 420;
         int width = 770;
                 

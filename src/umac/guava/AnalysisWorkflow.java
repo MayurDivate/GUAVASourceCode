@@ -69,7 +69,7 @@ public class AnalysisWorkflow {
         return isWorking;
     }
 
-    void startGUIGuavaAnalysis(GuavaInput runATACseq) {
+    void startGUIGuavaAnalysis(GuavaInput guavaInput) {
         
         Date start = new Date();
                 
@@ -77,11 +77,11 @@ public class AnalysisWorkflow {
         if(!commandLine){
             runStatusJframe = new RunStatusJframe ();
             runStatusJframe.setVisible(false);
-            runStatusJframe.displayInputSummary(runATACseq,bowtie); 
+            runStatusJframe.displayInputSummary(guavaInput,bowtie); 
         }
         // ------------ start of workflow ------------------        
         AnalysisWorkflow aw = new AnalysisWorkflow();
-        OutputFiles outFiles = new OutputFiles().getOutputFiles(runATACseq); 
+        GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(guavaInput); 
         Samtools workflowSamtools = new Samtools();
            
         if(go){
@@ -89,27 +89,27 @@ public class AnalysisWorkflow {
         }
         
         try {
-           go = OutputFiles.logFile.createNewFile();
+           go = GuavaOutputFiles.logFile.createNewFile();
         } catch (IOException ex) {
-            System.out.println(OutputFiles.logFile);
+            System.out.println(GuavaOutputFiles.logFile);
             Logger.getLogger(AnalysisWorkflow.class.getName()).log(Level.SEVERE, null, ex);
         }
-                if(runATACseq.isTrim()){
+                if(guavaInput.isTrim()){
                     System.out.print("Adapter trimming...");
-                    go = aw.runCutadapt(runATACseq,outFiles);
-                    Cutadapt cutadapt = runATACseq.getCutadapt();
-                    runATACseq.setR1Fastq(cutadapt.getTrimmed_R1());
-                    runATACseq.setR2Fastq(cutadapt.getTrimmed_R2());
+                    go = aw.runCutadapt(guavaInput,outFiles);
+                    Cutadapt cutadapt = guavaInput.getCutadapt();
+                    guavaInput.setR1Fastq(cutadapt.getTrimmed_R1());
+                    guavaInput.setR2Fastq(cutadapt.getTrimmed_R2());
                 }
                 if(go){
                    System.out.print("fastq QC...");
-                    go = aw.runFastQC(runATACseq, outFiles);
+                    go = aw.runFastQC(guavaInput, outFiles);
                 }
                 if(go && bowtie){
                     
                    System.out.print("Alignment...");
                    //"---------- bowtie ----------"
-                   go = aw.runBowtie(runATACseq, outFiles);
+                   go = aw.runBowtie(guavaInput, outFiles);
                    
                    if(go){
                         analysisResultWriter.setAlignmentResult(alignmentResults);
@@ -120,19 +120,19 @@ public class AnalysisWorkflow {
                             runStatusJframe.displayAlignmentResults(alignmentResults,bowtie);
                         }
                             ExcelPrinter.createExcelWoorkBook();
-                            ExcelPrinter.addAlignmentResults(runATACseq, alignmentResults,true);
+                            ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults,true);
                    }
                    
                 }
                 else{
                    System.out.print("Alignment...");
                    //"---------- bowtie2 ----------"
-                        Bowtie2 bowtie2 =  Bowtie2.getBowtie2(runATACseq, outFiles);
+                        Bowtie2 bowtie2 =  Bowtie2.getBowtie2(guavaInput, outFiles);
                         outFiles.setAlignedSam(bowtie2.getMapQBam());
                         go = aw.runBowtie2(bowtie2);
                         
                     if(go){
-                        go = aw.getCsrtBAM(runATACseq, outFiles);
+                        go = aw.getCsrtBAM(guavaInput, outFiles);
                         outFiles.getAlignedSam().delete();
                     }
                     if(go){
@@ -151,18 +151,18 @@ public class AnalysisWorkflow {
                         }
                         
                         ExcelPrinter.createExcelWoorkBook();
-                        ExcelPrinter.addAlignmentResults(runATACseq, alignmentResults,false);
+                        ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults,false);
                     }
                 }
                 
                 if(go){
                    System.out.println("---- Alignment filtering ------");
-                   go = aw.runAlignmentFiltering(runATACseq, outFiles, runStatusJframe);
+                   go = aw.runAlignmentFiltering(guavaInput, outFiles, runStatusJframe);
                 }
                 if(go){
                    System.out.print("Alignment shifting...");
 
-                   go =  aw.getAlignmentShiftedBAM(runATACseq,outFiles);
+                   go =  aw.getAlignmentShiftedBAM(guavaInput,outFiles);
                    alignmentFilteringResults.setUsefulReads(workflowSamtools.getReadCount(outFiles.getAtacseqBam()));
                    analysisResultWriter.setAlignmentFilteringResult(alignmentFilteringResults);
 
@@ -175,13 +175,13 @@ public class AnalysisWorkflow {
                 if(go){
                     
                     System.out.print("Generating Data tracks...");
-                    go = aw.createIGVTracks(runATACseq, outFiles);
+                    go = aw.createIGVTracks(guavaInput, outFiles);
                            
                 }
                 if(go){
                    System.out.print("Fragmentsize size distribution...");
-                   go = aw.getInsertSizeDistribution(runATACseq, outFiles);
-                   File tempDir = new File(OutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp");
+                   go = aw.getInsertSizeDistribution(guavaInput, outFiles);
+                   File tempDir = new File(GuavaOutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp");
                    aw.removeDir(tempDir);
                    
                    if(outFiles.getInsertSizePDF().exists()){
@@ -190,12 +190,12 @@ public class AnalysisWorkflow {
                 }
                 if(go){
                    System.out.print("Peak calling...");
-                   go = aw.callPeaks(runATACseq, outFiles, runStatusJframe);
+                   go = aw.callPeaks(guavaInput, outFiles, runStatusJframe);
                    
                 }
                 if(go){
                     System.out.print("Fragmentsize plot...");
-                   go = aw.createFragmentSizeDistributionGraph(runATACseq, outFiles);
+                   go = aw.createFragmentSizeDistributionGraph(guavaInput, outFiles);
                    workflowSamtools.deleteFile(outFiles.getrCode());
                    ExcelPrinter.printImage(R.fragmentSizeDistributionPlot, "insertsize",15.0,25.0);
                 }
@@ -206,7 +206,7 @@ public class AnalysisWorkflow {
                 }
                 if(go){
                     System.out.println("----------- Peak annotation -------------");
-                    go =  aw.runChIPseekeer(runATACseq, outFiles);
+                    go =  aw.runChIPseekeer(guavaInput, outFiles);
                     ChIPseeker chipSeeker = ChIPseeker.getChIPSeekerObject();
                     
                     if(chipSeeker.getPieChart().exists()){
@@ -249,7 +249,7 @@ public class AnalysisWorkflow {
             runStatusJframe.setVisible(go);
         }
         if(commandLine){
-            printCommandlineResults(runATACseq, alignmentResults, alignmentFilteringResults, chrSTAT, runATACseq.getChromosome());
+            printCommandlineResults(guavaInput, alignmentResults, alignmentFilteringResults, chrSTAT, guavaInput.getChromosome());
         }
         
         
@@ -261,7 +261,7 @@ public class AnalysisWorkflow {
         Date start = new Date();
                 
         AnalysisWorkflow aw = new AnalysisWorkflow();                               // to run other methods in this class
-        OutputFiles outFiles = new OutputFiles().getOutputFiles(guavaInput);        // outputfiles 
+        GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(guavaInput);        // outputfiles 
         Samtools workflowSamtools = new Samtools();                                 // to run samtools
            
         success = aw.createDir(outFiles.getRootDir());                              //create root dir and get started 
@@ -360,7 +360,7 @@ public class AnalysisWorkflow {
     if(success){
        System.out.print("Fragmentsize size distribution...");
        success = aw.getInsertSizeDistribution(guavaInput, outFiles);
-       File tempDir = new File(OutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp");
+       File tempDir = new File(GuavaOutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp");
        aw.removeDir(tempDir);
 
        if(outFiles.getInsertSizePDF().exists()){
@@ -424,7 +424,7 @@ public class AnalysisWorkflow {
         
     }
     
-    public boolean runBowtie(GuavaInput atacseqInput, OutputFiles outFiles){
+    public boolean runBowtie(GuavaInput atacseqInput, GuavaOutputFiles outFiles){
         
         System.out.print("Please wait while bowtie alignment is finished...");
         Bowtie bw = new Bowtie();
@@ -475,7 +475,7 @@ public class AnalysisWorkflow {
         return false;
     }
     
-    public boolean runAlignmentFiltering(GuavaInput atacseqInput, OutputFiles outFiles, RunStatusJframe runStatusJframe){
+    public boolean runAlignmentFiltering(GuavaInput atacseqInput, GuavaOutputFiles outFiles, RunStatusJframe runStatusJframe){
         
         Samtools samtools =  new Samtools();
         AnalysisWorkflow aw =  new AnalysisWorkflow();
@@ -532,7 +532,7 @@ public class AnalysisWorkflow {
         return go;
     }
     
-    public boolean runAlignmentFiltering(GuavaInput atacseqInput, OutputFiles outFiles){
+    public boolean runAlignmentFiltering(GuavaInput atacseqInput, GuavaOutputFiles outFiles){
         
         Samtools samtools =  new Samtools();
         AnalysisWorkflow aw =  new AnalysisWorkflow();
@@ -586,7 +586,7 @@ public class AnalysisWorkflow {
         return go;
     }
     
-    public boolean getAlignmentShiftedBAM(GuavaInput atacseqInput, OutputFiles outFiles){
+    public boolean getAlignmentShiftedBAM(GuavaInput atacseqInput, GuavaOutputFiles outFiles){
         Samtools samtools =  new Samtools();
         //BAM to query sorted SAM
         String[] bamToSamlog = samtools.runCommand(samtools.getCommand(atacseqInput,outFiles.getBlackListFilteredBam(), outFiles.getFilteredSrtSam(), "sam", true));
@@ -606,7 +606,7 @@ public class AnalysisWorkflow {
         return false;
     }
     
-    public boolean getCsrtBAM(GuavaInput atacseqInput, OutputFiles outFiles){
+    public boolean getCsrtBAM(GuavaInput atacseqInput, GuavaOutputFiles outFiles){
         Samtools samtools =  new Samtools();
             if(outFiles.getAlignedSam().exists()){
                 //SAM  to BAM conversion
@@ -617,7 +617,7 @@ public class AnalysisWorkflow {
         return false;
     }
     
-    public boolean getDuplicateFilteredBAM(GuavaInput atacseqInput, OutputFiles outFiles){
+    public boolean getDuplicateFilteredBAM(GuavaInput atacseqInput, GuavaOutputFiles outFiles){
         Picard picard =  new Picard();
             if(outFiles.getAlignedCsrtBam().exists()){
                 //Mark duplicate
@@ -628,7 +628,7 @@ public class AnalysisWorkflow {
         return false;
     }
 
-    public boolean getProperlyAlignedBAM (GuavaInput atacseqInput, OutputFiles outFiles){
+    public boolean getProperlyAlignedBAM (GuavaInput atacseqInput, GuavaOutputFiles outFiles){
         Samtools samtools =  new Samtools();
             if(outFiles.getDuplicateFilteredBam().exists()){
                 //Idexing bam
@@ -642,7 +642,7 @@ public class AnalysisWorkflow {
         return false;
     }
     
-    public boolean getChrFilteredBAM (GuavaInput atacseqInput, OutputFiles outFiles, Set<String> chromosomes){
+    public boolean getChrFilteredBAM (GuavaInput atacseqInput, GuavaOutputFiles outFiles, Set<String> chromosomes){
         String retainChr = "";
 
         for(String chr : atacseqInput.getChromosome().split(" ")){
@@ -667,7 +667,7 @@ public class AnalysisWorkflow {
         return false;
     }
     
-    public boolean getBlacklistFilteredBAM (GuavaInput atacseqInput, OutputFiles outFiles){
+    public boolean getBlacklistFilteredBAM (GuavaInput atacseqInput, GuavaOutputFiles outFiles){
         Samtools samtools =  new Samtools();
             if(outFiles.getChrFilteredBam().exists()){
                 String[] log = samtools.runCommand(samtools.getCommand(atacseqInput,outFiles.getChrFilteredBam(),outFiles.getBlackListFilteredBam(), outFiles.getTempBam(), GuavaInput.getBLACKLIST()));
@@ -678,7 +678,7 @@ public class AnalysisWorkflow {
         return false;
     }
     
-    public boolean callPeaks(GuavaInput atacseqInput, OutputFiles outFiles, RunStatusJframe runStatusJframe){
+    public boolean callPeaks(GuavaInput atacseqInput, GuavaOutputFiles outFiles, RunStatusJframe runStatusJframe){
     
             MACS2 macs2 = new MACS2();
             String[] log = macs2.runCommand(macs2.getCommand(atacseqInput, outFiles.getAtacseqBam(), outFiles.getMacs2Dir()));
@@ -697,7 +697,7 @@ public class AnalysisWorkflow {
         
     }    
     
-    public boolean callPeaks(GuavaInput atacseqInput, OutputFiles outFiles){
+    public boolean callPeaks(GuavaInput atacseqInput, GuavaOutputFiles outFiles){
     
             MACS2 macs2 = new MACS2();
             String[] log = macs2.runCommand(macs2.getCommand(atacseqInput, outFiles.getAtacseqBam(), outFiles.getMacs2Dir()));
@@ -739,7 +739,7 @@ public class AnalysisWorkflow {
          
     }
 
-    public boolean getInsertSizeDistribution(GuavaInput atacseqInput,OutputFiles outFiles) { 
+    public boolean getInsertSizeDistribution(GuavaInput atacseqInput,GuavaOutputFiles outFiles) { 
         if (outFiles.getAtacseqBam().exists()) { 
             Picard picard = new Picard();
             double min_pct = 0.05;
@@ -751,7 +751,7 @@ public class AnalysisWorkflow {
         return false;
     }
   
-    private boolean createFragmentSizeDistributionGraph(GuavaInput runATACseq, OutputFiles outFiles) {
+    private boolean createFragmentSizeDistributionGraph(GuavaInput runATACseq, GuavaOutputFiles outFiles) {
         
         try {
             FileReader peakFileReader = new FileReader(outFiles.getInsertSizeTextFile());
@@ -796,7 +796,7 @@ public class AnalysisWorkflow {
         return false;
     }
     
-    private boolean runChIPseekeer(GuavaInput atacseqInput, OutputFiles filesFolders){
+    private boolean runChIPseekeer(GuavaInput atacseqInput, GuavaOutputFiles filesFolders){
         
         boolean status = false;
         ChIPseeker chipSeeker = filesFolders.getChipSeeker();
@@ -863,7 +863,7 @@ public class AnalysisWorkflow {
       
     }
 
-    private boolean runFastQC(GuavaInput runATACseq, OutputFiles outFiles) {
+    private boolean runFastQC(GuavaInput runATACseq, GuavaOutputFiles outFiles) {
         FastQC fastQC =  new FastQC();
         
             if(outFiles.getFastqcDir().mkdir()){
@@ -880,7 +880,7 @@ public class AnalysisWorkflow {
         
     }
 
-    private boolean runCutadapt(GuavaInput runATACseq, OutputFiles outputFiles) {
+    private boolean runCutadapt(GuavaInput runATACseq, GuavaOutputFiles outputFiles) {
         
         Cutadapt cutadapt = runATACseq.getCutadapt();
         if(outputFiles.getCutadaptOUT().mkdir()){
@@ -892,7 +892,7 @@ public class AnalysisWorkflow {
         return false;
     }
     
-    private boolean createIGVTracks(GuavaInput runATACseq, OutputFiles outfiles){
+    private boolean createIGVTracks(GuavaInput runATACseq, GuavaOutputFiles outfiles){
         
         IGVdataTrack iGVdataTrack = new IGVdataTrack(outfiles.getAtacseqBam(), outfiles.getBedgraphFile(),
                                                          outfiles.getBigwigFile(), runATACseq.getGenome() );

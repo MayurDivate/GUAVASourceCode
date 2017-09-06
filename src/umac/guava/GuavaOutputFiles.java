@@ -11,7 +11,7 @@ import java.io.File;
  *
  * @author mayurdivate
  */
-public class OutputFiles {
+public class GuavaOutputFiles {
 
     public static File rootDir;
     public static File logFile;
@@ -48,7 +48,7 @@ public class OutputFiles {
     private File bigwigFile;
     
     
-    public OutputFiles getOutputFiles(GuavaInput runATACseq){
+    public GuavaOutputFiles getOutputFiles(GuavaInput runATACseq){
         
         System.out.println("Setting output files and flders...");
         rootDir                = new File(runATACseq.getOutputFolder().getAbsolutePath()+System.getProperty("file.separator")+
@@ -81,17 +81,17 @@ public class OutputFiles {
         
         ChIPseeker chipSeeker = ChIPseeker.getChIPSeekerObject();
         
-        return new OutputFiles(rootDir, logFile, alignedSam, alignedCsrtBam, duplicateFilteredBam,duplicateMatrix ,properlyAlignedBam,
+        return new GuavaOutputFiles(rootDir, logFile, alignedSam, alignedCsrtBam, duplicateFilteredBam,duplicateMatrix ,properlyAlignedBam,
                                     chrFilteredBam, blackListFilteredBam, tempBam,filteredSrtSam ,atacseqBam,atacseqSam, macs2Dir, 
                                     insertSizeTextFile, insertSizePDF, rInsertSize,rCode,chipSeeker,fragmentSizePlot,
                                 fastqcDir, cutadaptOutdir,bedgraph,bigwig);
         
     }
 
-    // Method to create outfiles object later in workflow once rootDir set
-     public static OutputFiles getOutputFiles(){
+//     Method to create outfiles object later in workflow once rootDir set
+     public static GuavaOutputFiles getOutputFiles(){
         
-        String sampleBaseName = OutputFiles.rootDir.getName().replaceAll("_OUTPUT", "_");
+        String sampleBaseName = GuavaOutputFiles.rootDir.getName().replaceAll("_OUTPUT", "_");
         
         File logFile                = new File(getOutputFilePath(sampleBaseName+"log.txt"));
         File alignedSam             = new File(getOutputFilePath(sampleBaseName+"aligned.sam"));
@@ -118,12 +118,60 @@ public class OutputFiles {
         
 
         ChIPseeker chipSeeker       = ChIPseeker.getChIPSeekerObject();
-        return new OutputFiles(rootDir, logFile, alignedSam, alignedCsrtBam, duplicateFilteredBam,duplicateMatrix ,properlyAlignedBam,
+        return new GuavaOutputFiles(rootDir, logFile, alignedSam, alignedCsrtBam, duplicateFilteredBam,duplicateMatrix ,properlyAlignedBam,
                                     chrFilteredBam, blackListFilteredBam, tempBam,filteredSrtSam ,atacseqBam,atacseqSam, macs2Dir, 
                                     insertSizeTextFile, insertSizePDF, rInsertSize,rCode,chipSeeker,fragmentSizePlot,fastqcDir,cutadaptOutdir,
                                     bedgraph, bigwig);
     }
     
+    
+    public static GuavaOutputFiles getGuavaOutputFiles(GuavaInput guavaInput){
+        
+        rootDir                = new File(guavaInput.getOutputFolder().getAbsolutePath()+System.getProperty("file.separator")+
+                                               guavaInput.getR1Fastq().getName().replaceAll("\\.f(.*?)q", "_OUTPUT"));
+                
+        if(GuavaOutputFiles.rootDir != null){
+            
+        String sampleBaseName = GuavaOutputFiles.rootDir.getName().replaceAll("_OUTPUT", "_");
+        
+        File logFile                = new File(getOutputFilePath(sampleBaseName+"log.txt"));
+        File alignedSam             = new File(getOutputFilePath(sampleBaseName+"aligned.sam"));
+        File alignedCsrtBam         = new File(getOutputFilePath(sampleBaseName+"aligned_csrt.bam"));
+        File duplicateFilteredBam   = new File(getOutputFilePath(sampleBaseName+"aligned_duplicate_filtered.bam"));
+        File duplicateMatrix        = new File(getOutputFilePath(sampleBaseName+"aligned_duplicate_matrix.txt"));
+        File properlyAlignedBam     = new File(getOutputFilePath(sampleBaseName+"aligned_proper_aligned_reads.bam"));
+        File chrFilteredBam         = new File(getOutputFilePath(sampleBaseName+"aligned_chr_filtered.bam"));
+        File blackListFilteredBam   = new File(getOutputFilePath(sampleBaseName+"aligned_blacklist_filtered.bam"));
+        File tempBam                = new File(getOutputFilePath(sampleBaseName+"aligned_temp.bam"));
+        File filteredSrtSam         = new File(getOutputFilePath(sampleBaseName+"aligned_Filtered.sam"));
+        File atacseqBam             = new File(getOutputFilePath(sampleBaseName+"aligned_ATACseq.bam"));
+        File atacseqSam             = new File(getOutputFilePath(sampleBaseName+"aligned_ATACseq.sam"));
+        File macs2Dir               = new File(getOutputFilePath(sampleBaseName+"PEAK_CALLING"));
+        File insertSizeTextFile     = new File(getOutputFilePath(sampleBaseName+"picard_insert_size.txt"));
+        File insertSizePDF          = new File(getOutputFilePath(sampleBaseName+"picard_insert_size.pdf"));
+        File fragmentSizePlot       = new File(getOutputFilePath(sampleBaseName+"fragment_size_distribution.jpg"));
+        File rInsertSize            = new File(getOutputFilePath(sampleBaseName+"insert_size.txt"));
+        File rCode                  = new File(getOutputFilePath(sampleBaseName+"fragmentSizeDistribution.r"));
+        File fastqcDir              = new File(getOutputFilePath(sampleBaseName+"R2_fastQC_OUTPUT"));
+        File cutadaptOutdir         = new File(getOutputFilePath(sampleBaseName+"Adapter_Trimming"));
+        File bedgraph               = new File(getOutputFilePath(sampleBaseName+"aligned_ATACseq.bdg"));
+        File bigwig                 = new File(getOutputFilePath(sampleBaseName+"aligned_ATACseq.bw"));
+        
+
+        ChIPseeker chipSeeker       = ChIPseeker.getChIPSeekerObject();
+        return new GuavaOutputFiles(rootDir, logFile, alignedSam, alignedCsrtBam, duplicateFilteredBam,duplicateMatrix ,properlyAlignedBam,
+                                    chrFilteredBam, blackListFilteredBam, tempBam,filteredSrtSam ,atacseqBam,atacseqSam, macs2Dir, 
+                                    insertSizeTextFile, insertSizePDF, rInsertSize,rCode,chipSeeker,fragmentSizePlot,fastqcDir,cutadaptOutdir,
+                                    bedgraph, bigwig);
+        }
+        
+         System.out.println("Early call for Guava outfiles.");
+         System.out.println("Can not be created at the moment.");
+         return null;
+    }
+    
+     
+     
     
     private static String getOutputFilePath(String fileName){
         if(fileName != null){
@@ -133,10 +181,10 @@ public class OutputFiles {
         return fileName;
     }
     
-    public OutputFiles() {
+    public GuavaOutputFiles() {
     }
     
-    public OutputFiles(File rootDir, File logFile, File alignedSam, File alignedCsrtBam, File duplicateFilteredBam,File duplicateMatrix ,File properlyAlignedBam,
+    public GuavaOutputFiles(File rootDir, File logFile, File alignedSam, File alignedCsrtBam, File duplicateFilteredBam,File duplicateMatrix ,File properlyAlignedBam,
                               File chrFilteredBam, File blackListFilteredBam, File tempBam,File filteredSrtSam, File atacseqBam, File atacseqSam, File macs2Dir,
                               File insertSizeTextFile, File  insertSizePDF, File rInsertSize, File rCode, ChIPseeker chipSeeker,File fragmentSizeDistributionPlot,
                               File fastqcDir, File cutadaptOutdir, File bedgraph, File bigwig) {
@@ -381,7 +429,7 @@ public class OutputFiles {
     }
 
     public static void setLogFile(File logFile) {
-        OutputFiles.logFile = logFile;
+        GuavaOutputFiles.logFile = logFile;
     }
 
     public File getrCode() {

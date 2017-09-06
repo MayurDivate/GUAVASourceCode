@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import umac.guava.OutputFiles;
+import umac.guava.GuavaOutputFiles;
 
 /**
  *
@@ -63,7 +63,7 @@ public class DifferentialOutputFiles {
         }
         DifferentialOutputFiles dof = new DifferentialOutputFiles(outputFolder, deseqRcode, goPathwayRcode,  deseqResult,
                 vplot, controlTreatmentBed,goResult,pathwayResult);
-        OutputFiles.logFile = DifferentialOutputFiles.getLogFile();
+        GuavaOutputFiles.logFile = DifferentialOutputFiles.getLogFile();
         return dof;
     }
     

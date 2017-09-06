@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  */
 public class AlignmentShifter {
     
-    public File shiftAlignment(OutputFiles outFiles, File samFile){
+    public File shiftAlignment(GuavaOutputFiles outFiles, File samFile){
         try {
             outFiles.getAtacseqSam().createNewFile();
 

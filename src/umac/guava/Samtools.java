@@ -136,7 +136,7 @@ public class Samtools extends Tool {
     }    
     
     // Properly aligned BAM
-    public String[] getCommand(GuavaInput atacseqInput, OutputFiles outFiles) {
+    public String[] getCommand(GuavaInput atacseqInput, GuavaOutputFiles outFiles) {
        // System.out.println("Call for -f3 to get properly aligned pairs");
         String[] commandArray =  
             {   SAMTOOLS,
