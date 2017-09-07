@@ -371,16 +371,16 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
         int rows =  dfModel.getRowCount();
         boolean flag = true;
         
+        DifferentialInputFrame1.projectName =  jTextFieldProjectName.getText();
+        
         if(DifferentialInputFrame1.projectName == null || DifferentialInputFrame1.projectName.equals("")){
             String message = "Project name cannot be empty";
             // jTextFieldProjectName.setForeground(Color.red); change color
             JOptionPane.showMessageDialog(null, message);
             flag = false;
         }
-        else{
             DifferentialInputFrame1.projectName =  jTextFieldProjectName.getText();
             System.out.println(DifferentialInputFrame1.projectName);
-        }
         
         if(flag && rows >= 4){
             DifferentialInputFrame1.dfInputList =  new ArrayList<>();
