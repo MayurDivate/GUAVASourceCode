@@ -16,8 +16,6 @@
  */
 package umac.guava;
 
-import javax.swing.JOptionPane;
-import umac.guava.diff.DESeq2;
 import umac.guava.diff.DifferentialInputFrame1;
 
 /**

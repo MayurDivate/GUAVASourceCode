@@ -89,9 +89,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel2" alignment="0" pref="134" max="32767" attributes="0"/>
-                      <Component id="jLabel9" max="32767" attributes="0"/>
+                      <Component id="jLabelMethod" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jLabelFC" alignment="0" pref="134" max="32767" attributes="0"/>
+                      <Component id="jLabelUpStream" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jComboBoxMetho" pref="82" max="32767" attributes="0"/>
@@ -102,8 +102,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel7" min="-2" pref="134" max="-2" attributes="0"/>
-                              <Component id="jLabel3" min="-2" pref="89" max="-2" attributes="0"/>
+                              <Component id="jLabelDownStream" min="-2" pref="134" max="-2" attributes="0"/>
+                              <Component id="jLabelPvalue" min="-2" pref="89" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -112,9 +112,9 @@
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="jLabel8" min="-2" pref="80" max="-2" attributes="0"/>
+                          <Component id="jLabelGenome" min="-2" pref="80" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextFieldOverlap" max="32767" attributes="0"/>
+                          <Component id="jTextFieldGenome" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
@@ -126,23 +126,23 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jLabelMethod" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="jComboBoxMetho" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel8" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="jTextFieldOverlap" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelGenome" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jTextFieldGenome" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="jLabel3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jLabelFC" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jLabelPvalue" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="jComboBoxFC" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextFieldPvalue" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel7" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jLabelDownStream" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="jTextFieldDownstream" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel9" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jLabelUpStream" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="jTextFieldUpstream" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
@@ -151,27 +151,27 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="jLabelMethod">
           <Properties>
             <Property name="text" type="java.lang.String" value="Analysis Method "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="jLabelFC">
           <Properties>
             <Property name="text" type="java.lang.String" value="log2 ( Fold Change )"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="jLabelPvalue">
           <Properties>
             <Property name="text" type="java.lang.String" value="P value"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="jLabelDownStream">
           <Properties>
             <Property name="text" type="java.lang.String" value="Downstream of TSS"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel8">
+        <Component class="javax.swing.JLabel" name="jLabelGenome">
           <Properties>
             <Property name="text" type="java.lang.String" value="Genome"/>
           </Properties>
@@ -196,15 +196,15 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldOverlap">
+        <Component class="javax.swing.JTextField" name="jTextFieldGenome">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" value="hg19"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="componentMoved" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="jTextFieldOverlapComponentMoved"/>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldOverlapKeyTyped"/>
+            <EventHandler event="componentMoved" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="jTextFieldGenomeComponentMoved"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldGenomeKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldDownstream">
@@ -220,10 +220,10 @@
             <Property name="text" type="java.lang.String" value="0.05"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldPvalueActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldPvalueKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
+        <Component class="javax.swing.JLabel" name="jLabelUpStream">
           <Properties>
             <Property name="text" type="java.lang.String" value="Upstream of TSS"/>
           </Properties>

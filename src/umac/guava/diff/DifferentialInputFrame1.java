@@ -43,7 +43,7 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
     
     public static DifferentialInputFrame1 differentialInputFrame;
     static ArrayList<DifferentialInputFile> dfInputList ;
-    public static String projectName = ""; 
+    public static String projectName = null; 
     
     DefaultTableModel dfModel;
     public DifferentialInputFrame1() {
@@ -111,11 +111,6 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
 
         jLabelProjectName.setText("Project Name");
 
-        jTextFieldProjectName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldProjectNameActionPerformed(evt);
-            }
-        });
         jTextFieldProjectName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldProjectNameKeyTyped(evt);
@@ -318,7 +313,6 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
 
     private void jButtonAddFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddFileActionPerformed
         
-        //if(jTableDiff.getRowCount() < 8){
             JFileChooser addFileChooser = new JFileChooser();
             addFileChooser.setAcceptAllFileFilterUsed(false);
             FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("*.bam,*.bed,*.narrowPeak", "bam","bed","narrowPeak");
@@ -338,11 +332,6 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
                 addBamBedFile(differentialInput);
                 lastPath = file.getParentFile();
             }
-        //}
-        //else{
-          //  JOptionPane.showMessageDialog(jTableDiff,"Maximum file limit reached");
-        //}
-        
         
     }//GEN-LAST:event_jButtonAddFileActionPerformed
 
@@ -368,20 +357,20 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
 
     private void jButtonNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextActionPerformed
         
-        int rows =  dfModel.getRowCount();
         boolean flag = true;
         
-        DifferentialInputFrame1.projectName =  jTextFieldProjectName.getText();
         
-        if(DifferentialInputFrame1.projectName == null || DifferentialInputFrame1.projectName.equals("")){
+        // Check project name 
+        if(!isProjectName()){
+            jLabelProjectName.setForeground(Color.red);
             String message = "Project name cannot be empty";
-            // jTextFieldProjectName.setForeground(Color.red); change color
             JOptionPane.showMessageDialog(null, message);
             flag = false;
         }
-            DifferentialInputFrame1.projectName =  jTextFieldProjectName.getText();
-            System.out.println(DifferentialInputFrame1.projectName);
         
+                // total rows
+        int rows =  dfModel.getRowCount();
+
         if(flag && rows >= 4){
             DifferentialInputFrame1.dfInputList =  new ArrayList<>();
 
@@ -396,7 +385,7 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
             }
         }
         else if(flag) {
-            JOptionPane.showMessageDialog(null, "Please add control and treatment files to proceed further");
+            JOptionPane.showMessageDialog(null, "Please add both control and treatment files to proceed further");
             flag = false;
         }
         
@@ -409,6 +398,19 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButtonNextActionPerformed
 
+    private boolean isProjectName(){
+
+        String  projetctName =  jTextFieldProjectName.getText();
+        if(projetctName != null && !projetctName.equals("")){
+            DifferentialInputFrame1.projectName =  projetctName;
+            return true;
+        }
+        else{
+            System.out.println(projetctName);
+        }
+        return false;
+    }
+    
     private void jMenuItemGUAVAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGUAVAActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -421,16 +423,13 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItemQuitActionPerformed
 
-    private void jTextFieldProjectNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldProjectNameActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jTextFieldProjectNameActionPerformed
-
     private void jTextFieldProjectNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldProjectNameKeyTyped
         // TODO add your handling code here:
+        jLabelProjectName.setForeground(Color.black);
         char key = evt.getKeyChar();
         if(Character.isSpaceChar(key)){
             evt.consume();
+            
         }
     }//GEN-LAST:event_jTextFieldProjectNameKeyTyped
         

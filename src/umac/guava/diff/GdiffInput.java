@@ -37,30 +37,18 @@ public class GdiffInput extends Input{
     private int upstream;
     private int downstream;
     
-    /**
-     * @return the outputfolder
-     */
     public File getOutputfolder() {
         return outputfolder;
     }
 
-    /**
-     * @param outputfolder the outputfolder to set
-     */
     public void setOutputfolder(File outputfolder) {
         this.outputfolder = outputfolder;
     }
 
-    /**
-     * @return the differentialOutputFiles
-     */
     public DifferentialOutputFiles getDifferentialOutputFiles() {
         return differentialOutputFiles;
     }
 
-    /**
-     * @param differentialOutputFiles the differentialOutputFiles to set
-     */
     public void setDifferentialOutputFiles(DifferentialOutputFiles differentialOutputFiles) {
         this.differentialOutputFiles = differentialOutputFiles;
     }
@@ -110,72 +98,36 @@ public class GdiffInput extends Input{
         this.downstream = downstream;
     }
 
-    
-//    public ATACseqDiffInput(File outputfolder, DifferentialOutputFiles differentialOutputFiles, double foldChange, double pvalue, int minimumOverlap, int maximumPeakLength, ArrayList<DifferentialInputFile> diffInputfiles) {
-//        this.outputfolder = outputfolder;
-//        this.differentialOutputFiles = differentialOutputFiles;
-//        this.foldChange = foldChange;
-//        this.pvalue = pvalue;
-//        this.minimumOverlap = minimumOverlap;
-//        this.maximumPeakLength = maximumPeakLength;
-//        this.diffInputfiles = diffInputfiles;
-//    }
-
-    /**
-     * @return the projectName
-     */
     public String getProjectName() {
         return projectName;
     }
 
-    /**
-     * @param projectName the projectName to set
-     */
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
 
-    /**
-     * @return the genomeBuild
-     */
     public String getGenomeBuild() {
         return genomeBuild;
     }
 
-    /**
-     * @param genomeBuild the genomeBuild to set
-     */
     public void setGenomeBuild(String genomeBuild) {
         this.genomeBuild = genomeBuild;
     }
 
-    /**
-     * @return the upstream
-     */
     public int getUpstream() {
         return upstream;
     }
 
-    /**
-     * @param upstream the upstream to set
-     */
     public void setUpstream(int upstream) {
         if(upstream < 0){
         this.upstream = upstream;
         }
     }
 
-    /**
-     * @return the downstream
-     */
     public int getDownstream() {
         return downstream;
-     
     }
 
-    /**
-     * @param downstream the downstream to set
-     */
     public void setDownstream(int downstream) {
         if(downstream > 0 ){
         this.downstream = downstream;
@@ -184,15 +136,19 @@ public class GdiffInput extends Input{
 
     @Override
     public String toString() {
-        String atacdiString = "";
-        atacdiString = atacdiString + " project name = "+ this.getProjectName();
-        atacdiString = atacdiString + " fold change = "+this.getFoldChange();
-        atacdiString = atacdiString + " p value = "+this.getPvalue();
-        atacdiString = atacdiString + " upstream = "+this.getUpstream();
-        atacdiString = atacdiString + " downstream = "+this.getDownstream();
-        atacdiString = atacdiString + " out dir = "+this.getOutputfolder();
+        String gdiffInput = "";
+        gdiffInput = gdiffInput + " project name = "+ this.getProjectName() + "\n";
+        gdiffInput = gdiffInput + " fold change = "+this.getFoldChange()+ "\n";
+        gdiffInput = gdiffInput + " p value = "+this.getPvalue()+ "\n";
+        gdiffInput = gdiffInput + " upstream = "+this.getUpstream()+ "\n";
+        gdiffInput = gdiffInput + " downstream = "+this.getDownstream()+ "\n";
+        gdiffInput = gdiffInput + " out dir = "+this.getOutputfolder()+ "\n";
         
-        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+        for(int i=0; i < this.getDiffInputfiles().size(); i++ ){
+            gdiffInput = gdiffInput + "Diff file["+i+"]"+this.getDiffInputfiles().get(i) +"\n";
+        }
+        
+        return gdiffInput; 
     }
 
    

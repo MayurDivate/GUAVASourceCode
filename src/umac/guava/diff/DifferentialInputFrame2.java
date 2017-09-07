@@ -48,17 +48,17 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        jLabelMethod = new javax.swing.JLabel();
+        jLabelFC = new javax.swing.JLabel();
+        jLabelPvalue = new javax.swing.JLabel();
+        jLabelDownStream = new javax.swing.JLabel();
+        jLabelGenome = new javax.swing.JLabel();
         jComboBoxFC = new javax.swing.JComboBox<>();
         jComboBoxMetho = new javax.swing.JComboBox<>();
-        jTextFieldOverlap = new javax.swing.JTextField();
+        jTextFieldGenome = new javax.swing.JTextField();
         jTextFieldDownstream = new javax.swing.JTextField();
         jTextFieldPvalue = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
+        jLabelUpStream = new javax.swing.JLabel();
         jTextFieldUpstream = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -86,31 +86,31 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Differential Analysis Parameters", javax.swing.border.TitledBorder.LEADING, javax.swing.border.TitledBorder.TOP));
 
-        jLabel1.setText("Analysis Method ");
+        jLabelMethod.setText("Analysis Method ");
 
-        jLabel2.setText("log2 ( Fold Change )");
+        jLabelFC.setText("log2 ( Fold Change )");
 
-        jLabel3.setText("P value");
+        jLabelPvalue.setText("P value");
 
-        jLabel7.setText("Downstream of TSS");
+        jLabelDownStream.setText("Downstream of TSS");
 
-        jLabel8.setText("Genome");
+        jLabelGenome.setText("Genome");
 
         jComboBoxFC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2","1.5","1"}));
 
         jComboBoxMetho.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DESeq2"}));
 
-        jTextFieldOverlap.setEditable(false);
-        jTextFieldOverlap.setText("hg19");
-        jTextFieldOverlap.setEnabled(false);
-        jTextFieldOverlap.addComponentListener(new java.awt.event.ComponentAdapter() {
+        jTextFieldGenome.setEditable(false);
+        jTextFieldGenome.setText("hg19");
+        jTextFieldGenome.setEnabled(false);
+        jTextFieldGenome.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentMoved(java.awt.event.ComponentEvent evt) {
-                jTextFieldOverlapComponentMoved(evt);
+                jTextFieldGenomeComponentMoved(evt);
             }
         });
-        jTextFieldOverlap.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextFieldGenome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldOverlapKeyTyped(evt);
+                jTextFieldGenomeKeyTyped(evt);
             }
         });
 
@@ -122,13 +122,13 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
         });
 
         jTextFieldPvalue.setText("0.05");
-        jTextFieldPvalue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldPvalueActionPerformed(evt);
+        jTextFieldPvalue.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldPvalueKeyTyped(evt);
             }
         });
 
-        jLabel9.setText("Upstream of TSS");
+        jLabelUpStream.setText("Upstream of TSS");
 
         jTextFieldUpstream.setText("1000");
         jTextFieldUpstream.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -144,9 +144,9 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelMethod, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelFC, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                    .addComponent(jLabelUpStream, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jComboBoxMetho, 0, 82, Short.MAX_VALUE)
                     .addComponent(jComboBoxFC, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -155,16 +155,16 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelDownStream, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldPvalue)
                             .addComponent(jTextFieldDownstream, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelGenome, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldOverlap)))
+                        .addComponent(jTextFieldGenome)))
                 .addGap(10, 10, 10))
         );
         jPanel1Layout.setVerticalGroup(
@@ -172,21 +172,21 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelMethod, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxMetho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldOverlap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelGenome, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldGenome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelFC, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelPvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldPvalue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDownStream, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldDownstream, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelUpStream, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldUpstream, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5))
         );
@@ -326,8 +326,10 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
 
     private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
         
-        File outputFolder =  new File(jTextFieldOutputFolder.getText());
-        if(outputFolder.exists()){
+        
+        if(validateInputs()){
+            
+            File outputFolder =  new File(jTextFieldOutputFolder.getText());
             DifferentialResultFrame.outputFolder = outputFolder;
             DifferentialOutputFiles dof = DifferentialOutputFiles.getDifferentialOutputFiles(outputFolder);
         
@@ -335,19 +337,54 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             double pvalue =  Double.parseDouble(jTextFieldPvalue.getText());
             int downstream = Integer.parseInt(jTextFieldDownstream.getText());
             int upstream = Integer.parseInt(jTextFieldUpstream.getText());
-            String genome = "hg19";
+            String genome = "hg19"; // get genome
             
-            GdiffInput diffInput = new GdiffInput(outputFolder, dof, foldchange,
+            GdiffInput gdiffInput = new GdiffInput(outputFolder, dof, foldchange,
                     pvalue, DifferentialInputFrame1.dfInputList, DifferentialInputFrame1.projectName, genome,upstream,downstream);
             this.dispose();
-            new DifferentialAnalysisFlow().startDifferentialAnalysis(diffInput);
+            
+            System.out.println(gdiffInput.toString());
+            
+            new DifferentialAnalysisFlow().startDifferentialAnalysis(gdiffInput);
         }
     }//GEN-LAST:event_jButtonStartActionPerformed
     
-    private void jTextFieldPvalueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPvalueActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldPvalueActionPerformed
-
+    private boolean validateInputs(){
+        
+        boolean flag = true;
+        
+        File outputFolder = new File(jTextFieldOutputFolder.getText());
+        double pvalue =  Double.parseDouble(jTextFieldPvalue.getText());
+        int downstream = Integer.parseInt(jTextFieldDownstream.getText());
+        int upstream = Integer.parseInt(jTextFieldUpstream.getText());
+        String genome = "hg19"; // get genome and validation code
+            
+        
+        if(!outputFolder.exists()){
+            flag = false;
+            jButtonOutputFolder.setForeground(Color.red);
+            jTextFieldOutputFolder.setForeground(Color.red);
+        }
+        
+        if(pvalue < 0 || pvalue > 0.05) {
+            flag = false;
+            jTextFieldPvalue.setForeground(Color.red);
+        }
+        
+        if(downstream < 0) {
+            flag = false;
+            jTextFieldDownstream.setForeground(Color.red);
+        }
+        
+        if(upstream < 0) {
+            flag = false;
+            jTextFieldUpstream.setForeground(Color.red);
+        }
+        
+        return flag;
+    
+    }
+        
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
         DifferentialInputFrame1.differentialInputFrame.setVisible(true);
@@ -356,11 +393,9 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
         jComboBoxMetho.setSelectedIndex(0);
         jComboBoxFC.setSelectedIndex(0);
-        jTextFieldOverlap.setText("1");
+        jTextFieldGenome.setText("1");
         jTextFieldDownstream.setText("1000");
         jTextFieldPvalue.setText("0.05");
-        
-        
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     private void jButtonOutputFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOutputFolderActionPerformed
@@ -379,25 +414,26 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             File outputDir = addFileChooser.getSelectedFile();
             jTextFieldOutputFolder.setText(outputDir.getAbsolutePath());
             DifferentialOutputFiles.outFolder = outputDir;
-//            jTextFieldOutputFolder.setForeground(Color.BLACK);
+            jTextFieldOutputFolder.setForeground(Color.BLACK);
         }
     }//GEN-LAST:event_jButtonOutputFolderActionPerformed
 
-    private void jTextFieldOverlapKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldOverlapKeyTyped
+    private void jTextFieldGenomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldGenomeKeyTyped
         // TODO add your handling code here:
         char key =  evt.getKeyChar();
         if(!Character.isDigit(key)){
             evt.consume();
         }
         
-    }//GEN-LAST:event_jTextFieldOverlapKeyTyped
+    }//GEN-LAST:event_jTextFieldGenomeKeyTyped
 
-    private void jTextFieldOverlapComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTextFieldOverlapComponentMoved
+    private void jTextFieldGenomeComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTextFieldGenomeComponentMoved
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldOverlapComponentMoved
+    }//GEN-LAST:event_jTextFieldGenomeComponentMoved
 
     private void jTextFieldDownstreamKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDownstreamKeyTyped
         // TODO add your handling code here:
+        jTextFieldDownstream.setForeground(Color.black);
         char key =  evt.getKeyChar();
         if(!Character.isDigit(key)){
             evt.consume();
@@ -406,11 +442,17 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
 
     private void jTextFieldUpstreamKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUpstreamKeyTyped
         // TODO add your handling code here:
+        jTextFieldUpstream.setForeground(Color.black);
         char key =  evt.getKeyChar();
         if(!Character.isDigit(key)){
             evt.consume();
         }
     }//GEN-LAST:event_jTextFieldUpstreamKeyTyped
+
+    private void jTextFieldPvalueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPvalueKeyTyped
+        // TODO add your handling code here:
+        jTextFieldPvalue.setForeground(Color.black);
+    }//GEN-LAST:event_jTextFieldPvalueKeyTyped
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -420,21 +462,21 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
     private javax.swing.JButton jButtonStart;
     private javax.swing.JComboBox<String> jComboBoxFC;
     private javax.swing.JComboBox<String> jComboBoxMetho;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelDownStream;
+    private javax.swing.JLabel jLabelFC;
+    private javax.swing.JLabel jLabelGenome;
+    private javax.swing.JLabel jLabelMethod;
+    private javax.swing.JLabel jLabelPvalue;
+    private javax.swing.JLabel jLabelUpStream;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelBackResetNextButtons;
     private javax.swing.JTextField jTextFieldDownstream;
+    private javax.swing.JTextField jTextFieldGenome;
     private javax.swing.JTextField jTextFieldOutputFolder;
-    private javax.swing.JTextField jTextFieldOverlap;
     private javax.swing.JTextField jTextFieldPvalue;
     private javax.swing.JTextField jTextFieldUpstream;
     // End of variables declaration//GEN-END:variables
