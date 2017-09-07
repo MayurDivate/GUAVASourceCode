@@ -198,32 +198,40 @@ public class DifferentialOutputFiles {
             BufferedWriter logFileBufferedWriter =  new BufferedWriter(logFileWriter);
             PrintWriter logPrintWriter = new PrintWriter(logFileBufferedWriter);
             
-            logPrintWriter.append("\nProject summary \n");
+            logPrintWriter.append("#######################################################");
             logPrintWriter.flush();
 
-            logPrintWriter.append("Project Name:\t"+atacInput.getProjectName()+"\n");
-            logPrintWriter.flush();
-            logPrintWriter.append("Genome build:\t"+atacInput.getGenomeBuild()+"\n");
-            logPrintWriter.flush();
-            logPrintWriter.append("Pvalue:\t"+atacInput.getPvalue()+"\n");
-            logPrintWriter.flush();
-            logPrintWriter.append("Foldchange:\t"+atacInput.getFoldChange()+"\n");
-            logPrintWriter.flush();
-            logPrintWriter.append("Upstream:\t"+atacInput.getUpstream()+"\n");
-            logPrintWriter.flush();
-            logPrintWriter.append("Downstream:\t"+atacInput.getDownstream()+"\n");
+            logPrintWriter.append("\n# Project summary \n");
             logPrintWriter.flush();
 
-            logPrintWriter.append("Input files\n");
+            logPrintWriter.append("# Name of the project:\t"+atacInput.getProjectName()+"\n");
+            logPrintWriter.flush();
+            logPrintWriter.append("# Genome build:\t"+atacInput.getGenomeBuild()+"\n");
+            logPrintWriter.flush();
+            logPrintWriter.append("# Pvalue:\t"+atacInput.getPvalue()+"\n");
+            logPrintWriter.flush();
+            logPrintWriter.append("# Foldchange:\t"+atacInput.getFoldChange()+"\n");
+            logPrintWriter.flush();
+            logPrintWriter.append("# Upstream:\t"+atacInput.getUpstream()+"\n");
+            logPrintWriter.flush();
+            logPrintWriter.append("# Downstream:\t"+atacInput.getDownstream()+"\n");
+            logPrintWriter.flush();
+
+            logPrintWriter.append("# Input files\n");
             logPrintWriter.flush();
 
             for(int i=0; i < atacInput.getDiffInputfiles().size(); i++){
-                logPrintWriter.append(atacInput.getDiffInputfiles().get(i).getCondition()+" REP ");
+                logPrintWriter.append("# "+atacInput.getDiffInputfiles().get(i).getCondition()+" REP ");
                 logPrintWriter.append(atacInput.getDiffInputfiles().get(i).getReplicateNumber()+" ");
                 logPrintWriter.append(atacInput.getDiffInputfiles().get(i).getType()+":\t");
                 logPrintWriter.append(atacInput.getDiffInputfiles().get(i).getDiifInputFile().getName()+"\n");
                 logPrintWriter.flush();
             }
+            
+            logPrintWriter.append("#######################################################");
+            logPrintWriter.flush();
+
+            
             logPrintWriter.close();
             
         } catch (IOException ex) {

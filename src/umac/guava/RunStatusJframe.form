@@ -662,7 +662,7 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jButtonIGV" min="-2" pref="100" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                  <Component id="cancelJButton" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="closeJButton" min="-2" pref="120" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -673,7 +673,7 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="outputDirJButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="cancelJButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="closeJButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="jTextFieldSearch" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="jLabelGeneFilter" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="jButtonIGV" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
@@ -684,12 +684,12 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="cancelJButton">
+        <Component class="javax.swing.JButton" name="closeJButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="close"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelJButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="closeJButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="outputDirJButton">

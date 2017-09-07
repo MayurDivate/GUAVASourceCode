@@ -17,6 +17,7 @@
 package umac.guava.diff;
 
 import java.awt.Desktop;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -241,6 +242,11 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
 
         jButton2.setText("Close");
         jButton2.setPreferredSize(new java.awt.Dimension(79, 30));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -371,6 +377,11 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             jLabelGeneSearch.setEnabled(false);
         }
     }//GEN-LAST:event_jOutputTabsMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void filterTableEntries(String query){
         

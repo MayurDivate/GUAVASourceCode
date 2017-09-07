@@ -71,7 +71,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jPanelPathwayEnrichmentChart = new javax.swing.JPanel();
         jLabelPathwayChart = new javax.swing.JLabel();
         doneCancelJPanel = new javax.swing.JPanel();
-        cancelJButton = new javax.swing.JButton();
+        closeJButton = new javax.swing.JButton();
         outputDirJButton = new javax.swing.JButton();
         jTextFieldSearch = new javax.swing.JTextField();
         jLabelGeneFilter = new javax.swing.JLabel();
@@ -424,10 +424,10 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
         resultTabs.addTab("Plots", jTabbedPanePlots);
 
-        cancelJButton.setText("close");
-        cancelJButton.addActionListener(new java.awt.event.ActionListener() {
+        closeJButton.setText("close");
+        closeJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelJButtonActionPerformed(evt);
+                closeJButtonActionPerformed(evt);
             }
         });
 
@@ -469,7 +469,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonIGV, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
-                .addComponent(cancelJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(closeJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
         doneCancelJPanelLayout.setVerticalGroup(
@@ -478,7 +478,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(doneCancelJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(outputDirJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancelJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closeJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelGeneFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonIGV, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -563,9 +563,9 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
     }
     
-    private void cancelJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelJButtonActionPerformed
+    private void closeJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeJButtonActionPerformed
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-    }//GEN-LAST:event_cancelJButtonActionPerformed
+    }//GEN-LAST:event_closeJButtonActionPerformed
 
     private void outputDirJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputDirJButtonActionPerformed
         try {
@@ -836,7 +836,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JPanel alignStatJPanel;
     private javax.swing.JPanel alignmentFilteringJPanel;
     private javax.swing.JTable alignmentStatTable;
-    private javax.swing.JButton cancelJButton;
+    private javax.swing.JButton closeJButton;
     private javax.swing.JPanel doneCancelJPanel;
     private javax.swing.JLabel graphJLabel;
     private javax.swing.JPanel graphJPanel;
