@@ -100,54 +100,62 @@ public class Peak {
         return null;
     }
 
+    
     public ArrayList<Peak> mergeOverlappingPeaks(ArrayList<Peak> peakList){
-        
+        System.out.println("Input peaks == "+peakList.size());
+
         // sort peaks
         Collections.sort(peakList,new PeakSortComparator());
-        
+
         // list after merging overlapping peaks
         ArrayList<Peak> resultPeakList = new ArrayList<>();
-        
-        Peak previousPeak = peakList.get(0);
+
+        Peak previousPeak = null;
         Peak currentPeak = null; 
         Peak mergePeak = null;
         
-        boolean lastMerge = false;
-        boolean keep = false;
+        Iterator<Peak> iterator =  peakList.iterator();
         
-        for(int index=1; index < peakList.size(); index++){
-            
-            lastMerge = false;
-            currentPeak = peakList.get(index);
-            
-            if(currentPeak.isOverlapping(previousPeak, currentPeak)){
-                mergePeak = mergeOverlappingPeak(previousPeak, currentPeak);
-                previousPeak =  mergePeak;
-                lastMerge = true;
-                keep = true;
-            }
-            else if(keep){
-                //overlap was found but now there is no more overlap
-                resultPeakList.add(mergePeak);
-                previousPeak =  currentPeak;
-            }
-            
+        if(iterator.hasNext()){
+            previousPeak =  iterator.next();
         }
         
-            if(lastMerge){
-                    resultPeakList.add(mergePeak);
+        while(iterator.hasNext()){
+            currentPeak = iterator.next();
+            
+            if(previousPeak.isOverlapping(currentPeak)){
+                // merge overlapping peaks 
+                mergePeak = mergeOverlappingPeak(previousPeak, currentPeak);
+                
+                // change previous peak to merged peak
+                previousPeak = mergePeak;
             }
-                    
-
+            else{
+                
+                // add previous non overlapping peak to result list 
+                resultPeakList.add(previousPeak);
+                
+                // change previous peak to current peak
+                previousPeak = currentPeak;
+                
+            }
+            
+            if(! iterator.hasNext()){
+               // add previous peak to list as there is no more peak in list , no need worry about current
+               resultPeakList.add(previousPeak);
+               
+            }
+           
+        }
+        
+        System.out.println("New mothod merged List => "+resultPeakList.size());
         return resultPeakList;
     }
     
-    public ArrayList<Peak> mergePeaks(ArrayList<Peak> list1, ArrayList<Peak> list2){
-        
-//        ArrayList<Peak> uniquePeakList = new ArrayList<>(peakList1);
-//        uniquePeakList.addAll(peakList2);
-//        Collections.sort(uniquePeakList,new PeakSortComparator());
-
+    
+    
+    public ArrayList<Peak> mergePeakLists(ArrayList<Peak> list1, ArrayList<Peak> list2){
+        System.out.println("Merge Control and Treatment <"+list1.size()+" + "+list2.size()+">");
         
         ArrayList<Peak> uniquePeaks = getUniquePeaks(list1, list2);
         ArrayList<Peak> meregedPeaks = new ArrayList<>();
@@ -157,10 +165,12 @@ public class Peak {
         Peak mergePeak = null;
         boolean lastMerge = false;
         
+        System.out.println("Unique Peaks ==> "+uniquePeaks.size());
+        
         for(int index=1; index < uniquePeaks.size(); index++){
             lastMerge = false;
             currentPeak = uniquePeaks.get(index);
-            if(currentPeak.isOverlapping(previousPeak, currentPeak)){
+            if(previousPeak.isOverlapping(currentPeak)){
                 mergePeak = mergeOverlappingPeak(previousPeak, currentPeak);
                 previousPeak =  mergePeak;
                 lastMerge = true;
@@ -177,7 +187,8 @@ public class Peak {
         else if(!lastMerge){
             meregedPeaks.add(currentPeak);
         }
-
+        
+        System.out.println("Comman Peaks ==> "+meregedPeaks.size());
         return meregedPeaks;
     }
     
@@ -188,17 +199,14 @@ public class Peak {
         return mergedPeak;
     }
     
-    public boolean isOverlapping(Peak previousPeak, Peak currentPeak){
-        if(previousPeak.getChromosome().equals(currentPeak.getChromosome())){
-            if(currentPeak.getStart() <= previousPeak.getEnd()){
+    public boolean isOverlapping(Peak nextPeak){
+        // Next peak should be to the downstream of current peak
+        // Means next peak should have end < this peak 
+        
+        if(this.getChromosome().equals(nextPeak.getChromosome())){
+            if(nextPeak.getStart() <= this.getEnd()){
                 return true;
             }
-        }
-        return false;
-    }
-    
-    public boolean isGoodOverlap(Peak previousPeak, double fraction){
-        if(this.isOverlapping(this, previousPeak)){
             
         }
         return false;
@@ -222,6 +230,7 @@ public class Peak {
         }
 
         Collections.sort(uniqueList,new PeakSortComparator());
+        
         return uniqueList;
     }
     

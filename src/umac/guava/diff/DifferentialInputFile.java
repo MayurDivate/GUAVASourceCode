@@ -172,14 +172,25 @@ public class DifferentialInputFile {
     public static ArrayList<DifferentialInputFile> getDifferentialPeakInput (ArrayList<DifferentialInputFile> dfList, String condition){
         ArrayList<DifferentialInputFile> inputPeakFiles = new ArrayList<>();
         
+        System.out.println("Condition == "+condition);
         for(int index = 0; index < dfList.size(); index++){
             DifferentialInputFile dfInput =  dfList.get(index);
-            if((dfInput.getType().equalsIgnoreCase("narrowPeak")) || (dfInput.getType().equalsIgnoreCase("bed")) 
-                    && dfInput.getCondition().equalsIgnoreCase(condition)){
-                inputPeakFiles.add(dfInput);
+            
+            if(dfInput.getCondition().equalsIgnoreCase(condition)){
+                if(dfInput.isPeakFile()){
+                    System.out.println("File == "+dfInput.getDiifInputFile().getName());
+                    inputPeakFiles.add(dfInput);
+                }
             }
         }
         return inputPeakFiles;
+    }
+    
+    public boolean isPeakFile(){
+        if(this.getType().equals("bed") || this.getType().equals("narrowPeak") ){
+            return true;
+        }
+        return false;
     }
     
     public static ArrayList<File> getInputFiles (ArrayList<DifferentialInputFile> dfList, String condition){

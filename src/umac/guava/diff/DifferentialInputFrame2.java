@@ -343,8 +343,6 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
                     pvalue, DifferentialInputFrame1.dfInputList, DifferentialInputFrame1.projectName, genome,upstream,downstream);
             this.dispose();
             
-            System.out.println(gdiffInput.toString());
-            
             new DifferentialAnalysisFlow().startDifferentialAnalysis(gdiffInput);
         }
     }//GEN-LAST:event_jButtonStartActionPerformed

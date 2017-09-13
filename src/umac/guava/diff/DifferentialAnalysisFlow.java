@@ -48,7 +48,6 @@ public class DifferentialAnalysisFlow {
         }
         if(doNext){
             
-            
             DESeq2 deseq2 = new DESeq2(outputfiles.getDeseqResult(), atacSeqDiffInput.getDiffInputfiles(), outputfiles.getControlTreatmentCommonPeakBed(), 
                     outputfiles.getDeseqRcode(), atacSeqDiffInput.getPvalue(), atacSeqDiffInput.getFoldChange(), outputfiles.getVolcanoPlot());
             
@@ -157,15 +156,22 @@ public class DifferentialAnalysisFlow {
     }
     
     public boolean createCommonPeakList(ArrayList<DifferentialInputFile> inputFiles, File outFile , int minRep){
+        
+        System.out.println("umac.guava.diff.DifferentialAnalysisFlow.createCommonPeakList()"+"BUG");
         /**********************************************************/
+        
         //get control common peaks  
         ArrayList<Peak> controlCommonPeaks = getCommonPeaksForConditionByOverlap(inputFiles , "control", minRep);
+        System.out.println("=======>"+"Control peaks == "+controlCommonPeaks.size());
+        
         //get treatment common peaks  
         ArrayList<Peak> treatmentCommonPeaks = getCommonPeaksForConditionByOverlap(inputFiles, "treatment", minRep);
+        System.out.println("=======>"+"Treatment peaks == "+treatmentCommonPeaks.size());
+        
         //get control-treatment common peaks  
-    
         if(controlCommonPeaks != null && treatmentCommonPeaks != null){
-            ArrayList<Peak> commonPeaks = new Peak().mergePeaks(controlCommonPeaks, treatmentCommonPeaks);
+            //get control-treatment common peaks  
+            ArrayList<Peak> commonPeaks = new Peak().mergePeakLists(controlCommonPeaks, treatmentCommonPeaks);
             //write control-treatment peaks to bed file 
             if(commonPeaks != null){
                 return commonPeaks.get(0).writePeaks(commonPeaks, outFile);
@@ -207,29 +213,14 @@ public class DifferentialAnalysisFlow {
         
         for(int i =0; i < peakFiles.size(); i++){
             ArrayList<Peak> peakList =  Peak.getPeakList(peakFiles.get(i).getDiifInputFile());
+            System.out.println(peakFiles.get(i).getDiifInputFile().getName()+" == "+peakList.size());
             mergedPeakList.addAll(peakList);
         }
-
+        System.out.println("Total peaks == "+mergedPeakList.size());
         Peak p = new Peak();
         ArrayList<Peak> conditionPeaks = p.mergeOverlappingPeaks(mergedPeakList);
-        
+        System.out.println("Total unique peaks == "+conditionPeaks.size());
         return conditionPeaks;
-    }
-    public static ArrayList<Peak> getCommonPeaksForCondition(ArrayList<DifferentialInputFile> dfInput, String condition, int minReplicates){
-        System.out.println("umac.guava.diff.DifferentialAnalysisFlow.getCommonPeaksForCondition()");
-        
-        ArrayList<Peak> mergedPeaks = new ArrayList<>();
-        DifferentialInputFile df = new DifferentialInputFile();  
-        
-        //Input control peak files
-        ArrayList<DifferentialInputFile> peakFiles = df.getDifferentialPeakInput(dfInput, condition);
-        
-        for(int i =0; i < peakFiles.size(); i++){
-            ArrayList<Peak> peakList =  Peak.getPeakList(peakFiles.get(i).getDiifInputFile());
-            mergedPeaks = new Peak().mergePeaks(mergedPeaks, peakList);
-        }
-        
-        return mergedPeaks;
     }
     
     boolean createGOPathwayRcode(DifferentialOutputFiles outFiles, int upstream, int downstream){
