@@ -83,14 +83,19 @@ public class Bowtie2 extends Tool{
         return commandArray;
     }
 
+    public Bowtie2() {
+    }
+    
+    
+
     @Override
     public String[] runCommand(String[] commandAarray) {
        String[] log =  new String[2];
         try {
             ProcessBuilder bowtieBuilder = new ProcessBuilder(commandAarray);
             Process process =  bowtieBuilder.start();
-            String stdOUT = new Bowtie().getSTDoutput(process);
-            String errorLog = new Bowtie().getSTDerror(process);
+            String stdOUT = new Bowtie2().getSTDoutput(process);
+            String errorLog = new Bowtie2().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
             
@@ -105,13 +110,13 @@ public class Bowtie2 extends Tool{
     public boolean isWorking() {
         
         String[] commandArray =  {   "bowtie2", "--version" };
-        String[] log = new Bowtie().runCommand(commandArray);
-        if(log[0] != null && log[1] != null){
-            System.out.println("\t\tbowtie:\t\tAffirmative :)");
+        String[] log = new Bowtie2().runCommand(commandArray);
+        if(log[0].contains("version")){
+            System.out.println("\t\tbowtie2:\t\tAffirmative :)");
             return true;
         }
         
-        System.out.println("\t\tbowtie:\t\tNegative :(");
+        System.out.println("\t\tbowtie2:\t\tNegative :(");
         return false;
     }
 

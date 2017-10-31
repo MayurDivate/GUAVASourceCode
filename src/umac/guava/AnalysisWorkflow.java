@@ -39,7 +39,10 @@ public class AnalysisWorkflow {
         System.out.println("Operating System of machine :"+System.getProperty("os.name"));
         boolean isWorking = new Bowtie().isWorking();
         if(isWorking){
-            isWorking =  FastQC.fastQCPath();
+            isWorking =  new Bowtie2().isWorking();
+        }
+        if(isWorking){
+            isWorking =  new FastQC().isWorking();
         }
         if(isWorking){
             isWorking = new Samtools().isWorking();
@@ -48,19 +51,19 @@ public class AnalysisWorkflow {
             isWorking = new MACS2().isWorking();
         }
         if(isWorking){
-            isWorking = new R().isWorking();
+            //isWorking = new R().isWorking();
         }
         if(isWorking){
-            isWorking = Picard.picardPath();
+            //isWorking = Picard.picardPath();
         }
         if(isWorking){
             isWorking = Samtools.checkBlackListFile();
         }
         if(isWorking){
-            isWorking =  IGV.igvPath();
+            isWorking =  new IGV().isWorking();
         }
         if(isWorking){
-            isWorking = BedTools.bedtoolsPath();
+            isWorking = new BedTools().isWorking();
         }
         if(isWorking){
             isWorking = new UCSCtools().isWorking();

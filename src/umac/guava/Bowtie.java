@@ -59,9 +59,10 @@ public class Bowtie extends Tool {
     @Override
     public boolean isWorking() {
         
-        String[] commandArray =  {   "bowtie", "--version" };
+        String[] commandArray =  {"bowtie", "--version" };
         String[] log = new Bowtie().runCommand(commandArray);
-        if(log[0] != null && log[1] != null){
+            
+        if(log[0] != null && log[0].startsWith("bowtie version")){
             System.out.println("\t\tbowtie:\t\tAffirmative :)");
             return true;
         }

@@ -95,26 +95,7 @@ public class Picard extends Tool{
 
     @Override
     public boolean isWorking() {
-        return picardPath();
-    }
-    
-    public static boolean picardPath(){
-        try {
-            File jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            File picardDir = new File(jarFile.getParentFile()+System.getProperty("file.separator")+"lib"+System.getProperty("file.separator")+"picard");
-            if(picardDir.exists() && picardDir.isDirectory()){
-                PICARD = picardDir.getAbsolutePath();
-                System.out.println("\t\tPicard:\tFound! :)");
-                return true;
-            }
-            else{
-                System.out.println("\t\tPicard:\tMissing! :)");
-            }
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(Picard.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    
+        return true;
     }
     
 }

@@ -101,24 +101,15 @@ public class IGV extends Tool implements Runnable{
 
     @Override
     public boolean isWorking() {
-        return igvPath();
-    }
-    
-    public static boolean igvPath() {
-        try {
-            File jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            File igvDir = new File(jarFile.getParentFile()+System.getProperty("file.separator")+"lib"+System.getProperty("file.separator")+"IGV");
-            if(igvDir.exists() && igvDir.isDirectory()){
-                igvJar = new File(igvDir.getAbsolutePath()+System.getProperty("file.separator")+"igv.jar");
-                return true;
-            }
-            else{
-                System.err.println("IGV not found, please download fresh GUAVA setup ");
-            
-            }
-        } catch (URISyntaxException ex) { 
-            Logger.getLogger(IGV.class.getName()).log(Level.SEVERE, null, ex);
+        String[] commandArray =  {"which", "igv" };
+        String[] log = new IGV().runCommand(commandArray);
+               
+        if(log[0] != null){
+            System.out.println("\t\tigv:\t\tAffirmative :)");
+            return true;
         }
+        
+        System.out.println("\t\tigv:\t\tNegative :(");
         return false;
     }
   

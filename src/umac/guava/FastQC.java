@@ -55,28 +55,18 @@ public class FastQC extends Tool {
 
     @Override
     public boolean isWorking() {
-        return FastQC.fastQCPath();
-    }
-    
-    public static boolean fastQCPath(){
-        try {
-            File jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            File libDir = new File(jarFile.getParentFile()+System.getProperty("file.separator")+"lib");
-            FASTQC = new File(libDir.getAbsoluteFile()+System.getProperty("file.separator")+"fastqc"+System.getProperty("file.separator")+"fastqc");
- 
-            if(FASTQC.exists() && FASTQC.isFile()){
-                System.out.println("\t\tFASTQC:\t\tYup, Ready !!");
-                return true;
-            }
-            else{
-                System.err.println("FASTQC not found, please download fresh GUAVA setup ");
-            }
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(Picard.class.getName()).log(Level.SEVERE, null, ex);
+        
+        String[] commandArray =  {"fastqc", "-v" };
+        String[] log = new FastQC().runCommand(commandArray);
+        if(log[0].startsWith("FastQC")){
+            System.out.println("\t\tFastQC:\t\tAffirmative :)");
+            return true;
         }
+        System.out.println("\t\tFastQC:\t\tNegative :(");
         return false;
-    
     }
+    
+
     
     /********* Visualizing FastQC report*/
     private void viewReport(File FastqcDir){

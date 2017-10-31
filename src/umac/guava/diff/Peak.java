@@ -100,6 +100,7 @@ public class Peak {
         return null;
     }
 
+    // Merge Two Peak list
     
     public ArrayList<Peak> mergeOverlappingPeaks(ArrayList<Peak> peakList){
         System.out.println("Input peaks == "+peakList.size());
@@ -159,36 +160,10 @@ public class Peak {
         
         ArrayList<Peak> uniquePeaks = getUniquePeaks(list1, list2);
         ArrayList<Peak> meregedPeaks = new ArrayList<>();
+        System.out.println("Non redundant Peaks ==> "+uniquePeaks.size());
         
-        Peak previousPeak = uniquePeaks.get(0);
-        Peak currentPeak = null; 
-        Peak mergePeak = null;
-        boolean lastMerge = false;
-        
-        System.out.println("Unique Peaks ==> "+uniquePeaks.size());
-        
-        for(int index=1; index < uniquePeaks.size(); index++){
-            lastMerge = false;
-            currentPeak = uniquePeaks.get(index);
-            if(previousPeak.isOverlapping(currentPeak)){
-                mergePeak = mergeOverlappingPeak(previousPeak, currentPeak);
-                previousPeak =  mergePeak;
-                lastMerge = true;
-            }
-            else{
-                meregedPeaks.add(previousPeak);
-                previousPeak =  currentPeak;
-            }
-        }
-        
-        if(lastMerge){
-            meregedPeaks.add(mergePeak);
-        }
-        else if(!lastMerge){
-            meregedPeaks.add(currentPeak);
-        }
-        
-        System.out.println("Comman Peaks ==> "+meregedPeaks.size());
+        meregedPeaks = mergeOverlappingPeaks(uniquePeaks);
+        System.out.println("Merged unique Peaks ==> "+meregedPeaks.size());
         return meregedPeaks;
     }
     

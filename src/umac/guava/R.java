@@ -127,11 +127,11 @@ public class R extends Tool{
         System.out.println("\t\tPlease wait...");
         
     try{
-
-        File jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+        File jarFile = new File(MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
         File rScript = new File(jarFile.getParentFile()+System.getProperty("file.separator")+""
                        + "lib"+System.getProperty("file.separator")+"InstallRequiredPackages.R");
 
+        System.out.println("umac.guava.R.isPackagesWorking()");
         if(rScript.exists() && rScript.isFile()){
             String[] rcommand =  {"Rscript", rScript.getAbsolutePath() };
             String[] rcommandLog     = new ChIPseeker().runCommand(rcommand);

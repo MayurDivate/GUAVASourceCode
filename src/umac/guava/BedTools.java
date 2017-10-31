@@ -22,7 +22,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,6 +79,22 @@ public class BedTools extends Tool{
         return null;
     }
     
+    public String[] runCommand(String[] command, Boolean flag) {
+        try {
+            String[] log =  new String[2];
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            Process process =  processBuilder.start();
+            String stdOUT = new BedTools().getSTDoutput(process);
+            String errorLog = new BedTools().getSTDerror(process);
+            log[0] = stdOUT;
+            log[1] = errorLog;
+            return log;
+        } catch (IOException ex) {
+            Logger.getLogger(BedTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public boolean getSTDoutput(Process process, File outputFile){
         try {
             FileWriter outputFileWriter =  new FileWriter(outputFile);
@@ -89,7 +104,6 @@ public class BedTools extends Tool{
             BufferedReader brProcess = new BufferedReader(new InputStreamReader(process.getInputStream()));
             
                 while((readLineString = brProcess.readLine()) != null){
-                        
                         pw.write(readLineString+"\n");
                         pw.flush();
                 }
@@ -102,32 +116,26 @@ public class BedTools extends Tool{
         return false;
     }
 
+    public BedTools() {
+    }
+
+    
     @Override
     public boolean isWorking() {
         return bedtoolsPath();
     }
     
     public static boolean bedtoolsPath() {
-        try {
-            File jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            File bin = new File(jarFile.getParentFile()+System.getProperty("file.separator")
-                                    +"lib"+System.getProperty("file.separator")
-                                    +"bedtools2"+System.getProperty("file.separator")
-                                    +"bin");
-            
-                if(bin.exists() && bin.isDirectory()){
-                    File genomeCov = new File(bin.getAbsolutePath()+System.getProperty("file.separator")+"genomeCoverageBed");
-                    if(genomeCov.exists()){
-                        setBedtoolsBin(bin);
-                        return true;
-                    }
-            }
-            else{
-                System.err.println("Bedtools not found, please download fresh GUAVA setup ");
-            }
-        } catch (URISyntaxException ex) { 
-            Logger.getLogger(BedTools.class.getName()).log(Level.SEVERE, null, ex);
+        String[] commandArray =  {"bedtools", "--version" };
+        String[] log = new BedTools().runCommand(commandArray);
+        System.out.println("1 >>>"+log[0]);
+        System.out.println("2 >>>"+log[1]);
+        if(log[0] != null && log[1] != null){
+            System.out.println("\t\tbowtie:\t\tAffirmative :)");
+            return true;
         }
+        
+        System.out.println("\t\tbowtie:\t\tNegative :(");
         return false;
     }
     

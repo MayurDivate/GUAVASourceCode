@@ -142,7 +142,6 @@ public class DifferentialAnalysisFlow {
                  
     }
     
-    
     boolean createDir(File dir){
         System.out.println(dir.getAbsolutePath());
         if(!dir.exists()){
@@ -216,10 +215,8 @@ public class DifferentialAnalysisFlow {
             System.out.println(peakFiles.get(i).getDiifInputFile().getName()+" == "+peakList.size());
             mergedPeakList.addAll(peakList);
         }
-        System.out.println("Total peaks == "+mergedPeakList.size());
         Peak p = new Peak();
         ArrayList<Peak> conditionPeaks = p.mergeOverlappingPeaks(mergedPeakList);
-        System.out.println("Total unique peaks == "+conditionPeaks.size());
         return conditionPeaks;
     }
     
@@ -237,21 +234,19 @@ public class DifferentialAnalysisFlow {
         goPath.runCommand(goPath.getCommand(goPathwayRcode));
         return true;
     }
- 
-
     
     boolean deleteIntermediateFiles(DifferentialOutputFiles outFiles){
         boolean flag = false; 
         // delete DeseqRcode
         if(outFiles.getDeseqRcode().exists()){
-            flag = outFiles.getDeseqRcode().delete();
+            //flag = outFiles.getDeseqRcode().delete();
         }
         if(outFiles.getGoPathwayRcode().exists()){
-            flag = outFiles.getGoPathwayRcode().delete();
+            //flag = outFiles.getGoPathwayRcode().delete();
         }
-        return flag;
+        return true;
+        //return flag;
     }
-    
     
     private boolean createIGVTracks(File inputBam, String genomebuild){
         

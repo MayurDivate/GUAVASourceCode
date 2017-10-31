@@ -16,14 +16,11 @@
  */
 package umac.guava;
 
-import com.sun.javafx.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -71,46 +68,20 @@ public class UCSCtools extends Tool{
 
     @Override
     public boolean isWorking() {
-        
-        return ucscPath();
-    }
-    
-    public static boolean ucscPath() {
-        try {
-            
-            File jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            File ucsc = new File(jarFile.getParentFile()+System.getProperty("file.separator")
-                                    +"lib"+System.getProperty("file.separator")
-                                    +"UCSC_tools");
-            String osName = System.getProperty("os.name");
-            if(ucsc.exists() && ucsc.isDirectory()){
-                if(osName.startsWith("Mac")){
-                    File ucscBin = new File(ucsc.getAbsolutePath()+System.getProperty("file.separator")+"mac");
-                        if(ucscBin.exists()){
-                            ucscDir =  ucscBin;
-                        }
-                }
-                else{
-                    File ucscBin = new File(ucsc.getAbsolutePath()+System.getProperty("file.separator")+"linux");
-                        if(ucscBin.exists()){
-                            ucscDir =  ucscBin;
-                        }
-                }
-            }
-            else{
-                System.err.println("Bedtools not found, Please download fresh GUAVA setup ");
-                return false;
-            }
-           
-           return true;
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(UCSCtools.class.getName()).log(Level.SEVERE, null, ex);
+        String[] commandArray =  {"bedtools", "--version" };
+        String[] log = new UCSCtools().runCommand(commandArray);
+        System.out.println("1 >>>"+log[0]);
+        System.out.println("2 >>>"+log[1]);
+        if(log[0] != null && log[1] != null){
+            System.out.println("\t\tbowtie:\t\tAffirmative :)");
+            return true;
         }
         return false;
     }
     
+    
     public File getbedgraphToBigWig(){
-        File bdg2bigwig = new File(ucscDir.getAbsolutePath()+System.getProperty("file.separator")+"bedGraphToBigWig");
+        File bdg2bigwig = new File("bedGraphToBigWig");
         return bdg2bigwig;
     }
     

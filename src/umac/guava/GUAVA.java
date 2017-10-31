@@ -38,7 +38,6 @@ public class GUAVA {
         else{
               
             runGUAVAcommandline(args);
-            //commandLineVersion(args);
         }
 
     }
@@ -53,15 +52,12 @@ public class GUAVA {
         System.out.println();
         // roger that 
         Command command =  Command.getCommand(args);
-        //System.out.println(command);
         
         CommandlineWorkflow cmdWorkflow = new CommandlineWorkflow();
         
         cmdWorkflow.startCommandlineFlow(command);
         
     }
-    
-    
     
     
     public static void uiVersion() {
