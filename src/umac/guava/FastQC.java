@@ -66,11 +66,5 @@ public class FastQC extends Tool {
         return false;
     }
     
-
-    
-    /********* Visualizing FastQC report*/
-    private void viewReport(File FastqcDir){
-    
-    }
     
 }
