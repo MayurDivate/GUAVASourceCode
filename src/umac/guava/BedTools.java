@@ -127,7 +127,7 @@ public class BedTools extends Tool{
     
     public static boolean bedtoolsPath() {
         String[] commandArray =  {"bedtools", "--version" };
-        String[] log = new BedTools().runCommand(commandArray);
+        String[] log = new BedTools().runCommand(commandArray, true);
         System.out.println("1 >>>"+log[0]);
         System.out.println("2 >>>"+log[1]);
         if(log[0] != null && log[1] != null){

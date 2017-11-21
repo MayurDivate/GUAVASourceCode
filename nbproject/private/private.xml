@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/FastQC.java</file>
-            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/UCSCtools.java</file>
-            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/Samtools.java</file>
-            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/diff/DifferentialAnalysisFlow.java</file>
-            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/diff/DifferentialInputFile.java</file>
-            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/diff/DifferentialOutputFiles.java</file>
-            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/diff/Peak.java</file>
+            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/GUAVA.java</file>
+            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/Bowtie.java</file>
+            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/AnalysisWorkflow.java</file>
+            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/HomeFrame.java</file>
+            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/BedTools.java</file>
+            <file>file:/Users/mayurdivate/NetBeansProjects/ToolGuava/src/umac/guava/Tool.java</file>
         </group>
     </open-files>
 </project-private>
