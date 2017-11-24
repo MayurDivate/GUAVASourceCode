@@ -197,7 +197,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jLabelGenomeVersion.setText("Genome Assembly");
 
-        jComboBoxAligner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bowtie v1 index", "Bowtie2 index"}));
+        jComboBoxAligner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bowtie index", "Bowtie2 index"}));
         jComboBoxAligner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxAlignerActionPerformed(evt);

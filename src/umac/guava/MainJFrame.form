@@ -368,7 +368,7 @@
         <Component class="javax.swing.JComboBox" name="jComboBoxAligner">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Bowtie v1 index&quot;, &quot;Bowtie2 index&quot;})" type="code"/>
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Bowtie index&quot;, &quot;Bowtie2 index&quot;})" type="code"/>
             </Property>
           </Properties>
           <Events>
