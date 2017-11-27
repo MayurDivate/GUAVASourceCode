@@ -7,7 +7,6 @@ package umac.guava;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,16 +16,12 @@ import java.util.logging.Logger;
  */
 public class FastQC extends Tool {
     
-    public static File FASTQC;
-    
 
     @Override
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outputFile) {
         
-        if(! FASTQC.exists()){ return null;}
-        
         String[] commandArray =  
-            {   FASTQC.getAbsolutePath(),
+            {   "fastqc",
                 "-o", outputFile.getAbsolutePath(),
                 "-f", "fastq",
                 "-t", Integer.toString(atacseqInput.getCpu_units()),
