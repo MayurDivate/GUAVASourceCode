@@ -7,7 +7,6 @@ package umac.guava;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,8 +23,6 @@ public class Picard extends Tool{
     private File insertSizeHist;
     private double min_pct;
     
-    public static String PICARD = null;
-    
     public boolean getInsertSizeMatrix(){
  
         return true ;
@@ -35,10 +32,8 @@ public class Picard extends Tool{
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outputFile) {
         String[] commandStrings =  
                 {   
-                    "java","-Xmx"+atacseqInput.getRamMemory()+"g",
-                    "-Djava.io.tmpdir="+GuavaOutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp", 
-                    "-jar",
-                    PICARD+System.getProperty("file.separator")+"MarkDuplicates.jar",
+                    "picard",
+                    "MarkDuplicates",
                     "REMOVE_DUPLICATES=true",
                     "I="+inputFile.getAbsolutePath(),
                     "O="+outputFile.getAbsolutePath(),
@@ -52,10 +47,8 @@ public class Picard extends Tool{
         
         String[] commandStrings =  
                 {   
-                    "java","-Xmx"+atacseqInput.getRamMemory()+"g",
-                    "-Djava.io.tmpdir="+GuavaOutputFiles.rootDir+""+System.getProperty("file.separator")+"tmp", 
-                    "-jar",
-                    PICARD+System.getProperty("file.separator")+"CollectInsertSizeMetrics.jar",
+                    "picard",
+                    "CollectInsertSizeMetrics",
                     "I="+inputFile.getAbsolutePath(),
                     "O="+outFile.getAbsolutePath(),
                     "H="+outPDF.getAbsolutePath(),

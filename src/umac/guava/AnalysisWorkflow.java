@@ -105,12 +105,12 @@ public class AnalysisWorkflow {
                     guavaInput.setR2Fastq(cutadapt.getTrimmed_R2());
                 }
                 if(go){
-                   System.out.print("fastq QC...");
+                   System.out.println("fastq QC...");
                     go = aw.runFastQC(guavaInput, outFiles);
                 }
                 if(go && bowtie){
                     
-                   System.out.print("Alignment...");
+                   System.out.println("Alignment...");
                    //"---------- bowtie ----------"
                    go = aw.runBowtie(guavaInput, outFiles);
                    
