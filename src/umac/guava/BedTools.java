@@ -128,14 +128,12 @@ public class BedTools extends Tool{
     public static boolean bedtoolsPath() {
         String[] commandArray =  {"bedtools", "--version" };
         String[] log = new BedTools().runCommand(commandArray, true);
-        System.out.println("1 >>>"+log[0]);
-        System.out.println("2 >>>"+log[1]);
         if(log[0] != null && log[1] != null){
-            System.out.println("\t\tbowtie:\t\tAffirmative :)");
+            System.out.println("\t\tbedtools:\t\tAffirmative :)");
             return true;
         }
         
-        System.out.println("\t\tbowtie:\t\tNegative :(");
+        System.out.println("\t\tbedtools:\t\tNegative :(");
         return false;
     }
     

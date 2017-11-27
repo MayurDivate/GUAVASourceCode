@@ -70,11 +70,13 @@ public class UCSCtools extends Tool{
     public boolean isWorking() {
         String[] commandArray =  {"bedtools", "--version" };
         String[] log = new UCSCtools().runCommand(commandArray);
-        System.out.println("1 >>>"+log[0]);
-        System.out.println("2 >>>"+log[1]);
         if(log[0] != null && log[1] != null){
-            System.out.println("\t\tbowtie:\t\tAffirmative :)");
+            System.out.println("\t\tbedtools:\t\tAffirmative :)");
             return true;
+        }
+        else{
+            System.out.println("\t\tbedtools:\t\tNegative :(");
+        
         }
         return false;
     }
