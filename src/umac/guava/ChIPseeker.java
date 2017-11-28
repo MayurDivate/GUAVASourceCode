@@ -61,8 +61,11 @@ public class ChIPseeker extends Tool {
         return null;
     }
     
-    public static String getTXDB(){
-        return  "TxDb.Mmusculus.UCSC."+IGV.genome+".knownGene";
+    public static String getTXDB(GuavaInput atacInput){
+        if(atacInput.getOrganism().equals("hs")){
+            return  "TxDb.Hsapiens.UCSC."+IGV.genome+".knownGene";
+        }
+            return  "TxDb.Mmusculus.UCSC."+IGV.genome+".knownGene";
     }
 
     public static String getAnnoDB(GuavaInput atacInput){
@@ -76,8 +79,8 @@ public class ChIPseeker extends Tool {
     }
 
     public boolean createChiPseekerCode(GuavaOutputFiles outFiles, GuavaInput atacInput){
-        String txdb = ChIPseeker.getTXDB();
-        String annodb = ChIPseeker.getAnnoDB(atacInput) ;
+        String txdb = ChIPseeker.getTXDB(atacInput);
+        String annodb = ChIPseeker.getAnnoDB(atacInput);
         ChIPseeker chipSeeker = outFiles.getChipSeeker();
         
         try {
