@@ -419,7 +419,6 @@ public class AnalysisWorkflow {
     else{
         System.err.println("Error code 101: Unexpected exit from analysis workflow");
         System.exit(-1);
-        
     }
 
     return false;

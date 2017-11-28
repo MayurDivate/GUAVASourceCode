@@ -7,12 +7,9 @@ package umac.guava;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import umac.guava.diff.DifferentialInputFile;
 
 /**
  *
@@ -20,7 +17,6 @@ import umac.guava.diff.DifferentialInputFile;
  */
 
 public class IGV extends Tool implements Runnable{
-    private static File igvJar;
     public static HashMap<String, Integer> chromosomes;
     public static String genome;
 
@@ -71,7 +67,7 @@ public class IGV extends Tool implements Runnable{
 
     public String[] getCommand() {
         
-        String command = "java -Xms5g "+"-jar "+igvJar.getAbsolutePath()+" -g "+IGV.genome+" "; 
+        String command = "igv "; 
         String tracks = "";
             for(File track : this.getTracks()){
                     tracks = tracks+","+track.getAbsolutePath()+"";

@@ -150,15 +150,15 @@ public class R extends Tool{
                 return false;
             }
         }
-
+        
+        System.out.println("\t\tR Packages:\tclear! :)");
+        return true;
 
         } catch (URISyntaxException ex) {   
+            System.out.println("\t\t R : F A I L E D ! )");
             Logger.getLogger(R.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-
-        System.out.println("\t\tR Packages:\tclear! :)");
-        return true;
             
     }
 
@@ -196,7 +196,7 @@ public class R extends Tool{
         requiredPackages.add("org.Hs.eg.db");
         requiredPackages.add("org.Mm.eg.db");
         requiredPackages.add("TxDb.Hsapiens.UCSC.hg19.knownGene");
-//        requiredPackages.add("TxDb.Hsapiens.UCSC.hg18.knownGene");
+        requiredPackages.add("TxDb.Hsapiens.UCSC.hg18.knownGene");
         requiredPackages.add("TxDb.Mmusculus.UCSC.mm10.knownGene");
         requiredPackages.add("TxDb.Mmusculus.UCSC.mm9.knownGene");
         requiredPackages.add("ChIPpeakAnno");

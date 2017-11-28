@@ -22,6 +22,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +32,6 @@ import java.util.logging.Logger;
  */
 public class BedTools extends Tool{
     
-    private static File  bedtoolsBin;
     private File outputFile;
     
     @Override 
@@ -42,7 +42,7 @@ public class BedTools extends Tool{
     public String[] getBamTobdgCommand(IGVdataTrack igvDataTrack){
         
         String[] commandArray =  
-                    {   getGenomeCoverageTool().getAbsolutePath(),
+                    {   "genomeCoverageBed",
                         "-bg", "-pc", 
                         "-scale", Double.toString(igvDataTrack.getScale()),
                         "-ibam", igvDataTrack.getBamFile().getAbsolutePath(),
@@ -55,7 +55,7 @@ public class BedTools extends Tool{
     public String[] getBedSortCommand(File input){
         
         String[] commandArray =  
-                    {   getBedsortTool().getAbsolutePath(),
+                    {   "sortBed",
                         "-i", input.getAbsolutePath(),
                         };
         return commandArray;
@@ -137,48 +137,33 @@ public class BedTools extends Tool{
         return false;
     }
     
-    public File getGenomeCoverageTool(){
-        File genomeCov = new File(getBedtoolsBin().getAbsolutePath()+System.getProperty("file.separator")+"genomeCoverageBed");
-        return genomeCov;
-    }
-    
-    public File getBedsortTool(){
-        File tool = new File(getBedtoolsBin().getAbsolutePath()+System.getProperty("file.separator")+"sortBed");
-        return tool;
-    }
-    
     public static File getGenomeSize(String build){
-
-        File bedtoolsDir = getBedtoolsBin().getParentFile();
-        File genomes = new File(bedtoolsDir.getAbsolutePath()+System.getProperty("file.separator")+"genomes");
-        if(build.equalsIgnoreCase("hg19")){
-            File chrSizes =  new File(genomes.getAbsoluteFile()+System.getProperty("file.separator")+"human.hg19.genome");
-            return chrSizes;
-        }
-        else if(build.equalsIgnoreCase("mm9")){
-            File chrSizes =  new File(genomes.getAbsoluteFile()+System.getProperty("file.separator")+"mouse.mm9.genome");
-            return chrSizes;
-        }
-        if(build.equalsIgnoreCase("mm10")){
-            File chrSizes =  new File(genomes.getAbsoluteFile()+System.getProperty("file.separator")+"mouse.mm10.genome");
-            return chrSizes;
-        }
+        
+        File jarFile;
+        try {
+            jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            String libDir = jarFile.getParentFile()+System.getProperty("file.separator")+"lib";
+            File genomes = new File(libDir+System.getProperty("file.separator")+"genomes");
+        
+            if(build.equalsIgnoreCase("hg19")){
+                File chrSizes =  new File(genomes.getAbsoluteFile()+System.getProperty("file.separator")+"human.hg19.genome");
+                return chrSizes;
+                }
+            else if(build.equalsIgnoreCase("mm9")){
+                File chrSizes =  new File(genomes.getAbsoluteFile()+System.getProperty("file.separator")+"mouse.mm9.genome");
+                return chrSizes;
+                }
+            
+            if(build.equalsIgnoreCase("mm10")){
+                File chrSizes =  new File(genomes.getAbsoluteFile()+System.getProperty("file.separator")+"mouse.mm10.genome");
+                return chrSizes;
+                }
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(BedTools.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    
         return null;
-
-    }
-
-    /**
-     * @return the bedtoolsBin
-     */
-    public static File getBedtoolsBin() {
-        return bedtoolsBin;
-    }
-
-    /**
-     * @param aBedtoolsBin the bedtoolsBin to set
-     */
-    public static void setBedtoolsBin(File aBedtoolsBin) {
-        bedtoolsBin = aBedtoolsBin;
+       
     }
 
     /**

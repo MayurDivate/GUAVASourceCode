@@ -28,8 +28,7 @@ import java.util.logging.Logger;
  */
 public class UCSCtools extends Tool{
     
-    static File  ucscDir; 
-    
+        
     @Override 
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outputFile) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -38,7 +37,7 @@ public class UCSCtools extends Tool{
     public String[] getBedgraphToBigwigCommand(IGVdataTrack igvTrack){
         
         String[] commandArray =  
-                    {   getbedgraphToBigWig().getAbsolutePath(),
+                    {   "bedGraphToBigWig",
                         igvTrack.getBdgFile().getAbsolutePath(),
                         getGenomeSize(igvTrack.getBuild()).getAbsolutePath(),
                         igvTrack.getBigWigFile().getAbsolutePath(),
@@ -68,24 +67,18 @@ public class UCSCtools extends Tool{
 
     @Override
     public boolean isWorking() {
-        String[] commandArray =  {"bedtools", "--version" };
+        String[] commandArray =  {"which", "bedGraphToBigWig" };
         String[] log = new UCSCtools().runCommand(commandArray);
         if(log[0] != null && log[1] != null){
-            System.out.println("\t\tbedtools:\t\tAffirmative :)");
+            System.out.println("\t\tbedGraphToBigWig:\t\tAffirmative :)");
             return true;
         }
         else{
-            System.out.println("\t\tbedtools:\t\tNegative :(");
-        
+            System.out.println("\t\tbedGraphToBigWig:\t\tNegative :(");
         }
         return false;
     }
     
-    
-    public File getbedgraphToBigWig(){
-        File bdg2bigwig = new File("bedGraphToBigWig");
-        return bdg2bigwig;
-    }
     
     public File getGenomeSize(String build){
         File chrSizes =  BedTools.getGenomeSize(build);
