@@ -239,13 +239,12 @@ public class DifferentialAnalysisFlow {
         boolean flag = false; 
         // delete DeseqRcode
         if(outFiles.getDeseqRcode().exists()){
-            //flag = outFiles.getDeseqRcode().delete();
+            flag = outFiles.getDeseqRcode().delete();
         }
         if(outFiles.getGoPathwayRcode().exists()){
-            //flag = outFiles.getGoPathwayRcode().delete();
+            flag = outFiles.getGoPathwayRcode().delete();
         }
-        return true;
-        //return flag;
+        return flag;
     }
     
     private boolean createIGVTracks(File inputBam, String genomebuild){

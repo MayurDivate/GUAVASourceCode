@@ -138,7 +138,9 @@ public class DESeq2 extends Program{
         code = code + "" + "xlab =\"log2(foldchange)\" , ylab = \"-log10(pvalue)\")";
         code = code + "\n" + "points(up$log2FoldChange,-log10(up$pvalue),col=\"red\",pch=\".\")";
         code = code + "\n" + "points(down$log2FoldChange, -log10(down$pvalue),col=\"green\",pch=\".\")";
-        code = code + "\n" + "lines(c(-(fcCutoff),fcCutoff),c(1.3,1.3))";
+        code = code + "\n" + "yl <- -1 * log(pcutoff,10)";
+        code = code + "\n" + "points(down$log2FoldChange, -log10(down$pvalue),col=\"green\",pch=\".\")";
+        code = code + "\n" + "lines(c(-(fcCutoff),fcCutoff),c(yl,yl))";
         code = code + "\n" + "lines(c(-(fcCutoff),-(fcCutoff)),c(0,pmax))";
         code = code + "\n" + "lines(c(fcCutoff,fcCutoff),c(0,pmax))";
         code = code + "\n" + "mtext(downLegend, col = \"green\",adj = 0.1,padj = -1)";
