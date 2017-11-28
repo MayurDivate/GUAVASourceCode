@@ -108,14 +108,12 @@ public class Bowtie2 extends Tool{
 
     @Override
     public boolean isWorking() {
-        
         String[] commandArray =  {   "bowtie2", "--version" };
         String[] log = new Bowtie2().runCommand(commandArray);
         if(log[0].contains("version")){
             System.out.println("\t\tbowtie2:\t\tAffirmative :)");
             return true;
         }
-        
         System.out.println("\t\tbowtie2:\t\tNegative :(");
         return false;
     }
@@ -209,8 +207,5 @@ public class Bowtie2 extends Tool{
     public void setMapQBam(File mapQBam) {
         this.mapQBam = mapQBam;
     }
-    
-    
-    
     
 }

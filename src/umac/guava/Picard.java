@@ -16,13 +16,13 @@ import java.util.logging.Logger;
  */
 public class Picard extends Tool{
     
-    private File inputBam;
-    private File outputBam;
-    private File duplicateMatrix;
-    private File insertSizeMatrix;
-    private File insertSizeHist;
-    private double min_pct;
-    
+//    private File inputBam;
+//    private File outputBam;
+//    private File duplicateMatrix;
+//    private File insertSizeMatrix;
+//    private File insertSizeHist;
+//    private double min_pct;
+//    
     public boolean getInsertSizeMatrix(){
  
         return true ;
@@ -53,15 +53,6 @@ public class Picard extends Tool{
                     "O="+outFile.getAbsolutePath(),
                     "H="+outPDF.getAbsolutePath(),
                     "M="+min_pct
-                };
-        return commandStrings;
-    }
-
-    public String[] getCommand(File inputFile) {
-        System.out.println("insert size graph");
-        
-        String[] commandStrings =  
-                {   "R"
                 };
         return commandStrings;
     }

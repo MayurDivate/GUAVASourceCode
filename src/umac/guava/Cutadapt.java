@@ -103,8 +103,6 @@ public class Cutadapt extends Tool {
         this.minLength = minLength;
     }
 
-    
-
     public Cutadapt(File r1_fastq, File r2_fastq, File trimmed_R1, File trimmed_R2, String adapter, 
             double errorRate, int maxNs, File cutadaptDir, int minLength) {
         this.r1_fastq = r1_fastq;
@@ -136,8 +134,6 @@ public class Cutadapt extends Tool {
         return cutadaptObjectString; 
     }
 
-
-
     @Override
     public String[] runCommand(String[] commandArray) {
         String[] log =  new String[2];
@@ -157,7 +153,7 @@ public class Cutadapt extends Tool {
 
     @Override
     public boolean isWorking() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getMinLength() {

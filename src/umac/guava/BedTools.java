@@ -118,7 +118,6 @@ public class BedTools extends Tool{
 
     public BedTools() {
     }
-
     
     @Override
     public boolean isWorking() {
@@ -128,11 +127,12 @@ public class BedTools extends Tool{
     public static boolean bedtoolsPath() {
         String[] commandArray =  {"bedtools", "--version" };
         String[] log = new BedTools().runCommand(commandArray, true);
+
         if(log[0] != null && log[1] != null){
             System.out.println("\t\tbedtools:\t\tAffirmative :)");
             return true;
         }
-        
+
         System.out.println("\t\tbedtools:\t\tNegative :(");
         return false;
     }

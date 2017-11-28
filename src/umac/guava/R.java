@@ -206,12 +206,12 @@ public class R extends Tool{
         return requiredPackages;
     }
     
-    public void installBiocLite(){
-    
-        String source = "source(\"https://bioconductor.org/biocLite.R\")";
-        String install = "biocLite()";
-        
-    }
+//    public void installBiocLite(){
+//    
+//        String source = "source(\"https://bioconductor.org/biocLite.R\")";
+//        String install = "biocLite()";
+//        
+//    }
     
      
     

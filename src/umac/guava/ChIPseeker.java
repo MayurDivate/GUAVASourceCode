@@ -10,11 +10,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -45,7 +42,6 @@ public class ChIPseeker extends Tool {
     public ChIPseeker() {
     }
     
-    
     public static ChIPseeker getChIPSeekerObject(){
         
         if(GuavaOutputFiles.rootDir != null){
@@ -66,13 +62,9 @@ public class ChIPseeker extends Tool {
     }
     
     public static String getTXDB(){
-        if(IGV.genome.equals("hg19")){
-        return  "TxDb.Hsapiens.UCSC."+IGV.genome+".knownGene";
-        }
-        
         return  "TxDb.Mmusculus.UCSC."+IGV.genome+".knownGene";
-        
     }
+
     public static String getAnnoDB(GuavaInput atacInput){
         
         if(atacInput.getOrganism().equals("hs")){
@@ -87,8 +79,6 @@ public class ChIPseeker extends Tool {
         String txdb = ChIPseeker.getTXDB();
         String annodb = ChIPseeker.getAnnoDB(atacInput) ;
         ChIPseeker chipSeeker = outFiles.getChipSeeker();
-
-
         
         try {
               if(chipSeeker.getChipseekerDir().mkdir() && chipSeeker.getChipseekerRcode().createNewFile()){
@@ -187,10 +177,6 @@ public class ChIPseeker extends Tool {
         
         return false;
     }
-  
-    
-    
-    
    
     @Override
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outputFile) {
@@ -215,7 +201,6 @@ public class ChIPseeker extends Tool {
             };
         return commandArray;
     }
-    
 
     // Method to run command
     public String[] runCommand(String[] commandArray) {
@@ -231,13 +216,14 @@ public class ChIPseeker extends Tool {
             Logger.getLogger(ChIPseeker.class.getName()).log(Level.SEVERE, null, ex);
         }
         return log;
-        
     }
 
     //Check R packages
     @Override   
     public boolean isWorking() {
         // current there is no code to check individual package 
+        System.out.println("Method: umac.guava.ChIPseeker.isWorking()");
+        System.out.println("This method is not complete");
         return true;
     }
 

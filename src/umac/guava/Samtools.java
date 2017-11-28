@@ -218,7 +218,6 @@ public class Samtools extends Tool {
         return false;
     }
     
-    
     public HashMap<String, Integer> getChrStat(File inBamFile) {
         
         Samtools samtools = new Samtools();

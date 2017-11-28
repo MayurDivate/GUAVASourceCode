@@ -184,38 +184,27 @@ public class MACS2 extends Tool{
         this.treatPileupBdg = treatPileupBdg;
     }
     
-    public void getNormalizedBedgraph(File bedgraph, File normBedgraph, int totalReads){
-        
-        
- 
-            double normalizationFactor = 1000000 / totalReads;
-        try {
-            FileReader bdgFileReader = new FileReader(bedgraph);
-            BufferedReader bdgBufferedReader = new BufferedReader(bdgFileReader);
-            String line = "";
-            while((line=bdgBufferedReader.readLine()) != null){
-                System.out.println(line);
-                String[] bdgRecord = line.split("\t");
-                try {
-                    double covValue = Double.parseDouble(bdgRecord[2]);
-                    
-                } catch (NumberFormatException e) {
-                    System.out.println();
-                }
-            
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MACS2.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(MACS2.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-            
-        
-        
-        
-    }
-    
+//    public void getNormalizedBedgraph(File bedgraph, File normBedgraph, int totalReads){
+//       //double normalizationFactor = 1000000 / totalReads;
+//       
+//       try {
+//            FileReader bdgFileReader = new FileReader(bedgraph);
+//            BufferedReader bdgBufferedReader = new BufferedReader(bdgFileReader);
+//            String line = "";
+//            while((line=bdgBufferedReader.readLine()) != null){
+//                String[] bdgRecord = line.split("\t");
+//                try {
+//                    double covValue = Double.parseDouble(bdgRecord[2]);
+//                } catch (NumberFormatException e) {
+//                    System.out.println();
+//                }
+//            }
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(MACS2.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(MACS2.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//    }
     
 }

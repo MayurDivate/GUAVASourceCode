@@ -125,7 +125,6 @@ public class AnalysisWorkflow {
                             ExcelPrinter.createExcelWoorkBook();
                             ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults,true);
                    }
-                   
                 }
                 else{
                    System.out.print("Alignment...");
@@ -240,8 +239,6 @@ public class AnalysisWorkflow {
                         new Samtools().writeLog(log, "");
                     }
                 }
-                
-                
 
                 if(!go){
                     System.err.println("Error code 101: Unexpected exit from analysis workflow");
