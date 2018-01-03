@@ -2,33 +2,42 @@
 
 
 ## Quick Start
-- $ unzip GUAVA-master.zip
-- $ mv GUAVA-master GUAVA
-- $ cd GUAVA
-
+```
+unzip GUAVA-master.zip
+mv GUAVA-master GUAVA
+cd GUAVA
+```
 ## Installing Dependencies</h2>
-e have written configure.sh script for the easy installation of dependencies.
-
-- $ sh ./configure.sh <br/>
+We have written configure.sh script for the easy installation of dependencies.
+```
+sh ./configure.sh <br/>
+```
 
 If R packages are not installed successfully, use following command to install R packages.
+```
+Rscript lib/InstallRequiredPackages.R 
+```
 
-- Rscript lib/InstallRequiredPackages.R 
+## GUAVA manual
+[**See manual for more information**] (https://github.com/MayurDivate/GUAVA/blob/master/GUAVA_Manual.pdf)
 
 
 ## To start GUAVA use following command
 
 >### GUI version
-> - $ java –jar GUAVA.jar
-
+```
+java –jar GUAVA.jar
+```
 > ### For command line interface
-> - $ java -jar GUAVA.jar [options]*
+```
+$ java -jar GUAVA.jar [options]*
+```
  
 ## Sample Data
 > To download sample data [ **Click Here** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
 
  
-<h1>System Requirements</h1>
+### System Requirements
   Java 1.8 or latest<br/>
   Bowtie version 1.1.2<br/>
   Python version 2.7<br/>
@@ -36,7 +45,7 @@ If R packages are not installed successfully, use following command to install R
   SAMtools Version: 1.3.1<br/>
   R Version: >= 3.3.0<br/><br/>
 
-<h2>List of required R Packages</h2>
+### List of required R Packages
 ChIPseeker <br/>
 ReactomePA <br/>
 TxDb.Hsapiens.UCSC.hg19.knownGene <br/>
@@ -49,6 +58,4 @@ GO.db <br/>
 KEGG.db <br/>
 EnsDb.Hsapiens.v75 <br/>
 Rsubread <br/>
-<h2> <a href="https://github.com/MayurDivate/GUAVA/blob/master/GUAVA_Manual.pdf">
-See manual for more information<a><br/><h2/>
 
