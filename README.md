@@ -37,25 +37,25 @@ $ java -jar GUAVA.jar [options]*
 > To download sample data [ **Click Here** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
 
  
-### System Requirements
-  Java 1.8 or latest<br/>
-  Bowtie version 1.1.2<br/>
-  Python version 2.7<br/>
-  MACS2 version 2.1.1.20160309<br/>
-  SAMtools Version: 1.3.1<br/>
-  R Version: >= 3.3.0<br/><br/>
+## System Requirements
+- Java 1.8 or latest
+-  Bowtie version 1.1.2
+- Python version 2.7
+- MACS2 version 2.1.1.20160309
+- SAMtools Version: 1.3.1
+- R Version: >= 3.3.0<br/>
 
 ### List of required R Packages
-ChIPseeker <br/>
-ReactomePA <br/>
-TxDb.Hsapiens.UCSC.hg19.knownGene <br/>
-TxDb.Mmusculus.UCSC.mm9.knownGene <br/>
-TxDb.Mmusculus.UCSC.mm10.knownGene <br/>
-org.Hs.eg.db <br/>
-org.Mm.eg.db <br/>
-ChIPpeakAnno <br/>
-GO.db <br/>
-KEGG.db <br/>
-EnsDb.Hsapiens.v75 <br/>
-Rsubread <br/>
-
+ - ChIPseeker
+ -  ReactomePA
+ - TxDb.Hsapiens.UCSC.hg19.knownGene
+ - TxDb.Mmusculus.UCSC.mm9.knownGene
+ - TxDb.Mmusculus.UCSC.mm10.knownGene
+ - org.Hs.eg.db
+ - org.Mm.eg.db
+ - ChIPpeakAnno
+ - GO.db
+ - KEGG.db
+ - EnsDb.Hsapiens.v75
+ - Rsubread
+ 
