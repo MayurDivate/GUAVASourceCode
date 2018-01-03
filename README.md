@@ -39,13 +39,13 @@ $ java -jar GUAVA.jar [options]*
  
 ## System Requirements
 - Java 1.8 or latest
--  Bowtie version 1.1.2
+- Bowtie version 1.1.2
 - Python version 2.7
 - MACS2 version 2.1.1.20160309
 - SAMtools Version: 1.3.1
 - R Version: >= 3.3.0<br/>
 
-### List of required R Packages
+> ## List of required R Packages
  - ChIPseeker
  -  ReactomePA
  - TxDb.Hsapiens.UCSC.hg19.knownGene
