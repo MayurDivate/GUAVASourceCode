@@ -16,13 +16,13 @@ If R packages are not installed successfully, use following command to install R
 - Rscript lib/InstallRequiredPackages.R 
 
 
-<h1>To start GUAVA use following command</h1>
+## To start GUAVA use following command
 
-<h2>GUI version</h2>
-  $ java –jar GUAVA.jar <br/>
+>### GUI version
+> - $ java –jar GUAVA.jar
 
-<h2>For command line interface</h2>
-  $ java -jar GUAVA.jar [options]*<br/>
+> ### For command line interface
+> - $ java -jar GUAVA.jar [options]*
  
 ## Sample Data
 > To download sample data [ ** Click Here ** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
