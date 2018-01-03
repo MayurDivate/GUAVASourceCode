@@ -1,12 +1,12 @@
-## GUAVA : A GUI tool for the Analysis and Visualization of ATAC-seq data
+# GUAVA : A GUI tool for the Analysis and Visualization of ATAC-seq data
 
 
-<h2>Installation</h2>
-$ unzip GUAVA-master.zip<br/>
-$ mv GUAVA-master GUAVA<br/>
-$ cd GUAVA<br/>
+## Quick Start
+$ unzip GUAVA-master.zip
+$ mv GUAVA-master GUAVA
+$ cd GUAVA
 
-<h2>Installing Dependencies</h2>
+## Installing Dependencies</h2>
 We have written configure.sh script for the easy installation of dependencies <br/>
 $ sh ./configure.sh <br/>
 
