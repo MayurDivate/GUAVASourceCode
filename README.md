@@ -2,9 +2,9 @@
 
 
 ## Quick Start
--$ unzip GUAVA-master.zip
--$ mv GUAVA-master GUAVA
--$ cd GUAVA
+- $ unzip GUAVA-master.zip
+- $ mv GUAVA-master GUAVA
+- $ cd GUAVA
 
 ## Installing Dependencies</h2>
 We have written configure.sh script for the easy installation of dependencies <br/>
