@@ -1,9 +1,5 @@
 # GUAVA : A GUI tool for the Analysis and Visualization of ATAC-seq data
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://github.com/MayurDivate/GUAVASourceCode/blob/master/LICENSE)
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
-
+> [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://github.com/MayurDivate/GUAVASourceCode/blob/master/LICENSE)
 
 ## Quick Start
 ```
@@ -23,7 +19,7 @@ Rscript lib/InstallRequiredPackages.R
 ```
 
 ## GUAVA manual
-[**See manual for more information**] (https://github.com/MayurDivate/GUAVA/blob/master/GUAVA_Manual.pdf)
+[**See manual for more information**](https://github.com/MayurDivate/GUAVA/blob/master/GUAVA_Manual.pdf)
 
 
 ## To start GUAVA use following command
