@@ -7,15 +7,14 @@
 - $ cd GUAVA
 
 ## Installing Dependencies</h2>
-We have written configure.sh script for the easy installation of dependencies
+e have written configure.sh script for the easy installation of dependencies.
 
-$ sh ./configure.sh <br/>
+- $ sh ./configure.sh <br/>
 
-If R packages are not installed successfully, use following command to install R packages.<br/>
-Rscript lib/InstallRequiredPackages.R 
+If R packages are not installed successfully, use following command to install R packages.
 
+- Rscript lib/InstallRequiredPackages.R 
 
-<h3> <a href="http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/"> Sample Data </a> </h3>
 
 <h1>To start GUAVA use following command</h1>
 
@@ -24,7 +23,11 @@ Rscript lib/InstallRequiredPackages.R
 
 <h2>For command line interface</h2>
   $ java -jar GUAVA.jar [options]*<br/>
-  
+ 
+## Sample Data
+> To download sample data [ ** Click Here ** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
+
+ 
 <h1>System Requirements</h1>
   Java 1.8 or latest<br/>
   Bowtie version 1.1.2<br/>
