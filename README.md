@@ -7,7 +7,7 @@
 - $ cd GUAVA
 
 ## Installing Dependencies</h2>
-We have written configure.sh script for the easy installation of dependencies--
+We have written configure.sh script for the easy installation of dependencies --
 $ sh ./configure.sh <br/>
 
 If R packages are not installed successfully, use following command to install R packages.<br/>
