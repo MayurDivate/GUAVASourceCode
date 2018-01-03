@@ -1,5 +1,5 @@
 # GUAVA : A GUI tool for the Analysis and Visualization of ATAC-seq data
-[![License: GNU GPLv3](https://github.com/MayurDivate/GUAVASourceCode/blob/master/LICENSE)
+[![License: GNU GPLv3]](https://github.com/MayurDivate/GUAVASourceCode/blob/master/LICENSE)
 
 ## Quick Start
 ```
