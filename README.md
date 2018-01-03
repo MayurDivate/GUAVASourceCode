@@ -25,7 +25,7 @@ If R packages are not installed successfully, use following command to install R
 > - $ java -jar GUAVA.jar [options]*
  
 ## Sample Data
-> To download sample data [ ![ ** Click Here ** ] ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
+> To download sample data [ **Click Here** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
 
  
 <h1>System Requirements</h1>
