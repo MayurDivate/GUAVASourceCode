@@ -2,23 +2,19 @@
 > [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://github.com/MayurDivate/GUAVASourceCode/blob/master/LICENSE) 
 
 >
->
->
->
+> In nutshell, GUAVA is a standalone GUI tool for processing, analyzing and visualizing ATAC-seq data. A user can start GUAVA analysis with raw reads to identify ATAC-seq signals. Then ATAC-seq signals from two or more samples can be compared using GUAVA to identify genomic loci with differentially enriched ATAC-seq signals. Furthermore, GUAVA also provides gene ontology and pathways enrichment analysis. Since to use GUAVA requires only several clicks and no learning curve, it will help novice bioinformatics researchers and biologist with minimal computer skills to analyze ATAC-seq data. Therefore, we believe that GUAVA is a powerful and time saving tool for ATAC-seq data analysis. GUAVA setup contains a script to configure and install dependencies which facilitates the GUAVA installation. GUAVA works on Linux and Mac OS.
 >
 
 ## Quick Start
-First download the GUAVA package from here: [**GUAVA**:arrow_down:](https://github.com/MayurDivate/GUAVA). 
-Then 
-
-
+First download the GUAVA package from here: [**GUAVA**](https://github.com/MayurDivate/GUAVA). 
+Then use following commands to unzip package.
 
 ```
 unzip GUAVA-master.zip
 mv GUAVA-master GUAVA
 cd GUAVA
 ```
-## Installing Dependencies</h2>
+## Installing Dependencies
 We have written configure.sh script for the easy installation of dependencies.
 ```
 sh ./configure.sh <br/>
@@ -57,16 +53,16 @@ $ java -jar GUAVA.jar [options]*
 - R Version: >= 3.3.0<br/>
 
 > ## List of required R Packages
- - ChIPseeker
- -  ReactomePA
- - TxDb.Hsapiens.UCSC.hg19.knownGene
- - TxDb.Mmusculus.UCSC.mm9.knownGene
- - TxDb.Mmusculus.UCSC.mm10.knownGene
- - org.Hs.eg.db
- - org.Mm.eg.db
- - ChIPpeakAnno
- - GO.db
- - KEGG.db
- - EnsDb.Hsapiens.v75
- - Rsubread
+- ChIPseeker
+- ReactomePA
+- TxDb.Hsapiens.UCSC.hg19.knownGene
+- TxDb.Mmusculus.UCSC.mm9.knownGene
+- TxDb.Mmusculus.UCSC.mm10.knownGene
+- org.Hs.eg.db
+- org.Mm.eg.db
+- ChIPpeakAnno
+- GO.db
+- KEGG.db
+- EnsDb.Hsapiens.v75
+- Rsubread
  
