@@ -69,4 +69,6 @@ $ java -jar GUAVA.jar [options]*
 - KEGG.db
 - EnsDb.Hsapiens.v75
 - Rsubread
- 
+
+## Support
+If you're having any problem, please [raise an issue](https://github.com/MayurDivate/GUAVASourceCode/issues) on GitHub. 
