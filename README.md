@@ -1,5 +1,6 @@
 # GUAVA : A GUI tool for the Analysis and Visualization of ATAC-seq data
-> [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://github.com/MayurDivate/GUAVASourceCode/blob/master/LICENSE)
+> [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://github.com/MayurDivate/GUAVASourceCode/blob/master/LICENSE) 
+[![Web: GUAVA](https://img.shields.io/badge/License-PDDL-brightgreen.svg)](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
 
 ## Quick Start
 ```
