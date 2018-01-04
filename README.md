@@ -35,11 +35,11 @@ Rscript lib/InstallRequiredPackages.R
 
 ## To start GUAVA use following command
 
->### GUI version
+**GUI version**
 ```
 java –jar GUAVA.jar
 ```
-> ### For command line interface
+**For command line interface**
 ```
 $ java -jar GUAVA.jar [options]*
 ```
