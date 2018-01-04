@@ -55,7 +55,7 @@ Rscript lib/InstallRequiredPackages.R
 - SAMtools Version: 1.3.1
 - R Version: >= 3.3.0<br/>
 
-###        List of required R Packages
+### List of required R Packages
 - ChIPseeker
 - ReactomePA
 - TxDb.Hsapiens.UCSC.hg19.knownGene
