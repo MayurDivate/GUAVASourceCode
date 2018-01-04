@@ -37,17 +37,16 @@ Rscript lib/InstallRequiredPackages.R
 
 **GUI version**
 ```
-java –jar GUAVA.jar
+ java –jar GUAVA.jar
 ```
 **For command line interface**
 ```
-$ java -jar GUAVA.jar [options]*
+ java -jar GUAVA.jar [options]*
 ```
  
 ## Sample Data
-> To download sample data [ **Click Here** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
+ To download sample data [ **Click Here** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
 
- 
 ## System Requirements
 - Java 1.8 or latest
 - Bowtie version 1.1.2
@@ -71,4 +70,4 @@ $ java -jar GUAVA.jar [options]*
 - Rsubread
 
 ## Support
-If you're having any problem, please [raise an issue](https://github.com/MayurDivate/GUAVASourceCode/issues) on GitHub. 
+ If you're having any problem, please [raise an issue](https://github.com/MayurDivate/GUAVASourceCode/issues) on GitHub. 
