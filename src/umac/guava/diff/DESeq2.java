@@ -110,43 +110,48 @@ public class DESeq2 extends Program{
         code = code + "\n" + "dds <- DESeqDataSetFromMatrix(readCount$counts,colData = coldata,design = ~ condition)";
         code = code + "\n" + "dds$condition <- factor(dds$condition , levels=c(\"untreated\",\"treated\"))";
         code = code + "\n" + "dds <- DESeq(dds)";
-        code = code + "\n" + "res <- results( dds )";
+        code = code + "\n" + "res <- results(dds)";
         
         return code;
 
     }
-
+  
     public String getVplotCode(double pvalue, double foldChange,File outFile ) {
         int height = 350;
         int width = 500;
         String code = "";
+        code = code + "\n" + "library(ggplot2)";
+        code = code + "\n" + "";
+        code = code + "\n" + "";
         code = code + "\n" + "pcutoff <- "+pvalue;
         code = code + "\n" + "fcCutoff <- "+foldChange;
-        code = code + "\n" + "up   <- res[res$log2FoldChange >= fcCutoff & res$pvalue <= pcutoff ,c(2,5)]";
-        code = code + "\n" + "down <- res[res$log2FoldChange <= -1*fcCutoff & res$pvalue <= pcutoff ,c(2,5)]";
-        code = code + "\n" + "downLegend <- paste(nrow(down),\" gained closed\",sep = \" \")";
-        code = code + "\n" + "upLegend <- paste(nrow(up),\" gained open\",sep = \" \")";
-        code = code + "\n" + "pmax <- max(-log10(res$pvalue)+1)";
-        code = code + "\n" + "fcMax <- max(abs(min(res$log2FoldChange)),max(res$log2FoldChange))";
-        code = code + "\n" + "";
+        code = code + "\n";
+        code = code + "\n" + "plotDF <- results[,c(1,6,9,11)]";
+        code = code + "\n" + "plotDF[,4] <- factor(plotDF[,4])";
+        code = code + "\n" + "titleSum <- summary(plotDF[,4])";
+        code = code + "\n";
+        code = code + "\n" + "openX <- 0";
+        code = code + "\n" + "closeX <- 0";
+        code = code + "\n";
+        code = code + "\n" + "if(!is.na(titleSum[\"gained-open\"])){" ;
+        code = code + "\n" +"  openX <- titleSum[\"gained-open\"]" ;
+        code = code + "\n" +"}" ;
+        code = code + "\n";
+        code = code + "\n" +"if(!is.na(titleSum[\"gained-closed\"])){" ;
+        code = code + "\n" +"  closeX <- titleSum[\"gained-closed\"]" ;
+        code = code + "\n" +"}";
+        code = code + "\n" + "plotSubTitle <- paste(paste(\"gained-closed regions =\",closeX,sep = \" \"),";
+        code = code + "\n" + "                      paste(\"gained-open regions=\",openX,sep = \" \"),";
+        code = code + "\n" + "                      sep = \"    \")";
+        code = code + "\n";
+        code = code + "\n" + "p <- ggplot(plotDF, aes(x = log2FoldChange, y = -1 * log10(pvalue), col=regulation))";
+        code = code + "\n" + "p <- p + scale_color_manual(values = c(\"red\",\"green\",\"black\"))";
+        code = code + "\n" + "p <- p + geom_jitter()";
+        code = code + "\n" + "p <- p + labs(subtitle = plotSubTitle,x = \"log2(FoldChange)\", y = \"-log10(Pvalue)\", colour = \"Regulation\")";
         
         code = code + "\n" + "jpeg("+"\""+outFile.getAbsoluteFile()+"\""+",height="+height+",width="+width+")\n";
-        code = code + "\n" + "par(mar=c(4,4,1,1), oma=c(1,1,1,1))";
-        code = code + "\n" + "plot(res$log2FoldChange,";
-        code = code + "" + "-log10(res$pvalue),";
-        code = code + "" + "xlim = c(-1*fcMax,fcMax), ylim = c(0,pmax),pch=\".\",";
-        code = code + "" + "xlab =\"log2(foldchange)\" , ylab = \"-log10(pvalue)\")";
-        code = code + "\n" + "points(up$log2FoldChange,-log10(up$pvalue),col=\"red\",pch=\".\")";
-        code = code + "\n" + "points(down$log2FoldChange, -log10(down$pvalue),col=\"green\",pch=\".\")";
-        code = code + "\n" + "yl <- -1 * log(pcutoff,10)";
-        code = code + "\n" + "points(down$log2FoldChange, -log10(down$pvalue),col=\"green\",pch=\".\")";
-        code = code + "\n" + "lines(c(-(fcCutoff),fcCutoff),c(yl,yl))";
-        code = code + "\n" + "lines(c(-(fcCutoff),-(fcCutoff)),c(0,pmax))";
-        code = code + "\n" + "lines(c(fcCutoff,fcCutoff),c(0,pmax))";
-        code = code + "\n" + "mtext(downLegend, col = \"green\",adj = 0.1,padj = -1)";
-        code = code + "\n" + "mtext(upLegend, col = \"red\",adj = 0.9,padj = -1)";
+        code = code + "\n" + "print(p)";
         code = code + "\n" + "dev.off()";
-        
 
         return code;
     }
