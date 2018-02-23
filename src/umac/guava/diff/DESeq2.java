@@ -281,7 +281,7 @@ public class DESeq2 extends Program{
             log[1] = errorLog;
             
         } catch (IOException ex) {
-            Logger.getLogger(Bowtie.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DESeq2.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         
@@ -293,11 +293,7 @@ public class DESeq2 extends Program{
         
         String[] commandArray =  {"R", "--version" };
         String[] log = runCommand(commandArray);
-
-        if(log[0] != null){
-            return true;
-        }
-        return false;
+        return log[0] != null;
     }
 
     /**
@@ -327,8 +323,6 @@ public class DESeq2 extends Program{
     public void setFoldchange(double foldchange) {
         this.foldchange = foldchange;
     }
-    
-    
     
     
 }
