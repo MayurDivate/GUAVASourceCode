@@ -55,27 +55,25 @@ public class UCSCtools extends Tool{
             String errorLog = this.getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
-            
+            return log;
         } catch (IOException ex) {
-            Logger.getLogger(UCSCtools.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
             return null;
         }
-        
-        return log;
     }
 
     @Override
     public boolean isWorking() {
         String[] commandArray =  {"which", "bedGraphToBigWig" };
         String[] log = new UCSCtools().runCommand(commandArray);
-        if(log[0] != null && log[1] != null){
-            System.out.println("\t\tbedGraphToBigWig:\t\tAffirmative :)");
+        if(log != null && (log[0] != null && log[1] != null)){
+            System.out.println("\t\t"+commandArray[1]+":\t\tWorking!");
             return true;
         }
-        else{
-            System.out.println("\t\tbedGraphToBigWig:\t\tNegative :(");
-        }
+
+        System.out.println("\t\t"+commandArray[1]+":\t\t\tNOT FOUND !!!");
         return false;
+
     }
     
     public File getGenomeSize(String build){

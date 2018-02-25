@@ -104,13 +104,11 @@ public class MACS2 extends Tool{
             String errorLog = new MACS2().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
-            
+            return log;
         } catch (IOException ex) {
-            Logger.getLogger(Bowtie.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
             return null;
         }
-        
-        return log;
     }
 
     @Override
@@ -120,13 +118,12 @@ public class MACS2 extends Tool{
         String[] log = new MACS2().runCommand(commandArray);
         String macs2Version = "macs2 2.1.1.20160309";
 
-        if(log[1].trim().equals(macs2Version)){
-            System.out.println("\t\tMACS2:\t\tI'm In Position :)");
+        if(log != null && (log != null && log[1].trim().equals(macs2Version))){
+            System.out.println("\t\t"+commandArray[0]+":\t\tWorking!");
             return true;
         }
-        
-        System.out.println(log[1]);
-        System.out.println("\t\tMACS2 version ("+macs2Version+") :\t\tAbsent :(");
+
+        System.out.println("\t\tMACS2 version ("+macs2Version+") :\t\t\tNOT FOUND !!!");
         return false;
 
     }

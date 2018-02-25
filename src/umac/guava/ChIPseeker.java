@@ -215,10 +215,11 @@ public class ChIPseeker extends Tool {
             String errorLog = new ChIPseeker().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
+            return log;
         } catch (IOException ex) { 
-            Logger.getLogger(ChIPseeker.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
+            return null;
         }
-        return log;
     }
 
     //Check R packages

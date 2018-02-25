@@ -7,8 +7,6 @@ package umac.guava;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -41,11 +39,11 @@ public class FastQC extends Tool {
             String errorLog = new Bowtie().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
-            
+            return log;
         } catch (IOException ex) {
-            Logger.getLogger(FastQC.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
+            return null;
         }
-        return log;
     }
 
     @Override
@@ -53,11 +51,13 @@ public class FastQC extends Tool {
         
         String[] commandArray =  {"fastqc", "-v" };
         String[] log = new FastQC().runCommand(commandArray);
-        if(log[0].startsWith("FastQC")){
-            System.out.println("\t\tFastQC:\t\tAffirmative :)");
+        
+        if(log != null && log[0].startsWith("FastQC")){
+            System.out.println("\t\t"+commandArray[0]+":\t\tWorking!");
             return true;
         }
-        System.out.println("\t\tFastQC:\t\tNegative :(");
+
+        System.out.println("\t\t"+commandArray[0]+":\t\t\tNOT FOUND !!!");
         return false;
     }
     

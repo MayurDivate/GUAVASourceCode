@@ -6,6 +6,7 @@
 package umac.guava;
 
 import java.io.File;
+import javax.swing.JFrame;
 import umac.guava.commandline.Command;
 import umac.guava.commandline.CommandlineWorkflow;
 
@@ -75,6 +76,7 @@ public class GUAVA {
             }
    
         HomeFrame homeFrame = new HomeFrame();
+        homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homeFrame.setVisible(true);
     }
     

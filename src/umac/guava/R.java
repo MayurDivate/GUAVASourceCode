@@ -92,11 +92,11 @@ public class R extends Tool{
             String errorLog = new R().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
-            
-        } catch (IOException ex) { 
-            Logger.getLogger(R.class.getName()).log(Level.SEVERE, null, ex);
+            return log;
+        } catch (IOException ex) {
+            System.out.println("\t\t"+ex.getMessage());
+            return null;
         }
-        return log;
     }
 
     @Override
@@ -105,12 +105,11 @@ public class R extends Tool{
         String[] log = new R().runCommand(commandArray);
         
         if(log[0] != null){
-            
             Pattern versionPattern = Pattern.compile("R version (.*?) ");
             Matcher versionMatch = versionPattern.matcher(log[0]);
             
             if(versionMatch.find()){
-                System.out.println("\t\tR:\t\tStick Together, Team! :)");
+                System.out.println("\t\tR ("+versionMatch.group(1)+"):\t\tWorking!");
                 if(isPackagesWorking()){
                    return true;
                 }
@@ -118,7 +117,7 @@ public class R extends Tool{
 
         }
 
-        System.out.println("\t\tR:\t\tDead :X ");
+        System.out.println("\t\tR:\t\t\tNOT FOUND !!!");
         return false;
     }
     
@@ -131,10 +130,9 @@ public class R extends Tool{
         File rScript = new File(jarFile.getParentFile()+System.getProperty("file.separator")+""
                        + "lib"+System.getProperty("file.separator")+"InstallRequiredPackages.R");
 
-        System.out.println("umac.guava.R.isPackagesWorking()");
         if(rScript.exists() && rScript.isFile()){
-            String[] rcommand =  {"Rscript", rScript.getAbsolutePath() };
-            String[] rcommandLog     = new ChIPseeker().runCommand(rcommand);
+            String[] rcommand =  {"Rscript", rScript.getAbsolutePath()};
+            String[] rcommandLog = new R().runCommand(rcommand);
             
             String outLog = rcommandLog[0].replaceAll("\\[1\\] ", "");
             outLog = outLog.replaceAll("\"", "");
@@ -189,6 +187,7 @@ public class R extends Tool{
         
         return false;
     }
+    
     public static ArrayList<String> getListOfRequiredPackages(){
         ArrayList<String> requiredPackages = new ArrayList<>();
         requiredPackages.add("ChIPseeker");

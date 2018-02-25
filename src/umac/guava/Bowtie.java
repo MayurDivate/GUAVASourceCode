@@ -7,8 +7,6 @@ package umac.guava;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -48,12 +46,12 @@ public class Bowtie extends Tool {
             String errorLog = new Bowtie().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
-            
+            return log;  
         } catch (IOException ex) {
-            Logger.getLogger(Bowtie.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
             return null;
         }
-        return log;
+           
     }
 
     @Override
@@ -62,12 +60,13 @@ public class Bowtie extends Tool {
         String[] commandArray =  {"bowtie", "--version" };
         String[] log = new Bowtie().runCommand(commandArray);
             
-        if(log[0] != null && log[0].startsWith("bowtie version")){
-            System.out.println("\t\tbowtie:\t\tAffirmative :)");
+        if(log != null && log[0].startsWith("bowtie version")){
+            System.out.println("\t\t"+commandArray[0]+":\t\tWorking!");
             return true;
         }
         
-        System.out.println("\t\tbowtie:\t\tNegative :(");
+        System.out.println("\t\t"+commandArray[0]+":\t\t\tNOT FOUND !!!");
+
         return false;
     }
     

@@ -87,12 +87,11 @@ public class IGV extends Tool implements Runnable{
             String errorLog = new IGV().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
-            
+            return log;
         } catch (IOException ex) { 
-            Logger.getLogger(IGV.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
+            return null;
         }
-        
-        return log;
     }
 
     @Override
@@ -100,13 +99,14 @@ public class IGV extends Tool implements Runnable{
         String[] commandArray =  {"which", "igv" };
         String[] log = new IGV().runCommand(commandArray);
                
-        if(log[0] != null){
-            System.out.println("\t\tigv:\t\tAffirmative :)");
+        if(log != null && log[0] != null){
+            System.out.println("\t\t"+commandArray[1]+":\t\tWorking!");
             return true;
         }
-        
-        System.out.println("\t\tigv:\t\tNegative :(");
+
+        System.out.println("\t\t"+commandArray[1]+":\t\t\tNOT FOUND !!!");
         return false;
+
     }
   
     @Override

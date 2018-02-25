@@ -99,13 +99,11 @@ public class GOandPathwayAnalysis extends Program {
             String errorLog = getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
-            
+            return log;
         } catch (IOException ex) {
-            Logger.getLogger(Bowtie.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
             return null;
         }
-        
-        return log;
     }
 
     @Override

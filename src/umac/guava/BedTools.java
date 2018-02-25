@@ -74,9 +74,9 @@ public class BedTools extends Tool{
             log[1] = errorLog;
             return log;
         } catch (IOException ex) {
-            Logger.getLogger(BedTools.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
+            return null;
         }
-        return null;
     }
     
     public String[] runCommand(String[] command, Boolean flag) {
@@ -90,9 +90,9 @@ public class BedTools extends Tool{
             log[1] = errorLog;
             return log;
         } catch (IOException ex) {
-            Logger.getLogger(BedTools.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
+            return null;
         }
-        return null;
     }
     
     public boolean getSTDoutput(Process process, File outputFile){
@@ -128,12 +128,12 @@ public class BedTools extends Tool{
         String[] commandArray =  {"bedtools", "--version" };
         String[] log = new BedTools().runCommand(commandArray, true);
 
-        if(log[0] != null && log[1] != null){
-            System.out.println("\t\tbedtools:\t\tAffirmative :)");
+        if(log != null && (log[0] != null && log[1] != null)){
+            System.out.println("\t\t"+commandArray[0]+":\t\tWorking!");
             return true;
         }
 
-        System.out.println("\t\tbedtools:\t\tNegative :(");
+        System.out.println("\t\t"+commandArray[0]+":\t\t\tNOT FOUND !!!");
         return false;
     }
     

@@ -118,14 +118,13 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void jRadioGUAVAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioGUAVAActionPerformed
         
-        if(!AnalysisWorkflow.validateToolPaths()){
-                System.out.println("Missing dependancies!");
-                System.out.println("Closing GUAVA...");
-                System.exit(1);
-        }
         MainJFrame guava = new MainJFrame();
-        this.dispose();
-        guava.setVisible(true);
+
+        if(isWorking(guava)){        
+            this.dispose();
+            guava.setVisible(true);
+        }
+
     }//GEN-LAST:event_jRadioGUAVAActionPerformed
 
     private void jRadioDifferentialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioDifferentialActionPerformed
@@ -137,6 +136,24 @@ public class HomeFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jRadioDifferentialActionPerformed
     
+    /********************************************
+    * isWorking method to check all dependencies
+    ********************************************/
+    boolean isWorking(MainJFrame main){
+        boolean flag = AnalysisWorkflow.validateToolPaths();
+
+        if(!flag){
+                System.out.println("\n***There are missing dependancies!");
+                System.out.println("***Please use configure.sh to install dependencies.");
+                System.out.println("***If you are having difficulties in installing dependencies, please report issue at *GitHub*.");
+                System.err.println("");
+                System.err.println("***killing GUAVA ... ***");
+                System.exit(-1);
+        }
+
+        return flag;        
+    }
+
     boolean isWorking(){
         boolean isWorking = false;
         

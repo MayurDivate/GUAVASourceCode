@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
@@ -33,45 +34,31 @@ public class AnalysisWorkflow {
     public static HashMap<String, Integer> chrSTAT;
     public static AlignmentResult alignmentResults ;
     public static AnalysisResultWriter analysisResultWriter = new AnalysisResultWriter();
-    
+                
     public static boolean validateToolPaths() {
         
         System.out.println("Operating System of machine :"+System.getProperty("os.name"));
-        boolean isWorking = new Bowtie().isWorking();
-        if(isWorking){
-            isWorking =  new Bowtie2().isWorking();
-        }
-        if(isWorking){
-            isWorking =  new FastQC().isWorking();
-        }
-        if(isWorking){
-            isWorking = new Samtools().isWorking();
-        }
-        if(isWorking){
-            isWorking = new MACS2().isWorking();
-        }
-        if(isWorking){
-            //isWorking = new R().isWorking();
-        }
-        if(isWorking){
-            //isWorking = Picard.picardPath();
-        }
-        if(isWorking){
-            isWorking = Samtools.checkBlackListFile();
-        }
-        if(isWorking){
-            isWorking =  new IGV().isWorking();
-        }
-        if(isWorking){
-            isWorking = new BedTools().isWorking();
-        }
-        if(isWorking){
-            isWorking = new UCSCtools().isWorking();
-        }
-
-        return isWorking;
+        ArrayList<Boolean> dependencies = new ArrayList<>();
+        
+            dependencies.add(new Bowtie().isWorking());
+            dependencies.add(new Bowtie2().isWorking());
+            dependencies.add(new FastQC().isWorking());
+            dependencies.add(new Samtools().isWorking());
+            dependencies.add(new MACS2().isWorking());
+            dependencies.add(new R().isWorking());
+            //dependencies.add(Picard.picardPath());
+            dependencies.add(Samtools.checkBlackListFile());
+            dependencies.add(new IGV().isWorking());
+            dependencies.add(new BedTools().isWorking());
+            dependencies.add(new UCSCtools().isWorking());
+        
+            if(dependencies.contains(false)){
+                return false;
+            }    
+        return true;
     }
 
+    
     void startGUIGuavaAnalysis(GuavaInput guavaInput) {
         
         Date start = new Date();

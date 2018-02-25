@@ -195,13 +195,11 @@ public class Samtools extends Tool {
             String errorLog = new Samtools().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
-            
+            return log;
         } catch (IOException ex) {
-            Logger.getLogger(Bowtie.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\t\t"+ex.getMessage());
             return null;
         }
-        
-        return log;
     }
 
     @Override
@@ -210,11 +208,12 @@ public class Samtools extends Tool {
         String[] commandArray =  {"samtools", "--version" };
         String[] log = new Samtools().runCommand(commandArray);
         
-        if(log[0] != null && log[1] != null){
-            System.out.println("\t\tsamtools:\tRoger That! :)");
+        if(log != null && (log[0] != null && log[1] != null)){
+            System.out.println("\t\t"+commandArray[0]+":\t\tWorking!");
             return true;
         }
-        System.out.println("\t\tsamtools:\tGot Nothing, Hooah :(");
+
+        System.out.println("\t\t"+commandArray[0]+":\t\t\tNOT FOUND !!!");
         return false;
     }
     
