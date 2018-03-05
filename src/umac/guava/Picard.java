@@ -77,7 +77,15 @@ public class Picard extends Tool{
 
     @Override
     public boolean isWorking() {
-        return true;
+        String[] commandStrings = { "picard", "-h" };
+        String[] log =  new Picard().runCommand(commandStrings);
+        String[] pic =  log[1].split("\n",2);
+        if(log[1].contains("USAGE")){
+            System.out.println("\t\tPicard:\tWorking!");
+            return true;
+        }
+            System.out.println("\t\tPicard:\t\tNOT FOUND !!!");
+        return false;
     }
     
 }

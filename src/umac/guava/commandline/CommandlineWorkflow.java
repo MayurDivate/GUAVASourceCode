@@ -33,24 +33,27 @@ public class CommandlineWorkflow {
     public boolean startCommandlineFlow(Command command){
         
         if(command.isGuava() && ! command.isHelp()){
-            //System.out.println("Start commandline guava tool");
+            // Guava ATAC-seq data analysis program
             prepareGuavaCommandlineWorkflow(command);
         }
         
         else if (command.isGdiff() && ! command.isHelp()){
-            //System.out.println("Start commandline gdiff tool");
+            // Guava ATAC-seq differential data analysis program
             prepareGdiffCommandlineWorkflow(command);
         }
         else if(command.isGuava() && command.isHelp()){
-            System.out.println(new  GuavaCommand().getHelpMessage());
+            new  GuavaCommand().printHelpMessage();
         }
         else if(command.isGdiff() && command.isHelp()){
-            System.out.println(new  Gdiffcommand().getHelpMessage());
+            new  Gdiffcommand().printHelpMessage();
         }
         else if((!command.isGuava() && !command.isGdiff()) ||command.isHelp()){
-            System.out.println("java -jar GUAVA.jar ");
-            System.out.println(new  GuavaCommand().getHelpMessage());
-            System.out.println(new  Gdiffcommand().getHelpMessage());
+            System.out.println("To use GUI version:");
+            System.out.println("\tjava -jar GUAVA.jar\n\n");
+            System.out.println("To use commandline version:\n");
+            new  GuavaCommand().printHelpMessage();
+            System.out.println("\n----------------------------------\n");
+            new  Gdiffcommand().printHelpMessage();
         }
         
         return false;
@@ -61,7 +64,7 @@ public class CommandlineWorkflow {
     public boolean prepareGuavaCommandlineWorkflow(Command command){
         
         // set tool paths
-        if(AnalysisWorkflow.validateToolPaths()){
+        if(AnalysisWorkflow.checkCommandlineDependencies()){
 
             GuavaCommand guavaCommand = new GuavaCommand();
 

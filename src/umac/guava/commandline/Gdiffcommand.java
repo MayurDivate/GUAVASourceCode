@@ -65,7 +65,6 @@ public class Gdiffcommand extends CommandlineTool{
         String[] options = command.getOptions();
         
         while(index < options.length){
-            //System.out.println("\t\t>>> "+options[index]);
             if(!options[index].startsWith("-") || ! gdiffOptions.contains(options[index])){
                 System.out.println("Error: Unrecognized option,\n\tPlease check options here '"+ options[index]+ "' ");
                 this.printHelpMessage();

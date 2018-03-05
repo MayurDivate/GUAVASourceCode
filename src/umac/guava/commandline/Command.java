@@ -265,7 +265,7 @@ public class Command {
         for(StackTraceElement ste : stackTrace){
             System.out.println(ste);
         }
-        System.err.println("Please rectify above error in command");
+        System.err.println("Error: invalid command");
         System.err.println("stopping ... ");
         System.exit(-1);
     }

@@ -39,14 +39,14 @@ public class AnalysisWorkflow {
         
         System.out.println("Operating System of machine :"+System.getProperty("os.name"));
         ArrayList<Boolean> dependencies = new ArrayList<>();
-        
+            System.out.println("umac.guava.AnalysisWorkflow.validateToolPaths()");
             dependencies.add(new Bowtie().isWorking());
             dependencies.add(new Bowtie2().isWorking());
             dependencies.add(new FastQC().isWorking());
             dependencies.add(new Samtools().isWorking());
             dependencies.add(new MACS2().isWorking());
+            dependencies.add(new Picard().isWorking());
             dependencies.add(new R().isWorking());
-            //dependencies.add(Picard.picardPath());
             dependencies.add(Samtools.checkBlackListFile());
             dependencies.add(new IGV().isWorking());
             dependencies.add(new BedTools().isWorking());
@@ -58,6 +58,27 @@ public class AnalysisWorkflow {
         return true;
     }
 
+    public static boolean checkCommandlineDependencies() {
+        
+        System.out.println("Operating System of machine :"+System.getProperty("os.name"));
+        ArrayList<Boolean> dependencies = new ArrayList<>();
+        
+            dependencies.add(new Bowtie().isWorking());
+            dependencies.add(new Bowtie2().isWorking());
+            dependencies.add(new FastQC().isWorking());
+            dependencies.add(new Samtools().isWorking());
+            dependencies.add(new MACS2().isWorking());
+            dependencies.add(new R().isWorking());
+            dependencies.add(new Picard().isWorking());
+            dependencies.add(Samtools.checkBlackListFile());
+            dependencies.add(new BedTools().isWorking());
+            dependencies.add(new UCSCtools().isWorking());
+        
+            if(dependencies.contains(false)){
+                return false;
+            }    
+        return true;
+    }
     
     void startGUIGuavaAnalysis(GuavaInput guavaInput) {
         

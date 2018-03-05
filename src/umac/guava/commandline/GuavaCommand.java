@@ -55,6 +55,7 @@ public class GuavaCommand extends CommandlineTool{
             "-n",
             "--adapter",
             "-e"));
+    
     private static Set<String> guavaCompulsoryOptions = new HashSet<>(Arrays.asList("-R1","-R2","-g","-a"));
     
     private File r1Fastq;
@@ -260,7 +261,6 @@ public class GuavaCommand extends CommandlineTool{
     public String getHelpMessage() {
         String  guavaHelpMessage = ""+"\n";
        
-       guavaHelpMessage = guavaHelpMessage +"java -jar GUAVA.jar guava"+"\n";
        guavaHelpMessage = guavaHelpMessage +"options"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-R1"+      "\t"+"path to the fastq file containing upstream mates"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-R2"+      "\t"+"path to the fastq file containing downstream mates"+"\n";
