@@ -180,8 +180,27 @@ public class Command {
         this.options = options;
     }
     
-    public double getDoubleParameter(String patternString){
+    public double getDoubleParameter(String patternString, int group){
+        System.out.println("umac.guava.commandline.Command.getDoubleParameter() MAYUR");
+        Pattern pattern = Pattern.compile(patternString);
+        System.out.println(patternString);
+        Matcher match = pattern.matcher(this.getCommand());
+                
+        if(match.find()){
+            try{
+                double doubleNumber = Double.parseDouble(match.group(group));
+                return doubleNumber;
+            }
+            catch(NumberFormatException ne){
+                System.out.println("Invalid input: '"+match.group(group)+"'");
+                killExecution();
+            }
+        }
         
+        return 0;
+    }
+    
+    public double getDoubleParameter(String patternString){
         Pattern pattern = Pattern.compile(patternString);
         Matcher match = pattern.matcher(this.getCommand());
         
@@ -198,6 +217,7 @@ public class Command {
         
         return 0;
     }
+    
     
     public String getStringParameter(String patternString){
         
@@ -236,6 +256,25 @@ public class Command {
         
         if(match.find()){
             String path = match.group(1);
+            File infile = new File(path);
+            if(infile.getAbsoluteFile().exists()){
+                return infile.getAbsoluteFile();
+            }
+            
+        }
+        
+        System.out.println("Invalid file : '"+match.group(1)+"'");
+        killExecution();
+        return null;
+    }
+    
+    public File getFileParameter(String patternString, int group){
+        
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher match = pattern.matcher(this.getCommand());
+        
+        if(match.find()){
+            String path = match.group(group);
             File infile = new File(path);
             if(infile.getAbsoluteFile().exists()){
                 return infile.getAbsoluteFile();

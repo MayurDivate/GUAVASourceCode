@@ -60,23 +60,23 @@ public class AnalysisWorkflow {
 
     public static boolean checkCommandlineDependencies() {
         
-        System.out.println("Operating System of machine :"+System.getProperty("os.name"));
-        ArrayList<Boolean> dependencies = new ArrayList<>();
-        
-            dependencies.add(new Bowtie().isWorking());
-            dependencies.add(new Bowtie2().isWorking());
-            dependencies.add(new FastQC().isWorking());
-            dependencies.add(new Samtools().isWorking());
-            dependencies.add(new MACS2().isWorking());
-            dependencies.add(new R().isWorking());
-            dependencies.add(new Picard().isWorking());
-            dependencies.add(Samtools.checkBlackListFile());
-            dependencies.add(new BedTools().isWorking());
-            dependencies.add(new UCSCtools().isWorking());
-        
-            if(dependencies.contains(false)){
-                return false;
-            }    
+//        System.out.println("Operating System of machine :"+System.getProperty("os.name"));
+//        ArrayList<Boolean> dependencies = new ArrayList<>();
+//        
+//            dependencies.add(new Bowtie().isWorking());
+//            dependencies.add(new Bowtie2().isWorking());
+//            dependencies.add(new FastQC().isWorking());
+//            dependencies.add(new Samtools().isWorking());
+//            dependencies.add(new MACS2().isWorking());
+//            dependencies.add(new R().isWorking());
+//            dependencies.add(new Picard().isWorking());
+//            dependencies.add(Samtools.checkBlackListFile());
+//            dependencies.add(new BedTools().isWorking());
+//            dependencies.add(new UCSCtools().isWorking());
+//        
+//            if(dependencies.contains(false)){
+//                return false;
+//            }    
         return true;
     }
     

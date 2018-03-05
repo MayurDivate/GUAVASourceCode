@@ -63,7 +63,7 @@ public class CommandlineWorkflow {
     
     public boolean prepareGuavaCommandlineWorkflow(Command command){
         
-        // set tool paths
+        // check dependencies
         if(AnalysisWorkflow.checkCommandlineDependencies()){
 
             GuavaCommand guavaCommand = new GuavaCommand();
@@ -73,7 +73,7 @@ public class CommandlineWorkflow {
 
                 // get guava command
                 guavaCommand = GuavaCommand.getGuavaCommand(command);
-
+                System.out.println(guavaCommand.toString());
                 // create input object from guava
                 Input input = guavaCommand.getInput(guavaCommand);
 

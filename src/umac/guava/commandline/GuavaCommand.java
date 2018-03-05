@@ -42,7 +42,7 @@ public class GuavaCommand extends CommandlineTool{
             "-g",
             "-a",
             "-v",
-            "-c","--cutoff",
+            "-C","--cutoff",
             "-X",
             "-O","--outdir",
             "-m",
@@ -134,7 +134,7 @@ public class GuavaCommand extends CommandlineTool{
     public boolean hasDuplicates(Command command) {
        String commandString = getCommandString(command.getOptions());
         Pattern cutoff =Pattern.compile("--cutoff");
-        Pattern c =Pattern.compile("-c");
+        Pattern c =Pattern.compile("-C");
         Pattern out =Pattern.compile("-O");
         Pattern outdir =Pattern.compile("--outdir");
         
@@ -279,7 +279,7 @@ public class GuavaCommand extends CommandlineTool{
        guavaHelpMessage = guavaHelpMessage +"\t"+"--adapter"+"\t"+"Adapter sequence Default: Nextra XT adapter"+"\n";
        guavaHelpMessage = guavaHelpMessage +"Optional:"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-v"+      "\t"+"p / q value for MACS2 peak filtering Default: q"+"\n";
-       guavaHelpMessage = guavaHelpMessage +" "+"-c | --cutoff"+"\t"+"0 - 0.05 value cutoff. defalut 0.05"+"\n";
+       guavaHelpMessage = guavaHelpMessage +" "+"-C | --cutoff"+"\t"+"0 - 0.05 value cutoff. defalut 0.05"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-X"+       "\t"+"INT Maximum insert size for paired end alignment"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"  "+       "\t"+"default: 2000 "+"\n";
        guavaHelpMessage = guavaHelpMessage +" "+"-O | --outdir"+"\t"+"path for output directory "+"\n";
@@ -306,9 +306,9 @@ public class GuavaCommand extends CommandlineTool{
         String genomeIndexPattern = "-g\\s+(.*?)\\s+";
         String genomeBuildPattern = "-a\\s+(.*?)\\s+";
         String valuePattern  = "-v\\s+([pq])\\s+";
-        String cutoffPattern = "((-c)|(--cutoff))\\s+((\\d+)\\.(\\d+))\\s+";
+        String cutoffPattern = "((-C)|(--cutoff))\\s+((\\d+)\\.(\\d+))\\s+";
         String insertSizePattern = "-X\\s+(\\d+)\\s+";
-        String outdirPattern = "((-o)|(--outdir))\\s+(.*?)\\s+";
+        String outdirPattern = "((-O)|(--outdir))\\s+(.*?)\\s+";
         String maxGenomicHitsPattern = "-m\\s+(\\d+)\\s+";
         String mapQPattern = "-m\\s+(\\d+)\\s+";
         String ramPattern = "-ram\\s+(\\d+)\\s+";
@@ -347,7 +347,7 @@ public class GuavaCommand extends CommandlineTool{
         }
         
         if(command.isUsed(cutoffPattern)){
-            double cutoff =  command.getDoubleParameter(cutoffPattern);
+            double cutoff =  command.getDoubleParameter(cutoffPattern,4);
             guavaCommand.setPqCutOff(cutoff);
         }
         
@@ -358,7 +358,7 @@ public class GuavaCommand extends CommandlineTool{
         }
         
         if(command.isUsed(outdirPattern)){
-            File outdir =  command.getFileParameter(outdirPattern);
+            File outdir =  command.getFileParameter(outdirPattern,4);
             guavaCommand.setOutputFolder(outdir);
         }
         
