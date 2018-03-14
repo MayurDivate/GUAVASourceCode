@@ -7,12 +7,14 @@ biocLite(suppressAutoUpdate=TRUE,ask = FALSE,suppressUpdates = TRUE)
 print("#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#")
 
 
-bioconductorPackages <- c("ChIPseeker","ReactomePA",
+bioconductorPackages <- c("ReactomePA",
+                          "GenomicFeatures",
                           "TxDb.Hsapiens.UCSC.hg19.knownGene",
                           "TxDb.Mmusculus.UCSC.mm9.knownGene",
                           "TxDb.Mmusculus.UCSC.mm10.knownGene",
                           "org.Hs.eg.db",
                           "org.Mm.eg.db",
+                          "ChIPseeker",
                           "ChIPpeakAnno",
                           "GO.db",
                           "KEGG.db",
@@ -22,7 +24,6 @@ bioconductorPackages <- c("ChIPseeker","ReactomePA",
 otherPackages <- c("ggplot2")
 
 checkBCpackage <- function(bcpkgname){ 
-#c <- require(bcpkgname,character.only = TRUE)
   c <- library(bcpkgname,character.only = TRUE,logical.return = TRUE,quietly = TRUE)  
   if(!c){
     print(paste("Trying to install",bcpkgname,sep = " "))
@@ -51,11 +52,11 @@ checkPackage <- function(bcpkgname){
     install.packages(bcpkgname)
     c2 <- library(bcpkgname,character.only = TRUE,logical.return = TRUE,quietly = TRUE)  
     if(!c2){
-		  return(FALSE)
+	return(FALSE)
     }
     else{
-      print(paste("Package",bcpkgname,"installed successfully",sep = " "))
-      return(TRUE)
+	print(paste("Package",bcpkgname,"installed successfully",sep = " "))
+	return(TRUE)
     }    
   }
   else{
@@ -66,19 +67,20 @@ checkPackage <- function(bcpkgname){
 
 failedPackages <-c()
 
-for(i in 1:length(checkPackage)){
-    if(!checkPackage(checkPackage[i])){
-      failedPackages <-c(failedPackages,checkPackage[i])
+for(i in 1:length(bioconductorPackages)){
+    if(!checkBCpackage(bioconductorPackages[i])){
+      failedPackages <-c(failedPackages,bioconductorPackages[i])
     }
   print("#")
   print("#")
   print("#")
 }
 
-for(i in 1:length(bioconductorPackages)){
-    if(!checkBCpackage(bioconductorPackages[i])){
-      failedPackages <-c(failedPackages,bioconductorPackages[i])
-    }
+
+for(i in 1:length(otherPackages)){
+  if(!checkPackage(otherPackages[i])){
+    failedPackages <-c(failedPackages,otherPackages[i])
+  }
   print("#")
   print("#")
   print("#")
