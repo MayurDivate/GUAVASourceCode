@@ -35,7 +35,7 @@ public class AnalysisWorkflow {
     public static AlignmentResult alignmentResults ;
     public static AnalysisResultWriter analysisResultWriter = new AnalysisResultWriter();
                 
-    public static boolean validateToolPaths() {
+    public static boolean validateToolPaths(boolean gui) {
         
         System.out.println("Operating System of machine :"+System.getProperty("os.name"));
         ArrayList<Boolean> dependencies = new ArrayList<>();
@@ -48,9 +48,12 @@ public class AnalysisWorkflow {
             dependencies.add(new Picard().isWorking());
             dependencies.add(new R().isWorking());
             dependencies.add(Samtools.checkBlackListFile());
-            dependencies.add(new IGV().isWorking());
             dependencies.add(new BedTools().isWorking());
             dependencies.add(new UCSCtools().isWorking());
+            
+            if(gui){
+                dependencies.add(new IGV().isWorking());
+            }
         
             if(dependencies.contains(false)){
                 return false;
@@ -59,25 +62,7 @@ public class AnalysisWorkflow {
     }
 
     public static boolean checkCommandlineDependencies() {
-        
-//        System.out.println("Operating System of machine :"+System.getProperty("os.name"));
-//        ArrayList<Boolean> dependencies = new ArrayList<>();
-//        
-//            dependencies.add(new Bowtie().isWorking());
-//            dependencies.add(new Bowtie2().isWorking());
-//            dependencies.add(new FastQC().isWorking());
-//            dependencies.add(new Samtools().isWorking());
-//            dependencies.add(new MACS2().isWorking());
-//            dependencies.add(new R().isWorking());
-//            dependencies.add(new Picard().isWorking());
-//            dependencies.add(Samtools.checkBlackListFile());
-//            dependencies.add(new BedTools().isWorking());
-//            dependencies.add(new UCSCtools().isWorking());
-//        
-//            if(dependencies.contains(false)){
-//                return false;
-//            }    
-        return true;
+        return validateToolPaths(false);
     }
     
     void startGUIGuavaAnalysis(GuavaInput guavaInput) {
@@ -93,6 +78,7 @@ public class AnalysisWorkflow {
         // ------------ start of workflow ------------------        
         AnalysisWorkflow aw = new AnalysisWorkflow();
         GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(guavaInput); 
+        System.out.println(outFiles);
         Samtools workflowSamtools = new Samtools();
            
         if(go){
@@ -887,11 +873,13 @@ public class AnalysisWorkflow {
         
     }
 
-    private boolean runCutadapt(GuavaInput runATACseq, GuavaOutputFiles outputFiles) {
+    private boolean runCutadapt(GuavaInput guavaInput, GuavaOutputFiles outputFiles) {
+        System.out.println("umac.guava.AnalysisWorkflow.runCutadapt()");
+        Cutadapt cutadapt = guavaInput.getCutadapt();
+        System.out.println("*************");
         
-        Cutadapt cutadapt = runATACseq.getCutadapt();
         if(outputFiles.getCutadaptOUT().mkdir()){
-            String[] log = cutadapt.runCommand(cutadapt.getCommand(cutadapt));
+            String[] log = cutadapt.runCommand(cutadapt.getCommand());
             cutadapt.writeLog(log, "Cutadapt Adapter Trimming");
             System.out.println("Done");
             return true;

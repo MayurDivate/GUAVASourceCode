@@ -140,7 +140,7 @@ public class HomeFrame extends javax.swing.JFrame {
     * isWorking method to check all dependencies
     ********************************************/
     boolean isWorking(MainJFrame main){
-        boolean flag = AnalysisWorkflow.validateToolPaths();
+        boolean flag = AnalysisWorkflow.validateToolPaths(true);
 
         if(!flag){
                 System.out.println("\n***There are missing dependancies!");

@@ -131,6 +131,7 @@ public class R extends Tool{
                        + "lib"+System.getProperty("file.separator")+"InstallRequiredPackages.R");
 
         if(rScript.exists() && rScript.isFile()){
+            
             String[] rcommand =  {"Rscript", rScript.getAbsolutePath()};
             String[] rcommandLog = new R().runCommand(rcommand);
             

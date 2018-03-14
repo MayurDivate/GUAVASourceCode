@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -27,7 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class MainJFrame extends javax.swing.JFrame {
 
     GuavaInput runATACseq = new GuavaInput();
-    
+
     public MainJFrame() {
         initComponents();
     }
@@ -664,73 +663,97 @@ public class MainJFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private static FileNameExtensionFilter getFastqFileNameExtensionFilter() {
+        FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("Fastq File", "fastq", "fq", "gz");
+        fileNameExtensionFilter.getExtensions();
+        return fileNameExtensionFilter;
+    }
+
+    private static boolean isFastqGzFile(File f) {
+        String fileName = f.getName();
+        String fqGz = "fastq.gz";
+        String fastqGz = "fastq.gz";
+
+        if (!fileName.endsWith("gz")) {
+            return true;
+        }
+
+        if (fileName.endsWith(fastqGz)) {
+            return true;
+        } else if (fileName.endsWith(fqGz)) {
+            return true;
+        }
+
+        return false;
+    }
+
     private void r1JButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_r1JButtonActionPerformed
         // TODO add your handling code here:
         JFileChooser r1FileChooser = new JFileChooser();
         r1FileChooser.setAcceptAllFileFilterUsed(false);
-        FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("Fastq File", "fastq","fq");
-        r1FileChooser.addChoosableFileFilter(fileNameExtensionFilter);
+        r1FileChooser.addChoosableFileFilter(getFastqFileNameExtensionFilter()); // Add fastq file filter
         r1FileChooser.setDialogTitle("Select R1 Fastq");
-        
-        if(lastpath != null){
+
+        if (lastpath != null) {
             r1FileChooser.setCurrentDirectory(lastpath);
-        }        
-        
+        }
+
         int returnVal = r1FileChooser.showOpenDialog(null);
-        if(returnVal == JFileChooser.APPROVE_OPTION){
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             File r1File = r1FileChooser.getSelectedFile();
             String r1FileName = r1File.getAbsolutePath();
-            r1FastqTextField.setText(r1FileName);
-            runATACseq.setR1Fastq(r1FileName);
-            r1FastqTextField.setForeground(Color.BLACK);
-            lastpath = r1File.getParentFile();
+            if (isFastqGzFile(r1File)) {
+                r1FastqTextField.setText(r1FileName);
+                runATACseq.setR1Fastq(r1FileName);
+                r1FastqTextField.setForeground(Color.BLACK);
+                lastpath = r1File.getParentFile();
+            }
         }
-        
+
     }//GEN-LAST:event_r1JButtonActionPerformed
 
     private void r2JButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_r2JButtonActionPerformed
-        JFileChooser r2FileChooser =  new JFileChooser();
-        
-        FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("Fastq File", "fastq","fq");
+        JFileChooser r2FileChooser = new JFileChooser();
         r2FileChooser.setAcceptAllFileFilterUsed(false);
-        r2FileChooser.addChoosableFileFilter(fileNameExtensionFilter);
+        r2FileChooser.addChoosableFileFilter(getFastqFileNameExtensionFilter()); // Add fastq file filter
         r2FileChooser.setDialogTitle("Select R2 Fastq");
-        
-        if(lastpath != null){
+
+        if (lastpath != null) {
             r2FileChooser.setCurrentDirectory(lastpath);
         }
-        
+
         int returnValue = r2FileChooser.showOpenDialog(null);
-        if(returnValue == JFileChooser.APPROVE_OPTION){
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
             File r2File = r2FileChooser.getSelectedFile();
             String r2FileName = r2File.getAbsolutePath();
-            r2FastqTextField.setText(r2FileName);
-            runATACseq.setR2Fastq(r2FileName);
-            r2FastqTextField.setForeground(Color.BLACK);
-            lastpath =  r2File.getParentFile();
+            if (isFastqGzFile(r2File)) {
+                r2FastqTextField.setText(r2FileName);
+                runATACseq.setR2Fastq(r2FileName);
+                r2FastqTextField.setForeground(Color.BLACK);
+                lastpath = r2File.getParentFile();
+            }
         }
     }//GEN-LAST:event_r2JButtonActionPerformed
 
     private void inserSizeTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inserSizeTextFieldKeyTyped
         char c = evt.getKeyChar();
-        if(!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)){
+        if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) {
             evt.consume();
         }
-        
-        
+
+
     }//GEN-LAST:event_inserSizeTextFieldKeyTyped
 
     private void outputDirJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputDirJButtonActionPerformed
         JFileChooser outputDirChooser = new JFileChooser();
         outputDirChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        if(lastpath != null){
+        if (lastpath != null) {
             outputDirChooser.setCurrentDirectory(lastpath);
         }
-        
+
         int returnVal = outputDirChooser.showOpenDialog(null);
-        
-        
-        if(returnVal == JFileChooser.APPROVE_OPTION){
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             File outputDir = outputDirChooser.getSelectedFile();
             String outputDirName = outputDir.getAbsolutePath();
             outputDirTextField.setText(outputDirName);
@@ -753,7 +776,7 @@ public class MainJFrame extends javax.swing.JFrame {
         chrYCheckBox.setSelected(false);
         chrMCheckBox.setSelected(true);
         jLabelOrgName.setText("");
-        
+
         jTextFieldHitsQuality.setText("1");
         cpuJSpinner.setValue(1);
         valueTextField.setText("0.05");
@@ -764,7 +787,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabelGenomeVersion.setForeground(Color.black);
         outputDirTextField.setForeground(Color.black);
         valueTextField.setForeground(Color.black);
-        
+
         this.adapterSequenceTextfeild.setForeground(Color.BLACK);
         this.adapterSequenceTextfeild.setText("");
         this.adapterSequenceTextfeild.setEnabled(false);
@@ -784,9 +807,9 @@ public class MainJFrame extends javax.swing.JFrame {
         this.nextraAdapterCheckBox.setSelected(true);
         this.nextraAdapterCheckBox.setEnabled(false);
         this.trimCheckBox.setSelected(false);
-        
+
     }//GEN-LAST:event_resetJButtonActionPerformed
-   
+
     private void startJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startJButtonActionPerformed
         //complete Input object construction
         runATACseq.setBowtieIndex(jTextFieldBowtieIndex.getText());
@@ -803,187 +826,176 @@ public class MainJFrame extends javax.swing.JFrame {
         boolean disposeFlag = validateInput(runATACseq);
         boolean isTrimValid = true;
 
-        if(this.trimCheckBox.isSelected()){
+        if (this.trimCheckBox.isSelected()) {
             isTrimValid = this.validateTrimmingParameters();
-            if(isTrimValid){
+            if (isTrimValid) {
                 runATACseq.setTrim(true);
-                int nCount       = Integer.parseInt(this.maxNs.getText());
-                int minLen       = Integer.parseInt(this.minLen.getText());
+                int nCount = Integer.parseInt(this.maxNs.getText());
+                int minLen = Integer.parseInt(this.minLen.getText());
                 double errorRate = Double.parseDouble(this.errorRate.getText());
-                Cutadapt cutadapt = Cutadapt.getCutadapt(runATACseq,getAdapterSequence(),errorRate,nCount,minLen);
+                Cutadapt cutadapt = Cutadapt.getCutadapt(runATACseq, getAdapterSequence(), errorRate, nCount, minLen);
                 runATACseq.setCutadapt(cutadapt);
             }
         }
-                        
-        if(isTrimValid && disposeFlag){
-                IGV.genome = jComboBoxGenome.getSelectedItem().toString();
-                this.setVisible(false);
-                AnalysisWorkflow analysisWorkflow = new AnalysisWorkflow();
-                analysisWorkflow.startGUIGuavaAnalysis(runATACseq);
+
+        if (isTrimValid && disposeFlag) {
+            IGV.genome = jComboBoxGenome.getSelectedItem().toString();
+            this.setVisible(false);
+            AnalysisWorkflow analysisWorkflow = new AnalysisWorkflow();
+            analysisWorkflow.startGUIGuavaAnalysis(runATACseq);
         }
     }//GEN-LAST:event_startJButtonActionPerformed
 
-    private String getAdapterSequence(){
-        if(this.nextraAdapterCheckBox.isSelected()){
+    private String getAdapterSequence() {
+        if (this.nextraAdapterCheckBox.isSelected()) {
             return "CTGTCTCTTATACACATCT";
-        }
-        else{
+        } else {
             return this.adapterSequenceTextfeild.getText();
         }
-    
+
     }
-    
-    private String getSelectedChromosomes(){
-    
-        if(chrMCheckBox.isSelected() && chrYCheckBox.isSelected()){
+
+    private String getSelectedChromosomes() {
+
+        if (chrMCheckBox.isSelected() && chrYCheckBox.isSelected()) {
             return "chrM chrY";
-        }
-        else if (chrMCheckBox.isSelected()) {
+        } else if (chrMCheckBox.isSelected()) {
             return "chrM";
-        }
-        else if (chrMCheckBox.isSelected()) {
+        } else if (chrMCheckBox.isSelected()) {
             return "chrY";
-        }
-        else{
+        } else {
             return "";
         }
 
-    
     }
-    
-    private boolean validateInput(GuavaInput runATACseq){
+
+    private boolean validateInput(GuavaInput runATACseq) {
         Boolean disposeFlag = true;
-        
-        if(runATACseq.getR1Fastq() == null || !(runATACseq.getR1Fastq().exists())){
-              disposeFlag = false;
-              r1FastqTextField.setForeground(Color.red);
+
+        if (runATACseq.getR1Fastq() == null || !(runATACseq.getR1Fastq().exists())) {
+            disposeFlag = false;
+            r1FastqTextField.setForeground(Color.red);
         }
-        if(runATACseq.getR2Fastq() == null || !(runATACseq.getR2Fastq().exists())){
-              disposeFlag = false;
-              r2FastqTextField.setForeground(Color.red);
+        if (runATACseq.getR2Fastq() == null || !(runATACseq.getR2Fastq().exists())) {
+            disposeFlag = false;
+            r2FastqTextField.setForeground(Color.red);
         }
         if (runATACseq.getBowtieIndex() == null || !(runATACseq.getBowtieIndex().exists())) {
-              disposeFlag = false;
-              jTextFieldBowtieIndex.setForeground(Color.red);
+            disposeFlag = false;
+            jTextFieldBowtieIndex.setForeground(Color.red);
         }
         if (runATACseq.getGenome() == null || runATACseq.getGenome().equals("-select-")) {
-              disposeFlag = false;
-              jLabelGenomeVersion.setForeground(Color.red);
+            disposeFlag = false;
+            jLabelGenomeVersion.setForeground(Color.red);
         }
         if (runATACseq.getOutputFolder() == null || !(runATACseq.getOutputFolder().exists())) {
-              disposeFlag = false;  
-              outputDirTextField.setForeground(Color.red);
+            disposeFlag = false;
+            outputDirTextField.setForeground(Color.red);
         }
-        if (valueTextField.getText().equals("") || ! runATACseq.getCutOff().equals("") ) {
-            
-            if(valueTextField.getText().equals("")){
+        if (valueTextField.getText().equals("") || !runATACseq.getCutOff().equals("")) {
+
+            if (valueTextField.getText().equals("")) {
                 disposeFlag = false;
                 valueTextField.setText("NULL");
                 valueTextField.setForeground(Color.red);
                 return disposeFlag;
             }
-            
-            try{
+
+            try {
                 Double.parseDouble(valueTextField.getText());
                 valueTextField.setForeground(Color.BLACK);
-            }
-            catch(NumberFormatException e){
-                disposeFlag = false;  
+            } catch (NumberFormatException e) {
+                disposeFlag = false;
                 valueTextField.setForeground(Color.red);
             }
-                
+
         }
-        
+
         return disposeFlag;
     }
-    
-    private boolean validateTrimmingParameters(){
+
+    private boolean validateTrimmingParameters() {
         boolean validationflag = true;
-        
-        if(!nextraAdapterCheckBox.isSelected() && adapterSequenceTextfeild.getText().equals("")){
+
+        if (!nextraAdapterCheckBox.isSelected() && adapterSequenceTextfeild.getText().equals("")) {
             adapterSequenceTextfeild.setText("Please provide adapter sequence");
             adapterSequenceTextfeild.setForeground(Color.red);
             validationflag = false;
         }
-        
-        if(!nextraAdapterCheckBox.isSelected() && !adapterSequenceTextfeild.getText().equals("")){
+
+        if (!nextraAdapterCheckBox.isSelected() && !adapterSequenceTextfeild.getText().equals("")) {
             String adapterSeq = adapterSequenceTextfeild.getText();
             Pattern nonNucleotideSeq = Pattern.compile("^[^ATGC]+$");
             Matcher matchNonNucleotide = nonNucleotideSeq.matcher(adapterSeq);
-            if(matchNonNucleotide.find()){
+            if (matchNonNucleotide.find()) {
                 adapterSequenceTextfeild.setForeground(Color.red);
                 validationflag = false;
 
             }
         }
-        
-        
+
         String minLen = this.minLen.getText();
         String maxN = this.maxNs.getText();
         String errorRate = this.errorRate.getText();
-                
-        if(!checkNumberFormat(minLen)){
+
+        if (!checkNumberFormat(minLen)) {
             this.maxNs.setForeground(Color.red);
             validationflag = false;
         }
-        if(!checkNumberFormat(maxN)){
+        if (!checkNumberFormat(maxN)) {
             this.maxNs.setForeground(Color.red);
             validationflag = false;
         }
-        if(!checkDoubleNumber(errorRate)){
+        if (!checkDoubleNumber(errorRate)) {
             this.errorRate.setForeground(Color.red);
             validationflag = false;
         }
-                           
-     return validationflag;
+
+        return validationflag;
     }
-    
-    
-    private boolean checkDoubleNumber(String numberText){
-        if(!numberText.equals("")){
+
+    private boolean checkDoubleNumber(String numberText) {
+        if (!numberText.equals("")) {
             try {
                 double doubleNumber = Double.parseDouble(numberText);
                 double zero = 0.0;
                 double one = 1.0;
-                if( zero > doubleNumber || doubleNumber >= 0.5){
+                if (zero > doubleNumber || doubleNumber >= 0.5) {
                     return false;
                 }
-            }
-            catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 return false;
             }
-            
+
             return true;
         }
         return false;
     }
-    
-    private boolean checkNumberFormat(String numberText){
-        if(!numberText.equals("")){
+
+    private boolean checkNumberFormat(String numberText) {
+        if (!numberText.equals("")) {
             try {
                 int intNumber = Integer.parseInt(numberText);
-                if(intNumber < 1){
+                if (intNumber < 1) {
                     return false;
                 }
-            }
-            catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 return false;
             }
-            
+
             return true;
         }
         return false;
     }
-    
+
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        try{
-            File jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            File manual =  new File(jarFile.getParentFile().getAbsolutePath()+System.getProperty("file.separator")+"GUAVA_Manual.pdf");
-            if(manual.exists()){
-                if(Desktop.isDesktopSupported()){
+        try {
+            File jarFile = new File(MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            File manual = new File(jarFile.getParentFile().getAbsolutePath() + System.getProperty("file.separator") + "GUAVA_Manual.pdf");
+            if (manual.exists()) {
+                if (Desktop.isDesktopSupported()) {
                     Desktop.getDesktop().open(manual);
-                }
-                else{
+                } else {
                     System.out.println("Desktop is not supported");
                 }
             }
@@ -996,7 +1008,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void chrYCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chrYCheckBoxActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_chrYCheckBoxActionPerformed
 
     private void chrMCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chrMCheckBoxActionPerformed
@@ -1018,34 +1030,33 @@ public class MainJFrame extends javax.swing.JFrame {
     private void jComboBoxGenomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGenomeActionPerformed
         // TODO add your handling code here:
         jLabelGenomeVersion.setForeground(Color.black);
-        if(jComboBoxGenome.getSelectedIndex() == 0){
+        if (jComboBoxGenome.getSelectedIndex() == 0) {
             jLabelOrgName.setText("");
-        }
-        else if(jComboBoxGenome.getSelectedIndex() == 1){
+        } else if (jComboBoxGenome.getSelectedIndex() == 1) {
             jLabelOrgName.setText("Human");
         }
-        if(jComboBoxGenome.getSelectedIndex() == 2 || jComboBoxGenome.getSelectedIndex() == 3){
+        if (jComboBoxGenome.getSelectedIndex() == 2 || jComboBoxGenome.getSelectedIndex() == 3) {
             jLabelOrgName.setText("Mouse");
         }
-        
+
     }//GEN-LAST:event_jComboBoxGenomeActionPerformed
 
     private void nextraAdapterCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextraAdapterCheckBoxActionPerformed
         // TODO add your handling code here:
-        if(nextraAdapterCheckBox.isSelected()){
+        if (nextraAdapterCheckBox.isSelected()) {
             adapterSequenceTextfeild.setEnabled(false);
             adapterjLabel.setEnabled(false);
         }
-        if(!nextraAdapterCheckBox.isSelected()){
+        if (!nextraAdapterCheckBox.isSelected()) {
             adapterSequenceTextfeild.setEnabled(true);
             adapterjLabel.setEnabled(true);
         }
-        
+
     }//GEN-LAST:event_nextraAdapterCheckBoxActionPerformed
 
     private void trimCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trimCheckBoxActionPerformed
         // TODO add your handling code here:
-        if(trimCheckBox.isSelected()){
+        if (trimCheckBox.isSelected()) {
             maxNs.setEnabled(true);
             maxNjLabel.setEnabled(true);
             minLen.setEnabled(true);
@@ -1054,18 +1065,16 @@ public class MainJFrame extends javax.swing.JFrame {
             errorRatejLabel.setEnabled(true);
             nextraAdapterCheckBox.setEnabled(true);
             orjLabel.setEnabled(true);
-            if(nextraAdapterCheckBox.isSelected()){
+            if (nextraAdapterCheckBox.isSelected()) {
                 adapterSequenceTextfeild.setEnabled(false);
                 adapterjLabel.setEnabled(false);
-            }
-            else if (!nextraAdapterCheckBox.isSelected()){
+            } else if (!nextraAdapterCheckBox.isSelected()) {
                 adapterSequenceTextfeild.setEnabled(true);
-                adapterjLabel.setEnabled(true);                
+                adapterjLabel.setEnabled(true);
             }
-            
-            
+
         }
-        if(!trimCheckBox.isSelected()){
+        if (!trimCheckBox.isSelected()) {
             maxNs.setEnabled(false);
             maxNjLabel.setEnabled(false);
             minLen.setEnabled(false);
@@ -1076,15 +1085,15 @@ public class MainJFrame extends javax.swing.JFrame {
             adapterSequenceTextfeild.setEnabled(false);
             adapterjLabel.setEnabled(false);
             orjLabel.setEnabled(false);
-            
+
         }
-        
+
     }//GEN-LAST:event_trimCheckBoxActionPerformed
 
     private void minLenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_minLenKeyTyped
         // TODO add your handling code here:
         char key = evt.getKeyChar();
-        if(!(Character.isDigit(key))){
+        if (!(Character.isDigit(key))) {
             evt.consume();
         }
     }//GEN-LAST:event_minLenKeyTyped
@@ -1092,7 +1101,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void maxNsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_maxNsKeyTyped
         // TODO add your handling code here:
         char key = evt.getKeyChar();
-        if(!(Character.isDigit(key))){
+        if (!(Character.isDigit(key))) {
             evt.consume();
         }
     }//GEN-LAST:event_maxNsKeyTyped
@@ -1100,7 +1109,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void errorRateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_errorRateKeyTyped
         // TODO add your handling code here:
         char key = evt.getKeyChar();
-        if(!(Character.isDigit(key) || key == '.')){
+        if (!(Character.isDigit(key) || key == '.')) {
             evt.consume();
         }
     }//GEN-LAST:event_errorRateKeyTyped
@@ -1111,8 +1120,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void adapterSequenceTextfeildKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_adapterSequenceTextfeildKeyReleased
         // TODO add your handling code here:
-            adapterSequenceTextfeild.setText(adapterSequenceTextfeild.getText().toUpperCase());
-        
+        adapterSequenceTextfeild.setText(adapterSequenceTextfeild.getText().toUpperCase());
+
     }//GEN-LAST:event_adapterSequenceTextfeildKeyReleased
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -1124,8 +1133,8 @@ public class MainJFrame extends javax.swing.JFrame {
         this.dispose();
         DifferentialInputFrame1 dfInputFrame = new DifferentialInputFrame1();
         dfInputFrame.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -1139,19 +1148,18 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jComboBoxAlignerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAlignerActionPerformed
         // TODO add your handling code here:
-        if(jComboBoxAligner.getSelectedIndex() == 0){
-                jLabelHitsQuality.setText("No. of genomic hits (m)");
-                jTextFieldHitsQuality.setText("1");
-                jTextFieldBowtieIndex.setText("/path/bowtie1index.ebwt");
-                AnalysisWorkflow.bowtie = true;
-                
+        if (jComboBoxAligner.getSelectedIndex() == 0) {
+            jLabelHitsQuality.setText("No. of genomic hits (m)");
+            jTextFieldHitsQuality.setText("1");
+            jTextFieldBowtieIndex.setText("/path/bowtie1index.ebwt");
+            AnalysisWorkflow.bowtie = true;
+
+        } else {
+            jLabelHitsQuality.setText("Minimum Mapping Quality");
+            jTextFieldHitsQuality.setText("10");
+            jTextFieldBowtieIndex.setText("/path/bowtie1index.bt2");
+            AnalysisWorkflow.bowtie = false;
         }
-        else{
-                jLabelHitsQuality.setText("Minimum Mapping Quality");
-                jTextFieldHitsQuality.setText("10");
-                jTextFieldBowtieIndex.setText("/path/bowtie1index.bt2");
-                AnalysisWorkflow.bowtie = false;
-        }   
     }//GEN-LAST:event_jComboBoxAlignerActionPerformed
 
     private void jTextFieldHitsQualityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHitsQualityActionPerformed
@@ -1161,59 +1169,54 @@ public class MainJFrame extends javax.swing.JFrame {
     private void jTextFieldHitsQualityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldHitsQualityKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
-        if(!Character.isDigit(c)){
+        if (!Character.isDigit(c)) {
             evt.consume();
         }
     }//GEN-LAST:event_jTextFieldHitsQualityKeyTyped
 
     private void jButtonBrowseIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseIndexActionPerformed
 
-        if(jComboBoxAligner.getSelectedIndex() == 0){
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setAcceptAllFileFilterUsed(false);
-                FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("bowtie v1 index", "ebwt");
-                fileChooser.addChoosableFileFilter(fileNameExtensionFilter);
-                fileChooser.setDialogTitle("Select Bowtie v1 index");
+        if (jComboBoxAligner.getSelectedIndex() == 0) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("bowtie v1 index", "ebwt");
+            fileChooser.addChoosableFileFilter(fileNameExtensionFilter);
+            fileChooser.setDialogTitle("Select Bowtie v1 index");
 
-                if(lastpath != null){
-                    fileChooser.setCurrentDirectory(lastpath);
-                }        
+            if (lastpath != null) {
+                fileChooser.setCurrentDirectory(lastpath);
+            }
 
-                int returnVal = fileChooser.showOpenDialog(null);
-                if(returnVal == JFileChooser.APPROVE_OPTION){
-                    File file = fileChooser.getSelectedFile();
-                    String fileName = file.getAbsolutePath();
-                    jTextFieldBowtieIndex.setText(fileName);
-                    jTextFieldBowtieIndex.setForeground(Color.BLACK);
-                    lastpath = file.getParentFile();
-                }
+            int returnVal = fileChooser.showOpenDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                String fileName = file.getAbsolutePath();
+                jTextFieldBowtieIndex.setText(fileName);
+                jTextFieldBowtieIndex.setForeground(Color.BLACK);
+                lastpath = file.getParentFile();
+            }
+        } else if (jComboBoxAligner.getSelectedIndex() == 1) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("bowtie2 index", "bt2");
+            fileChooser.addChoosableFileFilter(fileNameExtensionFilter);
+            fileChooser.setDialogTitle("Select Bowtie2ss index");
+
+            if (lastpath != null) {
+                fileChooser.setCurrentDirectory(lastpath);
+            }
+
+            int returnVal = fileChooser.showOpenDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                String fileName = file.getAbsolutePath();
+                jTextFieldBowtieIndex.setText(fileName);
+                jTextFieldBowtieIndex.setForeground(Color.BLACK);
+                lastpath = file.getParentFile();
+            }
         }
 
-        else if(jComboBoxAligner.getSelectedIndex() == 1){
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setAcceptAllFileFilterUsed(false);
-                FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("bowtie2 index", "bt2");
-                fileChooser.addChoosableFileFilter(fileNameExtensionFilter);
-                fileChooser.setDialogTitle("Select Bowtie2ss index");
 
-                if(lastpath != null){
-                    fileChooser.setCurrentDirectory(lastpath);
-                }        
-
-                int returnVal = fileChooser.showOpenDialog(null);
-                if(returnVal == JFileChooser.APPROVE_OPTION){
-                    File file = fileChooser.getSelectedFile();
-                    String fileName = file.getAbsolutePath();
-                    jTextFieldBowtieIndex.setText(fileName);
-                    jTextFieldBowtieIndex.setForeground(Color.BLACK);
-                    lastpath = file.getParentFile();
-                }
-        }
-
-
-        
-        
-        
     }//GEN-LAST:event_jButtonBrowseIndexActionPerformed
 
     private File lastpath;

@@ -18,8 +18,6 @@ package umac.guava;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -35,66 +33,68 @@ public class Cutadapt extends Tool {
     private double errorRate;
     private int maxNs;
     private File cutadaptDir;  
-    private int minLength; 
+    private int minLength;
+    
+    private static String FQ_TRIM_OUT = "_trimmed.fastq";
+    private static String OUTDIR = "_Adapter_Trimming";
 
     
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outputFile) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public String[] getCommand(Cutadapt cutadapt) {
+    public String[] getCommand() {
         
         String[] commandArray =  
                     {   "cutadapt",
-                        "-a", cutadapt.getAdapter(),
-                        "-A", cutadapt.getAdapter(),
+                        "-a", this.getAdapter(),
+                        "-A", this.getAdapter(),
                         "-f", "fastq",
-                        "-e", Double.toString(cutadapt.getErrorRate()),
+                        "-e", Double.toString(this.getErrorRate()),
                         "--trim-n",
-                        "--max-n", Integer.toString(cutadapt.getMaxNs()),
-                        "-m", Integer.toString(cutadapt.getMinLength()),
-                        "-o",cutadapt.getTrimmed_R1().getAbsolutePath(),
-                        "-p",cutadapt.getTrimmed_R2().getAbsolutePath(),
-                        cutadapt.getR1_fastq().getAbsolutePath(),
-                        cutadapt.getR2_fastq().getAbsolutePath()
+                        "--max-n", Integer.toString(this.getMaxNs()),
+                        "-m", Integer.toString(this.getMinLength()),
+                        "-o",this.getTrimmed_R1().getAbsolutePath(),
+                        "-p",this.getTrimmed_R2().getAbsolutePath(),
+                        this.getR1_fastq().getAbsolutePath(),
+                        this.getR2_fastq().getAbsolutePath()
                         };
         return commandArray;
     }
     
     public static Cutadapt getCutadapt(GuavaInput input,String adapter, double errorRate, int maxN,int minLength){
         
-            File rootDir          = new File(input.getOutputFolder().getAbsolutePath()+System.getProperty("file.separator")+
-                                               input.getR1Fastq().getName().replaceAll("\\.f(.*?)q", "_OUTPUT"));
-            String sampleBasename = rootDir.getName().replaceAll("_OUTPUT", "");
-            File cutadaptDir      = new File(rootDir.getAbsolutePath()+System.getProperty("file.separator")+sampleBasename+"_Adapter_Trimming");
+            File cutadaptDir      = getCutadaptOutputDir();
             File r1Fastq          = input.getR1Fastq();
-            File r2fastq          = input.getR2Fastq();
-            String r1outTrimmed   = input.getR1Fastq().getName().replaceAll("\\.f(.*?)q", "_trimmed.fastq");
-            String r2outTrimmed   = input.getR2Fastq().getName().replaceAll("\\.f(.*?)q", "_trimmed.fastq");
-            File trimmedR1        = new File(cutadaptDir.getAbsolutePath()+System.getProperty("file.separator")+r1outTrimmed);
-            File trimmedR2        = new File(cutadaptDir.getAbsolutePath()+System.getProperty("file.separator")+r2outTrimmed);
+            File r2Fastq          = input.getR2Fastq();
+            File trimmedR1        = getTrimmedFastq(r1Fastq, cutadaptDir);
+            File trimmedR2        = getTrimmedFastq(r2Fastq, cutadaptDir);
 
-            Cutadapt cutadapt = new Cutadapt(r1Fastq, r2fastq, trimmedR1, trimmedR2, adapter, errorRate, maxN, cutadaptDir, minLength);
+            Cutadapt cutadapt = new Cutadapt(r1Fastq, r2Fastq, trimmedR1, trimmedR2, adapter, errorRate, maxN, cutadaptDir, minLength);
             return cutadapt;
     }
     
-    public static Cutadapt getCutadapt(File r1, File r2, File outdir ,String adapter, double errorRate, int maxN,int minLength){
-        
-            File rootDir          = new File(outdir.getAbsolutePath()+System.getProperty("file.separator")+
-                                               r1.getName().replaceAll("\\.f(.*?)q", "_OUTPUT"));
+    public static Cutadapt getCutadapt(File r1_Fq, File r2_Fq, File outdir ,String adapter, double errorRate, int maxN,int minLength){
             
-            String sampleBasename = rootDir.getName().replaceAll("_OUTPUT", "");
-            
-            File cutadaptDir      = new File(rootDir.getAbsolutePath()+System.getProperty("file.separator")+sampleBasename+"_Adapter_Trimming");
-            String r1outTrimmed   = r1.getName().replaceAll("\\.f(.*?)q", "_trimmed.fastq");
-            String r2outTrimmed   = r2.getName().replaceAll("\\.f(.*?)q", "_trimmed.fastq");
-            File trimmedR1        = new File(cutadaptDir.getAbsolutePath()+System.getProperty("file.separator")+r1outTrimmed);
-            File trimmedR2        = new File(cutadaptDir.getAbsolutePath()+System.getProperty("file.separator")+r2outTrimmed);
+            File cutadaptDir = getCutadaptOutputDir();
+            File r1_trimmed_Fq = getTrimmedFastq(r1_Fq, cutadaptDir);
+            File r2_trimmed_Fq = getTrimmedFastq(r2_Fq, cutadaptDir);
 
-            Cutadapt cutadapt = new Cutadapt(r1, r2, trimmedR1, trimmedR2, adapter, errorRate, maxN, cutadaptDir, minLength);
+            Cutadapt cutadapt = new Cutadapt(r1_Fq, r2_Fq, r1_trimmed_Fq, r2_trimmed_Fq,
+                    adapter, errorRate, maxN, cutadaptDir, minLength);
             
             return cutadapt;
     }
+    
+    static File getTrimmedFastq(File inFastq, File cutadaptOutputDir){
+        String trimmedFastqName   = inFastq.getName().replaceAll(GuavaOutputFiles.PATTERN, FQ_TRIM_OUT);
+        return new File(cutadaptOutputDir,trimmedFastqName);
+    }
+     public static File getCutadaptOutputDir(){
+        String baseName = GuavaOutputFiles.getOutBaseName()+OUTDIR;
+        return new File(GuavaOutputFiles.rootDir,baseName);
+    }
+    
     
     public Cutadapt(String adapter, double errorRate, int maxNs, int minLength) {
         this.adapter = adapter;
