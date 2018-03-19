@@ -63,8 +63,10 @@ public class Cutadapt extends Tool {
     }
     
     public static Cutadapt getCutadapt(GuavaInput input,String adapter, double errorRate, int maxN,int minLength){
+            
+            GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(input); 
         
-            File cutadaptDir      = getCutadaptOutputDir();
+            File cutadaptDir      = outFiles.getCutadaptOUT();
             File r1Fastq          = input.getR1Fastq();
             File r2Fastq          = input.getR2Fastq();
             File trimmedR1        = getTrimmedFastq(r1Fastq, cutadaptDir);
@@ -92,6 +94,7 @@ public class Cutadapt extends Tool {
     }
      public static File getCutadaptOutputDir(){
         String baseName = GuavaOutputFiles.getOutBaseName()+OUTDIR;
+        
         return new File(GuavaOutputFiles.rootDir,baseName);
     }
     

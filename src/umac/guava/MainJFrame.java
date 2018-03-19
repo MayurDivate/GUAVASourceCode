@@ -817,11 +817,6 @@ public class MainJFrame extends javax.swing.JFrame {
         boolean disposeFlag = validateInput(guavaInput);
         boolean isTrimValid = true;
         
-        System.out.println("umac.guava.MainJFrame.startJButtonActionPerformed()");
-        System.out.println(guavaInput.getChromosome());
-        
-        disposeFlag = false;
-
         if (this.trimCheckBox.isSelected()) {
             isTrimValid = this.validateTrimmingParameters();
             if (isTrimValid) {
@@ -829,6 +824,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 int nCount = Integer.parseInt(this.maxNs.getText());
                 int minLenValue = Integer.parseInt(this.minLen.getText());
                 double errorRateValue = Double.parseDouble(this.errorRate.getText());
+                
                 Cutadapt cutadapt = Cutadapt.getCutadapt(guavaInput, getAdapterSequence(), errorRateValue, nCount, minLenValue);
                 guavaInput.setCutadapt(cutadapt);
             }

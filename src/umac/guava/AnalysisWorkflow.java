@@ -78,7 +78,6 @@ public class AnalysisWorkflow {
         // ------------ start of workflow ------------------        
         AnalysisWorkflow aw = new AnalysisWorkflow();
         GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(guavaInput); 
-        System.out.println(outFiles);
         Samtools workflowSamtools = new Samtools();
            
         if(go){
@@ -727,7 +726,7 @@ public class AnalysisWorkflow {
             }
         }
         // either file or an empty directory
-        System.out.println("removing file or directory : " + dir.getName());
+//        System.out.println("removing file or directory : " + dir.getName());
         return dir.delete();
          
     }
@@ -874,10 +873,7 @@ public class AnalysisWorkflow {
     }
 
     private boolean runCutadapt(GuavaInput guavaInput, GuavaOutputFiles outputFiles) {
-        System.out.println("umac.guava.AnalysisWorkflow.runCutadapt()");
         Cutadapt cutadapt = guavaInput.getCutadapt();
-        System.out.println("*************");
-        
         if(outputFiles.getCutadaptOUT().mkdir()){
             String[] log = cutadapt.runCommand(cutadapt.getCommand());
             cutadapt.writeLog(log, "Cutadapt Adapter Trimming");
