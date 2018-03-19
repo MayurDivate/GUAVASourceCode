@@ -1243,6 +1243,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
             isIndexChanged = false;
         } else {
+            customChromosomesFrame.mainFrame.setEnabled(false);
             customChromosomesFrame.setVisible(true);
         }
 

@@ -17,6 +17,7 @@
 package umac.guava;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.DefaultListModel;
 
@@ -27,6 +28,7 @@ import javax.swing.DefaultListModel;
 public class CustomChromosomesFrame extends javax.swing.JFrame {
 
     static MainJFrame mainFrame;
+    
     /**
      * Creates new form NewJFrame
      */
@@ -227,6 +229,10 @@ public class CustomChromosomesFrame extends javax.swing.JFrame {
             CustomChromosomesFrame.mainFrame.setCustomChrSelected(false);
         }
 
+        cancelAddList = new ArrayList<>();
+        cancelRemoveList = new ArrayList<>();
+        
+        
         MainJFrame.isIndexChanged = false;
         this.setVisible(false);
         CustomChromosomesFrame.mainFrame.setEnabled(true);
@@ -238,6 +244,7 @@ public class CustomChromosomesFrame extends javax.swing.JFrame {
             List<String> addChrs =  jListChrs.getSelectedValuesList();
             addItemsToList(addChrs, removeListModel);
             removeItemsFromList(addChrs, chrListModel);
+            cancelAddList.addAll(addChrs);
         }
     }//GEN-LAST:event_jButtonAddActionPerformed
 
@@ -247,6 +254,8 @@ public class CustomChromosomesFrame extends javax.swing.JFrame {
             List<String> removeChrs =  jListRemove.getSelectedValuesList();
             addItemsToList(removeChrs, chrListModel);
             removeItemsFromList(removeChrs, removeListModel);
+            cancelRemoveList.addAll(removeChrs);
+            
         }
     }//GEN-LAST:event_jButtonRemoveActionPerformed
 
@@ -259,8 +268,18 @@ public class CustomChromosomesFrame extends javax.swing.JFrame {
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
         // TODO add your handling code here:
+        addItemsToList(cancelAddList, chrListModel);
+        addItemsToList(cancelRemoveList, removeListModel);
+        
+        removeItemsFromList(cancelAddList, removeListModel); // remove from remove list
+        removeItemsFromList(cancelRemoveList, chrListModel);
+        
         MainJFrame.customChromosomesFrame.dispose();
         CustomChromosomesFrame.mainFrame.setEnabled(true);
+        
+        cancelAddList = new ArrayList<>();
+        cancelRemoveList = new ArrayList<>();
+        
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void addItemsToList(List<String> addList, DefaultListModel listModel){
@@ -292,6 +311,10 @@ public class CustomChromosomesFrame extends javax.swing.JFrame {
     
     private DefaultListModel chrListModel = new DefaultListModel();
     private DefaultListModel removeListModel = new DefaultListModel();
+    
+    private static List<String> cancelAddList = new ArrayList<>();
+    private static List<String> cancelRemoveList = new ArrayList<>();
+    
     static List<String> completeChrList;
     
     
