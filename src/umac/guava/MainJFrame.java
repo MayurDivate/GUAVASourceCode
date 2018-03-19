@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template selectedFile, choose Tools | Templates
  * and open the template in the editor.
  */
 package umac.guava;
@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -25,7 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class MainJFrame extends javax.swing.JFrame {
 
-    GuavaInput runATACseq = new GuavaInput();
+    GuavaInput guavaInput = new GuavaInput();
 
     public MainJFrame() {
         initComponents();
@@ -40,14 +41,12 @@ public class MainJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFileChooser1 = new javax.swing.JFileChooser();
-        jFileChooser2 = new javax.swing.JFileChooser();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelFastqInput = new javax.swing.JPanel();
         r1JButton = new javax.swing.JButton();
         r2JButton = new javax.swing.JButton();
         r1FastqTextField = new java.awt.TextField();
         r2FastqTextField = new java.awt.TextField();
-        jPanel2 = new javax.swing.JPanel();
+        jPanelAlignmentParameters = new javax.swing.JPanel();
         insertSizeJLabel = new javax.swing.JLabel();
         inserSizeTextField = new javax.swing.JTextField();
         jLabelHitsQuality = new javax.swing.JLabel();
@@ -57,18 +56,19 @@ public class MainJFrame extends javax.swing.JFrame {
         jComboBoxAligner = new javax.swing.JComboBox<>();
         jButtonBrowseIndex = new javax.swing.JButton();
         jTextFieldHitsQuality = new javax.swing.JTextField();
-        jPanel5 = new javax.swing.JPanel();
+        jPanelTopSpacer = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        jPanelStartAnalysis = new javax.swing.JPanel();
         startJButton = new javax.swing.JButton();
         resetJButton = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
+        jPanelChromosomeFiltering = new javax.swing.JPanel();
         chrMCheckBox = new javax.swing.JCheckBox();
         chrYCheckBox = new javax.swing.JCheckBox();
         ramJLabel = new javax.swing.JLabel();
         ramJSpinner = new javax.swing.JSpinner();
         cpuJLabel = new javax.swing.JLabel();
         cpuJSpinner = new javax.swing.JSpinner();
+        jButtonCustomChr = new javax.swing.JButton();
         macs2Japnel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         macs2PqvalueComboBox = new javax.swing.JComboBox<>();
@@ -104,8 +104,8 @@ public class MainJFrame extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Input fastq reads", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Andale Mono", 0, 14))); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(713, 126));
+        jPanelFastqInput.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Input fastq reads", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Andale Mono", 0, 14))); // NOI18N
+        jPanelFastqInput.setPreferredSize(new java.awt.Dimension(713, 126));
 
         r1JButton.setText("R1 fastq");
         r1JButton.addActionListener(new java.awt.event.ActionListener() {
@@ -127,49 +127,44 @@ public class MainJFrame extends javax.swing.JFrame {
         r2FastqTextField.setEditable(false);
         r2FastqTextField.setText("/path/R2.fastq");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelFastqInputLayout = new javax.swing.GroupLayout(jPanelFastqInput);
+        jPanelFastqInput.setLayout(jPanelFastqInputLayout);
+        jPanelFastqInputLayout.setHorizontalGroup(
+            jPanelFastqInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFastqInputLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanelFastqInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelFastqInputLayout.createSequentialGroup()
                         .addComponent(r2JButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(r2FastqTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanelFastqInputLayout.createSequentialGroup()
                         .addComponent(r1JButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(r1FastqTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(5, 5, 5))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelFastqInputLayout.setVerticalGroup(
+            jPanelFastqInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFastqInputLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelFastqInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(r1FastqTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(r1JButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelFastqInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(r2JButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(r2FastqTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Alignment Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Andale Mono", 0, 14))); // NOI18N
-        jPanel2.setPreferredSize(new java.awt.Dimension(660, 155));
+        jPanelAlignmentParameters.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Alignment Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Andale Mono", 0, 14))); // NOI18N
+        jPanelAlignmentParameters.setPreferredSize(new java.awt.Dimension(660, 155));
 
         insertSizeJLabel.setText("Maximum insert size");
 
         inserSizeTextField.setText("2000");
         inserSizeTextField.setToolTipText("Only numbers");
-        inserSizeTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inserSizeTextFieldActionPerformed(evt);
-            }
-        });
         inserSizeTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 inserSizeTextFieldKeyTyped(evt);
@@ -180,11 +175,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jTextFieldBowtieIndex.setEditable(false);
         jTextFieldBowtieIndex.setText("/path/bowtie1Index.ebwt");
-        jTextFieldBowtieIndex.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldBowtieIndexActionPerformed(evt);
-            }
-        });
 
         jComboBoxGenome.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-select-","hg19", "mm10", "mm9"}));
         jComboBoxGenome.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -212,29 +202,24 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jTextFieldHitsQuality.setText("1");
         jTextFieldHitsQuality.setToolTipText("Only numbers");
-        jTextFieldHitsQuality.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldHitsQualityActionPerformed(evt);
-            }
-        });
         jTextFieldHitsQuality.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldHitsQualityKeyTyped(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelAlignmentParametersLayout = new javax.swing.GroupLayout(jPanelAlignmentParameters);
+        jPanelAlignmentParameters.setLayout(jPanelAlignmentParametersLayout);
+        jPanelAlignmentParametersLayout.setHorizontalGroup(
+            jPanelAlignmentParametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAlignmentParametersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelAlignmentParametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jComboBoxAligner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(insertSizeJLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
                 .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanelAlignmentParametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelAlignmentParametersLayout.createSequentialGroup()
                         .addComponent(inserSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(jLabelHitsQuality, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,30 +227,30 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addComponent(jTextFieldHitsQuality, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabelGenomeVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 10, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jTextFieldBowtieIndex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelAlignmentParametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBoxGenome, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonBrowseIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanelAlignmentParametersLayout.setVerticalGroup(
+            jPanelAlignmentParametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAlignmentParametersLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelAlignmentParametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextFieldBowtieIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxAligner, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonBrowseIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonBrowseIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxAligner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelAlignmentParametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelAlignmentParametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelHitsQuality, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabelGenomeVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBoxGenome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextFieldHitsQuality, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanelAlignmentParametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(insertSizeJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(inserSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(5, 5, 5))
@@ -273,13 +258,13 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jButtonBrowseIndex.getAccessibleContext().setAccessibleName("jButtonBrowseIndex");
 
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelTopSpacer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setToolTipText("");
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 5));
+        jPanelTopSpacer.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 5));
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanelStartAnalysis.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         startJButton.setText("Start Analysis");
         startJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -295,28 +280,28 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelStartAnalysisLayout = new javax.swing.GroupLayout(jPanelStartAnalysis);
+        jPanelStartAnalysis.setLayout(jPanelStartAnalysisLayout);
+        jPanelStartAnalysisLayout.setHorizontalGroup(
+            jPanelStartAnalysisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelStartAnalysisLayout.createSequentialGroup()
                 .addGap(120, 120, 120)
                 .addComponent(startJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(resetJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(120, 120, 120))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        jPanelStartAnalysisLayout.setVerticalGroup(
+            jPanelStartAnalysisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelStartAnalysisLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelStartAnalysisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resetJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(startJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5))
         );
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Chromosome Filtering", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Andale Mono", 0, 14))); // NOI18N
+        jPanelChromosomeFiltering.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Chromosome Filtering", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Andale Mono", 0, 14))); // NOI18N
 
         chrMCheckBox.setSelected(true);
         chrMCheckBox.setText("chrM (recommended)");
@@ -341,37 +326,48 @@ public class MainJFrame extends javax.swing.JFrame {
 
         cpuJSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        jButtonCustomChr.setText("Custom Chr");
+        jButtonCustomChr.setEnabled(false);
+        jButtonCustomChr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCustomChrActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelChromosomeFilteringLayout = new javax.swing.GroupLayout(jPanelChromosomeFiltering);
+        jPanelChromosomeFiltering.setLayout(jPanelChromosomeFilteringLayout);
+        jPanelChromosomeFilteringLayout.setHorizontalGroup(
+            jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelChromosomeFilteringLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(chrMCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(chrYCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chrYCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonCustomChr)
+                .addGap(15, 15, 15)
                 .addComponent(ramJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(ramJSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(10, 10, 10)
                 .addComponent(cpuJLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cpuJSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        jPanelChromosomeFilteringLayout.setVerticalGroup(
+            jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelChromosomeFilteringLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cpuJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cpuJSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(ramJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(ramJSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ramJSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonCustomChr, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(chrYCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(chrMCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(4, 4, 4))
@@ -571,11 +567,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jMenuItem3.setText("GUAVA");
         jMenuItem3.setEnabled(false);
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setText("Differential Analysis");
@@ -630,32 +621,32 @@ public class MainJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelAlignmentParameters, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
+                    .addComponent(jPanelTopSpacer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanelCutadapt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelFastqInput, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
+                    .addComponent(jPanelChromosomeFiltering, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(macs2Japnel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelStartAnalysis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelTopSpacer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelFastqInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanelCutadapt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelAlignmentParameters, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelChromosomeFiltering, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(macs2Japnel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelStartAnalysis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -691,7 +682,7 @@ public class MainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         JFileChooser r1FileChooser = new JFileChooser();
         r1FileChooser.setAcceptAllFileFilterUsed(false);
-        r1FileChooser.addChoosableFileFilter(getFastqFileNameExtensionFilter()); // Add fastq file filter
+        r1FileChooser.addChoosableFileFilter(getFastqFileNameExtensionFilter()); // Add fastq selectedFile filter
         r1FileChooser.setDialogTitle("Select R1 Fastq");
 
         if (lastpath != null) {
@@ -704,7 +695,7 @@ public class MainJFrame extends javax.swing.JFrame {
             String r1FileName = r1File.getAbsolutePath();
             if (isFastqGzFile(r1File)) {
                 r1FastqTextField.setText(r1FileName);
-                runATACseq.setR1Fastq(r1FileName);
+                guavaInput.setR1Fastq(r1FileName);
                 r1FastqTextField.setForeground(Color.BLACK);
                 lastpath = r1File.getParentFile();
             }
@@ -715,7 +706,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void r2JButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_r2JButtonActionPerformed
         JFileChooser r2FileChooser = new JFileChooser();
         r2FileChooser.setAcceptAllFileFilterUsed(false);
-        r2FileChooser.addChoosableFileFilter(getFastqFileNameExtensionFilter()); // Add fastq file filter
+        r2FileChooser.addChoosableFileFilter(getFastqFileNameExtensionFilter()); // Add fastq selectedFile filter
         r2FileChooser.setDialogTitle("Select R2 Fastq");
 
         if (lastpath != null) {
@@ -728,7 +719,7 @@ public class MainJFrame extends javax.swing.JFrame {
             String r2FileName = r2File.getAbsolutePath();
             if (isFastqGzFile(r2File)) {
                 r2FastqTextField.setText(r2FileName);
-                runATACseq.setR2Fastq(r2FileName);
+                guavaInput.setR2Fastq(r2FileName);
                 r2FastqTextField.setForeground(Color.BLACK);
                 lastpath = r2File.getParentFile();
             }
@@ -757,7 +748,7 @@ public class MainJFrame extends javax.swing.JFrame {
             File outputDir = outputDirChooser.getSelectedFile();
             String outputDirName = outputDir.getAbsolutePath();
             outputDirTextField.setText(outputDirName);
-            runATACseq.setOutputFolder(outputDirName);
+            guavaInput.setOutputFolder(outputDirName);
             outputDirTextField.setForeground(Color.BLACK);
             lastpath = outputDir.getParentFile();
         }
@@ -780,7 +771,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jTextFieldHitsQuality.setText("1");
         cpuJSpinner.setValue(1);
         valueTextField.setText("0.05");
-        runATACseq = new GuavaInput();
+        guavaInput = new GuavaInput();
         r1FastqTextField.setForeground(Color.black);
         r2FastqTextField.setForeground(Color.black);
         jTextFieldBowtieIndex.setForeground(Color.black);
@@ -812,37 +803,43 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void startJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startJButtonActionPerformed
         //complete Input object construction
-        runATACseq.setBowtieIndex(jTextFieldBowtieIndex.getText());
-        runATACseq.setCpu_units((int) cpuJSpinner.getValue());
-        runATACseq.setMaxGenomicHits(Integer.parseInt(jTextFieldHitsQuality.getText()));
-        runATACseq.setInsertSize(Integer.parseInt(inserSizeTextField.getText()));
-        runATACseq.setOrganism(jLabelOrgName.getText());
-        runATACseq.setPqString(macs2PqvalueComboBox.getSelectedItem().toString());
-        runATACseq.setChromosome(getSelectedChromosomes());
-        runATACseq.setCutOff(valueTextField.getText());
-        runATACseq.setGenome(jComboBoxGenome.getSelectedItem().toString());
-        runATACseq.setOrganism(jLabelOrgName.getText());
+        guavaInput.setBowtieIndex(jTextFieldBowtieIndex.getText());
+        guavaInput.setCpu_units((int) cpuJSpinner.getValue());
+        guavaInput.setMaxGenomicHits(Integer.parseInt(jTextFieldHitsQuality.getText()));
+        guavaInput.setInsertSize(Integer.parseInt(inserSizeTextField.getText()));
+        guavaInput.setOrganism(jLabelOrgName.getText());
+        guavaInput.setPqString(macs2PqvalueComboBox.getSelectedItem().toString());
+        guavaInput.setChromosome(getSelectedChromosomes());
+        guavaInput.setCutOff(valueTextField.getText());
+        guavaInput.setGenome(jComboBoxGenome.getSelectedItem().toString());
+        guavaInput.setOrganism(jLabelOrgName.getText());
 
-        boolean disposeFlag = validateInput(runATACseq);
+        boolean disposeFlag = validateInput(guavaInput);
         boolean isTrimValid = true;
+        
+        System.out.println("umac.guava.MainJFrame.startJButtonActionPerformed()");
+        System.out.println(guavaInput.getChromosome());
+        
+        disposeFlag = false;
 
         if (this.trimCheckBox.isSelected()) {
             isTrimValid = this.validateTrimmingParameters();
             if (isTrimValid) {
-                runATACseq.setTrim(true);
+                guavaInput.setTrim(true);
                 int nCount = Integer.parseInt(this.maxNs.getText());
-                int minLen = Integer.parseInt(this.minLen.getText());
-                double errorRate = Double.parseDouble(this.errorRate.getText());
-                Cutadapt cutadapt = Cutadapt.getCutadapt(runATACseq, getAdapterSequence(), errorRate, nCount, minLen);
-                runATACseq.setCutadapt(cutadapt);
+                int minLenValue = Integer.parseInt(this.minLen.getText());
+                double errorRateValue = Double.parseDouble(this.errorRate.getText());
+                Cutadapt cutadapt = Cutadapt.getCutadapt(guavaInput, getAdapterSequence(), errorRateValue, nCount, minLenValue);
+                guavaInput.setCutadapt(cutadapt);
             }
         }
 
+        // set genome for IGV before starting analysis workflow
         if (isTrimValid && disposeFlag) {
             IGV.genome = jComboBoxGenome.getSelectedItem().toString();
             this.setVisible(false);
             AnalysisWorkflow analysisWorkflow = new AnalysisWorkflow();
-            analysisWorkflow.startGUIGuavaAnalysis(runATACseq);
+            analysisWorkflow.startGUIGuavaAnalysis(guavaInput);
         }
     }//GEN-LAST:event_startJButtonActionPerformed
 
@@ -856,17 +853,29 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private String getSelectedChromosomes() {
-
-        if (chrMCheckBox.isSelected() && chrYCheckBox.isSelected()) {
-            return "chrM chrY";
-        } else if (chrMCheckBox.isSelected()) {
-            return "chrM";
-        } else if (chrMCheckBox.isSelected()) {
-            return "chrY";
-        } else {
-            return "";
+        String chromosomes = "";
+        if(isCustomChromosomesSelected){
+            chromosomes= getCustomChromosomeString();
         }
 
+        if (chrMCheckBox.isSelected() && chrYCheckBox.isSelected()) {
+            return "chrM chrY "+chromosomes;
+        } else if (chrMCheckBox.isSelected()) {
+            return "chrM "+chromosomes;
+        } else if (chrMCheckBox.isSelected()) {
+            return "chrY "+chromosomes;
+        } else {
+            return chromosomes;
+        }
+
+    }
+    
+    private String getCustomChromosomeString(){
+            String customChrString = "";
+            for(int i=0; i < customChromosomes.getCustomChrList().size(); i++){
+                customChrString = customChrString +" "+ customChromosomes.getCustomChrList().get(i);
+            }
+            return customChrString.trim();
     }
 
     private boolean validateInput(GuavaInput runATACseq) {
@@ -1023,10 +1032,6 @@ public class MainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void valueTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valueTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_valueTextFieldActionPerformed
-
     private void jComboBoxGenomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGenomeActionPerformed
         // TODO add your handling code here:
         jLabelGenomeVersion.setForeground(Color.black);
@@ -1114,37 +1119,22 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_errorRateKeyTyped
 
-    private void jTextFieldBowtieIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBowtieIndexActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldBowtieIndexActionPerformed
-
     private void adapterSequenceTextfeildKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_adapterSequenceTextfeildKeyReleased
         // TODO add your handling code here:
         adapterSequenceTextfeild.setText(adapterSequenceTextfeild.getText().toUpperCase());
 
     }//GEN-LAST:event_adapterSequenceTextfeildKeyReleased
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
         this.dispose();
         DifferentialInputFrame1 dfInputFrame = new DifferentialInputFrame1();
         dfInputFrame.setVisible(true);
-
-
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void inserSizeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserSizeTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inserSizeTextFieldActionPerformed
 
     private void jComboBoxAlignerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAlignerActionPerformed
         // TODO add your handling code here:
@@ -1153,18 +1143,18 @@ public class MainJFrame extends javax.swing.JFrame {
             jTextFieldHitsQuality.setText("1");
             jTextFieldBowtieIndex.setText("/path/bowtie1index.ebwt");
             AnalysisWorkflow.bowtie = true;
-
         } else {
             jLabelHitsQuality.setText("Minimum Mapping Quality");
             jTextFieldHitsQuality.setText("10");
             jTextFieldBowtieIndex.setText("/path/bowtie1index.bt2");
             AnalysisWorkflow.bowtie = false;
-        }
-    }//GEN-LAST:event_jComboBoxAlignerActionPerformed
 
-    private void jTextFieldHitsQualityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHitsQualityActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldHitsQualityActionPerformed
+        }
+
+        // index type changed so reset CustomChr Button
+        isIndexChanged = true;
+        resetCustomChrButton();
+    }//GEN-LAST:event_jComboBoxAlignerActionPerformed
 
     private void jTextFieldHitsQualityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldHitsQualityKeyTyped
         // TODO add your handling code here:
@@ -1176,50 +1166,129 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButtonBrowseIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseIndexActionPerformed
 
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter fileNameExtensionFilter = getIndexFileNameFiler();
+        fileChooser.addChoosableFileFilter(fileNameExtensionFilter);
+
         if (jComboBoxAligner.getSelectedIndex() == 0) {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("bowtie v1 index", "ebwt");
-            fileChooser.addChoosableFileFilter(fileNameExtensionFilter);
+
             fileChooser.setDialogTitle("Select Bowtie v1 index");
-
             if (lastpath != null) {
                 fileChooser.setCurrentDirectory(lastpath);
             }
 
             int returnVal = fileChooser.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                String fileName = file.getAbsolutePath();
-                jTextFieldBowtieIndex.setText(fileName);
-                jTextFieldBowtieIndex.setForeground(Color.BLACK);
-                lastpath = file.getParentFile();
+                setIndexbyBrowseButtonFile(fileChooser.getSelectedFile());
             }
+
         } else if (jComboBoxAligner.getSelectedIndex() == 1) {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("bowtie2 index", "bt2");
-            fileChooser.addChoosableFileFilter(fileNameExtensionFilter);
-            fileChooser.setDialogTitle("Select Bowtie2ss index");
-
+            fileChooser.setDialogTitle("Select Bowtie2 index");
             if (lastpath != null) {
                 fileChooser.setCurrentDirectory(lastpath);
             }
 
             int returnVal = fileChooser.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                String fileName = file.getAbsolutePath();
-                jTextFieldBowtieIndex.setText(fileName);
-                jTextFieldBowtieIndex.setForeground(Color.BLACK);
-                lastpath = file.getParentFile();
+                setIndexbyBrowseButtonFile(fileChooser.getSelectedFile());
             }
         }
 
 
     }//GEN-LAST:event_jButtonBrowseIndexActionPerformed
 
+    FileNameExtensionFilter getIndexFileNameFiler() {
+
+        if (jComboBoxAligner.getSelectedIndex() == 0) {
+            return new FileNameExtensionFilter("bowtie v1 index", "ebwt");
+        } else if (jComboBoxAligner.getSelectedIndex() == 1) {
+            return new FileNameExtensionFilter("bowtie2 index", "bt2");
+        }
+        return null;
+    }
+
+    void setIndexbyBrowseButtonFile(File selectedFile) {
+        String fileName = selectedFile.getAbsolutePath();
+        jTextFieldBowtieIndex.setText(fileName);
+        jTextFieldBowtieIndex.setForeground(Color.BLACK);
+        lastpath = selectedFile.getParentFile();
+        
+        
+        jButtonCustomChr.setEnabled(true);
+        setCustomChrSelected(false);
+        isIndexChanged = true;
+    }
+
+    private void jButtonCustomChrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCustomChrActionPerformed
+        // TODO add your handling code here:
+        // open a text editor to accept custom chr
+
+        ChrGenerator chrGenerator = new ChrGenerator();
+        String indexPath = jTextFieldBowtieIndex.getText();
+
+        if (isIndexChanged) {
+            if (jComboBoxAligner.getSelectedIndex() == 0) {
+                List<String> chrList = chrGenerator.getBowtieIndexChromosomes(indexPath);
+                customChromosomesFrame = new CustomChromosomesFrame();
+                customChromosomesFrame.setVisible(true);
+                customChromosomesFrame.setAlwaysOnTop(true);
+                customChromosomesFrame.mainFrame.setEnabled(false);
+                customChromosomesFrame.initializeChrList(chrList);
+
+            } else if (jComboBoxAligner.getSelectedIndex() == 1) {
+                List<String> chrList = chrGenerator.getBowtie2IndexChromosomes(indexPath);
+                customChromosomesFrame = new CustomChromosomesFrame();
+                customChromosomesFrame.setVisible(true);
+                customChromosomesFrame.mainFrame.setEnabled(false);
+                customChromosomesFrame.setAlwaysOnTop(true);
+                customChromosomesFrame.initializeChrList(chrList);
+
+            }
+            isIndexChanged = false;
+        } else {
+            customChromosomesFrame.setVisible(true);
+        }
+
+    }//GEN-LAST:event_jButtonCustomChrActionPerformed
+
+    private void valueTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valueTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_valueTextFieldActionPerformed
+
+    void setCustomChrSelected(boolean isSelected) {
+        if (isSelected) {
+            isCustomChromosomesSelected = true;
+            jButtonCustomChr.setForeground(new Color(0, 128, 0));
+            setChrMYSelected(false);
+            setChrMYEnabled(false);
+        } else {
+            isCustomChromosomesSelected = false;
+            jButtonCustomChr.setForeground(Color.black);
+            setChrMYEnabled(true);
+        }
+    }
+    
+    void setChrMYSelected(boolean selected){
+        chrMCheckBox.setSelected(selected);
+        chrYCheckBox.setSelected(selected);
+    }
+
+    void setChrMYEnabled(boolean selected){
+        chrMCheckBox.setEnabled(selected);
+        chrYCheckBox.setEnabled(selected);
+    }
+    
+    void resetCustomChrButton() {
+        setCustomChrSelected(false);
+        jButtonCustomChr.setEnabled(false);
+    }
+
     private File lastpath;
+    public static boolean isIndexChanged = true;
+           static CustomChromosomesFrame customChromosomesFrame;
+    public static CustomChromosomes customChromosomes;
+           static boolean isCustomChromosomesSelected = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu aboutJMenu;
@@ -1235,10 +1304,9 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField inserSizeTextField;
     private javax.swing.JLabel insertSizeJLabel;
     private javax.swing.JButton jButtonBrowseIndex;
+    private javax.swing.JButton jButtonCustomChr;
     private javax.swing.JComboBox<String> jComboBoxAligner;
     private javax.swing.JComboBox<String> jComboBoxGenome;
-    private javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JFileChooser jFileChooser2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelGenomeVersion;
@@ -1250,12 +1318,12 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanelAlignmentParameters;
+    private javax.swing.JPanel jPanelChromosomeFiltering;
     private javax.swing.JPanel jPanelCutadapt;
+    private javax.swing.JPanel jPanelFastqInput;
+    private javax.swing.JPanel jPanelStartAnalysis;
+    private javax.swing.JPanel jPanelTopSpacer;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private java.awt.TextField jTextFieldBowtieIndex;
     private javax.swing.JTextField jTextFieldHitsQuality;

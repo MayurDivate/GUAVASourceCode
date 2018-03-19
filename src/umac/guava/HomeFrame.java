@@ -119,6 +119,7 @@ public class HomeFrame extends javax.swing.JFrame {
     private void jRadioGUAVAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioGUAVAActionPerformed
         
         MainJFrame guava = new MainJFrame();
+        CustomChromosomesFrame.mainFrame =  guava;
 
         if(isWorking(guava)){        
             this.dispose();

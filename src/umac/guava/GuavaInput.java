@@ -36,7 +36,6 @@ public class GuavaInput extends Input {
     private String aligner;
     private int mapQ;
     
-
 // constructor     
     public GuavaInput(){
         this.Organism = null;

@@ -46,7 +46,7 @@ public class AnalysisWorkflow {
             dependencies.add(new Samtools().isWorking());
             dependencies.add(new MACS2().isWorking());
             dependencies.add(new Picard().isWorking());
-            dependencies.add(new R().isWorking());
+            //dependencies.add(new R().isWorking());
             dependencies.add(Samtools.checkBlackListFile());
             dependencies.add(new BedTools().isWorking());
             dependencies.add(new UCSCtools().isWorking());

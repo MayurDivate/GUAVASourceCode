@@ -78,6 +78,7 @@ public class GUAVA {
         HomeFrame homeFrame = new HomeFrame();
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homeFrame.setVisible(true);
+
     }
     
     

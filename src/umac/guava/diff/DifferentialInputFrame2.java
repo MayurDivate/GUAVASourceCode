@@ -18,9 +18,7 @@ package umac.guava.diff;
 
 import java.awt.Color;
 import java.io.File;
-import java.util.ArrayList;
 import javax.swing.JFileChooser;
-import umac.guava.IGV;
 
 /**
  *
