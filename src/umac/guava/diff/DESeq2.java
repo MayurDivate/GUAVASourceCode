@@ -19,9 +19,6 @@ package umac.guava.diff;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import umac.guava.Bowtie;
 
 /**
  *

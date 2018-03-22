@@ -193,17 +193,7 @@ public class ChIPseeker extends Tool {
             };
         return commandArray;
     }
-    
-    public String[] getCheckCommand(String packageName){
-        String[] commandArray =  
-            {   "R",
-                "CMD",
-                "check",
-                packageName,
-                "~/"
-            };
-        return commandArray;
-    }
+
 
     // Method to run command
     public String[] runCommand(String[] commandArray) {
@@ -228,7 +218,7 @@ public class ChIPseeker extends Tool {
         // current there is no code to check individual package 
         System.out.println("Method: umac.guava.ChIPseeker.isWorking()");
         System.out.println("This method is not complete");
-        return true;
+        return false;
     }
 
     /**

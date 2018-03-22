@@ -41,6 +41,7 @@ public class MainJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        outputDirJButton = new javax.swing.JButton();
         jPanelFastqInput = new javax.swing.JPanel();
         r1JButton = new javax.swing.JButton();
         r2JButton = new javax.swing.JButton();
@@ -73,7 +74,6 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         macs2PqvalueComboBox = new javax.swing.JComboBox<>();
         valueTextField = new javax.swing.JTextField();
-        outputDirJButton = new javax.swing.JButton();
         outputDirTextField = new java.awt.TextField();
         jLabelOrgName = new javax.swing.JLabel();
         jPanelCutadapt = new javax.swing.JPanel();
@@ -98,6 +98,13 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         helpJMenu = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+
+        outputDirJButton.setText("Output Folder");
+        outputDirJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                outputDirJButtonActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GUAVA");
@@ -392,13 +399,6 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        outputDirJButton.setText("Output Folder");
-        outputDirJButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                outputDirJButtonActionPerformed(evt);
-            }
-        });
-
         outputDirTextField.setEditable(false);
         outputDirTextField.setText("/path/output_dir");
 
@@ -408,12 +408,9 @@ public class MainJFrame extends javax.swing.JFrame {
             macs2JapnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(macs2JapnelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(macs2JapnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(macs2JapnelLayout.createSequentialGroup()
-                        .addComponent(macs2PqvalueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(valueTextField))
-                    .addComponent(outputDirJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(macs2PqvalueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(valueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(macs2JapnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(macs2JapnelLayout.createSequentialGroup()
                         .addGap(319, 319, 319)
@@ -437,9 +434,7 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabelOrgName, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(5, 5, 5)
-                .addGroup(macs2JapnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(outputDirJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(outputDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(outputDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
 

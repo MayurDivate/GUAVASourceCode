@@ -10,6 +10,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -70,6 +72,12 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jLabelBarChart = new javax.swing.JLabel();
         jPanelPathwayEnrichmentChart = new javax.swing.JPanel();
         jLabelPathwayChart = new javax.swing.JLabel();
+        jPanelACR = new javax.swing.JPanel();
+        jLabelACRbarChart = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableGO = new javax.swing.JTable();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTablePathways = new javax.swing.JTable();
         doneCancelJPanel = new javax.swing.JPanel();
         closeJButton = new javax.swing.JButton();
         outputDirJButton = new javax.swing.JButton();
@@ -315,7 +323,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
             .addComponent(graphJLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        resultTabs.addTab("Fragment size distribution", graphJPanel);
+        resultTabs.addTab("Frag. Size Dist.", graphJPanel);
 
         jTablePeaks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -423,6 +431,57 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jTabbedPanePlots.addTab("Pathway Enrichment", jPanelPathwayEnrichmentChart);
 
         resultTabs.addTab("Plots", jTabbedPanePlots);
+
+        javax.swing.GroupLayout jPanelACRLayout = new javax.swing.GroupLayout(jPanelACR);
+        jPanelACR.setLayout(jPanelACRLayout);
+        jPanelACRLayout.setHorizontalGroup(
+            jPanelACRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelACRLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanelACRLayout.setVerticalGroup(
+            jPanelACRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelACRLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        resultTabs.addTab("ACR", jPanelACR);
+
+        jTableGO.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "GO ID", "GO Term", "Type", "P value", "adj. P value", "Gene Symbols"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(jTableGO);
+
+        resultTabs.addTab("GO", jScrollPane5);
+
+        jTablePathways.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "KEGG Pathway ID", "Pathway Name", "P value", "Gene Symbols"
+            }
+        ));
+        jScrollPane6.setViewportView(jTablePathways);
+
+        resultTabs.addTab("Pathway", jScrollPane6);
 
         closeJButton.setText("close");
         closeJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -563,6 +622,11 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
     }
     
+    public void displayACRbarChart(File barChart){
+        ImageIcon imageIconChart  = new ImageIcon(barChart.getAbsolutePath());
+        jLabelACRbarChart.setIcon(imageIconChart);
+    }
+    
     private void closeJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeJButtonActionPerformed
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_closeJButtonActionPerformed
@@ -581,35 +645,12 @@ public class RunStatusJframe extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuHelpActionPerformed
 
-    private void resultTabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultTabsMouseClicked
-        // TODO add your handling code here:
-        if(resultTabs.getSelectedIndex() == 3){
-            jTextFieldSearch.setVisible(true);
-            jTextFieldSearch.setEditable(true);
-            jLabelGeneFilter.setVisible(true);
-            jButtonIGV.setVisible(true);
-        }
-        else{
-            jTextFieldSearch.setVisible(false);
-            jTextFieldSearch.setEditable(false);
-            jLabelGeneFilter.setVisible(false);
-            jButtonIGV.setVisible(false);
-        }
-        
-    }//GEN-LAST:event_resultTabsMouseClicked
-
     private void jTextFieldSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSearchKeyReleased
         // TODO add your handling code here:
         jButtonIGV.setEnabled(false);
         String query =  jTextFieldSearch.getText().trim();
         filterTableEntries(query);
     }//GEN-LAST:event_jTextFieldSearchKeyReleased
-
-    private void jTablePeaksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePeaksMouseReleased
-        // TODO add your handling code here:
-        jButtonIGV.setEnabled(true);
-        
-    }//GEN-LAST:event_jTablePeaksMouseReleased
 
     private void jButtonIGVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIGVActionPerformed
         // TODO add your handling code here:
@@ -654,6 +695,29 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void resultTabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultTabsMouseClicked
+        // TODO add your handling code here:
+        if(resultTabs.getSelectedIndex() == 3){
+            jTextFieldSearch.setVisible(true);
+            jTextFieldSearch.setEditable(true);
+            jLabelGeneFilter.setVisible(true);
+            jButtonIGV.setVisible(true);
+        }
+        else{
+            jTextFieldSearch.setVisible(false);
+            jTextFieldSearch.setEditable(false);
+            jLabelGeneFilter.setVisible(false);
+            jButtonIGV.setVisible(false);
+        }
+
+    }//GEN-LAST:event_resultTabsMouseClicked
+
+    private void jTablePeaksMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePeaksMouseReleased
+        // TODO add your handling code here:
+        jButtonIGV.setEnabled(true);
+
+    }//GEN-LAST:event_jTablePeaksMouseReleased
+
     void setPeakCallingResult(GuavaInput atacseq, int peakCount){
        peakCallingResultTable.setValueAt(atacseq.getPqString()+" value cut off ", 0, 0);
        peakCallingResultTable.setValueAt(atacseq.getCutOff(), 0, 1);
@@ -685,7 +749,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
         alignmentStatTable.setValueAt(atacseqInput.getMaxGenomicHits(), 4, 1);
     
     }
- 
     
     void displayAlignmentResults(AlignmentResult alignmentResults, boolean bowtie){
         
@@ -764,7 +827,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
         }
     }
     
-    
     void setFilteredResults(FilteredAlignment afRes){
         
         int dupReads = afRes.getTotalAligned() - afRes.getDuplicateFilteredReads();
@@ -799,6 +861,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jTablePeaks.setRowSorter(tableRowSorter);
 
         RunStatusJframe.peakTableList =  PeakTable.getPeakList(geneAnnotationFile);
+        
         Object rowData[] = new Object[jTablePeaks.getColumnCount()];
         
         for(PeakTable peak : peakTableList){
@@ -821,12 +884,64 @@ public class RunStatusJframe extends javax.swing.JFrame {
         
         int geneColumnIndex = 9;
         
+        // ANNOTATION TABLE
         DefaultTableModel dfModel =  (DefaultTableModel) jTablePeaks.getModel();
         TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(dfModel);
         jTablePeaks.setRowSorter(tableRowSorter);
         
         tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+query, geneColumnIndex));
+        
+        // GO TABLE
+        geneColumnIndex = 5;
+        
+        DefaultTableModel dfModelGO =  (DefaultTableModel) jTableGO.getModel();
+        TableRowSorter<DefaultTableModel> tableRowSorterGO = new TableRowSorter<DefaultTableModel>(dfModelGO);
+        jTableGO.setRowSorter(tableRowSorterGO);
+        
+        tableRowSorterGO.setRowFilter(RowFilter.regexFilter("(?i)"+query, geneColumnIndex));
+    }
 
+    public void addGoTableRows(File geneAnnotationFile){
+        
+        DefaultTableModel dfModel =  (DefaultTableModel) jTableGO.getModel();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(dfModel);
+        jTableGO.setRowSorter(tableRowSorter);
+        
+        HashMap<GeneOntology, GeneOntology> goHashMap =  GeneOntology.parseGOAnalysisOutputFile(geneAnnotationFile);
+        
+        Object rowData[] = new Object[jTableGO.getColumnCount()];
+        
+        for(GeneOntology go : goHashMap.keySet() ){
+            rowData[0] = go.getGoID();
+            rowData[1] = go.getGoTerm();
+            rowData[2] = go.getGoCategory();
+            NumberFormat formatter = new DecimalFormat("0.00E00");
+            rowData[3] = formatter.format(go.getPvalue());
+            rowData[4] = formatter.format(go.getAdjustedPvalue());
+            rowData[5] = go.getGeneSymbols();
+            dfModel.addRow(rowData);
+        }
+        
+    }
+    
+    public void addPathwayTableRows(File geneAnnotationFile){
+        
+        DefaultTableModel dfModel =  (DefaultTableModel) jTablePathways.getModel();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(dfModel);
+        jTablePathways.setRowSorter(tableRowSorter);
+        
+        HashMap<Pathway, Pathway> goHashMap =  Pathway.parsePathwayAnalysisOutputFile(geneAnnotationFile);
+        
+        Object rowData[] = new Object[jTablePathways.getColumnCount()];
+        
+        for(Pathway pathway : goHashMap.keySet() ){
+            rowData[0] = pathway.getKeggID();
+            rowData[1] = pathway.getPathwayname();
+            NumberFormat formatter = new DecimalFormat("0.00E00");
+            rowData[2] = formatter.format(pathway.getPvalue());
+            rowData[3] = pathway.getGeneSymbol();
+            dfModel.addRow(rowData);
+        }
         
     }
     
@@ -842,6 +957,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JPanel graphJPanel;
     private javax.swing.JButton jButtonIGV;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JLabel jLabelACRbarChart;
     private javax.swing.JLabel jLabelBarChart;
     private javax.swing.JLabel jLabelGeneFilter;
     private javax.swing.JLabel jLabelPathwayChart;
@@ -854,6 +970,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemAboutUs;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelACR;
     private javax.swing.JPanel jPanelBarChart;
     private javax.swing.JPanel jPanelGenomicFeaturesPieChart;
     private javax.swing.JPanel jPanelPathwayEnrichmentChart;
@@ -862,7 +979,11 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPanePlots;
+    private javax.swing.JTable jTableGO;
+    private javax.swing.JTable jTablePathways;
     private javax.swing.JTable jTablePeaks;
     private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JButton outputDirJButton;

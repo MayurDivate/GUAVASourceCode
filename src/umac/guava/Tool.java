@@ -14,8 +14,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -39,8 +37,10 @@ public abstract class Tool {
             return stdOut;
         } catch (IOException ex) {
             Logger.getLogger(Tool.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(0);
+            return null;
         }
-        return null;
+        
     }
     
     public String getSTDerror(Process process){
@@ -55,8 +55,10 @@ public abstract class Tool {
             return stdError;
         } catch (IOException ex) {
             Logger.getLogger(Tool.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(0);
+            return null;
         }
-        return null;
+        
     }
     
     String getStringFromArray(String[] array){

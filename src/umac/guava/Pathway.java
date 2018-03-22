@@ -14,11 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package umac.guava.diff;
+package umac.guava;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import umac.guava.diff.Peak;
 
 /**
  *
@@ -38,6 +45,48 @@ public class Pathway {
         this.pvalue = pvalue;
         this.entrezID = entrezID;
         this.geneSymbol = geneSymbol;
+    }
+    
+    public static HashMap<Pathway, Pathway> parsePathwayAnalysisOutputFile(File goAnalysisFile) {
+
+        try {
+            FileReader goFileReader = new FileReader(goAnalysisFile);
+            BufferedReader goBufferedReader = new BufferedReader(goFileReader);
+
+            String line = goBufferedReader.readLine(); // discarding line 1
+            HashMap<Pathway, Pathway> pathwayHashMap = new HashMap<>();
+
+            while ((line = goBufferedReader.readLine()) != null) {
+                String[] lineData = line.split("\t");
+
+                if (lineData.length == 10) {
+                    String pathwayID = lineData[1];
+                    String pathwayName = lineData[8];
+                    double pvalue = Double.parseDouble(lineData[5]);
+                    String entrezID = lineData[2];
+                    String geneSymbol = lineData[9];
+
+                    Pathway pathway = new Pathway(pathwayName, pathwayID, pvalue, entrezID, geneSymbol);
+                    if (!pathwayHashMap.containsKey(pathway)) {
+                        pathwayHashMap.put(pathway, pathway);
+                    } else {
+                        pathwayHashMap.get(pathway).addEntrezID(lineData[2]);
+                        pathwayHashMap.get(pathway).addGeneSymbol(lineData[9]);
+                    }
+
+                }
+            }
+
+            return pathwayHashMap;
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GeneOntology.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GeneOntology.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+
     }
     
     public void addEntrezID(String entrezID) {

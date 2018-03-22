@@ -16,6 +16,7 @@
  */
 package umac.guava.diff;
 
+import umac.guava.Pathway;
 import java.awt.Desktop;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -34,6 +35,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import umac.guava.GeneOntology;
 import umac.guava.IGV;
 import umac.guava.IGVdataTrack;
 import umac.guava.RunStatusJframe;
@@ -439,35 +441,12 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
      if(!goResults.exists()){
          return false;
      }   
-     try{
-        FileReader fr = new FileReader(goResults);
-        BufferedReader br = new BufferedReader(fr);
-        String line = br.readLine();
-        
         DefaultTableModel dfModel = (DefaultTableModel) jTableGO.getModel();
         TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(dfModel);
         jTableGO.setRowSorter(tableRowSorter);
         
         Object[] rowData = new Object[dfModel.getColumnCount()];
-        HashMap<GeneOntology, GeneOntology> goHashMap = new HashMap<>();
-        
-        while((line = br.readLine()) != null){
-            
-            line = line.replaceAll("\"", "");
-            String[] lineData = line.split("\t");
-            
-            double pvalue =  Double.parseDouble(lineData[5]);
-            
-            GeneOntology go = new GeneOntology(lineData[1], lineData[2], lineData[3], lineData[4], lineData[6],lineData[7], pvalue);
-
-            if(!goHashMap.containsKey(go)){
-                        goHashMap.put(go, go);
-            }else{
-                        goHashMap.get(go).addEntrezID(lineData[6]);
-                        goHashMap.get(go).addGeneSymbol(lineData[7]);
-            }
-            
-        }
+        HashMap<GeneOntology, GeneOntology> goHashMap = GeneOntology.parseDiffGeneOntologyAnalysisOutput(goResults);
         
         for(GeneOntology go : goHashMap.keySet()){
             rowData[0] = go.getGoID();
@@ -485,16 +464,8 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         
         
         return true;
+
         
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DifferentialResultFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(DifferentialResultFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }catch(NumberFormatException ex){
-            Logger.getLogger(DifferentialResultFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-     return false;
     }
     
     public boolean displayPathways(File pathwayResults){

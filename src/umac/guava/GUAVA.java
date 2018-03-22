@@ -32,7 +32,12 @@ public class GUAVA {
 
     public static void main(String[] args) {
         setPWD();
-
+        chipPeakAnnoTest();
+        
+        System.out.println("Test mode is active");
+        
+        /* Please deactivate test mode 
+        
         if(args.length == 0){
                 uiVersion();
         }
@@ -40,6 +45,7 @@ public class GUAVA {
               
             runGUAVAcommandline(args);
         }
+        */
 
     }
     
@@ -79,6 +85,60 @@ public class GUAVA {
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homeFrame.setVisible(true);
 
+    }
+    
+    
+    public static void chipPeakAnnoTest(){
+        
+        RunStatusJframe runStatusJframe = new RunStatusJframe();
+        runStatusJframe.setVisible(true);
+        
+        
+        String format = "MACS2";
+        File inputFile = new File("/Users/mayurdivate/Work/GuavaFunctionalAnnotation/SRR3929040_DMSO_Rep1_R1_PEAK_CALLING/SRR3929040_DMSO_Rep1_R1_peaks.xls");
+        File outputFolder = new File("/Users/mayurdivate/Work/GuavaFunctionalAnnotation/SRR3929040_DMSO_Rep1_R1_PEAK_CALLING/test_out");
+        File barChart = new File(outputFolder,"SRR3929040_DMSO_Rep1_R1_barchart.jpg");
+        File peakAnnoated = new File(outputFolder,"SRR3929040_DMSO_Rep1_R1_Annotated_peaks.txt");
+        File goAnalysisOutputFile = new File(outputFolder,"SRR3929040_DMSO_Rep1_R1_GoAnalysis.txt");
+        File pathwayAnalysisOutputFile = new File(outputFolder,"SRR3929040_DMSO_Rep1_R1_PathwayAnalysis.txt");
+        File rCodeFile = new File(outputFolder,"SRR3929040_DMSO_Rep1_R1_ChIPpeakAnno.R");
+        Genome genome = Genome.getGenomeObject("hg19");
+        
+        GuavaOutputFiles.logFile = new File(outputFolder,"SRR3929040_DMSO_Rep1_log.txt");
+        
+        ChIPpeakAnno chIPpeakAnno = new ChIPpeakAnno(inputFile, format, 
+                barChart, peakAnnoated, outputFolder, goAnalysisOutputFile,
+                pathwayAnalysisOutputFile,rCodeFile,genome);
+        
+                    AnalysisWorkflow aw = new AnalysisWorkflow();
+                    System.out.println("----------- Peak annotation -------------");
+                    //aw.runChIPpeakAnno(chIPpeakAnno);
+                    // ExcelPrinter.printImage(chipSeeker.getPieChart(), "PieChart", 15.0, 25.0);
+                    // ExcelPrinter.printPeakTable(chipSeeker.getGeneAnnotationPeaks());
+                    
+                    System.out.println("\n");
+                    //runStatusJframe.addPeakTableRow(chipSeeker.getGeneAnnotationPeaks());
+                    runStatusJframe.displayACRbarChart(barChart);
+                    runStatusJframe.addPeakTableRow(chIPpeakAnno.getPeakAnnoated());
+                    runStatusJframe.addGoTableRows(goAnalysisOutputFile);
+                    runStatusJframe.addPathwayTableRows(pathwayAnalysisOutputFile);
+                    //runStatusJframe.setVisible(true);
+                    System.out.println("----------- F I N I S H E D -------------");
+              
+                
+        
+        /* public ChIPpeakAnno(File inputFile, String inputFileFormat, File barChart,
+        File peakAnnoated, File outputFolder, File goAnalysisOutputFile,
+        File pathwayAnalysisOutputFile, File rCodeFile, Genome genome) 
+            */ 
+       
+        
+        
+        chIPpeakAnno.writeCode(chIPpeakAnno.getChIPpeakAnnoRcode(), rCodeFile);
+        
+        
+        
+        
     }
     
     

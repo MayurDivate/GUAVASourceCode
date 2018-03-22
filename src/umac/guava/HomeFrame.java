@@ -17,6 +17,7 @@
 package umac.guava;
 
 import umac.guava.diff.DifferentialInputFrame1;
+import umac.guava.genomeindexbuilder.GenomeIndexBuilderGUI;
 
 /**
  *
@@ -40,9 +41,11 @@ public class HomeFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonToolGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jRadioGUAVA = new javax.swing.JRadioButton();
         jRadioDifferential = new javax.swing.JRadioButton();
+        jRadioGenomeINdexBuilder = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -52,6 +55,7 @@ public class HomeFrame extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Program", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Andale Mono", 0, 14))); // NOI18N
 
+        buttonToolGroup.add(jRadioGUAVA);
         jRadioGUAVA.setText("ATAC-seq Data Analysis");
         jRadioGUAVA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,10 +63,19 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonToolGroup.add(jRadioDifferential);
         jRadioDifferential.setText("ATAC-seq Differential Analysis");
         jRadioDifferential.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioDifferentialActionPerformed(evt);
+            }
+        });
+
+        buttonToolGroup.add(jRadioGenomeINdexBuilder);
+        jRadioGenomeINdexBuilder.setText("Genome Index Builder");
+        jRadioGenomeINdexBuilder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioGenomeINdexBuilderActionPerformed(evt);
             }
         });
 
@@ -74,17 +87,20 @@ public class HomeFrame extends javax.swing.JFrame {
                 .addContainerGap(39, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jRadioDifferential, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jRadioGUAVA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jRadioGUAVA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRadioGenomeINdexBuilder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
                 .addComponent(jRadioGUAVA, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jRadioDifferential, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jRadioGenomeINdexBuilder, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jMenu1.setText("About");
@@ -136,6 +152,13 @@ public class HomeFrame extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jRadioDifferentialActionPerformed
+
+    private void jRadioGenomeINdexBuilderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioGenomeINdexBuilderActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        GenomeIndexBuilderGUI gibGui = new GenomeIndexBuilderGUI();
+        gibGui.setVisible(true);
+    }//GEN-LAST:event_jRadioGenomeINdexBuilderActionPerformed
     
     /********************************************
     * isWorking method to check all dependencies
@@ -173,11 +196,13 @@ public class HomeFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonToolGroup;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioDifferential;
     private javax.swing.JRadioButton jRadioGUAVA;
+    private javax.swing.JRadioButton jRadioGenomeINdexBuilder;
     // End of variables declaration//GEN-END:variables
 }

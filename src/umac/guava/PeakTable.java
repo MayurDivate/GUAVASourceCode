@@ -61,17 +61,17 @@ public class PeakTable {
             
             while((line = gaFileBufferedReader.readLine()) != null){
                 String [] lineData = line.split("\\t");
-                if(lineData.length == 21){
+                if(lineData.length == 16){
                     String chr = lineData[1];
                     int start = Integer.parseInt(lineData[2]);
                     int end = Integer.parseInt(lineData[3]);
                     int length  = Integer.parseInt(lineData[4]);
-                    int pileupHeight = Integer.parseInt(lineData[8]);
-                    double pvalue = Double.parseDouble(lineData[9]);
-                    double qvalue = Double.parseDouble(lineData[11]);
-                    String anno = lineData[13];
-                    int distTSS = new BigDecimal(lineData[18]).intValue();
-                    String geneSymbol = lineData[20];
+                    int pileupHeight = Integer.parseInt(lineData[5]);
+                    double pvalue = Double.parseDouble(lineData[6]);
+                    double qvalue = Double.parseDouble(lineData[7]);
+                    String anno = lineData[11];
+                    int distTSS = new BigDecimal(lineData[12]).intValue();
+                    String geneSymbol = lineData[13];
 
                     PeakTable peakTable = new PeakTable(chr, start, end, length, pileupHeight, pvalue, qvalue, anno, distTSS, geneSymbol);
                     peakTableList.add(peakTable);

@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
 
 
 /**
@@ -801,7 +802,26 @@ public class AnalysisWorkflow {
         }
         return status;
     }
+    
+    public boolean runChIPpeakAnno(ChIPpeakAnno chipPeakAnno){
+        //GuavaInput atacseqInput, GuavaOutputFiles filesFolders
+        boolean status = false;
+
+
+        // get chippeakanno object
+        // create r code
+        status = chipPeakAnno.writeCode(chipPeakAnno.getChIPpeakAnnoRcode(), chipPeakAnno.getrCodeFile());
         
+        if(status){
+            String log[] = chipPeakAnno.runCommand(chipPeakAnno.getCommand());
+            //chipSeeker.runCommand(chipSeeker.getCommand(atacseqInput, chipSeeker.getChipseekerRcode()));
+            chipPeakAnno.writeLog(log, "**************************** ChIPseeker log ****************************");
+            // check error 
+            return status;
+        }
+        return status;
+    }
+    
     private static void printCommandlineResults(GuavaInput atacseqInput, AlignmentResult alignmentResults,
             FilteredAlignment afRes,HashMap<String, Integer> chrSTAT, String chrString){
          
