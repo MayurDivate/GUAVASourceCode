@@ -200,12 +200,9 @@ public class AnalysisWorkflow {
         }
         if (go) {
             System.out.println("----------- Peak annotation -------------");
-            String basename = GuavaOutputFiles.getOutBaseName();
-            File macas2outXls = new File(outFiles.getMacs2Dir(), basename + "peaks.xls");
-            Genome genome = Genome.getGenomeObject(guavaInput.getGenome());
-            ChIPpeakAnno chipPeakAnno = ChIPpeakAnno.getChIPpeakAnnoObject(macas2outXls, "MACS2", genome);
-
+            ChIPpeakAnno chipPeakAnno = outFiles.getChipPeakAnno();
             go = aw.runChIPpeakAnno(chipPeakAnno);
+            
 //                    if(chipSeeker.getGeneAnnotationPeaks().exists()){
 //                        ExcelPrinter.printPeakTable(chipSeeker.getGeneAnnotationPeaks());
 //                    }
@@ -788,15 +785,18 @@ public class AnalysisWorkflow {
 
     public boolean runChIPpeakAnno(ChIPpeakAnno chipPeakAnno) {
         //GuavaInput atacseqInput, GuavaOutputFiles filesFolders
-        boolean status = false;
-
-        // get chippeakanno object
-        // create r code
-        status = chipPeakAnno.writeCode(chipPeakAnno.getChIPpeakAnnoRcode(), chipPeakAnno.getrCodeFile());
-
+       
+        // create outfolder then r code file 
+        if (!createDir(chipPeakAnno.getOutputFolder())) {
+            return false;
+        }
+        
+        // all ok then write code to the file
+        System.out.println("umac.guava.AnalysisWorkflow.runChIPpeakAnno() >> now write R code");
+        boolean status = chipPeakAnno.writeCode(chipPeakAnno.getChIPpeakAnnoRcode(), chipPeakAnno.getrCodeFile());
+        System.out.println("umac.guava.AnalysisWorkflow.runChIPpeakAnno() << DONE");
         if (status) {
             String log[] = chipPeakAnno.runCommand(chipPeakAnno.getCommand());
-            //chipSeeker.runCommand(chipSeeker.getCommand(atacseqInput, chipSeeker.getChipseekerRcode()));
             chipPeakAnno.writeLog(log, "**************************** ChIPpeakAnno log ****************************");
             // check error 
             return status;

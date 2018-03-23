@@ -137,10 +137,12 @@ public class ChIPpeakAnno extends Tool {
         
         String code = "\n"
                 + "library(ggplot2)\n"
-                + "acrDF <- as.data.frame(aCR$percentage)\n"
-                + "colnames(acrDF) <- c(\"Regions\",\"Freq\")\n" 
+                + "Regions <- names(aCR$percentage)\n" 
+                + "Freq <- as.vector(aCR$percentage)\n" 
+                + "acrDF <- data.frame(Regions, Freq)\n" 
+                + "acrDF$Regions <- factor(acrDF$Regions,levels = regions)\n" 
                 + "acrDF$text <- round(acrDF$Freq,2)\n" 
-                + "acrDF$text <- paste(acrDF$text,\"%\")" 
+                + "acrDF$text <- paste(acrDF$text,\"%\")\n" 
                 + "\n" 
                 + "p <- ggplot(acrDF, aes(Regions,Freq, fill=Regions))\n" 
                 + "p <- p + geom_col()\n" 
@@ -187,7 +189,7 @@ public class ChIPpeakAnno extends Tool {
             File barChart                   = new File(outputFolder, basename + "_bar_chart.jpg");
             File annoatedPeakFile           = new File(outputFolder, basename + "_Annotated_Peaks.txt");
             File goAnalysisOutputFile       = new File(outputFolder, basename + "_GeneOntology_Analysis.txt");
-            File pathwayAnalysisOutputFile  = new File(outputFolder, basename + "_KEGG_Pathway_Analysis");
+            File pathwayAnalysisOutputFile  = new File(outputFolder, basename + "_KEGG_Pathway_Analysis.txt");
             File rCodeFile                  = new File(outputFolder, basename + "_ChIPpeakAnno.R");
 
             ChIPpeakAnno chipPeakAnno = new ChIPpeakAnno(inputFile, inputFileFormat,
@@ -202,7 +204,7 @@ public class ChIPpeakAnno extends Tool {
         
         return null;
     }
-    
+
     /**
      * @return the barChart
      */

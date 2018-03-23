@@ -42,7 +42,7 @@ public class GuavaOutputFiles {
 
     private File fastqcDir;
 
-    private ChIPseeker chipSeeker;
+    private ChIPpeakAnno chipPeakAnno;
 
     private File cutadaptOUT; 
     
@@ -107,11 +107,15 @@ public class GuavaOutputFiles {
         File bedgraph               = new File(rootFolder,outBaseName+"aligned_ATACseq.bdg");
         File bigwig                 = new File(rootFolder,outBaseName+"aligned_ATACseq.bw");
         
-        ChIPseeker chipSeeker       = ChIPseeker.getChIPSeekerObject();
+        //chippeak anno files
+        File macs2Xls = new File(macs2Dir,outBaseName+"peaks.xls");
+        Genome genome = Genome.getGenomeObject(IGV.genome);
+        
+        ChIPpeakAnno chIPpeakAnno = ChIPpeakAnno.getChIPpeakAnnoObject(macs2Xls, "MACS2", genome);
         
         return new GuavaOutputFiles(rootDir, logFile, alignedSam, alignedCsrtBam, duplicateFilteredBam,duplicateMatrix ,properlyAlignedBam,
                                     chrFilteredBam, blackListFilteredBam, tempBam,filteredSrtSam ,atacseqBam,atacseqSam, macs2Dir, 
-                                    insertSizeTextFile, insertSizePDF, rInsertSize,rCode,chipSeeker,fragmentSizePlot,fastqcDir,cutadaptOutdir,
+                                    insertSizeTextFile, insertSizePDF, rInsertSize,rCode,chIPpeakAnno,fragmentSizePlot,fastqcDir,cutadaptOutdir,
                                     bedgraph, bigwig);
     }
     
@@ -121,7 +125,7 @@ public class GuavaOutputFiles {
     
     public GuavaOutputFiles(File rootDir, File logFile, File alignedSam, File alignedCsrtBam, File duplicateFilteredBam,File duplicateMatrix ,File properlyAlignedBam,
                               File chrFilteredBam, File blackListFilteredBam, File tempBam,File filteredSrtSam, File atacseqBam, File atacseqSam, File macs2Dir,
-                              File insertSizeTextFile, File  insertSizePDF, File rInsertSize, File rCode, ChIPseeker chipSeeker,File fragmentSizeDistributionPlot,
+                              File insertSizeTextFile, File  insertSizePDF, File rInsertSize, File rCode, ChIPpeakAnno chipPeakAnno,File fragmentSizeDistributionPlot,
                               File fastqcDir, File cutadaptOutdir, File bedgraph, File bigwig) {
         this.rootDir = rootDir;
         this.alignedSam = alignedSam;
@@ -141,7 +145,7 @@ public class GuavaOutputFiles {
         this.insertSizeTextFile = insertSizeTextFile;
         this.rInsertSize = rInsertSize;
         this.rCode = rCode;
-        this.chipSeeker = chipSeeker;
+        this.chipPeakAnno = chipPeakAnno;
         this.fragmentSizeDistributionPlot = fragmentSizeDistributionPlot;
         this.fastqcDir = fastqcDir;
         this.cutadaptOUT =  cutadaptOutdir;
@@ -164,18 +168,11 @@ public class GuavaOutputFiles {
         this.atacseqSam = atacseqSam;
     }
 
-    public ChIPseeker getChipSeeker() {
-        return chipSeeker;
-    }
-
     public static File getLogFile() {
         return logFile;
     }
 
-    public void setChipSeeker(ChIPseeker chipSeeker) {
-        this.chipSeeker = chipSeeker;
-    }
-
+    
     public File getFragmentSizeDistributionPlot() {
         return fragmentSizeDistributionPlot;
     }
@@ -405,6 +402,20 @@ public class GuavaOutputFiles {
 
     public void setBigwigFile(File bigwigFile) {
         this.bigwigFile = bigwigFile;
+    }
+
+    /**
+     * @return the chipPeakAnno
+     */
+    public ChIPpeakAnno getChipPeakAnno() {
+        return chipPeakAnno;
+    }
+
+    /**
+     * @param chipPeakAnno the chipPeakAnno to set
+     */
+    public void setChipPeakAnno(ChIPpeakAnno chipPeakAnno) {
+        this.chipPeakAnno = chipPeakAnno;
     }
     
     

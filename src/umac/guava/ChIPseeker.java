@@ -78,59 +78,6 @@ public class ChIPseeker extends Tool {
         }
     }
 
-    public boolean createChiPseekerCode(GuavaOutputFiles outFiles, GuavaInput atacInput){
-        String txdb = ChIPseeker.getTXDB(atacInput);
-        String annodb = ChIPseeker.getAnnoDB(atacInput);
-        ChIPseeker chipSeeker = outFiles.getChipSeeker();
-        
-        try {
-              if(chipSeeker.getChipseekerDir().mkdir() && chipSeeker.getChipseekerRcode().createNewFile()){
-                    
-                    FileWriter rCodeWriter = new FileWriter(chipSeeker.getChipseekerRcode());
-                    PrintWriter rCodePrintWriter = new PrintWriter(new BufferedWriter(rCodeWriter));
-                    
-                        String rCodeString = "setwd(\""+outFiles.getRootDir()+"\")\n";
-                        rCodePrintWriter.append(rCodeString);
-                        rCodePrintWriter.flush();
-
-                        int tssUpRegion = -3000;
-                        int tssDownRegion = 3000;
-                        int width = 740;
-                        int height = 355;
-                        
-                        rCodeString = "library(ChIPseeker)"+"\n"
-                                    + "library(ReactomePA)"+"\n"
-                                    + "library("+txdb+")"+"\n"
-                                    + "txdb <- "+txdb+"\n"
-                                    + "library(\""+annodb+"\")"+"\n"
-                                    + "peakAnno <- annotatePeak(\""+chipSeeker.getChipseekerInput().getAbsolutePath()
-                                    + "\", tssRegion=c("+tssUpRegion+", "+tssDownRegion+"),TxDb=txdb, annoDb=\""+annodb+"\")"+"\n"
-                                    + "jpeg('"+chipSeeker.getPieChart().getAbsolutePath()+"',height="+height+",width="+width+")"+"\n"
-                                    + "plotAnnoPie(peakAnno,r=1)"+"\n"
-                                    + "dev.off()"+"\n"
-                                    + "jpeg('"+chipSeeker.getBarChart()+"',height="+height+",width="+width+")"+"\n"
-                                    + "plotDistToTSS(peakAnno,ylab = \"Peaks(%) (5' -> 3')\",title = \"\")"+"\n"
-                                    + "dev.off()"+"\n"
-                                    + "pathway1 <- enrichPathway(as.data.frame(peakAnno)$geneId)"+"\n"
-                                    + "jpeg('"+chipSeeker.getPathwayPlot()+"',height="+height+",width="+width+")"+"\n"
-                                    + "dotplot(pathway1)"+"\n"
-                                    + "dev.off()"+"\n"
-                                    + "write.table(as.data.frame(peakAnno)[,c(1:16,18,21,22,23)],file = \""+chipSeeker.getGeneAnnotationPeaks().getAbsolutePath()+"\",sep = \"\\t\",quote = FALSE)"+"\n"
-                                    + "pathway_summary <- summary(pathway1)\n"
-                                    + "write.table(pathway_summary[,c(2:7,9)],file = \""+chipSeeker.getPathwayAnnotationPeaks().getAbsolutePath()+"\",sep = \"\\t\",quote = FALSE)"+"\n";
-                       
-                       rCodePrintWriter.append(rCodeString);
-                       rCodePrintWriter.flush();
-                       return true;
-            }
-            return false;
-        } catch (IOException ex) {
-            Logger.getLogger(R.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return false;
-    }
-  
     public boolean getChiPseekerCodeDiffPeaks(ChIPseeker chipSeeker, String txdb, String annodb ){
         
         try {

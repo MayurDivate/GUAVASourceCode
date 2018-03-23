@@ -596,26 +596,23 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="macs2PqvalueComboBox" min="-2" pref="106" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="valueTextField" min="-2" pref="68" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="outputDirJButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="319" max="-2" attributes="0"/>
                           <Component id="jLabel8" min="-2" pref="75" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabelOrgName" pref="93" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="outputDirJButton" min="-2" pref="120" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="outputDirTextField" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -636,7 +633,7 @@
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="outputDirTextField" min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="outputDirJButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="outputDirJButton" min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               </Group>
