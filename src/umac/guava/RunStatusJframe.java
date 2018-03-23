@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -362,21 +363,23 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
         resultTabs.addTab("Annotated Peaks", jPanelPeaks);
 
+        jLabelACRbarChart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanelBarChartLayout = new javax.swing.GroupLayout(jPanelBarChart);
         jPanelBarChart.setLayout(jPanelBarChartLayout);
         jPanelBarChartLayout.setHorizontalGroup(
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBarChartLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 743, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanelBarChartLayout.setVerticalGroup(
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBarChartLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(15, 15, 15)
+                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         resultTabs.addTab("Plot", jPanelBarChart);
@@ -399,7 +402,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         });
         jScrollPaneGO.setViewportView(jTableGO);
 
-        resultTabs.addTab("GO", jScrollPaneGO);
+        resultTabs.addTab("Gene Ontologies", jScrollPaneGO);
 
         jTablePathways.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -411,7 +414,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         ));
         jScrollPanePathway.setViewportView(jTablePathways);
 
-        resultTabs.addTab("Pathway", jScrollPanePathway);
+        resultTabs.addTab("Pathways", jScrollPanePathway);
 
         closeJButton.setText("close");
         closeJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -539,11 +542,13 @@ public class RunStatusJframe extends javax.swing.JFrame {
     void displayFragmentSizeGraph(){
         ImageIcon imageIcon  = new ImageIcon(R.fragmentSizeDistributionPlot.getAbsolutePath());
         graphJLabel.setIcon(imageIcon);
+        graphJLabel.setAlignmentY(JLabel.CENTER_ALIGNMENT);
     }
 
     public void displayACRbarChart(File barChart){
         ImageIcon imageIconChart  = new ImageIcon(barChart.getAbsolutePath());
         jLabelACRbarChart.setIcon(imageIconChart);
+        jLabelACRbarChart.setAlignmentY(JLabel.CENTER_ALIGNMENT);
     }
     
     private void closeJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeJButtonActionPerformed

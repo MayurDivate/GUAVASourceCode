@@ -40,6 +40,7 @@ public class ChIPpeakAnno extends Tool {
     private File goAnalysisOutputFile;
     private File pathwayAnalysisOutputFile;
     private File rCodeFile;
+    private File acrTxt;
     private Genome genome;
     
     String getChIPpeakAnnoRcode(){
@@ -97,7 +98,12 @@ public class ChIPpeakAnno extends Tool {
         
         // barplot 
         code = code + getBarChartCode(this.getBarChart());
+        code = code + "write.table(acrDF[,c(1,3)],file = \""+this.getAcrTxt()+"\",sep = \"\\t\", quote = FALSE)"+"\n";
+        
+        // write acr.txt
         code = code + ""+"\n";
+        code = code + ""+"\n";
+        
         
         // gene ontology enrichment
         code = code + "overGO <- getEnrichedGO(macs.anno, orgAnn=\""+orgDB+"\",\n";
@@ -130,7 +136,7 @@ public class ChIPpeakAnno extends Tool {
     
     String getBarChartCode(File barPlotFile){
         
-        int width = 750;
+        int width = 760;
         int height =  400;
         int legendFS = 12;
         int titleFS = 15;
@@ -184,17 +190,18 @@ public class ChIPpeakAnno extends Tool {
         if (GuavaOutputFiles.rootDir != null) {
 
             String basename = GuavaOutputFiles.getOutBaseName();
-            File outputFolder               = new File(GuavaOutputFiles.rootDir, basename + "_Functional_Analysis");
+            File outputFolder               = new File(GuavaOutputFiles.rootDir, basename + "Functional_Analysis");
             
-            File barChart                   = new File(outputFolder, basename + "_bar_chart.jpg");
-            File annoatedPeakFile           = new File(outputFolder, basename + "_Annotated_Peaks.txt");
-            File goAnalysisOutputFile       = new File(outputFolder, basename + "_GeneOntology_Analysis.txt");
-            File pathwayAnalysisOutputFile  = new File(outputFolder, basename + "_KEGG_Pathway_Analysis.txt");
-            File rCodeFile                  = new File(outputFolder, basename + "_ChIPpeakAnno.R");
+            File barChart                   = new File(outputFolder, basename + "bar_chart.jpg");
+            File annoatedPeakFile           = new File(outputFolder, basename + "Annotated_Peaks.txt");
+            File goAnalysisOutputFile       = new File(outputFolder, basename + "GeneOntology_Analysis.txt");
+            File pathwayAnalysisOutputFile  = new File(outputFolder, basename + "KEGG_Pathway_Analysis.txt");
+            File rCodeFile                  = new File(outputFolder, basename + "ChIPpeakAnno.R");
+            File acrTxt                     = new File(outputFolder, basename + "acr.txt");
 
             ChIPpeakAnno chipPeakAnno = new ChIPpeakAnno(inputFile, inputFileFormat,
                     barChart, annoatedPeakFile, outputFolder, goAnalysisOutputFile, 
-                    pathwayAnalysisOutputFile, rCodeFile, genome);
+                    pathwayAnalysisOutputFile, rCodeFile, genome, acrTxt);
             
             return chipPeakAnno;
         }
@@ -333,7 +340,8 @@ public class ChIPpeakAnno extends Tool {
         this.rCodeFile = rCodeFile;
     }
 
-    public ChIPpeakAnno(File inputFile, String inputFileFormat, File barChart, File peakAnnoated, File outputFolder, File goAnalysisOutputFile, File pathwayAnalysisOutputFile, File rCodeFile, Genome genome) {
+    public ChIPpeakAnno(File inputFile, String inputFileFormat, File barChart, File peakAnnoated, File outputFolder, 
+            File goAnalysisOutputFile, File pathwayAnalysisOutputFile, File rCodeFile, Genome genome, File acrTxt) {
         this.inputFile = inputFile;
         this.inputFileFormat = inputFileFormat;
         this.barChart = barChart;
@@ -343,6 +351,7 @@ public class ChIPpeakAnno extends Tool {
         this.pathwayAnalysisOutputFile = pathwayAnalysisOutputFile;
         this.rCodeFile = rCodeFile;
         this.genome = genome;
+        this.acrTxt = acrTxt;
     }
 
     @Override
@@ -398,6 +407,20 @@ public class ChIPpeakAnno extends Tool {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return the acrTxt
+     */
+    public File getAcrTxt() {
+        return acrTxt;
+    }
+
+    /**
+     * @param acrTxt the acrTxt to set
+     */
+    public void setAcrTxt(File acrTxt) {
+        this.acrTxt = acrTxt;
     }
     
 }

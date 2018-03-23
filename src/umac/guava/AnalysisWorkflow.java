@@ -203,9 +203,23 @@ public class AnalysisWorkflow {
             ChIPpeakAnno chipPeakAnno = outFiles.getChipPeakAnno();
             go = aw.runChIPpeakAnno(chipPeakAnno);
             
-//                    if(chipSeeker.getGeneAnnotationPeaks().exists()){
-//                        ExcelPrinter.printPeakTable(chipSeeker.getGeneAnnotationPeaks());
-//                    }
+            if(chipPeakAnno.getPeakAnnoated().isFile()){
+                ExcelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated());
+            }
+            if(chipPeakAnno.getBarChart().isFile()){
+                ExcelPrinter.printImage(chipPeakAnno.getBarChart(), "Plot", 15.0, 25.0, 1,4);
+            }
+            if(chipPeakAnno.getAcrTxt().isFile()){
+                ExcelPrinter.printACRresults(chipPeakAnno.getAcrTxt(), "Plot");
+            }
+            if(chipPeakAnno.getGoAnalysisOutputFile().isFile()){
+                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile());
+            }
+            if(chipPeakAnno.getPathwayAnalysisOutputFile().isFile()){
+                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getPathwayAnalysisOutputFile());
+            }
+            
+            
 
         }
         if (!commandLine && go) {
