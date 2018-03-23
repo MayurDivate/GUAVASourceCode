@@ -404,14 +404,14 @@ public class ExcelPrinter {
 
     }
 
-    public static void printPeakTable(File geneAnnotationFile) {
+    public static void printPeakTable(File geneAnnotationFile,String sheetName, int sheetNumber) {
 
         try {
             FileInputStream inputStream = new FileInputStream(excelWorkBook);
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(workbook, 500, true);
-            Sheet sxSheet = sxssfWorkbook.createSheet("AnnotatedPeaks");
-            sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), 3);
+            Sheet sxSheet = sxssfWorkbook.createSheet(sheetName);
+            sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
             if (excelWorkBook.isFile() && excelWorkBook.exists()) {
                 FileReader peakFileReader = new FileReader(geneAnnotationFile);
                 BufferedReader peakBufferedReader = new BufferedReader(peakFileReader);
@@ -483,14 +483,14 @@ public class ExcelPrinter {
 
     }
 
-    public static void printGeneOntologyTable(File gofile) {
+    public static void printGeneOntologyTable(File gofile, String sheetName, int sheetNumber) {
 
         try {
             FileInputStream inputStream = new FileInputStream(excelWorkBook);
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(workbook, 500, true);
-            Sheet sxSheet = sxssfWorkbook.createSheet("GO");
-            sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), 3);
+            Sheet sxSheet = sxssfWorkbook.createSheet(sheetName);
+            sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
 
             if (excelWorkBook.isFile() && excelWorkBook.exists()) {
                 HashMap<GeneOntology, GeneOntology> goHashMap = GeneOntology.parseGOAnalysisOutputFile(gofile);
@@ -577,14 +577,14 @@ public class ExcelPrinter {
 
     }
 
-    public static void printPathwayTable(File pathwayfile) {
+    public static void printPathwayTable(File pathwayfile,String sheetName, int sheetNumber) {
 
         try {
             FileInputStream inputStream = new FileInputStream(excelWorkBook);
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(workbook, 500, true);
-            Sheet sxSheet = sxssfWorkbook.createSheet("Pathways");
-            sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), 3);
+            Sheet sxSheet = sxssfWorkbook.createSheet(sheetName);
+            sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
 
             if (excelWorkBook.isFile() && excelWorkBook.exists()) {
                 HashMap<Pathway, Pathway> pathwayHashMap = Pathway.parsePathwayAnalysisOutputFile(pathwayfile);
@@ -757,11 +757,11 @@ public class ExcelPrinter {
 
     }
 
-    public static void printImage(File imageFile, String sheetName, double v1, double v2) {
-        printImage(imageFile, sheetName, v1, v2, 1, 1);
+    public static void printImage(File imageFile, String sheetName, int sheetNumber, double v1, double v2) {
+        printImage(imageFile, sheetName, sheetNumber, v1, v2, 1, 1);
     }
 
-    public static void printImage(File imageFile, String sheetName, double v1, double v2, int rowNumber, int colNumber) {
+    public static void printImage(File imageFile, String sheetName, int sheetNumber, double v1, double v2, int rowNumber, int colNumber) {
 
         try {
             FileInputStream wbInputStream = new FileInputStream(excelWorkBook);

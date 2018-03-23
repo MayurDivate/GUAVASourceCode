@@ -191,7 +191,7 @@ public class AnalysisWorkflow {
             System.out.print("Fragmentsize plot...");
             go = aw.createFragmentSizeDistributionGraph(guavaInput, outFiles);
             workflowSamtools.deleteFile(outFiles.getrCode());
-            ExcelPrinter.printImage(R.fragmentSizeDistributionPlot, "insertsize", 15.0, 25.0);
+            ExcelPrinter.printImage(R.fragmentSizeDistributionPlot, "insertsize",3, 15.0, 25.0);
         }
         if (!commandLine && go) {
             System.out.println("Display graph...Done!");
@@ -204,19 +204,19 @@ public class AnalysisWorkflow {
             go = aw.runChIPpeakAnno(chipPeakAnno);
             
             if(chipPeakAnno.getPeakAnnoated().isFile()){
-                ExcelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated());
+                ExcelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated(),"AnnotatedPeaks",3);
             }
             if(chipPeakAnno.getBarChart().isFile()){
-                ExcelPrinter.printImage(chipPeakAnno.getBarChart(), "Plot", 15.0, 25.0, 1,4);
+                ExcelPrinter.printImage(chipPeakAnno.getBarChart(), "Plot", 4, 15.0, 25.0, 1,4);
             }
             if(chipPeakAnno.getAcrTxt().isFile()){
                 ExcelPrinter.printACRresults(chipPeakAnno.getAcrTxt(), "Plot");
             }
             if(chipPeakAnno.getGoAnalysisOutputFile().isFile()){
-                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile());
+                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile(),"GO",5);
             }
             if(chipPeakAnno.getPathwayAnalysisOutputFile().isFile()){
-                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getPathwayAnalysisOutputFile());
+                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getPathwayAnalysisOutputFile(),"Pathways",6);
             }
             
             
@@ -379,7 +379,7 @@ public class AnalysisWorkflow {
             System.out.print("Fragmentsize plot...");
             success = aw.createFragmentSizeDistributionGraph(guavaInput, outFiles);
             workflowSamtools.deleteFile(outFiles.getrCode());
-            ExcelPrinter.printImage(R.fragmentSizeDistributionPlot, "insertsize", 15.0, 25.0);
+            ExcelPrinter.printImage(R.fragmentSizeDistributionPlot, "insertsize",4, 15.0, 25.0);
         }
 
 //------------------- peak calling ------------------        
@@ -391,18 +391,26 @@ public class AnalysisWorkflow {
 //------------------- Peak annotation ------------------        
         if (success) {
             System.out.println("----------- Peak annotation -------------");
-            String basename = GuavaOutputFiles.getOutBaseName();
-            File macas2outXls = new File(outFiles.getMacs2Dir(), basename + "peaks.xls");
-            Genome genome = Genome.getGenomeObject(guavaInput.getGenome());
-            ChIPpeakAnno chipPeakAnno = ChIPpeakAnno.getChIPpeakAnnoObject(macas2outXls, "MACS2", genome);
+            
+            ChIPpeakAnno chipPeakAnno = outFiles.getChipPeakAnno();
             success = aw.runChIPpeakAnno(chipPeakAnno);
+            
+            if(chipPeakAnno.getPeakAnnoated().isFile()){
+                ExcelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated(),"AnnotatedPeaks",3);
+            }
+            if(chipPeakAnno.getBarChart().isFile()){
+                ExcelPrinter.printImage(chipPeakAnno.getBarChart(), "Plot", 4, 15.0, 25.0, 1,4);
+            }
+            if(chipPeakAnno.getAcrTxt().isFile()){
+                ExcelPrinter.printACRresults(chipPeakAnno.getAcrTxt(), "Plot");
+            }
+            if(chipPeakAnno.getGoAnalysisOutputFile().isFile()){
+                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile(),"GO",5);
+            }
+            if(chipPeakAnno.getPathwayAnalysisOutputFile().isFile()){
+                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getPathwayAnalysisOutputFile(),"Pathways",6);
+            }
 
-//        if(chipSeeker.getPieChart().exists()){
-//            ExcelPrinter.printImage(chipSeeker.getPieChart(), "PieChart", 15.0, 25.0);
-//        }
-//        if(chipSeeker.getGeneAnnotationPeaks().exists()){
-//            ExcelPrinter.printPeakTable(chipSeeker.getGeneAnnotationPeaks());
-//        }
         }
 
 //------------------- print results ------------------        
