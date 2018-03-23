@@ -140,7 +140,7 @@ public class ChIPpeakAnno extends Tool {
                 + "Regions <- names(aCR$percentage)\n" 
                 + "Freq <- as.vector(aCR$percentage)\n" 
                 + "acrDF <- data.frame(Regions, Freq)\n" 
-                + "acrDF$Regions <- factor(acrDF$Regions,levels = regions)\n" 
+                + "acrDF$Regions <- factor(acrDF$Regions,levels = Regions)\n" 
                 + "acrDF$text <- round(acrDF$Freq,2)\n" 
                 + "acrDF$text <- paste(acrDF$text,\"%\")\n" 
                 + "\n" 
