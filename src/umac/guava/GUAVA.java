@@ -32,11 +32,11 @@ public class GUAVA {
 
     public static void main(String[] args) {
         setPWD();
-        chipPeakAnnoTest();
+//        chipPeakAnnoTest();
+//        
+//        System.out.println("Test mode is active");
         
-        System.out.println("Test mode is active");
-        
-        /* Please deactivate test mode 
+        //Please deactivate test mode 
         
         if(args.length == 0){
                 uiVersion();
@@ -45,7 +45,7 @@ public class GUAVA {
               
             runGUAVAcommandline(args);
         }
-        */
+        
 
     }
     
@@ -118,10 +118,10 @@ public class GUAVA {
                     
                     System.out.println("\n");
                     //runStatusJframe.addPeakTableRow(chipSeeker.getGeneAnnotationPeaks());
-                    runStatusJframe.displayACRbarChart(barChart);
-                    runStatusJframe.addPeakTableRow(chIPpeakAnno.getPeakAnnoated());
-                    runStatusJframe.addGoTableRows(goAnalysisOutputFile);
-                    runStatusJframe.addPathwayTableRows(pathwayAnalysisOutputFile);
+//                    runStatusJframe.displayACRbarChart(barChart);
+//                    runStatusJframe.addPeakTableRow(chIPpeakAnno.getPeakAnnoated());
+//                    runStatusJframe.addGoTableRows(goAnalysisOutputFile);
+//                    runStatusJframe.addPathwayTableRows(pathwayAnalysisOutputFile);
                     //runStatusJframe.setVisible(true);
                     System.out.println("----------- F I N I S H E D -------------");
               

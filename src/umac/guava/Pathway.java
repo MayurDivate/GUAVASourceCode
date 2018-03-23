@@ -36,15 +36,27 @@ public class Pathway {
     private String pathwayname;
     private String keggID;
     private double pvalue;
+    private double adjPvalue;
     private String geneSymbol;
     private String entrezID;
 
+    public Pathway(String pathwayname, String keggID, double pvalue, double adjPvalue, String entrezID,String geneSymbol) {
+        this.pathwayname = pathwayname;
+        this.keggID = keggID;
+        this.pvalue = pvalue;
+        this.adjPvalue = adjPvalue;
+        this.entrezID = entrezID;
+        this.geneSymbol = geneSymbol;
+        
+    }
+    
     public Pathway(String pathwayname, String keggID, double pvalue, String entrezID,String geneSymbol) {
         this.pathwayname = pathwayname;
         this.keggID = keggID;
         this.pvalue = pvalue;
         this.entrezID = entrezID;
         this.geneSymbol = geneSymbol;
+        
     }
     
     public static HashMap<Pathway, Pathway> parsePathwayAnalysisOutputFile(File goAnalysisFile) {
@@ -59,19 +71,20 @@ public class Pathway {
             while ((line = goBufferedReader.readLine()) != null) {
                 String[] lineData = line.split("\t");
 
-                if (lineData.length == 10) {
+                if (lineData.length == 11) {
                     String pathwayID = lineData[1];
-                    String pathwayName = lineData[8];
-                    double pvalue = Double.parseDouble(lineData[5]);
+                    String pathwayName = lineData[9];
+                    double adjPvalue = Double.parseDouble(lineData[3]);
+                    double pvalue = Double.parseDouble(lineData[8]);
                     String entrezID = lineData[2];
-                    String geneSymbol = lineData[9];
+                    String geneSymbol = lineData[10];
 
-                    Pathway pathway = new Pathway(pathwayName, pathwayID, pvalue, entrezID, geneSymbol);
+                    Pathway pathway = new Pathway(pathwayName, pathwayID, pvalue, adjPvalue, entrezID, geneSymbol);
                     if (!pathwayHashMap.containsKey(pathway)) {
                         pathwayHashMap.put(pathway, pathway);
                     } else {
                         pathwayHashMap.get(pathway).addEntrezID(lineData[2]);
-                        pathwayHashMap.get(pathway).addGeneSymbol(lineData[9]);
+                        pathwayHashMap.get(pathway).addGeneSymbol(lineData[10]);
                     }
 
                 }
@@ -224,6 +237,20 @@ public class Pathway {
      */
     public void setEntrezID(String entrezID) {
         this.entrezID = entrezID;
+    }
+
+    /**
+     * @return the adjPvalue
+     */
+    public double getAdjPvalue() {
+        return adjPvalue;
+    }
+
+    /**
+     * @param adjPvalue the adjPvalue to set
+     */
+    public void setAdjPvalue(double adjPvalue) {
+        this.adjPvalue = adjPvalue;
     }
     
     

@@ -65,18 +65,11 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jPanelPeaks = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTablePeaks = new javax.swing.JTable();
-        jTabbedPanePlots = new javax.swing.JTabbedPane();
-        jPanelGenomicFeaturesPieChart = new javax.swing.JPanel();
-        jLabelPieChart = new javax.swing.JLabel();
         jPanelBarChart = new javax.swing.JPanel();
-        jLabelBarChart = new javax.swing.JLabel();
-        jPanelPathwayEnrichmentChart = new javax.swing.JPanel();
-        jLabelPathwayChart = new javax.swing.JLabel();
-        jPanelACR = new javax.swing.JPanel();
         jLabelACRbarChart = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
+        jScrollPaneGO = new javax.swing.JScrollPane();
         jTableGO = new javax.swing.JTable();
-        jScrollPane6 = new javax.swing.JScrollPane();
+        jScrollPanePathway = new javax.swing.JScrollPane();
         jTablePathways = new javax.swing.JTable();
         doneCancelJPanel = new javax.swing.JPanel();
         closeJButton = new javax.swing.JButton();
@@ -323,7 +316,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
             .addComponent(graphJLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        resultTabs.addTab("Frag. Size Dist.", graphJPanel);
+        resultTabs.addTab("Fragment Size Distribution", graphJPanel);
 
         jTablePeaks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -369,87 +362,24 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
         resultTabs.addTab("Annotated Peaks", jPanelPeaks);
 
-        jTabbedPanePlots.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM));
-        jTabbedPanePlots.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
-        jTabbedPanePlots.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
-
-        javax.swing.GroupLayout jPanelGenomicFeaturesPieChartLayout = new javax.swing.GroupLayout(jPanelGenomicFeaturesPieChart);
-        jPanelGenomicFeaturesPieChart.setLayout(jPanelGenomicFeaturesPieChartLayout);
-        jPanelGenomicFeaturesPieChartLayout.setHorizontalGroup(
-            jPanelGenomicFeaturesPieChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelGenomicFeaturesPieChartLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabelPieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
-        );
-        jPanelGenomicFeaturesPieChartLayout.setVerticalGroup(
-            jPanelGenomicFeaturesPieChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelGenomicFeaturesPieChartLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabelPieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
-        );
-
-        jTabbedPanePlots.addTab("Distribution of Genomic Features ", jPanelGenomicFeaturesPieChart);
-
         javax.swing.GroupLayout jPanelBarChartLayout = new javax.swing.GroupLayout(jPanelBarChart);
         jPanelBarChart.setLayout(jPanelBarChartLayout);
         jPanelBarChartLayout.setHorizontalGroup(
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBarChartLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
-        );
-        jPanelBarChartLayout.setVerticalGroup(
-            jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelBarChartLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
-        );
-
-        jTabbedPanePlots.addTab("Distance to TSS", jPanelBarChart);
-
-        javax.swing.GroupLayout jPanelPathwayEnrichmentChartLayout = new javax.swing.GroupLayout(jPanelPathwayEnrichmentChart);
-        jPanelPathwayEnrichmentChart.setLayout(jPanelPathwayEnrichmentChartLayout);
-        jPanelPathwayEnrichmentChartLayout.setHorizontalGroup(
-            jPanelPathwayEnrichmentChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelPathwayEnrichmentChartLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabelPathwayChart, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
-        );
-        jPanelPathwayEnrichmentChartLayout.setVerticalGroup(
-            jPanelPathwayEnrichmentChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelPathwayEnrichmentChartLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabelPathwayChart, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
-        );
-
-        jTabbedPanePlots.addTab("Pathway Enrichment", jPanelPathwayEnrichmentChart);
-
-        resultTabs.addTab("Plots", jTabbedPanePlots);
-
-        javax.swing.GroupLayout jPanelACRLayout = new javax.swing.GroupLayout(jPanelACR);
-        jPanelACR.setLayout(jPanelACRLayout);
-        jPanelACRLayout.setHorizontalGroup(
-            jPanelACRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelACRLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanelACRLayout.setVerticalGroup(
-            jPanelACRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelACRLayout.createSequentialGroup()
+        jPanelBarChartLayout.setVerticalGroup(
+            jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelBarChartLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        resultTabs.addTab("ACR", jPanelACR);
+        resultTabs.addTab("Plot", jPanelBarChart);
 
         jTableGO.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -467,21 +397,21 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(jTableGO);
+        jScrollPaneGO.setViewportView(jTableGO);
 
-        resultTabs.addTab("GO", jScrollPane5);
+        resultTabs.addTab("GO", jScrollPaneGO);
 
         jTablePathways.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "KEGG Pathway ID", "Pathway Name", "P value", "Gene Symbols"
+                "KEGG Pathway ID", "Pathway Name", "P value", "adjusted P value", "Gene Symbols"
             }
         ));
-        jScrollPane6.setViewportView(jTablePathways);
+        jScrollPanePathway.setViewportView(jTablePathways);
 
-        resultTabs.addTab("Pathway", jScrollPane6);
+        resultTabs.addTab("Pathway", jScrollPanePathway);
 
         closeJButton.setText("close");
         closeJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -611,17 +541,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
         graphJLabel.setIcon(imageIcon);
     }
 
-    void displayChIPseekerPlots(ChIPseeker chipSeeker){
-        
-        ImageIcon imageIconPieChart  = new ImageIcon(chipSeeker.getPieChart().getAbsolutePath());
-        ImageIcon imageIconBarChart  = new ImageIcon(chipSeeker.getBarChart().getAbsolutePath());
-        ImageIcon imageIconPathwayChart  = new ImageIcon(chipSeeker.getPathwayPlot().getAbsolutePath());
-        jLabelPieChart.setIcon(imageIconPieChart);
-        jLabelBarChart.setIcon(imageIconBarChart);
-        jLabelPathwayChart.setIcon(imageIconPathwayChart);
-
-    }
-    
     public void displayACRbarChart(File barChart){
         ImageIcon imageIconChart  = new ImageIcon(barChart.getAbsolutePath());
         jLabelACRbarChart.setIcon(imageIconChart);
@@ -939,7 +858,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
             rowData[1] = pathway.getPathwayname();
             NumberFormat formatter = new DecimalFormat("0.00E00");
             rowData[2] = formatter.format(pathway.getPvalue());
-            rowData[3] = pathway.getGeneSymbol();
+            rowData[3] = formatter.format(pathway.getAdjPvalue());
+            rowData[4] = pathway.getGeneSymbol();
             dfModel.addRow(rowData);
         }
         
@@ -958,10 +878,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JButton jButtonIGV;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabelACRbarChart;
-    private javax.swing.JLabel jLabelBarChart;
     private javax.swing.JLabel jLabelGeneFilter;
-    private javax.swing.JLabel jLabelPathwayChart;
-    private javax.swing.JLabel jLabelPieChart;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -970,18 +887,14 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemAboutUs;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanelACR;
     private javax.swing.JPanel jPanelBarChart;
-    private javax.swing.JPanel jPanelGenomicFeaturesPieChart;
-    private javax.swing.JPanel jPanelPathwayEnrichmentChart;
     private javax.swing.JPanel jPanelPeaks;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTabbedPane jTabbedPanePlots;
+    private javax.swing.JScrollPane jScrollPaneGO;
+    private javax.swing.JScrollPane jScrollPanePathway;
     private javax.swing.JTable jTableGO;
     private javax.swing.JTable jTablePathways;
     private javax.swing.JTable jTablePeaks;

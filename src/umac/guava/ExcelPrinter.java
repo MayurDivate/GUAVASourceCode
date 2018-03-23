@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -554,6 +555,56 @@ public class ExcelPrinter {
             Logger.getLogger(ExcelPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
      
+    }
+    
+    public static void printACRresults(ArrayList<ACRresult> acrResults){
+
+        try{
+            FileInputStream fileInputStream = new FileInputStream(excelWorkBook);
+            XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
+            
+            //header
+            CellStyle headerStyle = workbook.createCellStyle();
+            XSSFFont font = workbook.createFont();
+            font.setBold(true);
+            font.setColor(IndexedColors.WHITE.getIndex());
+            font.setFontHeight(14.0);
+            headerStyle.setFont(font);
+            headerStyle = getStyle(headerStyle, 1);
+            
+            // Regular style
+            CellStyle regularStyle = workbook.createCellStyle();
+            regularStyle = getStyle(regularStyle, 2);
+
+            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
+                XSSFSheet spreadsheet = workbook.getSheet("Plot");
+
+                XSSFRow row;
+                int rowid = 1;
+                Cell cell;
+                for (ACRresult item : acrResults) {
+                    row = spreadsheet.createRow(rowid++);
+                    cell = row.createCell(0);
+                    cell.setCellValue(item.getRegion());
+                    cell.setCellStyle(headerStyle);
+                    cell = row.createCell(1);
+                    cell.setCellValue(item.getPercentage() + "%");
+                    cell.setCellStyle(regularStyle);
+                }
+
+            }
+
+            FileOutputStream out = new FileOutputStream(excelWorkBook);
+            workbook.write(out);
+            out.close();
+            fileInputStream.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ExcelPrinter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ExcelPrinter.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    
     }
     
     

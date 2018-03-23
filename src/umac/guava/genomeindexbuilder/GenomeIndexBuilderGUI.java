@@ -16,6 +16,7 @@
  */
 package umac.guava.genomeindexbuilder;
 
+import java.awt.Color;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -224,6 +225,7 @@ public class GenomeIndexBuilderGUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
@@ -274,11 +276,10 @@ public class GenomeIndexBuilderGUI extends javax.swing.JFrame {
         GenomeIndexBuilder gib = new GenomeIndexBuilder(genomeFastaFile, outputFile, aligner);
         this.dispose();
         WaitFrame wait = new WaitFrame();
-        wait.setVisible(true);
-
-        if(wait.isShowing()){
-            gib.CreateGenomeIndex();
-        }
+        this.setVisible(true);
+        
+        gib.CreateGenomeIndex();
+        
         System.out.println("close");
         System.exit(0);
     }//GEN-LAST:event_jButtonStartActionPerformed
