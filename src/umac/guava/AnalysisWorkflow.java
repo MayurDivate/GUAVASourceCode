@@ -210,10 +210,7 @@ public class AnalysisWorkflow {
         }
         if (!commandLine && go) {
             System.out.println("----------- Display peak annotation Results-------------");
-            String basename = GuavaOutputFiles.getOutBaseName();
-            File macas2outXls = new File(outFiles.getMacs2Dir(), basename + "peaks.xls");
-            Genome genome = Genome.getGenomeObject(guavaInput.getGenome());
-            ChIPpeakAnno chipPeakAnno = ChIPpeakAnno.getChIPpeakAnnoObject(macas2outXls, "MACS2", genome);
+            ChIPpeakAnno chipPeakAnno = outFiles.getChipPeakAnno();
 
             // annotation table 
             if (chipPeakAnno.getPeakAnnoated().exists()) {
@@ -791,10 +788,9 @@ public class AnalysisWorkflow {
             return false;
         }
         
-        // all ok then write code to the file
-        System.out.println("umac.guava.AnalysisWorkflow.runChIPpeakAnno() >> now write R code");
+        // creat Rcode file 
         boolean status = chipPeakAnno.writeCode(chipPeakAnno.getChIPpeakAnnoRcode(), chipPeakAnno.getrCodeFile());
-        System.out.println("umac.guava.AnalysisWorkflow.runChIPpeakAnno() << DONE");
+
         if (status) {
             String log[] = chipPeakAnno.runCommand(chipPeakAnno.getCommand());
             chipPeakAnno.writeLog(log, "**************************** ChIPpeakAnno log ****************************");

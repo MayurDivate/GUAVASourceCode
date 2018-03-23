@@ -116,7 +116,7 @@ public class ChIPpeakAnno extends Tool {
                 "overPath <- getEnrichedPATH(macs.anno, orgAnn = OrgEgDb,\n" +
                 "pathAnn = \"KEGG.db\",\n" +
                 "feature_id_type = \"entrez_id\",\n" +
-                "maxP=0.01, minPATHterm=10, multiAdjMethod=NULL)"+"\n";
+                "maxP=0.01, minPATHterm=10, multiAdjMethod=\"BH\")"+"\n";
         code = code + "overPath$symbol <- xget(as.character(overPath$EntrezID),"+orgSymbol+")"+"\n";
         code = code + "write.table(overPath,\""+this.getPathwayAnalysisOutputFile().getAbsolutePath()+"\", sep = \"\\t\", quote = FALSE)"+"\n";
 
