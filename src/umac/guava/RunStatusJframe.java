@@ -379,8 +379,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBarChartLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         resultTabs.addTab("Plot", jPanelBarChart);
