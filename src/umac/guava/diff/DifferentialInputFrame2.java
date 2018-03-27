@@ -19,6 +19,7 @@ package umac.guava.diff;
 import java.awt.Color;
 import java.io.File;
 import javax.swing.JFileChooser;
+import umac.guava.Genome;
 
 /**
  *
@@ -53,11 +54,13 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
         jLabelGenome = new javax.swing.JLabel();
         jComboBoxFC = new javax.swing.JComboBox<>();
         jComboBoxMetho = new javax.swing.JComboBox<>();
-        jTextFieldGenome = new javax.swing.JTextField();
         jTextFieldDownstream = new javax.swing.JTextField();
         jTextFieldPvalue = new javax.swing.JTextField();
         jLabelUpStream = new javax.swing.JLabel();
         jTextFieldUpstream = new javax.swing.JTextField();
+        jLabelCPU = new javax.swing.JLabel();
+        jSpinnerCPUs = new javax.swing.JSpinner();
+        jComboBoxGenome = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanelBackResetNextButtons = new javax.swing.JPanel();
@@ -96,23 +99,9 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
 
         jComboBoxFC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2","1.5","1"}));
 
-        jComboBoxMetho.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DESeq2"}));
+        jComboBoxMetho.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DESeq2" }));
 
-        jTextFieldGenome.setEditable(false);
-        jTextFieldGenome.setText("hg19");
-        jTextFieldGenome.setEnabled(false);
-        jTextFieldGenome.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentMoved(java.awt.event.ComponentEvent evt) {
-                jTextFieldGenomeComponentMoved(evt);
-            }
-        });
-        jTextFieldGenome.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldGenomeKeyTyped(evt);
-            }
-        });
-
-        jTextFieldDownstream.setText("1000");
+        jTextFieldDownstream.setText("3000");
         jTextFieldDownstream.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldDownstreamKeyTyped(evt);
@@ -128,12 +117,18 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
 
         jLabelUpStream.setText("Upstream of TSS");
 
-        jTextFieldUpstream.setText("1000");
+        jTextFieldUpstream.setText("5000");
         jTextFieldUpstream.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldUpstreamKeyTyped(evt);
             }
         });
+
+        jLabelCPU.setText("CPUs");
+
+        jSpinnerCPUs.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        jComboBoxGenome.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "hg19" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -147,22 +142,26 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
                     .addComponent(jLabelUpStream, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jComboBoxMetho, 0, 82, Short.MAX_VALUE)
-                    .addComponent(jComboBoxFC, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldUpstream))
-                .addGap(31, 31, 31)
+                    .addComponent(jTextFieldUpstream)
+                    .addComponent(jComboBoxFC, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelDownStream, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelPvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldPvalue)
-                            .addComponent(jTextFieldDownstream, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)))
+                        .addComponent(jLabelDownStream, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldDownstream, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelGenome, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabelPvalue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelGenome, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldGenome)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldPvalue, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxGenome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelCPU)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSpinnerCPUs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10))
         );
         jPanel1Layout.setVerticalGroup(
@@ -173,7 +172,9 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
                     .addComponent(jLabelMethod, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxMetho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelGenome, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldGenome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelCPU)
+                    .addComponent(jSpinnerCPUs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxGenome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelFC, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,7 +199,7 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel4)
-                .addContainerGap(331, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,9 +253,9 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             .addGroup(jPanelBackResetNextButtonsLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanelBackResetNextButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonStart, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonStart, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -277,7 +278,7 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jButtonOutputFolder)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldOutputFolder)
                 .addGap(10, 10, 10))
         );
@@ -286,8 +287,8 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonOutputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldOutputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonOutputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldOutputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -297,12 +298,12 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelBackResetNextButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanelBackResetNextButtons, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,10 +313,10 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanelBackResetNextButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
 
         pack();
@@ -335,13 +336,16 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             double pvalue =  Double.parseDouble(jTextFieldPvalue.getText());
             int downstream = Integer.parseInt(jTextFieldDownstream.getText());
             int upstream = Integer.parseInt(jTextFieldUpstream.getText());
-            String genome = "hg19"; // get genome
+            Genome genome = Genome.getGenomeObject(jComboBoxGenome.getSelectedItem().toString());
+            String method = jComboBoxMetho.getSelectedItem().toString();
+            int cpus = (int) jSpinnerCPUs.getValue();
             
-            GdiffInput gdiffInput = new GdiffInput(outputFolder, dof, foldchange,
-                    pvalue, DifferentialInputFrame1.dfInputList, DifferentialInputFrame1.projectName, genome,upstream,downstream);
+            GdiffInput gdiffInput = new GdiffInput(outputFolder, dof, foldchange, pvalue, 
+                    DifferentialInputFrame1.dfInputList, DifferentialInputFrame1.projectName, 
+                    genome, upstream, downstream,method, cpus );
             this.dispose();
             
-            new DifferentialAnalysisFlow().startDifferentialAnalysis(gdiffInput);
+            new DifferentialAnalysisWorkflow().startDifferentialAnalysis(gdiffInput);
         }
     }//GEN-LAST:event_jButtonStartActionPerformed
     
@@ -353,7 +357,8 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
         double pvalue =  Double.parseDouble(jTextFieldPvalue.getText());
         int downstream = Integer.parseInt(jTextFieldDownstream.getText());
         int upstream = Integer.parseInt(jTextFieldUpstream.getText());
-        String genome = "hg19"; // get genome and validation code
+        
+        
             
         
         if(!outputFolder.exists()){
@@ -389,8 +394,9 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
         jComboBoxMetho.setSelectedIndex(0);
         jComboBoxFC.setSelectedIndex(0);
-        jTextFieldGenome.setText("1");
-        jTextFieldDownstream.setText("1000");
+        jComboBoxGenome.setSelectedIndex(0);
+        jTextFieldDownstream.setText("3000");
+        jTextFieldUpstream.setText("5000");
         jTextFieldPvalue.setText("0.05");
     }//GEN-LAST:event_jButtonResetActionPerformed
 
@@ -409,23 +415,10 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
         if(returnVal == JFileChooser.APPROVE_OPTION){
             File outputDir = addFileChooser.getSelectedFile();
             jTextFieldOutputFolder.setText(outputDir.getAbsolutePath());
-            DifferentialOutputFiles.outFolder = outputDir;
+            DifferentialOutputFiles.setOutFolder(outputDir);
             jTextFieldOutputFolder.setForeground(Color.BLACK);
         }
     }//GEN-LAST:event_jButtonOutputFolderActionPerformed
-
-    private void jTextFieldGenomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldGenomeKeyTyped
-        // TODO add your handling code here:
-        char key =  evt.getKeyChar();
-        if(!Character.isDigit(key)){
-            evt.consume();
-        }
-        
-    }//GEN-LAST:event_jTextFieldGenomeKeyTyped
-
-    private void jTextFieldGenomeComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTextFieldGenomeComponentMoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldGenomeComponentMoved
 
     private void jTextFieldDownstreamKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDownstreamKeyTyped
         // TODO add your handling code here:
@@ -457,8 +450,10 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
     private javax.swing.JButton jButtonReset;
     private javax.swing.JButton jButtonStart;
     private javax.swing.JComboBox<String> jComboBoxFC;
+    private javax.swing.JComboBox<String> jComboBoxGenome;
     private javax.swing.JComboBox<String> jComboBoxMetho;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelCPU;
     private javax.swing.JLabel jLabelDownStream;
     private javax.swing.JLabel jLabelFC;
     private javax.swing.JLabel jLabelGenome;
@@ -470,8 +465,8 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelBackResetNextButtons;
+    private javax.swing.JSpinner jSpinnerCPUs;
     private javax.swing.JTextField jTextFieldDownstream;
-    private javax.swing.JTextField jTextFieldGenome;
     private javax.swing.JTextField jTextFieldOutputFolder;
     private javax.swing.JTextField jTextFieldPvalue;
     private javax.swing.JTextField jTextFieldUpstream;

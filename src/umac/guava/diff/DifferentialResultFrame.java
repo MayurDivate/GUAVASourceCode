@@ -344,7 +344,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             Desktop desktop = Desktop.getDesktop();
-            desktop.open(DifferentialOutputFiles.outFolder.getAbsoluteFile());
+            desktop.open(DifferentialOutputFiles.getOutFolder().getAbsoluteFile());
         } catch (IOException ex) {
             Logger.getLogger(RunStatusJframe.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -535,7 +535,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         dfModel.addRow(rowData);
 
         rowData[0] = "Genome build";
-        rowData[1] = ""+input.getGenomeBuild();
+        rowData[1] = ""+input.getGenome().getGenomeName();
         dfModel.addRow(rowData);
         
         rowData[0] = "Analysis Method";

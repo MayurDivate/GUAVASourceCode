@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
  * @author mayurdivate
  */
 public class ChIPpeakAnno extends Tool {
-    
+
     private File inputFile;
     private String inputFileFormat;
     private File barChart;
@@ -42,132 +42,224 @@ public class ChIPpeakAnno extends Tool {
     private File rCodeFile;
     private File acrTxt;
     private Genome genome;
-    
-    String getChIPpeakAnnoRcode(){
-       
+
+    String getChIPpeakAnnoRcode() {
+
         //SETWD
         // genome hg19 / hg18 etc
-        
         String txDb = this.getGenome().getTxdb();
         String orgDB = this.getGenome().getOrgdb();
         String orgSymbol = this.getGenome().getOrgdbSymbol();
-        
+
         // load lobraries
-        String code = "\n"+
-                "library(ChIPpeakAnno)\n" +
-                "library(GenomicFeatures)\n" +
-                "library( "+txDb+")\n"+
-                "library(KEGG.db)\n";
-        
+        String code = "\n"
+                + "library(ChIPpeakAnno)\n"
+                + "library(GenomicFeatures)\n"
+                + "library( " + txDb + ")\n"
+                + "library(KEGG.db)\n";
+
         // set input files
-        code = code + "setwd(\""+ this.getOutputFolder().getAbsolutePath()+"\")"+"\n";
-        code = code + "macs <-\""+this.getInputFile().getAbsolutePath() +"\"\n";
-        code = code + "macsOutput <- toGRanges(macs, format=\""+this.getInputFileFormat()+"\")"+"\n";
-        
+        code = code + "setwd(\"" + this.getOutputFolder().getAbsolutePath() + "\")" + "\n";
+        code = code + "macs <-\"" + this.getInputFile().getAbsolutePath() + "\"\n";
+        code = code + "macsOutput <- toGRanges(macs, format=\"" + this.getInputFileFormat() + "\")" + "\n";
+
         // annoatate peaks
-        code = code + "ucscTxDb <- \""+txDb+"\""+"\n";
-        code = code + "ucscGenes <- genes("+txDb+")"+"\n";
-        code = code + "macs.anno <- annotatePeakInBatch(macsOutput, AnnotationData=ucscGenes, \n" 
-                +"output = \"nearestBiDirectionalPromoters\", \n"
-                +"bindingRegion = c(-5000, 3000))"+"\n";
-        
+        code = code + "ucscTxDb <- \"" + txDb + "\"" + "\n";
+        code = code + "ucscGenes <- genes(" + txDb + ")" + "\n";
+        code = code + "macs.anno <- annotatePeakInBatch(macsOutput, AnnotationData=ucscGenes, \n"
+                + "output = \"nearestBiDirectionalPromoters\", \n"
+                + "bindingRegion = c(-5000, 3000))" + "\n";
+
         // add gene symbols
-        code = code + "OrgEgDb <- \""+orgDB+"\""+"\n" 
-                + "macs.anno <- addGeneIDs(annotatedPeak=macs.anno, \n" 
-                + "orgAnn=OrgEgDb,\n" 
-                + "feature_id_type=\"entrez_id\",\n" 
+        code = code + "OrgEgDb <- \"" + orgDB + "\"" + "\n"
+                + "macs.anno <- addGeneIDs(annotatedPeak=macs.anno, \n"
+                + "orgAnn=OrgEgDb,\n"
+                + "feature_id_type=\"entrez_id\",\n"
                 + "IDs2Add=\"symbol\")"
-                +"\n"
+                + "\n"
                 + "macs.anno@ranges@NAMES <- NULL"
                 + "\n";
-        
+
         // write to file
         code = code + "macsAnnoOut <- as.data.frame(macs.anno)\n"
                 + "macsAnnoOut <- macsAnnoOut[,c(1,2,3,6,8,9,10,14,15,17,19,20,22,12,21)]" + "\n"
-                + "colnames(macsAnnoOut) <- c(\"Chr\",\"Peak Start\",\"Peak End\",\"length\",\"pileup\",\"X.log10.qvalue.\",\"X.log10.qvalue.\",\"Gene Start\",\"Gene End\",\"Gene Strand\",\"Feature Location\",\"Distance to Feature\",\"Gene Symbol\",\"Peak Name\",\"Entrez ID\")"+"\n"
-                + "write.table(macsAnnoOut,\""+this.getPeakAnnoated().getAbsolutePath()+"\", sep = \"\\t\", quote = FALSE)"+"\n"
+                + "colnames(macsAnnoOut) <- c(\"Chr\",\"Peak Start\",\"Peak End\",\"length\",\"pileup\",\"X.log10.qvalue.\",\"X.log10.qvalue.\",\"Gene Start\",\"Gene End\",\"Gene Strand\",\"Feature Location\",\"Distance to Feature\",\"Gene Symbol\",\"Peak Name\",\"Entrez ID\")" + "\n"
+                + "write.table(macsAnnoOut,\"" + this.getPeakAnnoated().getAbsolutePath() + "\", sep = \"\\t\", quote = FALSE)" + "\n"
                 + "\n";
-        
+
         // assign chromosomal regions 
-        code = code + "aCR<-assignChromosomeRegion(macs.anno, nucleotideLevel=FALSE, \n" +
-                "precedence=c(\"Promoters\", \"immediateDownstream\", \n" +
-                "\"fiveUTRs\", \"threeUTRs\", \n" +
-                "\"Exons\", \"Introns\"), \n" +
-                "TxDb="+txDb+")"+"\n";
-        code = code + ""+"\n";
-        
+        code = code + "aCR<-assignChromosomeRegion(macs.anno, nucleotideLevel=FALSE, \n"
+                + "precedence=c(\"Promoters\", \"immediateDownstream\", \n"
+                + "\"fiveUTRs\", \"threeUTRs\", \n"
+                + "\"Exons\", \"Introns\"), \n"
+                + "TxDb=" + txDb + ")" + "\n";
+        code = code + "" + "\n";
+
         // barplot 
         code = code + getBarChartCode(this.getBarChart());
-        code = code + "write.table(acrDF[,c(1,3)],file = \""+this.getAcrTxt()+"\",sep = \"\\t\", quote = FALSE)"+"\n";
-        
-        // write acr.txt
-        code = code + ""+"\n";
-        code = code + ""+"\n";
-        
-        
-        // gene ontology enrichment
-        code = code + "overGO <- getEnrichedGO(macs.anno, orgAnn=\""+orgDB+"\",\n";
-        code = code + "maxP=0.01, minGOterm=10,"+"\n";
-        code = code + "multiAdjMethod=\"BH\","+"\n";
-        code = code + "feature_id_type = \"entrez_id\","+"\n";
-        code = code + "condense=FALSE)"+"\n";
-        code = code + ""+"\n";
-        code = code + "gores <- rbind.data.frame(overGO$bp,overGO$cc,overGO$mf)"+"\n";
-        code = code + "gores$symbol <- xget(as.character(gores$EntrezID),"+orgSymbol+")"+"\n";
-        code = code + "write.table(gores,\""+this.getGoAnalysisOutputFile().getAbsolutePath()+"\", sep = \"\\t\", quote = FALSE)"+"\n";
-        code = code + ""+"\n";
-        
-        // pathway ennrichment
-        code = code +"\n"+
-                "overPath <- getEnrichedPATH(macs.anno, orgAnn = OrgEgDb,\n" +
-                "pathAnn = \"KEGG.db\",\n" +
-                "feature_id_type = \"entrez_id\",\n" +
-                "maxP=0.01, minPATHterm=10, multiAdjMethod=\"BH\")"+"\n";
-        code = code + "overPath$symbol <- xget(as.character(overPath$EntrezID),"+orgSymbol+")"+"\n";
-        code = code + "write.table(overPath,\""+this.getPathwayAnalysisOutputFile().getAbsolutePath()+"\", sep = \"\\t\", quote = FALSE)"+"\n";
+        code = code + "write.table(acrDF[,c(1,3)],file = \"" + this.getAcrTxt() + "\",sep = \"\\t\", quote = FALSE)" + "\n";
 
-       
-        code = code + ""+"\n";
-        code = code + ""+"\n";
-        code = code + ""+"\n";
-        
+        // write acr.txt
+        code = code + "" + "\n";
+        code = code + "" + "\n";
+
+        // gene ontology enrichment
+        code = code + "overGO <- getEnrichedGO(macs.anno, orgAnn=\"" + orgDB + "\",\n";
+        code = code + "maxP=0.01, minGOterm=10," + "\n";
+        code = code + "multiAdjMethod=\"BH\"," + "\n";
+        code = code + "feature_id_type = \"entrez_id\"," + "\n";
+        code = code + "condense=FALSE)" + "\n";
+        code = code + "" + "\n";
+        code = code + "gores <- rbind.data.frame(overGO$bp,overGO$cc,overGO$mf)" + "\n";
+        code = code + "gores$symbol <- xget(as.character(gores$EntrezID)," + orgSymbol + ")" + "\n";
+        code = code + "write.table(gores,\"" + this.getGoAnalysisOutputFile().getAbsolutePath() + "\", sep = \"\\t\", quote = FALSE)" + "\n";
+        code = code + "" + "\n";
+
+        // pathway ennrichment
+        code = code + "\n"
+                + "overPath <- getEnrichedPATH(macs.anno, orgAnn = OrgEgDb,\n"
+                + "pathAnn = \"KEGG.db\",\n"
+                + "feature_id_type = \"entrez_id\",\n"
+                + "maxP=0.01, minPATHterm=10, multiAdjMethod=\"BH\")" + "\n";
+        code = code + "overPath$symbol <- xget(as.character(overPath$EntrezID)," + orgSymbol + ")" + "\n";
+        code = code + "write.table(overPath,\"" + this.getPathwayAnalysisOutputFile().getAbsolutePath() + "\", sep = \"\\t\", quote = FALSE)" + "\n";
+
+        code = code + "" + "\n";
+        code = code + "" + "\n";
+        code = code + "" + "\n";
+
         return code;
     }
-    
-    String getBarChartCode(File barPlotFile){
-        
+
+    String getChIPpeakAnnoDiffRcode(int upstram, int downstream) {
+
+        //SETWD
+        // genome hg19 / hg18 etc
+        String txDb = this.getGenome().getTxdb();
+        String orgDB = this.getGenome().getOrgdb();
+        String orgSymbol = this.getGenome().getOrgdbSymbol();
+
+        // load lobraries
+        String code = "\n"
+                + "library(ChIPpeakAnno)\n"
+                + "library(GenomicFeatures)\n"
+                + "library( " + txDb + ")\n"
+                + "library(KEGG.db)\n";
+
+        // set input files
+        code = code + ""
+                + "setwd(\"" + this.getOutputFolder().getAbsolutePath() + "\")" + "\n"
+                + "bed <- read.table(\" " + this.getInputFileFormat() + "\",sep = \"\\t\")\n"
+                + "bed <- bed[bed$regulation != \"No-change\", c(2:4,1)]\n"
+                + "peaks <- toGRanges(bed, format=\"" + this.getInputFileFormat() + "\")\n"
+                + "\n";
+
+        // annoatate peaks
+        code = code + "ucscTxDb <- \"" + txDb + "\"" + "\n";
+        code = code + "ucscGenes <- genes(" + txDb + ")" + "\n";
+        code = code + "peaks.anno <- annotatePeakInBatch(macsOutput, AnnotationData=ucscGenes," + " \n"
+                + "output = \"nearestBiDirectionalPromoters\"," + " \n"
+                + "bindingRegion = c("+upstram+","+downstream+"))" + "\n";
+
+        // add gene symbols
+        code = code + "OrgEgDb <- \"" + orgDB + "\"" + "\n"
+                + "peaks.anno <- addGeneIDs(annotatedPeak=peaks.anno, \n"
+                + "orgAnn=OrgEgDb,\n"
+                + "feature_id_type=\"entrez_id\",\n"
+                + "IDs2Add=\"symbol\")"
+                + "\n"
+                + "peaks.anno@ranges@NAMES <- NULL"
+                + "\n";
+
+        // write to file
+        code = code + "peaksAnnoOut <- as.data.frame(peaks.anno)"+"\n"
+                + "peaksAnnoOut <- peaksAnnoOut[,c(1,2,3,4,6,8,9,13,14,15,16)]" + "\n"
+                + "colnames(peaksAnnoOut) <- c(\"Chr\",\"Peak Start\",\"Peak End\",\"length\",\n"
+                + "\"Peak Name\",\"Gene Start\",\"Gene End\",\"location\",\"distance\",\"Entrez id\", \"Gene symbol\" )" + "\n"
+                + "write.table(macsAnnoOut,\"" + this.getPeakAnnoated().getAbsolutePath() + "\", sep = \"\\t\", quote = FALSE)" + "\n"
+                + "\n";
+
+        // assign chromosomal regions 
+        code = code + "aCR<-assignChromosomeRegion(peaks.anno, nucleotideLevel=FALSE, \n"
+                + "precedence=c(\"Promoters\", \"immediateDownstream\", \n"
+                + "\"fiveUTRs\", \"threeUTRs\", \n"
+                + "\"Exons\", \"Introns\"), \n"
+                + "TxDb=" + txDb + ")" + "\n";
+        code = code + "" + "\n";
+
+        // barplot 
+        code = code + getBarChartCode(this.getBarChart());
+        code = code + "write.table(acrDF[,c(1,3)],file = \"" + this.getAcrTxt() + "\",sep = \"\\t\", quote = FALSE)" + "\n";
+
+        // write acr.txt
+        code = code + "" + "\n";
+        code = code + "" + "\n";
+
+        // gene ontology enrichment
+        code = code + "overGO <- getEnrichedGO(peaks.anno, orgAnn=\"" + orgDB + "\",\n"
+                + "maxP=1, minGOterm=5," + "\n"
+                + "multiAdjMethod=\"BH\"," + "\n"
+                + "feature_id_type = \"entrez_id\"," + "\n"
+                + "condense=FALSE)" + "\n"
+                + "" + "\n"
+                + "gores <- rbind.data.frame(overGO$bp,overGO$cc,overGO$mf)" + "\n"
+                + "gores <- gores[gores$pvalue <= 0.05,]" + "\n"
+                + "gores$symbol <- xget(as.character(gores$EntrezID)," + orgSymbol + ")" + "\n"
+                + "write.table(gores,\"" + this.getGoAnalysisOutputFile().getAbsolutePath() + "\", sep = \"\\t\", quote = FALSE)" + "\n"
+                + "" + "\n";
+
+        // pathway ennrichment
+        code = code + "\n"
+                + "overPath <- getEnrichedPATH(macs.anno, orgAnn = OrgEgDb,\n"
+                + "pathAnn = \"KEGG.db\",\n"
+                + "feature_id_type = \"entrez_id\",\n"
+                + "maxP=1, minPATHterm=1, multiAdjMethod=\"BH\")" + "\n"
+                + "overPath <- overPath[overPath$pvalue <= 0.05,]" + "\n"
+                + "overPath$symbol <- xget(as.character(overPath$EntrezID)," + orgSymbol + ")" + "\n"
+                + "write.table(overPath,\"" + this.getPathwayAnalysisOutputFile().getAbsolutePath() + "\", "
+                + "sep = \"\\t\", quote = FALSE)" + "\n";
+
+        code = code + "" + "\n";
+        code = code + "" + "\n";
+        code = code + "" + "\n";
+
+        return code;
+    }
+
+    String getBarChartCode(File barPlotFile) {
+
         int width = 760;
-        int height =  400;
+        int height = 400;
         int legendFS = 12;
         int titleFS = 15;
-        
+
         String code = "\n"
                 + "library(ggplot2)\n"
-                + "Regions <- names(aCR$percentage)\n" 
-                + "Freq <- as.vector(aCR$percentage)\n" 
-                + "acrDF <- data.frame(Regions, Freq)\n" 
-                + "acrDF$Regions <- factor(acrDF$Regions,levels = Regions)\n" 
-                + "acrDF$text <- round(acrDF$Freq,2)\n" 
-                + "acrDF$text <- paste(acrDF$text,\"%\")\n" 
-                + "\n" 
-                + "p <- ggplot(acrDF, aes(Regions,Freq, fill=Regions))\n" 
-                + "p <- p + geom_col()\n" 
-                + "p <- p + ylab(label = \"Percentage of Peaks\")\n" 
-                + "p <- p + theme(plot.title = element_text(hjust = 0.5,size = "+titleFS+"))\n" 
-                + "p <- p + ggtitle(\"Peak distribution in chromosomal regions\")\n" 
-                + "p <- p + theme(legend.position = \"none\",axis.title.x = element_blank())\n" 
-                + "p <- p + theme(axis.text.x = element_text(size = "+legendFS+",colour = \"black\"))\n" 
-                + "p <- p + theme(axis.text.y = element_text(size = "+legendFS+",colour = \"black\"))\n"
+                + "Regions <- names(aCR$percentage)\n"
+                + "Freq <- as.vector(aCR$percentage)\n"
+                + "acrDF <- data.frame(Regions, Freq)\n"
+                + "acrDF$Regions <- factor(acrDF$Regions,levels = Regions)\n"
+                + "acrDF$text <- round(acrDF$Freq,2)\n"
+                + "acrDF$text <- paste(acrDF$text,\"%\")\n"
+                + "\n"
+                + "p <- ggplot(acrDF, aes(Regions,Freq, fill=Regions))\n"
+                + "p <- p + geom_col()\n"
+                + "p <- p + ylab(label = \"Percentage of Peaks\")\n"
+                + "p <- p + theme(plot.title = element_text(hjust = 0.5,size = " + titleFS + "))\n"
+                + "p <- p + ggtitle(\"Peak distribution in chromosomal regions\")\n"
+                + "p <- p + theme(legend.position = \"none\",axis.title.x = element_blank())\n"
+                + "p <- p + theme(axis.text.x = element_text(size = " + legendFS + ",colour = \"black\"))\n"
+                + "p <- p + theme(axis.text.y = element_text(size = " + legendFS + ",colour = \"black\"))\n"
                 + "p <- p + geom_text(aes(label = text, y = Freq + 1))\n"
                 + "\n"
-                + "jpeg(\""+barPlotFile.getAbsolutePath()+"\",width = "+width+",height = "+height+")\n" 
-                + "p\n" 
-                + "dev.off()" 
+                + "jpeg(\"" + barPlotFile.getAbsolutePath() + "\",width = " + width + ",height = " + height + ")\n"
+                + "p\n"
+                + "dev.off()"
                 + "\n";
-        
+
         return code;
     }
-    
+
     public boolean writeCode(String code, File ouputFile) {
 
         try {
@@ -184,32 +276,48 @@ public class ChIPpeakAnno extends Tool {
 
         return false;
     }
-    
+
     public static ChIPpeakAnno getChIPpeakAnnoObject(File inputFile, String inputFileFormat, Genome genome) {
 
         if (GuavaOutputFiles.rootDir != null) {
 
             String basename = GuavaOutputFiles.getOutBaseName();
-            File outputFolder               = new File(GuavaOutputFiles.rootDir, basename + "Functional_Analysis");
-            
-            File barChart                   = new File(outputFolder, basename + "bar_chart.jpg");
-            File annoatedPeakFile           = new File(outputFolder, basename + "Annotated_Peaks.txt");
-            File goAnalysisOutputFile       = new File(outputFolder, basename + "GeneOntology_Analysis.txt");
-            File pathwayAnalysisOutputFile  = new File(outputFolder, basename + "KEGG_Pathway_Analysis.txt");
-            File rCodeFile                  = new File(outputFolder, basename + "ChIPpeakAnno.R");
-            File acrTxt                     = new File(outputFolder, basename + "acr.txt");
+            File outputFolder = new File(GuavaOutputFiles.rootDir, basename + "Functional_Analysis");
+
+            File barChart = new File(outputFolder, basename + "bar_chart.jpg");
+            File annoatedPeakFile = new File(outputFolder, basename + "Annotated_Peaks.txt");
+            File goAnalysisOutputFile = new File(outputFolder, basename + "GeneOntology_Analysis.txt");
+            File pathwayAnalysisOutputFile = new File(outputFolder, basename + "KEGG_Pathway_Analysis.txt");
+            File rCodeFile = new File(outputFolder, basename + "ChIPpeakAnno.R");
+            File acrTxt = new File(outputFolder, basename + "acr.txt");
 
             ChIPpeakAnno chipPeakAnno = new ChIPpeakAnno(inputFile, inputFileFormat,
-                    barChart, annoatedPeakFile, outputFolder, goAnalysisOutputFile, 
+                    barChart, annoatedPeakFile, outputFolder, goAnalysisOutputFile,
                     pathwayAnalysisOutputFile, rCodeFile, genome, acrTxt);
-            
+
             return chipPeakAnno;
         }
-        
+
         System.out.println("umac.guava.ChIPpeakAnno.getChIPpeakAnnoObject()");
         System.out.println("Null pointer because of early call!");
-        
+
         return null;
+    }
+
+    public static ChIPpeakAnno getChIPpeakAnnoObject(File inputFile, String basename, String inputFileFormat, Genome genome) {
+        File outputFolder = new File(inputFile.getParentFile(), basename + "Functional_Analysis");
+        File barChart = new File(outputFolder, basename + "bar_chart.jpg");
+        File annoatedPeakFile = new File(outputFolder, basename + "Annotated_Peaks.txt");
+        File goAnalysisOutputFile = new File(outputFolder, basename + "GeneOntology_Analysis.txt");
+        File pathwayAnalysisOutputFile = new File(outputFolder, basename + "KEGG_Pathway_Analysis.txt");
+        File rCodeFile = new File(outputFolder, basename + "ChIPpeakAnno.R");
+        File acrTxt = new File(outputFolder, basename + "acr.txt");
+
+        ChIPpeakAnno chipPeakAnno = new ChIPpeakAnno(inputFile, inputFileFormat,
+                barChart, annoatedPeakFile, outputFolder, goAnalysisOutputFile,
+                pathwayAnalysisOutputFile, rCodeFile, genome, acrTxt);
+
+        return chipPeakAnno;
     }
 
     /**
@@ -296,8 +404,6 @@ public class ChIPpeakAnno extends Tool {
         this.genome = genome;
     }
 
-   
-
     /**
      * @return the outputFolder
      */
@@ -340,7 +446,7 @@ public class ChIPpeakAnno extends Tool {
         this.rCodeFile = rCodeFile;
     }
 
-    public ChIPpeakAnno(File inputFile, String inputFileFormat, File barChart, File peakAnnoated, File outputFolder, 
+    public ChIPpeakAnno(File inputFile, String inputFileFormat, File barChart, File peakAnnoated, File outputFolder,
             File goAnalysisOutputFile, File pathwayAnalysisOutputFile, File rCodeFile, Genome genome, File acrTxt) {
         this.inputFile = inputFile;
         this.inputFileFormat = inputFileFormat;
@@ -356,34 +462,34 @@ public class ChIPpeakAnno extends Tool {
 
     @Override
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outputFile) {
-        String[] commandArray =  
-            {   "Rscript",
-                inputFile.getAbsolutePath()
-            };
+        String[] commandArray
+                = {"Rscript",
+                    inputFile.getAbsolutePath()
+                };
         return commandArray;
     }
 
     public String[] getCommand() {
-        String[] commandArray =  
-            {   "Rscript",
-                this.getrCodeFile().getAbsolutePath()
-            };
+        String[] commandArray
+                = {"Rscript",
+                    this.getrCodeFile().getAbsolutePath()
+                };
         return commandArray;
     }
-     
+
     @Override
     public String[] runCommand(String[] commandArray) {
-        String[] log =  new String[2];
+        String[] log = new String[2];
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(commandArray);
             Process process = processBuilder.start();
-            String stdOUT   = new ChIPseeker().getSTDoutput(process);
+            String stdOUT = new ChIPseeker().getSTDoutput(process);
             String errorLog = new ChIPseeker().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
             return log;
-        } catch (IOException ex) { 
-            System.out.println("\t\t"+ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("\t\t" + ex.getMessage());
             return null;
         }
     }
@@ -396,14 +502,13 @@ public class ChIPpeakAnno extends Tool {
         return false;
     }
 
- 
-    boolean isSuccess(String errorlog){
-        Pattern pFail = Pattern.compile("fail",Pattern.CASE_INSENSITIVE);
-        Pattern pError = Pattern.compile("error",Pattern.CASE_INSENSITIVE);
-        Matcher mFail =  pFail.matcher(errorlog);
-        Matcher mError =  pError.matcher(errorlog);
-        
-        if(mFail.find() || mError.find()){
+    boolean isSuccess(String errorlog) {
+        Pattern pFail = Pattern.compile("fail", Pattern.CASE_INSENSITIVE);
+        Pattern pError = Pattern.compile("error", Pattern.CASE_INSENSITIVE);
+        Matcher mFail = pFail.matcher(errorlog);
+        Matcher mError = pError.matcher(errorlog);
+
+        if (mFail.find() || mError.find()) {
             return false;
         }
         return true;
@@ -422,5 +527,5 @@ public class ChIPpeakAnno extends Tool {
     public void setAcrTxt(File acrTxt) {
         this.acrTxt = acrTxt;
     }
-    
+
 }

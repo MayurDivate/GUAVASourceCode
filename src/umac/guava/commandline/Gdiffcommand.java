@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import umac.guava.Genome;
 import umac.guava.Input;
 import umac.guava.diff.GdiffInput;
 import umac.guava.diff.DifferentialInputFile;
@@ -127,16 +128,18 @@ public class Gdiffcommand extends CommandlineTool{
             
             // build ArrayList of differential input file 
             ArrayList<DifferentialInputFile> differentialInputFiles = gdiff.getDifferentialInputFiles();
-           
+            Genome genome =  Genome.getGenomeObject("hg19");
+                    
             GdiffInput atacSeqDiffInput = new GdiffInput(gdiff.getOutdir(), 
                    diffOutputFiles,
                    gdiff.getFoldchange(),
                    gdiff.getPvalue(),
                    differentialInputFiles,
                    gdiff.getProjectName(),
-                   gdiff.getGenome(),
+                   genome,
                    gdiff.getUpstreamDistance(),
-                   gdiff.getDownstreamDistance());
+                   gdiff.getDownstreamDistance(), 
+                    "DESeq2", 2);
            
            return atacSeqDiffInput;
 

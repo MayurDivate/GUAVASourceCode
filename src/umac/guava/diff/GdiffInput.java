@@ -19,6 +19,7 @@ package umac.guava.diff;
 import umac.guava.Input;
 import java.io.File;
 import java.util.ArrayList;
+import umac.guava.Genome;
 
 
 /**
@@ -33,107 +34,30 @@ public class GdiffInput extends Input{
     private double pvalue;
     private ArrayList<DifferentialInputFile> diffInputfiles;
     private String projectName;
-    private String genomeBuild;
+    private Genome genome;
     private int upstream;
     private int downstream;
-    
-    public File getOutputfolder() {
-        return outputfolder;
-    }
+    private String method;
+    private int cpus;
 
-    public void setOutputfolder(File outputfolder) {
-        this.outputfolder = outputfolder;
-    }
-
-    public DifferentialOutputFiles getDifferentialOutputFiles() {
-        return differentialOutputFiles;
-    }
-
-    public void setDifferentialOutputFiles(DifferentialOutputFiles differentialOutputFiles) {
-        this.differentialOutputFiles = differentialOutputFiles;
-    }
-
-    public double getFoldChange() {
-        return foldChange;
-    }
-
-    public void setFoldChange(double foldChange) {
-        this.foldChange = foldChange;
-    }
-
-    public double getPvalue() {
-        return pvalue;
-    }
-
-    public void setPvalue(double pvalue) {
-        this.pvalue = pvalue;
-    }
-
-    public ArrayList<DifferentialInputFile> getDiffInputfiles() {
-        return diffInputfiles;
-    }
-
-    public void setDiffInputfiles(ArrayList<DifferentialInputFile> diffInputfiles) {
-        this.diffInputfiles = diffInputfiles;
-    }
-
-    public GdiffInput(File outputfolder, DifferentialOutputFiles differentialOutputFiles, double foldChange, double pvalue,
-            ArrayList<DifferentialInputFile> diffInputfiles, String projectName, String genomeBuild, int upstream, int downstream) {
+    public GdiffInput(File outputfolder, DifferentialOutputFiles differentialOutputFiles, 
+            double foldChange, double pvalue, ArrayList<DifferentialInputFile> diffInputfiles, 
+            String projectName, Genome genome, int upstream, int downstream, String method, int cpus) {
         this.outputfolder = outputfolder;
         this.differentialOutputFiles = differentialOutputFiles;
         this.foldChange = foldChange;
         this.pvalue = pvalue;
         this.diffInputfiles = diffInputfiles;
         this.projectName = projectName;
-        this.genomeBuild = genomeBuild;
-        if(upstream < 0){
-            this.upstream = upstream;
-        }
-        else if(upstream > 0){
-            this.upstream = -1 * upstream;
-        }
-        else{
-            this.upstream =  0;
-        }
-        this.downstream = downstream;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getGenomeBuild() {
-        return genomeBuild;
-    }
-
-    public void setGenomeBuild(String genomeBuild) {
-        this.genomeBuild = genomeBuild;
-    }
-
-    public int getUpstream() {
-        return upstream;
-    }
-
-    public void setUpstream(int upstream) {
-        if(upstream < 0){
+        this.genome = genome;
         this.upstream = upstream;
-        }
-    }
-
-    public int getDownstream() {
-        return downstream;
-    }
-
-    public void setDownstream(int downstream) {
-        if(downstream > 0 ){
         this.downstream = downstream;
-        }
+        this.method = method;
+        this.cpus = cpus;
     }
-
+    
+    
+    
     @Override
     public String toString() {
         String gdiffInput = "";
@@ -151,6 +75,154 @@ public class GdiffInput extends Input{
         return gdiffInput; 
     }
 
+    /**
+     * @return the outputfolder
+     */
+    public File getOutputfolder() {
+        return outputfolder;
+    }
+
+    /**
+     * @param outputfolder the outputfolder to set
+     */
+    public void setOutputfolder(File outputfolder) {
+        this.outputfolder = outputfolder;
+    }
+
+    /**
+     * @return the differentialOutputFiles
+     */
+    public DifferentialOutputFiles getDifferentialOutputFiles() {
+        return differentialOutputFiles;
+    }
+
+    /**
+     * @param differentialOutputFiles the differentialOutputFiles to set
+     */
+    public void setDifferentialOutputFiles(DifferentialOutputFiles differentialOutputFiles) {
+        this.differentialOutputFiles = differentialOutputFiles;
+    }
+
+    /**
+     * @return the foldChange
+     */
+    public double getFoldChange() {
+        return foldChange;
+    }
+
+    /**
+     * @param foldChange the foldChange to set
+     */
+    public void setFoldChange(double foldChange) {
+        this.foldChange = foldChange;
+    }
+
+    /**
+     * @return the pvalue
+     */
+    public double getPvalue() {
+        return pvalue;
+    }
+
+    /**
+     * @param pvalue the pvalue to set
+     */
+    public void setPvalue(double pvalue) {
+        this.pvalue = pvalue;
+    }
+
+    /**
+     * @return the diffInputfiles
+     */
+    public ArrayList<DifferentialInputFile> getDiffInputfiles() {
+        return diffInputfiles;
+    }
+
+    /**
+     * @param diffInputfiles the diffInputfiles to set
+     */
+    public void setDiffInputfiles(ArrayList<DifferentialInputFile> diffInputfiles) {
+        this.diffInputfiles = diffInputfiles;
+    }
+
+    /**
+     * @return the projectName
+     */
+    public String getProjectName() {
+        return projectName;
+    }
+
+    /**
+     * @param projectName the projectName to set
+     */
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    /**
+     * @return the genome
+     */
+    public Genome getGenome() {
+        return genome;
+    }
+
+    /**
+     * @param genome the genome to set
+     */
+    public void setGenome(Genome genome) {
+        this.genome = genome;
+    }
+
+    /**
+     * @return the upstream
+     */
+    public int getUpstream() {
+        return upstream;
+    }
+
+    /**
+     * @return the method
+     */
+    public String getMethod() {
+        return method;
+    }
+
+    /**
+     * @param method the method to set
+     */
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    /**
+     * @return the cpus
+     */
+    public int getCpus() {
+        return cpus;
+    }
+
+    /**
+     * @param cpus the cpus to set
+     */
+    public void setCpus(int cpus) {
+        this.cpus = cpus;
+    }
+
+     public void setUpstream(int upstream) {
+        if(upstream < 0){
+        this.upstream = upstream;
+        }
+    }
+
+    public int getDownstream() {
+        return downstream;
+    }
+
+    public void setDownstream(int downstream) {
+        if(downstream > 0 ){
+        this.downstream = downstream;
+        }
+    }
    
     
 }

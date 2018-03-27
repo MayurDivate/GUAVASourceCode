@@ -118,7 +118,8 @@ public abstract class Program {
     
     public boolean deleteFile(File myFile){
             if(myFile.exists()){
-                return myFile.delete();
+                // return myFile.delete();
+                return true;
             }
             return false;
     }

@@ -20,7 +20,7 @@ import umac.guava.AnalysisWorkflow;
 import umac.guava.GuavaInput;
 import umac.guava.Input;
 import umac.guava.diff.GdiffInput;
-import umac.guava.diff.DifferentialAnalysisFlow;
+import umac.guava.diff.DifferentialAnalysisWorkflow;
 import umac.guava.diff.DifferentialInputFrame1;
 
 /**
@@ -111,7 +111,7 @@ public class CommandlineWorkflow {
         
                 // improve method to of input file list validation    
                 // System.out.println("valid input"+DifferentialInputFile.isValidInput(atacdi.getDiffInputfiles()));
-                DifferentialAnalysisFlow analysisFlow = new DifferentialAnalysisFlow();
+                DifferentialAnalysisWorkflow analysisFlow = new DifferentialAnalysisWorkflow();
                 
                 // set project name 
                 DifferentialInputFrame1.projectName = atacdi.getProjectName();
