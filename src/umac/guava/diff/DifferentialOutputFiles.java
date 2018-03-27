@@ -139,7 +139,7 @@ public class DifferentialOutputFiles {
         } catch (IOException ex) {
             Logger.getLogger(Program.class.getName()).log(Level.SEVERE, null, ex);
         }
-           }
+    }
 
     /**
      * @return the logFile

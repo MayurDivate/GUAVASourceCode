@@ -61,7 +61,7 @@ public abstract class Tool {
         
     }
     
-    String getStringFromArray(String[] array){
+    public String getStringFromArray(String[] array){
     
         String arrayString = "";
         for (String s : array){
@@ -71,11 +71,11 @@ public abstract class Tool {
         return arrayString;
     }
     
-    void printCommand(String[] array){
+    public void printCommand(String[] array){
         System.out.println("Command: "+this.getStringFromArray(array));
     }
     
-    void writeLog(String[] logs,String header){
+    public void writeLog(String[] logs,String header){
         
         try {
             FileWriter logFileWriter = new FileWriter(GuavaOutputFiles.logFile,true);

@@ -18,7 +18,11 @@ package umac.guava.diff;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import umac.guava.AnalysisWorkflow;
+import umac.guava.ChIPpeakAnno;
+import umac.guava.Genome;
 import umac.guava.IGVdataTrack;
 
 /**
@@ -26,247 +30,229 @@ import umac.guava.IGVdataTrack;
  * @author mayurdivate
  */
 public class DifferentialAnalysisWorkflow {
-    
+
     boolean errorFlag;
     boolean abortFlag;
- 
-    public boolean startDifferentialAnalysis(GdiffInput atacSeqDiffInput){
-        
+
+    public boolean startDifferentialAnalysis(GdiffInput atacSeqDiffInput) {
+
         DifferentialResultFrame resultFrame = new DifferentialResultFrame();
         resultFrame.setVisible(true);
         resultFrame.addSummary(atacSeqDiffInput);
         DifferentialOutputFiles.writeSummary(atacSeqDiffInput);
-        
-        
-        boolean doNext =  true;
-        DifferentialOutputFiles outputfiles =  atacSeqDiffInput.getDifferentialOutputFiles();
 
-        if(doNext){
+        boolean doNext = true;
+        DifferentialOutputFiles outputfiles = atacSeqDiffInput.getDifferentialOutputFiles();
+
+        if (doNext) {
             System.out.println("---------- create common peaks ----------");
             int minRep = 1; // to get peaks present in min number of replicates;
-            doNext = createCommonPeakList(atacSeqDiffInput.getDiffInputfiles(),outputfiles.getControlTreatmentCommonPeakBed(), minRep);
+            doNext = createCommonPeakList(atacSeqDiffInput.getDiffInputfiles(), outputfiles.getControlTreatmentCommonPeakBed(), minRep);
         }
-     
-        if(doNext){
-          System.out.println("---------- create DESeq2 code ----------");
-          
-            DESeq2 deseq2 = new DESeq2(outputfiles.getDeseqResult(), atacSeqDiffInput.getDiffInputfiles(), 
-                  outputfiles.getControlTreatmentCommonPeakBed(), outputfiles.getDeseqRcode(), 
-                  atacSeqDiffInput.getPvalue(), atacSeqDiffInput.getFoldChange(), outputfiles.getVolcanoPlot(), outputfiles.getPcaPlot());
-            
-            doNext = createDESeq2Code(deseq2, atacSeqDiffInput.getCpus());
-            
-            if(doNext){
-                System.out.println("---------- run DESeq2 code ----------");
-                doNext = runDESeq2(deseq2);
-            }
-            
-            if(doNext){
+
+        if (doNext) {
+            System.out.println("---------- create DESeq2 code ----------");
+
+            DESeq2 deseq2 = new DESeq2(outputfiles.getDeseqResult(), atacSeqDiffInput.getDiffInputfiles(),
+                    outputfiles.getControlTreatmentCommonPeakBed(), outputfiles.getDeseqRcode(),
+                    atacSeqDiffInput.getPvalue(), atacSeqDiffInput.getFoldChange(), outputfiles.getVolcanoPlot(), outputfiles.getPcaPlot());
+
+            doNext = runDifferentialAnalysis(atacSeqDiffInput, deseq2);
+
+            if (doNext) {
                 System.out.println("---------- Display results ----------");
                 resultFrame.displayResultTable(outputfiles.getDeseqResult());
                 resultFrame.displayVplot(deseq2.getVolcanoPlotFile());
+            } else {
+                System.err.println("Error in the differential analysis step");
             }
         }
-        
+
         // run chipPeakAnno
-        
-        if(doNext){
+        if (doNext) {
             System.out.println("---------- create go and pathway enrichment code ----------");
-            doNext = createGOPathwayRcode(outputfiles, atacSeqDiffInput.getUpstream(), atacSeqDiffInput.getDownstream());
+
+            ChIPpeakAnno chipPeakAnno = outputfiles.getChipPeakAnno();
+            
+            doNext =  runFunctionalAnnotation(atacSeqDiffInput, chipPeakAnno);
+            if (doNext) {
+                System.out.println("---------- Display go and pathway plots ----------");
+                resultFrame.displayGO(chipPeakAnno.getGoAnalysisOutputFile());
+                resultFrame.displayPathways(chipPeakAnno.getPathwayAnalysisOutputFile());
+            }
         }
-        if(doNext){
-            System.out.println("---------- run go and pathway enrichment code ----------");
-//            doNext = runGOpathwayAnalysis(outputfiles.getGoPathwayRcode());
-        }
-        if(doNext){
-            System.out.println("---------- Display go and pathway plots ----------");
-  //          resultFrame.displayGO(outputfiles.getGoresults());
-    //        resultFrame.displayPathways(outputfiles.getPathwayresults());
-        }
-        
-        if(doNext){
+
+        if (doNext) {
             doNext = deleteIntermediateFiles(outputfiles);
         }
-        
-        if(!doNext){
+
+        if (!doNext) {
             System.out.println("Error occured, analysis stopped");
         }
-         return doNext;
-                 
+        return doNext;
+
     }
-    
-    public boolean startCommandlineDifferentialAnalysis(GdiffInput atacSeqDiffInput){
+
+    public boolean startCommandlineDifferentialAnalysis(GdiffInput atacSeqDiffInput) {
         // print summary
         //System.out.println("Summary \n"+atacSeqDiffInput);
         DifferentialOutputFiles.writeSummary(atacSeqDiffInput);
-        
-        
-        boolean doNext =  true;
-        DifferentialOutputFiles outputfiles =  atacSeqDiffInput.getDifferentialOutputFiles();
 
-        if(doNext){
+        boolean doNext = true;
+        DifferentialOutputFiles outputfiles = atacSeqDiffInput.getDifferentialOutputFiles();
+
+        if (doNext) {
             System.out.println("---------- create common peaks ----------");
-            int minRep = 1; 
-            doNext = createCommonPeakList(atacSeqDiffInput.getDiffInputfiles(),outputfiles.getControlTreatmentCommonPeakBed(), minRep);
+            int minRep = 1;
+            doNext = createCommonPeakList(atacSeqDiffInput.getDiffInputfiles(), outputfiles.getControlTreatmentCommonPeakBed(), minRep);
         }
-        if(doNext){
+        if (doNext) {
             System.out.println("---------- Run Differential Analysis ----------");
-            
-            DESeq2 deseq2 = new DESeq2(outputfiles.getDeseqResult(), atacSeqDiffInput.getDiffInputfiles(), 
-                    outputfiles.getControlTreatmentCommonPeakBed(), outputfiles.getDeseqRcode(), 
-                    atacSeqDiffInput.getPvalue(), atacSeqDiffInput.getFoldChange(), 
+
+            DESeq2 deseq2 = new DESeq2(outputfiles.getDeseqResult(), atacSeqDiffInput.getDiffInputfiles(),
+                    outputfiles.getControlTreatmentCommonPeakBed(), outputfiles.getDeseqRcode(),
+                    atacSeqDiffInput.getPvalue(), atacSeqDiffInput.getFoldChange(),
                     outputfiles.getVolcanoPlot(), outputfiles.getPcaPlot());
-            
-//            doNext = runDifferentialAnalysis(deseq2);
-            
-            if(doNext){
-                System.out.println("---------- run DESeq2 code ----------");
-                doNext = runDESeq2(deseq2);
-            }
-            
+
+            doNext = runDifferentialAnalysis(atacSeqDiffInput, deseq2);
         }
-        
-        if(doNext){
-            System.out.println("---------- create go and pathway enrichment code ----------");
-            doNext = createGOPathwayRcode(outputfiles, atacSeqDiffInput.getUpstream(), atacSeqDiffInput.getDownstream());
+
+        if (doNext) {
+            System.out.println("---------- Run Functional analysis ----------");
+            //doNext = createGOPathwayRcode(outputfiles, atacSeqDiffInput.getUpstream(), atacSeqDiffInput.getDownstream());
+            ChIPpeakAnno chipPeakAnno =  ChIPpeakAnno.getChIPpeakAnnoObject(outputfiles.getDeseqResult(),
+                    atacSeqDiffInput.getProjectName(), "BED", atacSeqDiffInput.getGenome());
+            doNext = runFunctionalAnnotation(atacSeqDiffInput, chipPeakAnno);
         }
-        if(doNext){
-            System.out.println("---------- run go and pathway enrichment code ----------");
-//            doNext = runGOpathwayAnalysis(outputfiles.getGoPathwayRcode());
-        }
-        
-        if(doNext){
+
+        if (doNext) {
             doNext = deleteIntermediateFiles(outputfiles);
         }
 
-        if(!doNext){
+        if (!doNext) {
             System.out.println("Error occured, analysis stopped");
-        }         
-         return doNext;
-                 
+        }
+        return doNext;
+
     }
-    
-    boolean createDir(File dir){
+
+    boolean createDir(File dir) {
         System.out.println(dir.getAbsolutePath());
-        if(!dir.exists()){
+        if (!dir.exists()) {
             return dir.mkdir();
-         }
-        else{
+        } else {
             new AnalysisWorkflow().removeDir(dir);
             return dir.mkdir();
         }
-        
+
     }
-    
-    public boolean createCommonPeakList(ArrayList<DifferentialInputFile> inputFiles, File outFile , int minRep){
-        
-        System.out.println("umac.guava.diff.DifferentialAnalysisFlow.createCommonPeakList()"+"BUG");
-        /**********************************************************/
-        
+
+    public boolean createCommonPeakList(ArrayList<DifferentialInputFile> inputFiles, File outFile, int minRep) {
+
+        System.out.println("umac.guava.diff.DifferentialAnalysisFlow.createCommonPeakList()" + "BUG");
+        /**
+         * *******************************************************
+         */
+
         //get control common peaks  
-        ArrayList<Peak> controlCommonPeaks = getCommonPeaksForConditionByOverlap(inputFiles , "control", minRep);
-        System.out.println("=======>"+"Control peaks == "+controlCommonPeaks.size());
-        
+        ArrayList<Peak> controlCommonPeaks = getCommonPeaksForConditionByOverlap(inputFiles, "control", minRep);
+        System.out.println("=======>" + "Control peaks == " + controlCommonPeaks.size());
+
         //get treatment common peaks  
         ArrayList<Peak> treatmentCommonPeaks = getCommonPeaksForConditionByOverlap(inputFiles, "treatment", minRep);
-        System.out.println("=======>"+"Treatment peaks == "+treatmentCommonPeaks.size());
-        
+        System.out.println("=======>" + "Treatment peaks == " + treatmentCommonPeaks.size());
+
         //get control-treatment common peaks  
-        if(controlCommonPeaks != null && treatmentCommonPeaks != null){
+        if (controlCommonPeaks != null && treatmentCommonPeaks != null) {
             //get control-treatment common peaks  
             ArrayList<Peak> commonPeaks = new Peak().mergePeakLists(controlCommonPeaks, treatmentCommonPeaks);
             //write control-treatment peaks to bed file 
-            if(commonPeaks != null){
+            if (commonPeaks != null) {
                 return commonPeaks.get(0).writePeaks(commonPeaks, outFile);
             }
         }
-        /**********************************************************/
+        /**
+         * *******************************************************
+         */
         return false;
     }
-    
-    public boolean runDifferentialAnalysis(GdiffInput gdiffInput, DESeq2 deseq2){
+
+    public boolean runDifferentialAnalysis(GdiffInput gdiffInput, DESeq2 deseq2) {
         System.out.println("umac.guava.diff.DifferentialAnalysisWorkflow.runDifferentialAnalysis()");
-        System.err.println("Write R Code");
-        if(createDESeq2Code(deseq2, gdiffInput.getCpus())){
-            
-        }
-        
-        return false;
-    }
-    
-    public boolean createDESeq2Code(DESeq2 deseq2, int cpu){
-        System.out.println("umac.guava.diff.DifferentialAnalysisFlow.createDESeq2Code()");
-        
+
+        System.out.println("Step 1: create and Write R Code");
         // DESeq2 code
-        String code = deseq2.getDESeq2Code(cpu);
-        
+        String code = deseq2.getDESeq2Code(gdiffInput.getCpus());
         //map peak locations
         code = code + deseq2.getDESeq2ResultsCode();
-        
         //DESeq2 volcano plot
-        code = code + deseq2.getVplotCode(deseq2.getPvalue(), deseq2.getFoldchange(),deseq2.getVolcanoPlotFile());
+        code = code + deseq2.getVplotCode(deseq2.getPvalue(), deseq2.getFoldchange(), deseq2.getVolcanoPlotFile());
+
         //write DESeq2 complete code
-        deseq2.writeCode(code, deseq2.getDeseq2CodeFile());
-        
-        return true;
+        if (deseq2.writeCode(code, deseq2.getDeseq2CodeFile())) {
+            String[] deseqLog = deseq2.runCommand(deseq2.getCommand(deseq2.getDeseq2CodeFile()));
+            deseq2.writeLog(deseqLog, "--------- DESeq2 ---------");
+            return deseq2.isSuccessful(deseqLog);
+        }
+        return false;
     }
-    
-    public boolean runDESeq2(DESeq2 deseq2){
-        System.out.println("umac.guava.diff.DifferentialAnalysisFlow.runDESeq2()");
-        String[] deseqLog = deseq2.runCommand(deseq2.getCommand(deseq2.getDeseq2CodeFile()));
-        deseq2.writeLog(deseqLog, "--------- DESeq2 ---------");
-        return true;
-    }
-    
-    public static ArrayList<Peak> getCommonPeaksForConditionByOverlap(ArrayList<DifferentialInputFile> dfInput, String condition, int minReplicates){
-        
+
+    public static ArrayList<Peak> getCommonPeaksForConditionByOverlap(ArrayList<DifferentialInputFile> dfInput, String condition, int minReplicates) {
+
         // create master merge list
-        ArrayList<Peak> mergedPeakList =  new ArrayList<>();
-        DifferentialInputFile df = new DifferentialInputFile();  
+        ArrayList<Peak> mergedPeakList = new ArrayList<>();
+        DifferentialInputFile df = new DifferentialInputFile();
         ArrayList<DifferentialInputFile> peakFiles = df.getDifferentialPeakInput(dfInput, condition);
-        
-        for(int i =0; i < peakFiles.size(); i++){
-            ArrayList<Peak> peakList =  Peak.getPeakList(peakFiles.get(i).getDiifInputFile());
-            System.out.println(peakFiles.get(i).getDiifInputFile().getName()+" == "+peakList.size());
+
+        for (int i = 0; i < peakFiles.size(); i++) {
+            ArrayList<Peak> peakList = Peak.getPeakList(peakFiles.get(i).getDiifInputFile());
+            System.out.println(peakFiles.get(i).getDiifInputFile().getName() + " == " + peakList.size());
             mergedPeakList.addAll(peakList);
         }
         Peak p = new Peak();
         ArrayList<Peak> conditionPeaks = p.mergeOverlappingPeaks(mergedPeakList);
         return conditionPeaks;
     }
-    
-    boolean createGOPathwayRcode(DifferentialOutputFiles outFiles, int upstream, int downstream){
-        
-//        GOandPathwayAnalysis goPath = new GOandPathwayAnalysis(outFiles.getDeseqResult(),outFiles.getGoresults(),outFiles.getPathwayresults());
-//        String code = goPath.getGOPathwayAnalysisCode(upstream, downstream);
-//        goPath.writeCode(code, outFiles.getGoPathwayRcode());
-//        
-        return true;
+
+    public boolean runFunctionalAnnotation(GdiffInput gdiffInput, ChIPpeakAnno chipPeakaAnno) {
+
+        System.out.println("umac.guava.diff.DifferentialAnalysisWorkflow.runFunctionalAnnotation()");
+
+        System.out.println("create code");
+        String chipPeakAnnoCode = chipPeakaAnno.getChIPpeakAnnoDiffRcode(gdiffInput.getUpstream(), gdiffInput.getDownstream());
+
+        if (chipPeakaAnno.writeCode(chipPeakAnnoCode, chipPeakaAnno.getrCodeFile())) {
+            System.out.println("run chippeaknno");
+            String[] log = chipPeakaAnno.runCommand(chipPeakaAnno.getCommand());
+            chipPeakaAnno.writeLog(log, "----------- ChIPpeakAnno -----------");
+            return chipPeakaAnno.isSuccessful(log);
+        }
+        return false;
     }
-    
-    boolean runGOpathwayAnalysis(File goPathwayRcode){
+
+    boolean runGOpathwayAnalysis(File goPathwayRcode) {
         GOandPathwayAnalysis goPath = new GOandPathwayAnalysis();
         goPath.runCommand(goPath.getCommand(goPathwayRcode));
         return true;
     }
-    
-    boolean deleteIntermediateFiles(DifferentialOutputFiles outFiles){
-        boolean flag = false; 
-        
+
+    boolean deleteIntermediateFiles(DifferentialOutputFiles outFiles) {
+        boolean flag = false;
+
         return true;
     }
-    
-    private boolean createIGVTracks(File inputBam, String genomebuild){
-        
+
+    private boolean createIGVTracks(File inputBam, String genomebuild) {
+
         String bamPath = inputBam.getAbsolutePath();
         File bedgraphFile = new File(bamPath.replaceFirst("bam$", "bdg"));
         File bigwigFile = new File(bamPath.replaceFirst("bam$", "bw"));
-        
-        if(!bigwigFile.exists()){
-            IGVdataTrack iGVdataTrack = new IGVdataTrack(inputBam, bedgraphFile,bigwigFile, genomebuild );
+
+        if (!bigwigFile.exists()) {
+            IGVdataTrack iGVdataTrack = new IGVdataTrack(inputBam, bedgraphFile, bigwigFile, genomebuild);
             return iGVdataTrack.createDataTrackFromBamFile();
         }
-        
+
         return true;
-    }    
+    }
 }

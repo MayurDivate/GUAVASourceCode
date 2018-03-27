@@ -131,7 +131,7 @@ public class ChIPpeakAnno extends Tool {
         return code;
     }
 
-    String getChIPpeakAnnoDiffRcode(int upstram, int downstream) {
+    public String getChIPpeakAnnoDiffRcode(int upstram, int downstream) {
 
         //SETWD
         // genome hg19 / hg18 etc
@@ -320,6 +320,20 @@ public class ChIPpeakAnno extends Tool {
         return chipPeakAnno;
     }
 
+    public boolean isSuccessful(String[] log){
+        
+         if(log[1] != null){
+            Pattern errorPattern = Pattern.compile("error", Pattern.CASE_INSENSITIVE);
+            Pattern exeHaltedPattern = Pattern.compile("Execution halted", Pattern.CASE_INSENSITIVE);
+            Matcher errorMatcher = errorPattern.matcher(log[1]);
+            Matcher exeHaltedMatcher = exeHaltedPattern.matcher(log[1]);
+            if(errorMatcher.find() || exeHaltedMatcher.find()){
+                return false;
+            }
+        }
+        return true;
+        
+    }
     /**
      * @return the barChart
      */

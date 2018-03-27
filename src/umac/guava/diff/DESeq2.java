@@ -19,12 +19,14 @@ package umac.guava.diff;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author mayurdivate
  */
-public class DESeq2 extends Program{
+public class DESeq2 extends Program {
 
     private File deseq2OutputFile;
     private ArrayList<DifferentialInputFile> dfInputFiles;
@@ -34,105 +36,103 @@ public class DESeq2 extends Program{
     private double foldchange;
     private File volcanoPlotFile;
     private File pcaPlotFile;
-    
-    public String getGuavaDESeq2Code(){
-        
+
+    public String getGuavaDESeq2Code() {
+
         System.out.println("umac.guava.diff.DESeq2.getGuavaDESeq2Code()");
         String code = "\n"
                 + getLibraries();
 
-        
         return code;
-        
+
     }
-    
-    public String getLibraries(){
-        String code = "library(Rsubread)"+"\n"
-                     +"library(DESeq2)\n";
+
+    public String getLibraries() {
+        String code = "library(Rsubread)" + "\n"
+                + "library(DESeq2)\n";
         return code;
     }
-    
-    
+
     public String getDESeq2Code(int cpus) {
-        
+
         String code = "\n";
-        code =  code + getLibraries() + "\n";
+        code = code + getLibraries() + "\n";
         String coldata_sampleNames = "SampleName <- c(";
         String coldata_conditons = "condition <- c(";
         String bamFiles = "bamfiles <- c(";
         String seqType = "seqType <- c(";
-        
-        for(int index = 0; index < this.dfInputFiles.size(); index++){
-            if(this.dfInputFiles.get(index).getType().equalsIgnoreCase("bam")){
-                
-             if(this.dfInputFiles.get(index).getCondition().equalsIgnoreCase("control")){
-                 coldata_conditons = coldata_conditons +"\""+ "untreated"+"\",";
-             }else{
-                 coldata_conditons = coldata_conditons +"\""+ "treated"+"\",";
-             }
-             seqType = seqType + "\"paired-end\",";
-             coldata_sampleNames = coldata_sampleNames +"\""+ this.dfInputFiles.get(index).getDiifInputFile().getName()+"\",\n";
-             bamFiles = bamFiles + "\"" + this.dfInputFiles.get(index).getDiifInputFile().getAbsolutePath()+"\",\n";
-            }     
+
+        for (int index = 0; index < this.dfInputFiles.size(); index++) {
+            if (this.dfInputFiles.get(index).getType().equalsIgnoreCase("bam")) {
+
+                if (this.dfInputFiles.get(index).getCondition().equalsIgnoreCase("control")) {
+                    coldata_conditons = coldata_conditons + "\"" + "untreated" + "\",";
+                } else {
+                    coldata_conditons = coldata_conditons + "\"" + "treated" + "\",";
+                }
+                seqType = seqType + "\"paired-end\",";
+                coldata_sampleNames = coldata_sampleNames + "\"" + this.dfInputFiles.get(index).getDiifInputFile().getName() + "\",\n";
+                bamFiles = bamFiles + "\"" + this.dfInputFiles.get(index).getDiifInputFile().getAbsolutePath() + "\",\n";
+            }
         }
-            
+
         coldata_conditons = coldata_conditons.replaceAll(",$", ")");
         coldata_sampleNames = coldata_sampleNames.replaceAll(",$", ")");
         bamFiles = bamFiles.replaceAll(",$", ")");
         seqType = seqType.replaceAll(",$", ")");
-        
+
         code = code + "\n"
-                + "\n" + coldata_sampleNames + "\n" 
-                + "\n" + coldata_conditons + "\n" 
-                + "\n" + bamFiles + "\n" 
-                + "\n" + seqType + "\n" ;
-        
+                + "\n" + coldata_sampleNames + "\n"
+                + "\n" + coldata_conditons + "\n"
+                + "\n" + bamFiles + "\n"
+                + "\n" + seqType + "\n";
+
         code = code + "\n" + "coldata <- "
                 + "as.data.frame(cbind(condition=condition,  type = seqType),"
                 + "\n" + "row.names = SampleName)\n"
                 + "\n";
-        
+
         // count matrix 
-        code = code 
-                + "\n" 
-                + "bedFile <- \""+this.getCommonPeakBedFile().getAbsolutePath()+"\"" + "\n" 
-                + "peaks <- read.table(bedFile,stringsAsFactors = FALSE)" + "\n" 
-                + "peaks <- peaks[,c(4,1,2,3)]" + "\n" 
-                + "colnames(peaks) <- c(\"GeneID\",\"Chr\",\"Start\",\"End\")" + "\n" 
-                + "peaks <- cbind(peaks[,],Strand = rep(\"*\",length(peaks$GeneID)))" + "\n" 
+        code = code
+                + "\n"
+                + "bedFile <- \"" + this.getCommonPeakBedFile().getAbsolutePath() + "\"" + "\n"
+                + "peaks <- read.table(bedFile,stringsAsFactors = FALSE)" + "\n"
+                + "peaks <- peaks[,c(4,1,2,3)]" + "\n"
+                + "colnames(peaks) <- c(\"GeneID\",\"Chr\",\"Start\",\"End\")" + "\n"
+                + "peaks <- cbind(peaks[,],Strand = rep(\"*\",length(peaks$GeneID)))" + "\n"
                 + "peaks <- data.frame(peaks, stringsAsFactors = FALSE)" + "\n"
                 + "\n"
                 + "### count reads" + "\n"
-                + "readCount <- featureCounts(files = bamfiles,\n" 
-                + "annot.ext = peaks,\n" 
-                + "isPairedEnd = TRUE, \n" 
-                + "nthreads = "+cpus+",\n" 
-                + "countChimericFragments = FALSE,\n" 
+                + "readCount <- featureCounts(files = bamfiles,\n"
+                + "annot.ext = peaks,\n"
+                + "isPairedEnd = TRUE, \n"
+                + "nthreads = " + cpus + ",\n"
+                + "countChimericFragments = FALSE,\n"
                 + "countMultiMappingReads = TRUE,\n"
                 + "requireBothEndsMapped = TRUE)\n"
                 + "\n"
                 + "\n" + "colnames(readCount$counts) <- SampleName"
                 + "\n";
-                
+
         int minReads = 10;
         int minSamples = 2;
-        
-        code =  code         
+
+        code = code
                 + "### create DESeq2 object" + "\n"
-                + "dds <- DESeqDataSetFromMatrix(readCount$counts,colData = coldata,design = ~ condition)"+ "\n"
-                + ""+ "\n" 
-                + "### filter peaks base on minimum reads" + "\n"  
-                + "keep <- rowSums(counts(dds) >= "+ minReads+") >="+ minSamples +"\n"
-                + "dds <- dds[keep,]"+ "\n" 
-                + "\n"+ ""
-                + "### relevel conditions\n"  
+                + "dds <- DESeqDataSetFromMatrix(readCount$counts,colData = coldata,design = ~ condition)" + "\n"
+                + "" + "\n"
+                + "### filter peaks base on minimum reads" + "\n"
+                + "keep <- rowSums(counts(dds) >= " + minReads + ") >=" + minSamples + "\n"
+                + "dds <- dds[keep,]" + "\n"
+                + "\n" + ""
+                + "### relevel conditions\n"
                 + "dds$condition <- factor(dds$condition , levels=c(\"untreated\",\"treated\"))" + "\n"
-                + "dds <- DESeq(dds)" + "\n" 
-                + "res <- results(dds)" + "\n" 
+                + "dds <- DESeq(dds)" + "\n"
+                + "res <- results(dds)" + "\n"
                 + "\n";
-        
+
         code = code + getPlotPCACode();
-        
+
         code = code
                 + "### create DESeq2 differential peaks"
                 + "colnames(peaks)[1] <- \"name\"" + "\n"
@@ -145,7 +145,7 @@ public class DESeq2 extends Program{
                 + "d2res[d2res$log2FoldChange >= fcCutoff & d2res$pvalue <= pcutoff,11] <- \"gained-open\"" + "\n"
                 + "notchanged <- (d2res$log2FoldChange > -fcCutoff & d2res$log2FoldChange < fcCutoff )" + "\n"
                 + "d2res[notchanged | d2res$pvalue > pcutoff,11] <- \"No-change\"" + "\n"
-                + "write.table(d2res, file=\""+this.getDeseq2OutputFile().getAbsolutePath()+"\",\n"
+                + "write.table(d2res, file=\"" + this.getDeseq2OutputFile().getAbsolutePath() + "\",\n"
                 + "sep = \"\\t\", quote = FALSE)"
                 + "\n"
                 + "\n";
@@ -153,12 +153,12 @@ public class DESeq2 extends Program{
         return code;
 
     }
-    
-    public String getPlotPCACode(){
-        
+
+    public String getPlotPCACode() {
+
         int width = 500;
         int height = 350;
-        
+
         String code = "\n"
                 + "\n"
                 + "library(ggplot2)\n"
@@ -170,15 +170,15 @@ public class DESeq2 extends Program{
                 + "  xlab(paste0(\"PC1: \",percentVar[1],\"% variance\")) +\n"
                 + "  ylab(paste0(\"PC2: \",percentVar[2],\"% variance\")) \n"
                 + "\n"
-                + "jpeg(\" "+ this.getPcaPlotFile().getAbsolutePath()+" \",width = "+width+", height = "+height+")\n"
+                + "jpeg(\" " + this.getPcaPlotFile().getAbsolutePath() + " \",width = " + width + ", height = " + height + ")\n"
                 + "print(p)\n"
                 + "dev.off()\n"
                 + "";
-        
-        return  code;
+
+        return code;
     }
-  
-    public String getDESeq2ResultsCode(){
+
+    public String getDESeq2ResultsCode() {
         String code = ""
                 + "colnames(peaks)[1] <- \"name\"\n"
                 + "d2res <- as.data.frame(res)\n"
@@ -186,10 +186,9 @@ public class DESeq2 extends Program{
                 + "d2res <-merge(peaks[,-5],d2res,by=c(\"name\"))\n"
                 + "\n";
 
-        
         code = code + "\n" + "d2res$regulation <- rep(\"not-changed\",nrow(d2res))";
-        code = code + "\n" + "pcutoff <- "+this.getPvalue();
-        code = code + "\n" + "fcCutoff <- "+this.getFoldchange();
+        code = code + "\n" + "pcutoff <- " + this.getPvalue();
+        code = code + "\n" + "fcCutoff <- " + this.getFoldchange();
         code = code + "\n" + "d2res[d2res$log2FoldChange >= fcCutoff & d2res$pvalue <= pcutoff,11] <- \"gained-open\"";
         code = code + "\n" + "d2res[d2res$log2FoldChange <= -fcCutoff & d2res$pvalue <= pcutoff,11] <- \"gained-closed\"";
         code = code + "\n" + "library(ChIPpeakAnno)";
@@ -203,20 +202,20 @@ public class DESeq2 extends Program{
         code = code + "\n" + "dfAnnPeak <- as.data.frame(annotatedPeaks)[,c(6,15,11,12)]";
         code = code + "\n" + "results <- merge(d2res,dfAnnPeak,by.x=\"name\",by.y=\"peak\")";
         code = code + "\n" + "";
-        code = code + "\n" + "write.table(results,file = \""+this.getDeseq2OutputFile().getAbsolutePath()+"\", sep = \"\\t\")";
+        code = code + "\n" + "write.table(results,file = \"" + this.getDeseq2OutputFile().getAbsolutePath() + "\", sep = \"\\t\")";
         return code;
     }
 
-    public String getVplotCode(double pvalue, double foldChange, File outFile ) {
+    public String getVplotCode(double pvalue, double foldChange, File outFile) {
         int height = 500;
         int width = 650;
-        
+
         String code = "";
         code = code + "\n" + "library(ggplot2)";
         code = code + "\n" + "";
         code = code + "\n" + "";
-        code = code + "\n" + "pcutoff <- "+pvalue;
-        code = code + "\n" + "fcCutoff <- "+foldChange;
+        code = code + "\n" + "pcutoff <- " + pvalue;
+        code = code + "\n" + "fcCutoff <- " + foldChange;
         code = code + "\n";
         code = code + "\n" + "plotDF <- d2res[,c(1,6,9,11)]";
         code = code + "\n" + "plotDF[,4] <- factor(plotDF[,4])";
@@ -225,18 +224,18 @@ public class DESeq2 extends Program{
         code = code + "\n" + "openX <- 0";
         code = code + "\n" + "closeX <- 0";
         code = code + "\n";
-        code = code + "\n" + "if(!is.na(titleSum[\"gained-open\"])){" ;
-        code = code + "\n" +"  openX <- titleSum[\"gained-open\"]" ;
-        code = code + "\n" +"}" ;
+        code = code + "\n" + "if(!is.na(titleSum[\"gained-open\"])){";
+        code = code + "\n" + "  openX <- titleSum[\"gained-open\"]";
+        code = code + "\n" + "}";
         code = code + "\n";
-        code = code + "\n" +"if(!is.na(titleSum[\"gained-closed\"])){" ;
-        code = code + "\n" +"  closeX <- titleSum[\"gained-closed\"]" ;
-        code = code + "\n" +"}";
+        code = code + "\n" + "if(!is.na(titleSum[\"gained-closed\"])){";
+        code = code + "\n" + "  closeX <- titleSum[\"gained-closed\"]";
+        code = code + "\n" + "}";
         code = code + "\n" + "plotSubTitle <- paste(paste(\"gained-closed regions =\",closeX,sep = \" \"),";
         code = code + "\n" + "                      paste(\"gained-open regions=\",openX,sep = \" \"),";
         code = code + "\n" + "                      sep = \"      \")";
         code = code + "\n";
-        
+
         code = code + "\n"
                 + "p <- ggplot(plotDF, aes(x = log2FoldChange, y = -1 * log10(pvalue), col=regulation))\n"
                 + "p <- p + geom_point(size = 0.7)\n"
@@ -247,20 +246,18 @@ public class DESeq2 extends Program{
                 + "p <- p + theme(axis.title = element_text(size = 15))\n"
                 + "p <- p + theme(plot.subtitle = element_text(size = 12,hjust = 0.5))";
 
-        code = code + "\n" + "jpeg("+"\""+outFile.getAbsoluteFile()+"\""+",height="+height+",width="+width+",res = 100,quality = 100)\n";
+        code = code + "\n" + "jpeg(" + "\"" + outFile.getAbsoluteFile() + "\"" + ",height=" + height + ",width=" + width + ",res = 100,quality = 100)\n";
         code = code + "\n" + "print(p)";
         code = code + "\n" + "dev.off()";
 
         return code;
     }
-    
-    
+
     public DESeq2() {
     }
-    
-   
-    public DESeq2(File deseq2OutputCSV, ArrayList<DifferentialInputFile> dfInputFiles, 
-            File commonPeakBedFile, File deseq2CodeFile, 
+
+    public DESeq2(File deseq2OutputCSV, ArrayList<DifferentialInputFile> dfInputFiles,
+            File commonPeakBedFile, File deseq2CodeFile,
             double pvalue, double foldchange, File volacnoPlotFile, File pcaPlotfile) {
         this.deseq2OutputFile = deseq2OutputCSV;
         this.dfInputFiles = dfInputFiles;
@@ -269,44 +266,58 @@ public class DESeq2 extends Program{
         this.pvalue = pvalue;
         this.foldchange = foldchange;
         this.volcanoPlotFile = volacnoPlotFile;
-        this.pcaPlotFile =  pcaPlotfile;
+        this.pcaPlotFile = pcaPlotfile;
     }
-
 
     @Override
     public String[] getCommand(File inputFile) {
         System.out.println("DESeq2");
-        String[] commandArray =  
-            {   "Rscript",
-                inputFile.getAbsolutePath()
-            };
-        
+        String[] commandArray
+                = {"Rscript",
+                    inputFile.getAbsolutePath()
+                };
+
         return commandArray;
     }
 
     @Override
     public String[] runCommand(String[] commandArray) {
-        String[] log =  new String[2];
-       
+        String[] log = new String[2];
+
         try {
             System.out.println(getArrayToString(commandArray));
             ProcessBuilder processBuilder = new ProcessBuilder(commandArray);
-            Process process =  processBuilder.start();
+            Process process = processBuilder.start();
             String stdOUT = getSTDoutput(process);
             String errorLog = getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
             return log;
         } catch (IOException ex) {
-            System.out.println("\t\t"+ex.getMessage());
+            System.out.println("\t\t" + ex.getMessage());
             return null;
         }
     }
 
+    public boolean isSuccessful(String[] log) {
+
+        if (log[1] != null) {
+            Pattern errorPattern = Pattern.compile("error", Pattern.CASE_INSENSITIVE);
+            Pattern exeHaltedPattern = Pattern.compile("Execution halted", Pattern.CASE_INSENSITIVE);
+            Matcher errorMatcher = errorPattern.matcher(log[1]);
+            Matcher exeHaltedMatcher = exeHaltedPattern.matcher(log[1]);
+            if (errorMatcher.find() || exeHaltedMatcher.find()) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
     @Override
     public boolean isWorking() {
-        
-        String[] commandArray =  {"R", "--version" };
+
+        String[] commandArray = {"R", "--version"};
         String[] log = runCommand(commandArray);
         return log[0] != null;
     }
@@ -422,6 +433,5 @@ public class DESeq2 extends Program{
     public void setPcaPlotFile(File pcaPlotFile) {
         this.pcaPlotFile = pcaPlotFile;
     }
-    
-    
+
 }
