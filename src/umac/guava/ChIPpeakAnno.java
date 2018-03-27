@@ -260,15 +260,17 @@ public class ChIPpeakAnno extends Tool {
         return code;
     }
 
-    public boolean writeCode(String code, File ouputFile) {
+    public boolean writeCode(String code, File outputFile) {
 
         try {
-            if (ouputFile.createNewFile()) {
-                FileWriter rCodeWriter = new FileWriter(ouputFile);
+            if(outputFile.getParentFile().mkdirs()){
+                if (outputFile.createNewFile()) {
+                FileWriter rCodeWriter = new FileWriter(outputFile);
                 PrintWriter rCodePrintWriter = new PrintWriter(new BufferedWriter(rCodeWriter));
                 rCodePrintWriter.append(code);
                 rCodePrintWriter.flush();
                 return true;
+                }
             }
         } catch (IOException ex) {
             Logger.getLogger(ChIPpeakAnno.class.getName()).log(Level.SEVERE, null, ex);

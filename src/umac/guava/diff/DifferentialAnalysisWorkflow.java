@@ -17,12 +17,11 @@
 package umac.guava.diff;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import umac.guava.AnalysisWorkflow;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import umac.guava.ChIPpeakAnno;
-import umac.guava.Genome;
 import umac.guava.IGVdataTrack;
 
 /**
@@ -39,10 +38,22 @@ public class DifferentialAnalysisWorkflow {
         DifferentialResultFrame resultFrame = new DifferentialResultFrame();
         resultFrame.setVisible(true);
         resultFrame.addSummary(atacSeqDiffInput);
-        DifferentialOutputFiles.writeSummary(atacSeqDiffInput);
 
         boolean doNext = true;
+        // get output files 
         DifferentialOutputFiles outputfiles = atacSeqDiffInput.getDifferentialOutputFiles();
+        doNext = createDir(outputfiles.getOutputFolder());
+        
+        // create log file
+        if(doNext){
+            try {
+                DifferentialOutputFiles.getLogFile().createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(DifferentialAnalysisWorkflow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        // write input summary
+        doNext = outputfiles.writeSummary(atacSeqDiffInput);
 
         if (doNext) {
             System.out.println("---------- create common peaks ----------");
@@ -67,7 +78,8 @@ public class DifferentialAnalysisWorkflow {
                 System.err.println("Error in the differential analysis step");
             }
         }
-
+        
+        doNext = true;
         // run chipPeakAnno
         if (doNext) {
             System.out.println("---------- create go and pathway enrichment code ----------");
@@ -94,13 +106,23 @@ public class DifferentialAnalysisWorkflow {
     }
 
     public boolean startCommandlineDifferentialAnalysis(GdiffInput atacSeqDiffInput) {
-        // print summary
-        //System.out.println("Summary \n"+atacSeqDiffInput);
-        DifferentialOutputFiles.writeSummary(atacSeqDiffInput);
-
         boolean doNext = true;
+        // get outputfiles
         DifferentialOutputFiles outputfiles = atacSeqDiffInput.getDifferentialOutputFiles();
-
+        
+        // create output dir
+        doNext = createDir(outputfiles.getOutputFolder());
+        // create log file
+        if(doNext){
+            try {
+                DifferentialOutputFiles.getLogFile().createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(DifferentialAnalysisWorkflow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        // write input summary
+        doNext = outputfiles.writeSummary(atacSeqDiffInput);
+        
         if (doNext) {
             System.out.println("---------- create common peaks ----------");
             int minRep = 1;
@@ -136,24 +158,10 @@ public class DifferentialAnalysisWorkflow {
 
     }
 
-    boolean createDir(File dir) {
-        System.out.println(dir.getAbsolutePath());
-        if (!dir.exists()) {
-            return dir.mkdir();
-        } else {
-            new AnalysisWorkflow().removeDir(dir);
-            return dir.mkdir();
-        }
-
-    }
-
     public boolean createCommonPeakList(ArrayList<DifferentialInputFile> inputFiles, File outFile, int minRep) {
 
         System.out.println("umac.guava.diff.DifferentialAnalysisFlow.createCommonPeakList()" + "BUG");
-        /**
-         * *******************************************************
-         */
-
+       
         //get control common peaks  
         ArrayList<Peak> controlCommonPeaks = getCommonPeaksForConditionByOverlap(inputFiles, "control", minRep);
         System.out.println("=======>" + "Control peaks == " + controlCommonPeaks.size());
@@ -183,10 +191,6 @@ public class DifferentialAnalysisWorkflow {
         System.out.println("Step 1: create and Write R Code");
         // DESeq2 code
         String code = deseq2.getDESeq2Code(gdiffInput.getCpus());
-        //map peak locations
-        code = code + deseq2.getDESeq2ResultsCode();
-        //DESeq2 volcano plot
-        code = code + deseq2.getVplotCode(deseq2.getPvalue(), deseq2.getFoldchange(), deseq2.getVolcanoPlotFile());
 
         //write DESeq2 complete code
         if (deseq2.writeCode(code, deseq2.getDeseq2CodeFile())) {
@@ -218,9 +222,8 @@ public class DifferentialAnalysisWorkflow {
 
         System.out.println("umac.guava.diff.DifferentialAnalysisWorkflow.runFunctionalAnnotation()");
 
-        System.out.println("create code");
         String chipPeakAnnoCode = chipPeakaAnno.getChIPpeakAnnoDiffRcode(gdiffInput.getUpstream(), gdiffInput.getDownstream());
-
+        
         if (chipPeakaAnno.writeCode(chipPeakAnnoCode, chipPeakaAnno.getrCodeFile())) {
             System.out.println("run chippeaknno");
             String[] log = chipPeakaAnno.runCommand(chipPeakaAnno.getCommand());
@@ -228,12 +231,6 @@ public class DifferentialAnalysisWorkflow {
             return chipPeakaAnno.isSuccessful(log);
         }
         return false;
-    }
-
-    boolean runGOpathwayAnalysis(File goPathwayRcode) {
-        GOandPathwayAnalysis goPath = new GOandPathwayAnalysis();
-        goPath.runCommand(goPath.getCommand(goPathwayRcode));
-        return true;
     }
 
     boolean deleteIntermediateFiles(DifferentialOutputFiles outFiles) {
@@ -255,4 +252,29 @@ public class DifferentialAnalysisWorkflow {
 
         return true;
     }
+    
+    public boolean createDir(File dir) {
+        System.out.println(dir.getAbsolutePath());
+        if (!dir.exists()) {
+            return dir.mkdir();
+        } else {
+            this.removeDir(dir);
+            return dir.mkdir();
+        }
+
+    }
+    
+    public boolean removeDir(File dir) {
+        if (dir.isDirectory()) {
+            File[] childrens = dir.listFiles();
+            for (File child : childrens) {
+                boolean success = this.removeDir(child);
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
+    }
+
 }

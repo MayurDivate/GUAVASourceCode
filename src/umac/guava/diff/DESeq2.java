@@ -134,7 +134,7 @@ public class DESeq2 extends Program {
         code = code + getPlotPCACode();
 
         code = code
-                + "### create DESeq2 differential peaks"
+                + "\n\n### create DESeq2 differential peaks" + "\n"
                 + "colnames(peaks)[1] <- \"name\"" + "\n"
                 + "d2res <- as.data.frame(res)" + "\n"
                 + "d2res$name <- rownames(d2res)" + "\n"
@@ -142,19 +142,25 @@ public class DESeq2 extends Program {
                 + "d2res$regulation <- rep(NA,nrow(d2res))" + "\n"
                 + "pcutoff <- " + this.getPvalue() + "\n"
                 + "fcCutoff <- " + this.getFoldchange() + "\n"
-                + "d2res[d2res$log2FoldChange >= fcCutoff & d2res$pvalue <= pcutoff,11] <- \"gained-open\"" + "\n"
+                + "closeText <- \"gained-close\"" + "\n"
+                + "openText <- \"gained-open\"" + "\n"
+                + "noText <- \"No-change\"" + "\n"
+                + "d2res[d2res$log2FoldChange >= fcCutoff & d2res$pvalue <= pcutoff,11] <- openText" + "\n"
+                + "d2res[d2res$log2FoldChange <= (-1 * fcCutoff) & d2res$pvalue <= pcutoff,11] <- closeText " + "\n"
                 + "notchanged <- (d2res$log2FoldChange > -fcCutoff & d2res$log2FoldChange < fcCutoff )" + "\n"
-                + "d2res[notchanged | d2res$pvalue > pcutoff,11] <- \"No-change\"" + "\n"
+                + "d2res[notchanged | d2res$pvalue > pcutoff,11] <- noText" + "\n"
                 + "write.table(d2res, file=\"" + this.getDeseq2OutputFile().getAbsolutePath() + "\",\n"
                 + "sep = \"\\t\", quote = FALSE)"
                 + "\n"
                 + "\n";
 
+        code = code +getVplotCode(this.getPvalue(), this.getFoldchange(), this.getVolcanoPlotFile());
+        
         return code;
 
     }
 
-    public String getPlotPCACode() {
+    private String getPlotPCACode() {
 
         int width = 500;
         int height = 350;
@@ -170,7 +176,7 @@ public class DESeq2 extends Program {
                 + "  xlab(paste0(\"PC1: \",percentVar[1],\"% variance\")) +\n"
                 + "  ylab(paste0(\"PC2: \",percentVar[2],\"% variance\")) \n"
                 + "\n"
-                + "jpeg(\" " + this.getPcaPlotFile().getAbsolutePath() + " \",width = " + width + ", height = " + height + ")\n"
+                + "jpeg(\"" + this.getPcaPlotFile().getAbsolutePath() + "\",width = " + width + ", height = " + height + ")\n"
                 + "print(p)\n"
                 + "dev.off()\n"
                 + "";
@@ -178,77 +184,49 @@ public class DESeq2 extends Program {
         return code;
     }
 
-    public String getDESeq2ResultsCode() {
-        String code = ""
-                + "colnames(peaks)[1] <- \"name\"\n"
-                + "d2res <- as.data.frame(res)\n"
-                + "d2res$name <- rownames(d2res)\n"
-                + "d2res <-merge(peaks[,-5],d2res,by=c(\"name\"))\n"
-                + "\n";
-
-        code = code + "\n" + "d2res$regulation <- rep(\"not-changed\",nrow(d2res))";
-        code = code + "\n" + "pcutoff <- " + this.getPvalue();
-        code = code + "\n" + "fcCutoff <- " + this.getFoldchange();
-        code = code + "\n" + "d2res[d2res$log2FoldChange >= fcCutoff & d2res$pvalue <= pcutoff,11] <- \"gained-open\"";
-        code = code + "\n" + "d2res[d2res$log2FoldChange <= -fcCutoff & d2res$pvalue <= pcutoff,11] <- \"gained-closed\"";
-        code = code + "\n" + "library(ChIPpeakAnno)";
-        code = code + "\n" + "library(TxDb.Hsapiens.UCSC.hg19.knownGene)";
-        code = code + "\n" + "annoData <- toGRanges(TxDb.Hsapiens.UCSC.hg19.knownGene, feature=\"gene\")";
-        code = code + "\n" + "peaks <- toGRanges(d2res[,c(2:4,1)], format=\"BED\", header=FALSE) ";
-        code = code + "\n" + "seqlevelsStyle(peaks) <- seqlevelsStyle(annoData)";
-        code = code + "\n" + "annotatedPeaks <- annotatePeakInBatch(peaks,AnnotationData=annoData)";
-        code = code + "\n" + "library(org.Hs.eg.db)";
-        code = code + "\n" + "annotatedPeaks$symbol <- xget(annotatedPeaks$feature,org.Hs.egSYMBOL)";
-        code = code + "\n" + "dfAnnPeak <- as.data.frame(annotatedPeaks)[,c(6,15,11,12)]";
-        code = code + "\n" + "results <- merge(d2res,dfAnnPeak,by.x=\"name\",by.y=\"peak\")";
-        code = code + "\n" + "";
-        code = code + "\n" + "write.table(results,file = \"" + this.getDeseq2OutputFile().getAbsolutePath() + "\", sep = \"\\t\")";
-        return code;
-    }
-
-    public String getVplotCode(double pvalue, double foldChange, File outFile) {
-        int height = 500;
-        int width = 650;
+    private String getVplotCode(double pvalue, double foldChange, File outFile) {
+        int height = 400;
+        int width = 550;
 
         String code = "";
-        code = code + "\n" + "library(ggplot2)";
-        code = code + "\n" + "";
-        code = code + "\n" + "";
-        code = code + "\n" + "pcutoff <- " + pvalue;
-        code = code + "\n" + "fcCutoff <- " + foldChange;
-        code = code + "\n";
-        code = code + "\n" + "plotDF <- d2res[,c(1,6,9,11)]";
-        code = code + "\n" + "plotDF[,4] <- factor(plotDF[,4])";
-        code = code + "\n" + "titleSum <- summary(plotDF[,4])";
-        code = code + "\n";
-        code = code + "\n" + "openX <- 0";
-        code = code + "\n" + "closeX <- 0";
-        code = code + "\n";
-        code = code + "\n" + "if(!is.na(titleSum[\"gained-open\"])){";
-        code = code + "\n" + "  openX <- titleSum[\"gained-open\"]";
-        code = code + "\n" + "}";
-        code = code + "\n";
-        code = code + "\n" + "if(!is.na(titleSum[\"gained-closed\"])){";
-        code = code + "\n" + "  closeX <- titleSum[\"gained-closed\"]";
-        code = code + "\n" + "}";
-        code = code + "\n" + "plotSubTitle <- paste(paste(\"gained-closed regions =\",closeX,sep = \" \"),";
-        code = code + "\n" + "                      paste(\"gained-open regions=\",openX,sep = \" \"),";
-        code = code + "\n" + "                      sep = \"      \")";
-        code = code + "\n";
-
         code = code + "\n"
+                + "library(ggplot2)"
+                + "\n"
+                + "\n"
+                + "\n"
+                + "pcutoff <- " + pvalue + "\n"
+                + "fcCutoff <- " + foldChange + "\n"
+                + "\n"
+                + "plotDF <- d2res[,c(1,6,9,11)]" + "\n"
+                + "plotDF[,4] <- factor(plotDF[,4])" + "\n"
+                + "titleSum <- summary(plotDF[,4])" + "\n"
+                + "\n" 
+                + "openX <- 0" + "\n"
+                + "closeX <- 0" + "\n"
+                + "if(!is.na(titleSum[openText])){" + "\n"
+                + "  openX <- titleSum[openText]" + "\n"
+                + "}" + "\n"
+                + "\n"
+                + "if(!is.na(titleSum[openText])){" + "\n"
+                + "  closeX <- titleSum[openText]" + "\n"
+                + "}" + "\n"
+                + "\n" 
+                + "plotSubTitle <- paste(paste(\"gained-closed regions =\",closeX,sep = \" \")," + "\n"
+                + "                      paste(\"gained-open regions=\",openX,sep = \" \")," + "\n"
+                + "                      sep = \"      \")" + "\n"
+                + "\n"
+                + "\n"
                 + "p <- ggplot(plotDF, aes(x = log2FoldChange, y = -1 * log10(pvalue), col=regulation))\n"
-                + "p <- p + geom_point(size = 0.7)\n"
+                + "p <- p + geom_point(size = 0.6)\n"
                 + "p <- p + scale_color_manual(values = c(\"red\",\"green\",\"black\"))\n"
                 + "p <- p + labs(subtitle = plotSubTitle,x = \"log2(FoldChange)\", y = \"-log10(Pvalue)\", colour = \"Regulation\")\n"
-                + "p <- p + theme(legend.text = element_text(size = 12))\n"
-                + "p <- p + theme(legend.title = element_text(size = 12))\n"
-                + "p <- p + theme(axis.title = element_text(size = 15))\n"
-                + "p <- p + theme(plot.subtitle = element_text(size = 12,hjust = 0.5))";
-
-        code = code + "\n" + "jpeg(" + "\"" + outFile.getAbsoluteFile() + "\"" + ",height=" + height + ",width=" + width + ",res = 100,quality = 100)\n";
-        code = code + "\n" + "print(p)";
-        code = code + "\n" + "dev.off()";
+                + "p <- p + theme(legend.text = element_text(size = 10))\n"
+                + "p <- p + theme(legend.title = element_text(size = 10))\n"
+                + "p <- p + theme(axis.title = element_text(size = 10))\n"
+                + "p <- p + theme(plot.subtitle = element_text(size = 12,hjust = 0.5))"+ "\n" 
+                + "jpeg(" + "\"" + outFile.getAbsoluteFile() + "\"" + ",height=" + height + ",width=" + width + ",res = 100,quality = 100)" + "\n"
+                + "\n" + "print(p)" + "\n" 
+                + "dev.off()";
 
         return code;
     }
@@ -323,7 +301,7 @@ public class DESeq2 extends Program {
     }
 
     /**
-     * @return the deseq2OutputFile
+//     * @return the deseq2OutputFile
      */
     public File getDeseq2OutputFile() {
         return deseq2OutputFile;

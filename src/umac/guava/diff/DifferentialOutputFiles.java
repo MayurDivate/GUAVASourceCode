@@ -44,7 +44,7 @@ public class DifferentialOutputFiles {
     private File pcaPlot;
     private File diffpeakBed;
     private ChIPpeakAnno chipPeakAnno;
-
+    
     public DifferentialOutputFiles(File outputFolder, File controlTreatmentCommonPeakBed,
             File deseqRcode, File deseqResult, File volcanoPlot, File pcaplot,
             File diffpeakBed, ChIPpeakAnno chipPeakAnno) {
@@ -63,29 +63,22 @@ public class DifferentialOutputFiles {
         String project = DifferentialInputFrame1.projectName + "_";
         
         File outputFolder        = new File(destination, project + "GUAVA_Differental_analysis");
-        DifferentialOutputFiles.setLogFile(new File(outputFolder, "log.txt"));
-        File controlTreatmentBed = new File(destination, project + "controlTreatmentPeaks.bed");
-        File diffPeakBed         = new File(destination, project + "diffpeaks.bed");
-        File deseqRcode          = new File(destination, project + "DESeq2.R");
-        File deseqResult         = new File(destination, project + "DESeq2_results.txt");
-        File vplot               = new File(destination, project + "vplot.jpeg");
-        File pcaPlot               = new File(destination, project + "pcaPlot.jpeg");
+        DifferentialOutputFiles.setLogFile(new File(outputFolder, project + "log.txt"));
+        
+        File controlTreatmentBed = new File(outputFolder, project + "controlTreatmentPeaks.bed");
+        File diffPeakBed         = new File(outputFolder, project + "diffpeaks.bed");
+        File deseqRcode          = new File(outputFolder, project + "DESeq2.R");
+        File deseqResult         = new File(outputFolder, project + "DESeq2_results.txt");
+        File vplot               = new File(outputFolder, project + "vplot.jpg");
+        File pcaPlot             = new File(outputFolder, project + "PCA_plot.jpg");
         
         Genome genome = Genome.getGenomeObject("hg19");
         
         ChIPpeakAnno chipPeakAnno = ChIPpeakAnno.getChIPpeakAnnoObject(deseqResult, project, "BED", genome);
         
-        if(!outputFolder.exists()){
-            outputFolder.mkdir();
-            try {
-                DifferentialOutputFiles.getLogFile().createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(DifferentialOutputFiles.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
         DifferentialOutputFiles dof = new DifferentialOutputFiles(outputFolder, controlTreatmentBed,
-                deseqRcode, deseqResult, pcaPlot, vplot, diffPeakBed, chipPeakAnno);
+                deseqRcode, deseqResult, vplot, pcaPlot, diffPeakBed, chipPeakAnno);
+        
         GuavaOutputFiles.logFile = DifferentialOutputFiles.getLogFile();
 
         return dof;
@@ -93,7 +86,7 @@ public class DifferentialOutputFiles {
     }
     
     
-    static void writeSummary(GdiffInput atacInput){
+    public boolean writeSummary(GdiffInput atacInput){
         
         try {
             FileWriter logFileWriter = new FileWriter(DifferentialOutputFiles.getLogFile(),true);
@@ -132,15 +125,16 @@ public class DifferentialOutputFiles {
             
             logPrintWriter.append("#######################################################");
             logPrintWriter.flush();
-
-            
             logPrintWriter.close();
+            return true;
             
         } catch (IOException ex) {
             Logger.getLogger(Program.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
 
+    
     /**
      * @return the logFile
      */

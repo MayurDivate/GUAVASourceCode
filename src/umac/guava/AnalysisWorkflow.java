@@ -718,33 +718,6 @@ public class AnalysisWorkflow {
 
     }
 
-    boolean createDir(File dir) {
-
-        if (!dir.exists()) {
-            return dir.mkdir();
-        } else {
-            new AnalysisWorkflow().removeDir(dir);
-            return dir.mkdir();
-        }
-
-    }
-
-    public boolean removeDir(File dir) {
-        if (dir.isDirectory()) {
-            File[] childrens = dir.listFiles();
-            for (File child : childrens) {
-                boolean success = new AnalysisWorkflow().removeDir(child);
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-        // either file or an empty directory
-//        System.out.println("removing file or directory : " + dir.getName());
-        return dir.delete();
-
-    }
-
     public boolean getInsertSizeDistribution(GuavaInput atacseqInput, GuavaOutputFiles outFiles) {
         if (outFiles.getAtacseqBam().exists()) {
             Picard picard = new Picard();
@@ -920,6 +893,33 @@ public class AnalysisWorkflow {
         }
 
         return false;
+    }
+
+    public boolean createDir(File dir) {
+
+        if (!dir.exists()) {
+            return dir.mkdir();
+        } else {
+            new AnalysisWorkflow().removeDir(dir);
+            return dir.mkdir();
+        }
+
+    }
+    
+    public boolean removeDir(File dir) {
+        if (dir.isDirectory()) {
+            File[] childrens = dir.listFiles();
+            for (File child : childrens) {
+                boolean success = new AnalysisWorkflow().removeDir(child);
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        // either file or an empty directory
+//        System.out.println("removing file or directory : " + dir.getName());
+        return dir.delete();
+
     }
 
 }
