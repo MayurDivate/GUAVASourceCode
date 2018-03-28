@@ -158,7 +158,7 @@ public class ChIPpeakAnno extends Tool {
         // annoatate peaks
         code = code + "ucscTxDb <- \"" + txDb + "\"" + "\n";
         code = code + "ucscGenes <- genes(" + txDb + ")" + "\n";
-        code = code + "peaks.anno <- annotatePeakInBatch(macsOutput, AnnotationData=ucscGenes," + " \n"
+        code = code + "peaks.anno <- annotatePeakInBatch(peaks, AnnotationData=ucscGenes," + " \n"
                 + "output = \"nearestBiDirectionalPromoters\"," + " \n"
                 + "bindingRegion = c("+upstram+","+downstream+"))" + "\n";
 
