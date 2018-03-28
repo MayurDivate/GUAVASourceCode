@@ -186,7 +186,7 @@ public class DESeq2 extends Program {
 
     private String getVplotCode(double pvalue, double foldChange, File outFile) {
         int height = 400;
-        int width = 550;
+        int width = 600;
 
         String code = "";
         code = code + "\n"
@@ -207,8 +207,8 @@ public class DESeq2 extends Program {
                 + "  openX <- titleSum[openText]" + "\n"
                 + "}" + "\n"
                 + "\n"
-                + "if(!is.na(titleSum[openText])){" + "\n"
-                + "  closeX <- titleSum[openText]" + "\n"
+                + "if(!is.na(titleSum[closeText])){" + "\n"
+                + "  closeX <- titleSum[closeText]" + "\n"
                 + "}" + "\n"
                 + "\n" 
                 + "plotSubTitle <- paste(paste(\"gained-closed regions =\",closeX,sep = \" \")," + "\n"
@@ -217,9 +217,10 @@ public class DESeq2 extends Program {
                 + "\n"
                 + "\n"
                 + "p <- ggplot(plotDF, aes(x = log2FoldChange, y = -1 * log10(pvalue), col=regulation))\n"
-                + "p <- p + geom_point(size = 0.6)\n"
-                + "p <- p + scale_color_manual(values = c(\"red\",\"green\",\"black\"))\n"
-                + "p <- p + labs(subtitle = plotSubTitle,x = \"log2(FoldChange)\", y = \"-log10(Pvalue)\", colour = \"Regulation\")\n"
+                + "p <- p + geom_point()" + "\n"
+                + "p <- p + scale_color_manual(name = \"Regulation\", values = c(\"red\",\"green\",\"black\"))" + "\n"
+                + "p <- p + scale_shape_manual(name = \"Regulation\" , values = c(20,20,20))" + "\n"
+                + "p <- p + labs(subtitle = plotSubTitle,x = \"log2(FoldChange)\", y = \"-log10(Pvalue)\")\n"
                 + "p <- p + theme(legend.text = element_text(size = 10))\n"
                 + "p <- p + theme(legend.title = element_text(size = 10))\n"
                 + "p <- p + theme(axis.title = element_text(size = 10))\n"

@@ -138,6 +138,7 @@ public class ChIPpeakAnno extends Tool {
         String txDb = this.getGenome().getTxdb();
         String orgDB = this.getGenome().getOrgdb();
         String orgSymbol = this.getGenome().getOrgdbSymbol();
+        upstram =  -1 * upstram;
 
         // load lobraries
         String code = "\n"
@@ -149,7 +150,7 @@ public class ChIPpeakAnno extends Tool {
         // set input files
         code = code + ""
                 + "setwd(\"" + this.getOutputFolder().getAbsolutePath() + "\")" + "\n"
-                + "bed <- read.table(\" " + this.getInputFileFormat() + "\",sep = \"\\t\")\n"
+                + "bed <- read.table(file = \""+ this.getInputFile() + "\",sep = \"\\t\")\n"
                 + "bed <- bed[bed$regulation != \"No-change\", c(2:4,1)]\n"
                 + "peaks <- toGRanges(bed, format=\"" + this.getInputFileFormat() + "\")\n"
                 + "\n";
@@ -176,7 +177,7 @@ public class ChIPpeakAnno extends Tool {
                 + "peaksAnnoOut <- peaksAnnoOut[,c(1,2,3,4,6,8,9,13,14,15,16)]" + "\n"
                 + "colnames(peaksAnnoOut) <- c(\"Chr\",\"Peak Start\",\"Peak End\",\"length\",\n"
                 + "\"Peak Name\",\"Gene Start\",\"Gene End\",\"location\",\"distance\",\"Entrez id\", \"Gene symbol\" )" + "\n"
-                + "write.table(macsAnnoOut,\"" + this.getPeakAnnoated().getAbsolutePath() + "\", sep = \"\\t\", quote = FALSE)" + "\n"
+                + "write.table(peaksAnnoOut,\"" + this.getPeakAnnoated().getAbsolutePath() + "\", sep = \"\\t\", quote = FALSE)" + "\n"
                 + "\n";
 
         // assign chromosomal regions 
@@ -210,7 +211,7 @@ public class ChIPpeakAnno extends Tool {
 
         // pathway ennrichment
         code = code + "\n"
-                + "overPath <- getEnrichedPATH(macs.anno, orgAnn = OrgEgDb,\n"
+                + "overPath <- getEnrichedPATH(peaks.anno, orgAnn = OrgEgDb,\n"
                 + "pathAnn = \"KEGG.db\",\n"
                 + "feature_id_type = \"entrez_id\",\n"
                 + "maxP=1, minPATHterm=1, multiAdjMethod=\"BH\")" + "\n"
@@ -252,8 +253,9 @@ public class ChIPpeakAnno extends Tool {
                 + "p <- p + theme(axis.text.y = element_text(size = " + legendFS + ",colour = \"black\"))\n"
                 + "p <- p + geom_text(aes(label = text, y = Freq + 1))\n"
                 + "\n"
-                + "jpeg(\"" + barPlotFile.getAbsolutePath() + "\",width = " + width + ",height = " + height + ")\n"
-                + "p\n"
+                + "jpeg(\"" + barPlotFile.getAbsolutePath() + "\"," + "\n" 
+                + "width = " + width + ",height = " + height + ")\n"
+                + "print(p)\n"
                 + "dev.off()"
                 + "\n";
 
@@ -261,16 +263,13 @@ public class ChIPpeakAnno extends Tool {
     }
 
     public boolean writeCode(String code, File outputFile) {
-
         try {
-            if(outputFile.getParentFile().mkdirs()){
-                if (outputFile.createNewFile()) {
+            if( this.createOutputFile(outputFile)){
                 FileWriter rCodeWriter = new FileWriter(outputFile);
                 PrintWriter rCodePrintWriter = new PrintWriter(new BufferedWriter(rCodeWriter));
                 rCodePrintWriter.append(code);
                 rCodePrintWriter.flush();
                 return true;
-                }
             }
         } catch (IOException ex) {
             Logger.getLogger(ChIPpeakAnno.class.getName()).log(Level.SEVERE, null, ex);
@@ -278,7 +277,23 @@ public class ChIPpeakAnno extends Tool {
 
         return false;
     }
-
+    
+    private boolean createOutputFile(File file){
+        try{
+            if (!file.getParentFile().exists()) {
+                if (file.getParentFile().mkdirs()) {
+                    return file.createNewFile();
+                }
+            } else if (!file.exists()) {
+                return file.createNewFile();
+            } else {
+                return file.exists();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ChIPpeakAnno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
     public static ChIPpeakAnno getChIPpeakAnnoObject(File inputFile, String inputFileFormat, Genome genome) {
 
         if (GuavaOutputFiles.rootDir != null) {

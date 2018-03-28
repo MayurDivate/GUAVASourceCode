@@ -780,6 +780,7 @@ public class AnalysisWorkflow {
        
         // create outfolder then r code file 
         if (!createDir(chipPeakAnno.getOutputFolder())) {
+            
             return false;
         }
         
