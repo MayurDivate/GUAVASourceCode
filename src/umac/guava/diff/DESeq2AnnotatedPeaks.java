@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,54 +30,72 @@ import java.util.logging.Logger;
  *
  * @author mayurdivate
  */
-public class DESeq2Result {
+public class DESeq2AnnotatedPeaks {
     private String chromosome;
     private int start;
     private int end; 
+    private int length; 
     private String name;
     private double foldchange;
     private double pvalue;
+    private String adjPvalue;
     private String regulation;
     private String geneSymbol;
     private int distance;
     
 
     
-    static ArrayList<DESeq2Result> getDESeq2ResultList(File deseqResultFile){
+    static ArrayList<DESeq2AnnotatedPeaks> getDESeq2ResultList(File deseqResultFile){
        
         try{
             FileReader deseqResultFR = new FileReader(deseqResultFile);
             BufferedReader deseqResultBR = new BufferedReader(deseqResultFR);
             String line ;
-            ArrayList<DESeq2Result>  resultList =  new ArrayList<>();
+            ArrayList<DESeq2AnnotatedPeaks>  resultList =  new ArrayList<>();
             
             while((line = deseqResultBR.readLine()) != null){
                 line = line.replaceAll("\"", "");
                 String[] lineData =  line.split("\t");
-                if(lineData.length == 15 && !lineData[11].equalsIgnoreCase("not-changed")){
-                    String peakName =  lineData[1];
-                    String chr = lineData[2];
-                    int start = Integer.parseInt(lineData[3]);
-                    int end = Integer.parseInt(lineData[4]);
-                    double foldChange =  Double.parseDouble(lineData[6]);
-                    double pvalue =  Double.parseDouble(lineData[9]);
-                    String regulation =  lineData[11];
-                    String geneSymbol =  lineData[12];
-                    int distance =  Integer.parseInt(lineData[14]);
+                System.out.println(lineData[1]+" ~~~ "+lineData.length);
+
+                if (lineData.length == 20 && !lineData[11].equalsIgnoreCase("No-change")) {
                     
-                    DESeq2Result deseqResult =  new DESeq2Result(chr, start, end, peakName, foldChange, pvalue,regulation,geneSymbol,distance);
-                    resultList.add(deseqResult);
-                    
-                }        
+                        String peakName = lineData[1];
+                        String chr = lineData[2];
+                        int start = Integer.parseInt(lineData[3]);
+                        int end = Integer.parseInt(lineData[4]);
+                        int length = Integer.parseInt(lineData[5]);
+                        int distance = Integer.parseInt(lineData[9]);
+                        double foldChange = Double.parseDouble(lineData[14]);
+                        double pvalue = Double.parseDouble(lineData[17]);
+                        double adjPvalue = 1000;
+                        if (!lineData[18].equalsIgnoreCase("NA")) {
+                            adjPvalue = Double.parseDouble(lineData[18]);
+                        }
+                        
+                        String adjP =  "NA";
+                        if(adjPvalue != 1000){
+                            adjP = ""+adjPvalue ;
+                        }
+                        
+                        String regulation = lineData[19];
+                        String geneSymbol = lineData[11];
+
+                        DESeq2AnnotatedPeaks deseqResult = new DESeq2AnnotatedPeaks(peakName, chr, start, end, length,
+                                foldChange, pvalue, adjP, regulation,
+                                geneSymbol, distance);
+                        resultList.add(deseqResult);
+
+                }
             }
             
         
         return resultList;
         
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DESeq2Result.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DESeq2AnnotatedPeaks.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(DESeq2Result.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DESeq2AnnotatedPeaks.class.getName()).log(Level.SEVERE, null, ex);
         }
         
        return null;
@@ -86,14 +103,17 @@ public class DESeq2Result {
    } 
 
 
-    public DESeq2Result(String chromosome, int start, int end, String name, double foldchange, double pvalue, String regulation,
+    public DESeq2AnnotatedPeaks(String name, String chromosome, int start, int end, int length,
+            double foldchange, double pvalue, String adjPvalue, String regulation,
             String geneSymbol , int distance   ) {
+        this.name = name;
         this.chromosome = chromosome;
         this.start = start;
         this.end = end;
-        this.name = name;
+        this.length = length;
         this.foldchange = foldchange;
         this.pvalue = pvalue;
+        this.adjPvalue = adjPvalue;
         this.regulation = regulation;
         this.geneSymbol = geneSymbol;
         this.distance = distance;
@@ -107,8 +127,8 @@ public class DESeq2Result {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof DESeq2Result){
-            DESeq2Result dres = (DESeq2Result) obj;
+        if(obj instanceof DESeq2AnnotatedPeaks){
+            DESeq2AnnotatedPeaks dres = (DESeq2AnnotatedPeaks) obj;
             if(dres.getName().equals(this.getName())){
                 return true;
             }
@@ -132,8 +152,6 @@ public class DESeq2Result {
     public void setRegulation(String regulation) {
         this.regulation = regulation;
     }
-
-    
 
     /**
      * @return the chromosome
@@ -234,14 +252,33 @@ public class DESeq2Result {
     public void setGeneSymbol(String geneSymbol) {
         this.geneSymbol = geneSymbol;
     }
+
+    /**
+     * @return the adjPvalue
+     */
+    public String getAdjPvalue() {
+        return adjPvalue;
+    }
+
+    /**
+     * @param adjPvalue the adjPvalue to set
+     */
+    public void setAdjPvalue(String adjPvalue) {
+        this.adjPvalue = adjPvalue;
+    }
+
+    /**
+     * @return the length
+     */
+    public int getLength() {
+        return length;
+    }
+
+    /**
+     * @param length the length to set
+     */
+    public void setLength(int length) {
+        this.length = length;
+    }
    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

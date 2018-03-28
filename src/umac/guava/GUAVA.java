@@ -9,6 +9,7 @@ import java.io.File;
 import javax.swing.JFrame;
 import umac.guava.commandline.Command;
 import umac.guava.commandline.CommandlineWorkflow;
+import umac.guava.diff.DifferentialResultFrame;
 
 
 /**
@@ -34,14 +35,34 @@ public class GUAVA {
         setPWD();
         
         if(args.length == 0){
-                uiVersion();
+            System.out.println("umac.guava.GUAVA.main()");
+            System.out.println("TEST MODE TEST MODE TEST MODE TEST MODE TEST MODE TEST MODE");
+                GUAVA guava = new GUAVA();
+                guava.gdiffTest();
+                
+                //uiVersion();
         }
         else{
-              
             runGUAVAcommandline(args);
         }
         
 
+    }
+    
+    private void gdiffTest(){
+        
+        DifferentialResultFrame resultFrame =  new DifferentialResultFrame();
+        resultFrame.setVisible(true);
+        File outFolder =  new File("/Users/mayurdivate/Work/Guava_testing/Gdiff_test/TEST_Mayur_GUAVA_Differental_analysis");
+        File vplot = new File(outFolder,"TEST_Mayur_vplot.jpg");
+        resultFrame.displayVplot(vplot);
+        File pcaPlot = new File(outFolder,"TEST_Mayur_PCA_plot.jpg");
+        File barchart = new File(outFolder,"TEST_Mayur_Functional_Analysis/TEST_Mayur_bar_chart.jpg");
+        resultFrame.displayBarChart(barchart);
+        
+        File annoPeak = new File(outFolder,"TEST_Mayur_Functional_Analysis/TEST_Mayur_Annotated_Peaks.txt");
+        resultFrame.displayResultTable(annoPeak);
+        
     }
     
     private static void setPWD(){

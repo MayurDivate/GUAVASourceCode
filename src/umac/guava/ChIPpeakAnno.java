@@ -151,8 +151,8 @@ public class ChIPpeakAnno extends Tool {
         code = code + ""
                 + "setwd(\"" + this.getOutputFolder().getAbsolutePath() + "\")" + "\n"
                 + "bed <- read.table(file = \""+ this.getInputFile() + "\",sep = \"\\t\")\n"
-                + "bed <- bed[bed$regulation != \"No-change\", c(2:4,1)]\n"
-                + "peaks <- toGRanges(bed, format=\"" + this.getInputFileFormat() + "\")\n"
+                + "peaks <- bed[bed$regulation != \"No-change\", c(2:4,1)]\n"
+                + "peaks <- toGRanges(peaks, format=\"" + this.getInputFileFormat() + "\")\n"
                 + "\n";
 
         // annoatate peaks
@@ -176,7 +176,8 @@ public class ChIPpeakAnno extends Tool {
         code = code + "peaksAnnoOut <- as.data.frame(peaks.anno)"+"\n"
                 + "peaksAnnoOut <- peaksAnnoOut[,c(1,2,3,4,6,8,9,13,14,15,16)]" + "\n"
                 + "colnames(peaksAnnoOut) <- c(\"Chr\",\"Peak Start\",\"Peak End\",\"length\",\n"
-                + "\"Peak Name\",\"Gene Start\",\"Gene End\",\"location\",\"distance\",\"Entrez id\", \"Gene symbol\" )" + "\n"
+                + "\"name\",\"Gene Start\",\"Gene End\",\"location\",\"distance\",\"Entrez id\", \"Gene symbol\" )" + "\n"
+                + "peaksAnnoOut <- merge(peaksAnnoOut, bed[,c(1,4:11)],by=c(\"name\"))" + "\n"
                 + "write.table(peaksAnnoOut,\"" + this.getPeakAnnoated().getAbsolutePath() + "\", sep = \"\\t\", quote = FALSE)" + "\n"
                 + "\n";
 
@@ -229,8 +230,8 @@ public class ChIPpeakAnno extends Tool {
 
     String getBarChartCode(File barPlotFile) {
 
-        int width = 760;
-        int height = 400;
+        int width = 740;
+        int height = 420;
         int legendFS = 12;
         int titleFS = 15;
 
