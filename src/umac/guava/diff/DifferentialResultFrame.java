@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JTabbedPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -68,6 +69,8 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         jTableSummary = new javax.swing.JTable();
         jPanelVolcanoPlot = new javax.swing.JPanel();
         jLabelVplot = new javax.swing.JLabel();
+        jPanelPCA = new javax.swing.JPanel();
+        jLabelPCAplot = new javax.swing.JLabel();
         jScrollPaneAnnotatedPeaks = new javax.swing.JScrollPane();
         jTableDifferentialPeaks = new javax.swing.JTable();
         jPanelBarChart = new javax.swing.JPanel();
@@ -92,10 +95,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(800, 590));
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jOutputTabs.setBackground(new java.awt.Color(255, 255, 255));
-        jOutputTabs.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jOutputTabs.setBackground(new java.awt.Color(153, 153, 153));
         jOutputTabs.setPreferredSize(new java.awt.Dimension(780, 480));
         jOutputTabs.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -112,9 +112,24 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             new String [] {
                 "Parameter", "value"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableSummary.setGridColor(new java.awt.Color(153, 153, 153));
         jTableSummary.setRowHeight(25);
+        jTableSummary.setShowGrid(true);
         jScrollPane1.setViewportView(jTableSummary);
+        if (jTableSummary.getColumnModel().getColumnCount() > 0) {
+            jTableSummary.getColumnModel().getColumn(0).setMinWidth(200);
+            jTableSummary.getColumnModel().getColumn(0).setPreferredWidth(250);
+            jTableSummary.getColumnModel().getColumn(0).setMaxWidth(250);
+        }
 
         jOutputTabs.addTab("Summary", jScrollPane1);
 
@@ -127,17 +142,40 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             .addGroup(jPanelVolcanoPlotLayout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addComponent(jLabelVplot, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanelVolcanoPlotLayout.setVerticalGroup(
             jPanelVolcanoPlotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelVolcanoPlotLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(jLabelVplot, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                .addComponent(jLabelVplot, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jOutputTabs.addTab("Volcano Plot", jPanelVolcanoPlot);
+
+        jPanelPCA.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabelPCAplot.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanelPCALayout = new javax.swing.GroupLayout(jPanelPCA);
+        jPanelPCA.setLayout(jPanelPCALayout);
+        jPanelPCALayout.setHorizontalGroup(
+            jPanelPCALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPCALayout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(jLabelPCAplot, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77))
+        );
+        jPanelPCALayout.setVerticalGroup(
+            jPanelPCALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPCALayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelPCAplot, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jOutputTabs.addTab("PCA Plot", jPanelPCA);
 
         jTableDifferentialPeaks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -164,7 +202,6 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         });
         jTableDifferentialPeaks.setGridColor(new java.awt.Color(153, 153, 153));
         jTableDifferentialPeaks.setShowGrid(true);
-        jTableDifferentialPeaks.setShowVerticalLines(true);
         jTableDifferentialPeaks.getTableHeader().setReorderingAllowed(false);
         jTableDifferentialPeaks.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -183,14 +220,14 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBarChartLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelBarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE)
+                .addComponent(jLabelBarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelBarChartLayout.setVerticalGroup(
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBarChartLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelBarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                .addComponent(jLabelBarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -220,6 +257,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             }
         });
         jTableGO.setGridColor(new java.awt.Color(153, 153, 153));
+        jTableGO.setShowGrid(true);
         jTableGO.getTableHeader().setReorderingAllowed(false);
         jScrollPaneGoTable.setViewportView(jTableGO);
         if (jTableGO.getColumnModel().getColumnCount() > 0) {
@@ -267,6 +305,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             }
         });
         jTablePathway.setGridColor(new java.awt.Color(153, 153, 153));
+        jTablePathway.setShowGrid(true);
         jTablePathway.getTableHeader().setReorderingAllowed(false);
         jScrollPanePathwayTable.setViewportView(jTablePathway);
         if (jTablePathway.getColumnModel().getColumnCount() > 0) {
@@ -504,13 +543,17 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         jLabelVplot.setIcon(imageIconVplot);
     }
     
+    public void displayPCAplot(File plot){
+        ImageIcon imageIconVplot  = new ImageIcon(plot.getAbsolutePath());
+        jLabelPCAplot.setIcon(imageIconVplot);
+    }
+    
     public void displayBarChart(File plot){
         ImageIcon imageIconVplot  = new ImageIcon(plot.getAbsolutePath());
         jLabelBarChart.setIcon(imageIconVplot);
     }
     
     public boolean displayResultTable(File deseqResults){
-        
         if(!deseqResults.exists()){
              return false;
         }
@@ -553,7 +596,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     }
     
     public boolean displayGO(File goResults){
-        System.out.println("umac.guava.diff.DifferentialResultFrame.displayGO()");
+        
      if(!goResults.exists()){
          return false;
      }   
@@ -667,6 +710,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonOuputFolder;
     private javax.swing.JLabel jLabelBarChart;
     private javax.swing.JLabel jLabelGeneSearch;
+    private javax.swing.JLabel jLabelPCAplot;
     private javax.swing.JLabel jLabelVplot;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -675,6 +719,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelBarChart;
+    private javax.swing.JPanel jPanelPCA;
     private javax.swing.JPanel jPanelVolcanoPlot;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneAnnotatedPeaks;

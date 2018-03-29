@@ -71,24 +71,24 @@ public class DifferentialAnalysisWorkflow {
             doNext = runDifferentialAnalysis(atacSeqDiffInput, deseq2);
 
             if (doNext) {
-                System.out.println("---------- Display results ----------");
-                resultFrame.displayResultTable(outputfiles.getDeseqResult());
+                System.out.println("---------- Display volcano plot ----------");
                 resultFrame.displayVplot(deseq2.getVolcanoPlotFile());
+                resultFrame.displayPCAplot(deseq2.getPcaPlotFile());
             } else {
                 System.err.println("Error in the differential analysis step");
             }
         }
         
-        doNext = true;
-        // run chipPeakAnno
         if (doNext) {
-            System.out.println("---------- create go and pathway enrichment code ----------");
+            System.out.println("---------- functional annotation ----------");
 
             ChIPpeakAnno chipPeakAnno = outputfiles.getChipPeakAnno();
-            
             doNext =  runFunctionalAnnotation(atacSeqDiffInput, chipPeakAnno);
+
             if (doNext) {
-                System.out.println("---------- Display go and pathway plots ----------");
+                System.out.println("---------- Display go and pathway results and plots ----------");
+                resultFrame.displayResultTable(chipPeakAnno.getPeakAnnoated());
+                resultFrame.displayBarChart(chipPeakAnno.getBarChart());
                 resultFrame.displayGO(chipPeakAnno.getGoAnalysisOutputFile());
                 resultFrame.displayPathways(chipPeakAnno.getPathwayAnalysisOutputFile());
             }
@@ -100,7 +100,10 @@ public class DifferentialAnalysisWorkflow {
 
         if (!doNext) {
             System.out.println("Error occured, analysis stopped");
+            return false;
         }
+        
+        System.out.println("--------- F I N I S H E D -----------");
         return doNext;
 
     }

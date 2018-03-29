@@ -162,8 +162,8 @@ public class DESeq2 extends Program {
 
     private String getPlotPCACode() {
 
-        int width = 500;
-        int height = 350;
+        int width = 600;
+        int height = 400;
 
         String code = "\n"
                 + "\n"
