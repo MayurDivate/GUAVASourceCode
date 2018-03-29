@@ -144,11 +144,11 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Chromosome", "Start", "End", "Length", "log2(FC)", "Pvalue", "adj. Pvalue", "Regulation", "Gene Symbol", "Distance"
+                "Chr", "Start", "End", "Length", "log2(FC)", "P value", "adj. P value", "Regulation", "Gene Symbol", "Distance"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false
@@ -165,6 +165,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         jTableDifferentialPeaks.setGridColor(new java.awt.Color(153, 153, 153));
         jTableDifferentialPeaks.setShowGrid(true);
         jTableDifferentialPeaks.setShowVerticalLines(true);
+        jTableDifferentialPeaks.getTableHeader().setReorderingAllowed(false);
         jTableDifferentialPeaks.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableDifferentialPeaksMouseClicked(evt);
@@ -200,18 +201,45 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "GO ID", "GO Term", "Definition", "Ontology", "Pvalue", "GeneSymbol"
+                "GO ID", "GO Term", "Type", "Pvalue", "adj. P value", "Gene Symbol"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTableGO.setGridColor(new java.awt.Color(153, 153, 153));
+        jTableGO.getTableHeader().setReorderingAllowed(false);
         jScrollPaneGoTable.setViewportView(jTableGO);
+        if (jTableGO.getColumnModel().getColumnCount() > 0) {
+            jTableGO.getColumnModel().getColumn(0).setMinWidth(100);
+            jTableGO.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jTableGO.getColumnModel().getColumn(0).setMaxWidth(200);
+            jTableGO.getColumnModel().getColumn(1).setMinWidth(50);
+            jTableGO.getColumnModel().getColumn(1).setPreferredWidth(100);
+            jTableGO.getColumnModel().getColumn(2).setMinWidth(60);
+            jTableGO.getColumnModel().getColumn(2).setPreferredWidth(50);
+            jTableGO.getColumnModel().getColumn(2).setMaxWidth(80);
+            jTableGO.getColumnModel().getColumn(3).setMinWidth(80);
+            jTableGO.getColumnModel().getColumn(3).setPreferredWidth(50);
+            jTableGO.getColumnModel().getColumn(3).setMaxWidth(200);
+            jTableGO.getColumnModel().getColumn(4).setMinWidth(80);
+            jTableGO.getColumnModel().getColumn(4).setPreferredWidth(50);
+            jTableGO.getColumnModel().getColumn(4).setMaxWidth(200);
+            jTableGO.getColumnModel().getColumn(5).setMinWidth(100);
+            jTableGO.getColumnModel().getColumn(5).setPreferredWidth(100);
+        }
 
         jOutputTabs.addTab("GO analysis", jScrollPaneGoTable);
 
@@ -220,18 +248,36 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Pathway", "Pvalue", "Kegg ID", "GeneSymbol"
+                "KEGG ID", "Pathway Name", "P value", "adj. P value", "Gene Symbol"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTablePathway.setGridColor(new java.awt.Color(153, 153, 153));
+        jTablePathway.getTableHeader().setReorderingAllowed(false);
         jScrollPanePathwayTable.setViewportView(jTablePathway);
+        if (jTablePathway.getColumnModel().getColumnCount() > 0) {
+            jTablePathway.getColumnModel().getColumn(0).setPreferredWidth(90);
+            jTablePathway.getColumnModel().getColumn(0).setMaxWidth(80);
+            jTablePathway.getColumnModel().getColumn(2).setPreferredWidth(80);
+            jTablePathway.getColumnModel().getColumn(2).setMaxWidth(80);
+            jTablePathway.getColumnModel().getColumn(3).setPreferredWidth(80);
+            jTablePathway.getColumnModel().getColumn(3).setMaxWidth(80);
+            jTablePathway.getColumnModel().getColumn(4).setPreferredWidth(130);
+        }
 
         jOutputTabs.addTab("Pathway Analysis", jScrollPanePathwayTable);
 
@@ -265,7 +311,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
 
         jLabelGeneSearch.setText("Gene Symbol");
         jLabelGeneSearch.setPreferredSize(new java.awt.Dimension(81, 30));
-        jLabelGeneSearch.setVisible(false);
+        jLabelGeneSearch.setEnabled(false);
 
         jTextFieldSerachKey.setEnabled(false);
         jTextFieldSerachKey.setPreferredSize(new java.awt.Dimension(14, 30));
@@ -409,7 +455,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     private void jOutputTabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jOutputTabsMouseClicked
         // TODO add your handling code here:
         
-        if(jOutputTabs.getSelectedIndex()==1){
+        if(jOutputTabs.getSelectedIndex() == 2 || jOutputTabs.getSelectedIndex() == 4 || jOutputTabs.getSelectedIndex() == 5 ){
             jButtonIGV.setEnabled(true);
             jTextFieldSerachKey.setEnabled(true);
             jTextFieldSerachKey.setEditable(true);
@@ -429,11 +475,27 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
 
     private void filterTableEntries(String query){
         
-        int geneColumnIndex = 6;
+        int geneColumnIndex = 8;
         DefaultTableModel dfModel =  (DefaultTableModel) jTableDifferentialPeaks.getModel();
         TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(dfModel);
         jTableDifferentialPeaks.setRowSorter(tableRowSorter);
         tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+query, geneColumnIndex));
+        
+        
+        int goColumnIndex = 5;
+        DefaultTableModel goDfModel =  (DefaultTableModel) jTableGO.getModel();
+        TableRowSorter<DefaultTableModel> goTableRowSorter = new TableRowSorter<DefaultTableModel>(goDfModel);
+        jTableGO.setRowSorter(goTableRowSorter);
+        goTableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+query, goColumnIndex));
+        
+        
+        int pathwayColumnIndex = 4;
+        DefaultTableModel pathwayDfModel =  (DefaultTableModel) jTablePathway.getModel();
+        TableRowSorter<DefaultTableModel> pathwayTableRowSorter = new TableRowSorter<DefaultTableModel>(pathwayDfModel);
+        jTablePathway.setRowSorter(pathwayTableRowSorter);
+        pathwayTableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+query, pathwayColumnIndex));
+        
+        
         
     }
     
@@ -448,7 +510,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     }
     
     public boolean displayResultTable(File deseqResults){
-        System.out.println("umac.guava.diff.DifferentialResultFrame.displayResultTable()");
+        
         if(!deseqResults.exists()){
              return false;
         }
@@ -464,6 +526,9 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         }
         Object rowData[] = new Object[jTableDifferentialPeaks.getColumnCount()];
         for(int index=0; index < resultList.size(); index++){
+            //0     1       2   3       4       5       6           7           8           9      
+            //chr   start   end length  log2fc  pvalue  adjPvalue   regulation  genesymbol  distance
+            
             rowData[0] =  resultList.get(index).getChromosome();
             rowData[1] =  resultList.get(index).getStart();
             rowData[2] =  resultList.get(index).getEnd();
@@ -474,8 +539,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             
             formatter = new DecimalFormat("0.00E00");
             rowData[5] =  formatter.format(resultList.get(index).getPvalue());
-            
-            rowData[6] =  resultList.get(index).getAdjPvalue();
+            rowData[6] =  formatter.format(resultList.get(index).getAdjPvalue());
             
             rowData[7] =  resultList.get(index).getRegulation();
             rowData[8] =  resultList.get(index).getGeneSymbol();
@@ -489,6 +553,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     }
     
     public boolean displayGO(File goResults){
+        System.out.println("umac.guava.diff.DifferentialResultFrame.displayGO()");
      if(!goResults.exists()){
          return false;
      }   
@@ -497,18 +562,20 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         jTableGO.setRowSorter(tableRowSorter);
         
         Object[] rowData = new Object[dfModel.getColumnCount()];
-        HashMap<GeneOntology, GeneOntology> goHashMap = GeneOntology.parseDiffGeneOntologyAnalysisOutput(goResults);
+        
+        HashMap<GeneOntology, GeneOntology> goHashMap = GeneOntology.parseGOAnalysisOutputFile(goResults);
         
         for(GeneOntology go : goHashMap.keySet()){
+            //0     1       2       3       4           5
+            //GOid  GoTerm  Gotype  pvalue adjPvalue    GeneSymbol  
             rowData[0] = go.getGoID();
             rowData[1] = go.getGoTerm();
-            rowData[2] = go.getGoDefination();
-            rowData[3] = go.getGoCategory();
+            rowData[2] = go.getGoCategory();
             
             NumberFormat formatter = new DecimalFormat("0.00E00");
-            rowData[4] =  formatter.format(go.getPvalue());
+            rowData[3] =  formatter.format(go.getPvalue());
+            rowData[4] =  formatter.format(go.getAdjustedPvalue());
                     
-            
             rowData[5] = go.getGeneSymbols();
             dfModel.addRow(rowData);
         }
@@ -520,59 +587,33 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     }
     
     public boolean displayPathways(File pathwayResults){
-         if(!pathwayResults.exists()){
+        if(!pathwayResults.exists()){
              return false;
          }   
+         
+         
+        DefaultTableModel dfModel =  (DefaultTableModel) jTablePathway.getModel();
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(dfModel);
+        jTablePathway.setRowSorter(tableRowSorter);
         
-         try{
-            FileReader fr = new FileReader(pathwayResults);
-            BufferedReader br = new BufferedReader(fr);
-            String line = br.readLine() ;
-
-            DefaultTableModel dfModel = (DefaultTableModel) jTablePathway.getModel();
-            TableRowSorter<DefaultTableModel>  rowSorter =  new TableRowSorter<>(dfModel);
-            jTablePathway.setRowSorter(rowSorter);
-            
-            Object[] rowData = new Object[dfModel.getColumnCount()];
-            HashMap<Pathway, Pathway> pathways = new HashMap<>();
+        HashMap<Pathway, Pathway> goHashMap =  Pathway.parsePathwayAnalysisOutputFile(pathwayResults);
         
-             
-                while((line = br.readLine()) != null){
-                    line = line.replaceAll("\"", "");
-                    String[] lineData = line.split("\t");
-                    double pvalue =  Double.parseDouble(lineData[2]);
-                    Pathway pathway =  new Pathway(lineData[1], lineData[3], pvalue, lineData[4],lineData[5]);
-                    if(!pathways.containsKey(pathway)){
-                        pathways.put(pathway, pathway);
-                    }else{
-                        pathways.get(pathway).addEntrezID(lineData[4]);
-                        pathways.get(pathway).addGeneSymbol(lineData[5]);
-                    }
-                    
-                    
-                }
-                
-                for(Pathway p: pathways.keySet()){
-                    
-                    rowData[0] = p.getPathwayname();
-                    NumberFormat formatter = new DecimalFormat("0.00E00");
-                    rowData[1] =  formatter.format(p.getPvalue());
-                    rowData[2] = p.getKeggID() ;
-                    rowData[3] = p.getGeneSymbol();
-                    
-                    dfModel.addRow(rowData);
-                }
-            
-                
-            return true;
+        Object rowData[] = new Object[jTablePathway.getColumnCount()];
         
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DifferentialResultFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(DifferentialResultFrame.class.getName()).log(Level.SEVERE, null, ex);
+        for(Pathway pathway : goHashMap.keySet() ){
+            //  0        1          2       3           4
+            //  KeggID  PathwayName Pvalue  adjPvalue   GeneSymbols
+            rowData[0] = pathway.getKeggID();
+            rowData[1] = pathway.getPathwayname();
+            NumberFormat formatter = new DecimalFormat("0.00E00");
+            rowData[2] = formatter.format(pathway.getPvalue());
+            rowData[3] = formatter.format(pathway.getAdjPvalue());
+            rowData[4] = pathway.getGeneSymbol();
+            dfModel.addRow(rowData);
         }
         
-        return false;
+        
+        return true;
         
     }
     

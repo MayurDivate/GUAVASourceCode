@@ -325,7 +325,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Chromosome", "Start", "End", "Length", "Pileup Height", "-log10(p)", "-log10(q)", "Annotation", "DistanceToTSS", "Gene Symbol"
+                "Chr", "Start", "End", "Length", "Pileup Height", "-log10(p)", "-log10(q)", "Annotation", "DistanceToTSS", "Gene Symbol"
             }
         ) {
             Class[] types = new Class [] {
@@ -344,6 +344,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
             }
         });
         jTablePeaks.setToolTipText("");
+        jTablePeaks.setGridColor(new java.awt.Color(153, 153, 153));
+        jTablePeaks.getTableHeader().setReorderingAllowed(false);
         jTablePeaks.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jTablePeaksMouseReleased(evt);
@@ -396,12 +398,31 @@ public class RunStatusJframe extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTableGO.setGridColor(new java.awt.Color(153, 153, 153));
+        jTableGO.getTableHeader().setReorderingAllowed(false);
         jScrollPaneGO.setViewportView(jTableGO);
+        if (jTableGO.getColumnModel().getColumnCount() > 0) {
+            jTableGO.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTableGO.getColumnModel().getColumn(0).setMaxWidth(100);
+            jTableGO.getColumnModel().getColumn(2).setPreferredWidth(50);
+            jTableGO.getColumnModel().getColumn(2).setMaxWidth(50);
+            jTableGO.getColumnModel().getColumn(3).setPreferredWidth(80);
+            jTableGO.getColumnModel().getColumn(3).setMaxWidth(80);
+            jTableGO.getColumnModel().getColumn(4).setPreferredWidth(80);
+            jTableGO.getColumnModel().getColumn(4).setMaxWidth(80);
+        }
 
         resultTabs.addTab("Gene Ontologies", jScrollPaneGO);
 
@@ -410,10 +431,27 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
             },
             new String [] {
-                "KEGG Pathway ID", "Pathway Name", "P value", "adjusted P value", "Gene Symbols"
+                "KEGG ID", "Pathway Name", "P value", "adj. P value", "Gene Symbols"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTablePathways.setGridColor(new java.awt.Color(153, 153, 153));
         jScrollPanePathway.setViewportView(jTablePathways);
+        if (jTablePathways.getColumnModel().getColumnCount() > 0) {
+            jTablePathways.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTablePathways.getColumnModel().getColumn(0).setMaxWidth(100);
+            jTablePathways.getColumnModel().getColumn(2).setPreferredWidth(80);
+            jTablePathways.getColumnModel().getColumn(2).setMaxWidth(80);
+            jTablePathways.getColumnModel().getColumn(3).setPreferredWidth(80);
+            jTablePathways.getColumnModel().getColumn(3).setMaxWidth(80);
+        }
 
         resultTabs.addTab("Pathways", jScrollPanePathway);
 

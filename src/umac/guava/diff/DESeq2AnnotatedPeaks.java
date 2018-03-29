@@ -38,7 +38,7 @@ public class DESeq2AnnotatedPeaks {
     private String name;
     private double foldchange;
     private double pvalue;
-    private String adjPvalue;
+    private double adjPvalue;
     private String regulation;
     private String geneSymbol;
     private int distance;
@@ -56,7 +56,6 @@ public class DESeq2AnnotatedPeaks {
             while((line = deseqResultBR.readLine()) != null){
                 line = line.replaceAll("\"", "");
                 String[] lineData =  line.split("\t");
-                System.out.println(lineData[1]+" ~~~ "+lineData.length);
 
                 if (lineData.length == 20 && !lineData[11].equalsIgnoreCase("No-change")) {
                     
@@ -68,28 +67,23 @@ public class DESeq2AnnotatedPeaks {
                         int distance = Integer.parseInt(lineData[9]);
                         double foldChange = Double.parseDouble(lineData[14]);
                         double pvalue = Double.parseDouble(lineData[17]);
-                        double adjPvalue = 1000;
+                        double adjPvalue = -1;
                         if (!lineData[18].equalsIgnoreCase("NA")) {
                             adjPvalue = Double.parseDouble(lineData[18]);
                         }
                         
-                        String adjP =  "NA";
-                        if(adjPvalue != 1000){
-                            adjP = ""+adjPvalue ;
-                        }
                         
                         String regulation = lineData[19];
                         String geneSymbol = lineData[11];
 
                         DESeq2AnnotatedPeaks deseqResult = new DESeq2AnnotatedPeaks(peakName, chr, start, end, length,
-                                foldChange, pvalue, adjP, regulation,
+                                foldChange, pvalue, adjPvalue, regulation,
                                 geneSymbol, distance);
                         resultList.add(deseqResult);
 
                 }
             }
             
-        
         return resultList;
         
         } catch (FileNotFoundException ex) {
@@ -104,7 +98,7 @@ public class DESeq2AnnotatedPeaks {
 
 
     public DESeq2AnnotatedPeaks(String name, String chromosome, int start, int end, int length,
-            double foldchange, double pvalue, String adjPvalue, String regulation,
+            double foldchange, double pvalue, double adjPvalue, String regulation,
             String geneSymbol , int distance   ) {
         this.name = name;
         this.chromosome = chromosome;
@@ -256,14 +250,14 @@ public class DESeq2AnnotatedPeaks {
     /**
      * @return the adjPvalue
      */
-    public String getAdjPvalue() {
+    public double getAdjPvalue() {
         return adjPvalue;
     }
 
     /**
      * @param adjPvalue the adjPvalue to set
      */
-    public void setAdjPvalue(String adjPvalue) {
+    public void setAdjPvalue(double adjPvalue) {
         this.adjPvalue = adjPvalue;
     }
 

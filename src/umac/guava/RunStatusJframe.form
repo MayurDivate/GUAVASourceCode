@@ -441,7 +441,7 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="10" rowCount="0">
-                        <Column editable="false" title="Chromosome" type="java.lang.String"/>
+                        <Column editable="false" title="Chr" type="java.lang.String"/>
                         <Column editable="false" title="Start" type="java.lang.Integer"/>
                         <Column editable="false" title="End" type="java.lang.Integer"/>
                         <Column editable="false" title="Length" type="java.lang.Integer"/>
@@ -508,8 +508,11 @@
                         </Column>
                       </TableColumnModel>
                     </Property>
+                    <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="99" green="99" red="99" type="rgb"/>
+                    </Property>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                      <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                      <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                     </Property>
                   </Properties>
                   <Events>
@@ -575,17 +578,17 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="6" rowCount="0">
-                    <Column editable="true" title="GO ID" type="java.lang.String"/>
-                    <Column editable="true" title="GO Term" type="java.lang.String"/>
-                    <Column editable="true" title="Type" type="java.lang.String"/>
-                    <Column editable="true" title="P value" type="java.lang.String"/>
-                    <Column editable="true" title="adj. P value" type="java.lang.String"/>
-                    <Column editable="true" title="Gene Symbols" type="java.lang.String"/>
+                    <Column editable="false" title="GO ID" type="java.lang.String"/>
+                    <Column editable="false" title="GO Term" type="java.lang.String"/>
+                    <Column editable="false" title="Type" type="java.lang.String"/>
+                    <Column editable="false" title="P value" type="java.lang.String"/>
+                    <Column editable="false" title="adj. P value" type="java.lang.String"/>
+                    <Column editable="false" title="Gene Symbols" type="java.lang.String"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="100" minWidth="-1" prefWidth="100" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -595,17 +598,17 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="50" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="80" minWidth="-1" prefWidth="80" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="80" minWidth="-1" prefWidth="80" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -617,8 +620,11 @@
                     </Column>
                   </TableColumnModel>
                 </Property>
+                <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="99" green="99" red="99" type="rgb"/>
+                </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
             </Component>
@@ -642,16 +648,16 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="5" rowCount="0">
-                    <Column editable="true" title="KEGG Pathway ID" type="java.lang.Object"/>
-                    <Column editable="true" title="Pathway Name" type="java.lang.Object"/>
-                    <Column editable="true" title="P value" type="java.lang.Object"/>
-                    <Column editable="true" title="adjusted P value" type="java.lang.Object"/>
-                    <Column editable="true" title="Gene Symbols" type="java.lang.Object"/>
+                    <Column editable="false" title="KEGG ID" type="java.lang.Object"/>
+                    <Column editable="false" title="Pathway Name" type="java.lang.Object"/>
+                    <Column editable="false" title="P value" type="java.lang.Object"/>
+                    <Column editable="false" title="adj. P value" type="java.lang.Object"/>
+                    <Column editable="false" title="Gene Symbols" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="100" minWidth="-1" prefWidth="100" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -661,12 +667,12 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="80" minWidth="-1" prefWidth="80" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="80" minWidth="-1" prefWidth="80" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -677,6 +683,9 @@
                       <Renderer/>
                     </Column>
                   </TableColumnModel>
+                </Property>
+                <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="99" green="99" red="99" type="rgb"/>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>

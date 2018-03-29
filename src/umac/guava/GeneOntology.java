@@ -21,8 +21,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -116,7 +114,7 @@ public class GeneOntology {
     }
 
     public static HashMap<GeneOntology, GeneOntology> parseGOAnalysisOutputFile(File goAnalysisFile) {
-
+        System.out.println("umac.guava.GeneOntology.parseGOAnalysisOutputFile()");
         try {
             FileReader goFileReader = new FileReader(goAnalysisFile);
             BufferedReader goBufferedReader = new BufferedReader(goFileReader);
