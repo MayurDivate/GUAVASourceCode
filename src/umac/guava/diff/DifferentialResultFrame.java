@@ -473,7 +473,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             Desktop desktop = Desktop.getDesktop();
             desktop.open(DifferentialOutputFiles.getOutFolder().getAbsoluteFile());
         } catch (IOException ex) {
-            Logger.getLogger(RunStatusJframe.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DifferentialResultFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonOuputFolderActionPerformed
 

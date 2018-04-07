@@ -12,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,13 +64,12 @@ public class MainJFrame extends javax.swing.JFrame {
         startJButton = new javax.swing.JButton();
         resetJButton = new javax.swing.JButton();
         jPanelChromosomeFiltering = new javax.swing.JPanel();
-        chrMCheckBox = new javax.swing.JCheckBox();
-        chrYCheckBox = new javax.swing.JCheckBox();
         ramJLabel = new javax.swing.JLabel();
         ramJSpinner = new javax.swing.JSpinner();
         cpuJLabel = new javax.swing.JLabel();
         cpuJSpinner = new javax.swing.JSpinner();
-        jButtonCustomChr = new javax.swing.JButton();
+        jButtonShowChromosomes = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         macs2Japnel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         macs2PqvalueComboBox = new javax.swing.JComboBox<>();
@@ -172,11 +173,13 @@ public class MainJFrame extends javax.swing.JFrame {
         });
 
         jLabelHitsQuality.setText("No. of genomic hits (m)");
+        jLabelHitsQuality.setToolTipText("Higher mapping quality means less number of genomic hits.  If mapping quality is 30 then expected genomic hits ~1.");
 
         jTextFieldBowtieIndex.setEditable(false);
         jTextFieldBowtieIndex.setText("/path/bowtie1Index.ebwt");
 
-        jComboBoxGenome.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-select-","hg19", "mm10", "mm9"}));
+        String[] genomes = Genome.getGenomeArray();
+        jComboBoxGenome.setModel(new javax.swing.DefaultComboBoxModel<>(genomes));
         jComboBoxGenome.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jComboBoxGenome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,21 +306,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jPanelChromosomeFiltering.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Chromosome Filtering", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Andale Mono", 0, 14))); // NOI18N
 
-        chrMCheckBox.setSelected(true);
-        chrMCheckBox.setText("chrM (recommended)");
-        chrMCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chrMCheckBoxActionPerformed(evt);
-            }
-        });
-
-        chrYCheckBox.setText("chr Y");
-        chrYCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chrYCheckBoxActionPerformed(evt);
-            }
-        });
-
         ramJLabel.setText("RAM ( GB )");
 
         ramJSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
@@ -326,13 +314,17 @@ public class MainJFrame extends javax.swing.JFrame {
 
         cpuJSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
-        jButtonCustomChr.setText("Custom Chr");
-        jButtonCustomChr.setEnabled(false);
-        jButtonCustomChr.addActionListener(new java.awt.event.ActionListener() {
+        jButtonShowChromosomes.setText("Show Chromosomes");
+        jButtonShowChromosomes.setToolTipText("it is recommended to fillter mitochondrial reads");
+        jButtonShowChromosomes.setEnabled(false);
+        jButtonShowChromosomes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCustomChrActionPerformed(evt);
+                jButtonShowChromosomesActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("Select chromosomes:");
+        jLabel1.setToolTipText("it is recommended to fillter mitochondrial reads");
 
         javax.swing.GroupLayout jPanelChromosomeFilteringLayout = new javax.swing.GroupLayout(jPanelChromosomeFiltering);
         jPanelChromosomeFiltering.setLayout(jPanelChromosomeFilteringLayout);
@@ -340,20 +332,18 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelChromosomeFilteringLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chrMCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(chrYCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonCustomChr)
-                .addGap(15, 15, 15)
-                .addComponent(ramJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(ramJSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
+                .addComponent(jButtonShowChromosomes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ramJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ramJSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
                 .addComponent(cpuJLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cpuJSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
         jPanelChromosomeFilteringLayout.setVerticalGroup(
             jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,10 +356,8 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addGroup(jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(ramJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(ramJSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButtonCustomChr, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelChromosomeFilteringLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(chrYCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(chrMCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButtonShowChromosomes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(4, 4, 4))
         );
 
@@ -413,16 +401,15 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addComponent(macs2PqvalueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(valueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(319, 319, 319)
+                        .addGap(206, 206, 206)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelOrgName, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-                        .addGap(5, 5, 5))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelOrgName, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(macs2JapnelLayout.createSequentialGroup()
                         .addComponent(outputDirJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(outputDirTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addComponent(outputDirTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         macs2JapnelLayout.setVerticalGroup(
             macs2JapnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,7 +421,7 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addComponent(valueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(macs2JapnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelOrgName, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabelOrgName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(5, 5, 5)
                 .addGroup(macs2JapnelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(outputDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -459,6 +446,7 @@ public class MainJFrame extends javax.swing.JFrame {
         adapterjLabel.setEnabled(false);
 
         maxNjLabel.setText("Maximum Ns ");
+        maxNjLabel.setToolTipText("number of Ns in the read = number mismatches in the alignment.  Therefore low Ns = higher alignment rate");
         maxNjLabel.setEnabled(false);
 
         minLenjLabel.setText("Minimum Read length");
@@ -763,8 +751,7 @@ public class MainJFrame extends javax.swing.JFrame {
         inserSizeTextField.setText("2000");
         jLabelOrgName.setText("");
         macs2PqvalueComboBox.setSelectedIndex(0);
-        chrYCheckBox.setSelected(false);
-        chrMCheckBox.setSelected(true);
+        resetShowChromosomesButton();
         jLabelOrgName.setText("");
 
         jTextFieldHitsQuality.setText("1");
@@ -802,17 +789,22 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void startJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startJButtonActionPerformed
         //complete Input object construction
+        
+        Genome genomeObj =  Genome.getGenomeObject(jComboBoxGenome.getItemAt(jComboBoxGenome.getSelectedIndex()));
+        
         guavaInput.setBowtieIndex(jTextFieldBowtieIndex.getText());
         guavaInput.setCpu_units((int) cpuJSpinner.getValue());
         guavaInput.setMaxGenomicHits(Integer.parseInt(jTextFieldHitsQuality.getText()));
         guavaInput.setInsertSize(Integer.parseInt(inserSizeTextField.getText()));
-        guavaInput.setOrganism(jLabelOrgName.getText());
+        
         guavaInput.setPqString(macs2PqvalueComboBox.getSelectedItem().toString());
         guavaInput.setChromosome(getSelectedChromosomes());
         guavaInput.setCutOff(valueTextField.getText());
+        
         guavaInput.setGenome(jComboBoxGenome.getSelectedItem().toString());
         guavaInput.setOrganism(jLabelOrgName.getText());
-
+        guavaInput.setGenomeObject(genomeObj);
+        
         boolean disposeFlag = validateInput(guavaInput);
         boolean isTrimValid = true;
         
@@ -848,23 +840,12 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private String getSelectedChromosomes() {
-        String chromosomes = "";
         if(isCustomChromosomesSelected){
-            chromosomes= getCustomChromosomeString();
+            return getCustomChromosomeString();
         }
-
-        if (chrMCheckBox.isSelected() && chrYCheckBox.isSelected()) {
-            return "chrM chrY "+chromosomes;
-        } else if (chrMCheckBox.isSelected()) {
-            return "chrM "+chromosomes;
-        } else if (chrMCheckBox.isSelected()) {
-            return "chrY "+chromosomes;
-        } else {
-            return chromosomes;
-        }
-
+        return "";
     }
-    
+
     private String getCustomChromosomeString(){
             String customChrString = "";
             for(int i=0; i < customChromosomes.getCustomChrList().size(); i++){
@@ -1010,15 +991,6 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void chrYCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chrYCheckBoxActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_chrYCheckBoxActionPerformed
-
-    private void chrMCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chrMCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chrMCheckBoxActionPerformed
-
     private void valueTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_valueTextFieldKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_valueTextFieldKeyTyped
@@ -1030,13 +1002,10 @@ public class MainJFrame extends javax.swing.JFrame {
     private void jComboBoxGenomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGenomeActionPerformed
         // TODO add your handling code here:
         jLabelGenomeVersion.setForeground(Color.black);
-        if (jComboBoxGenome.getSelectedIndex() == 0) {
-            jLabelOrgName.setText("");
-        } else if (jComboBoxGenome.getSelectedIndex() == 1) {
-            jLabelOrgName.setText("Human");
-        }
-        if (jComboBoxGenome.getSelectedIndex() == 2 || jComboBoxGenome.getSelectedIndex() == 3) {
-            jLabelOrgName.setText("Mouse");
+        if (jComboBoxGenome.getSelectedIndex() > 0) {
+            String orgNameCode = jComboBoxGenome.getItemAt(jComboBoxGenome.getSelectedIndex());
+            Genome genome =  Genome.getGenomeObject(orgNameCode);
+            jLabelOrgName.setText(genome.getOrganismName());
         }
 
     }//GEN-LAST:event_jComboBoxGenomeActionPerformed
@@ -1140,7 +1109,7 @@ public class MainJFrame extends javax.swing.JFrame {
             AnalysisWorkflow.bowtie = true;
         } else {
             jLabelHitsQuality.setText("Minimum Mapping Quality");
-            jTextFieldHitsQuality.setText("10");
+            jTextFieldHitsQuality.setText("30");
             jTextFieldBowtieIndex.setText("/path/bowtie1index.bt2");
             AnalysisWorkflow.bowtie = false;
 
@@ -1148,7 +1117,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         // index type changed so reset CustomChr Button
         isIndexChanged = true;
-        resetCustomChrButton();
+        resetShowChromosomesButton();
     }//GEN-LAST:event_jComboBoxAlignerActionPerformed
 
     private void jTextFieldHitsQualityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldHitsQualityKeyTyped
@@ -1210,12 +1179,12 @@ public class MainJFrame extends javax.swing.JFrame {
         lastpath = selectedFile.getParentFile();
         
         
-        jButtonCustomChr.setEnabled(true);
+        jButtonShowChromosomes.setEnabled(true);
         setCustomChrSelected(false);
         isIndexChanged = true;
     }
 
-    private void jButtonCustomChrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCustomChrActionPerformed
+    private void jButtonShowChromosomesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonShowChromosomesActionPerformed
         // TODO add your handling code here:
         // open a text editor to accept custom chr
 
@@ -1246,7 +1215,7 @@ public class MainJFrame extends javax.swing.JFrame {
             customChromosomesFrame.setVisible(true);
         }
 
-    }//GEN-LAST:event_jButtonCustomChrActionPerformed
+    }//GEN-LAST:event_jButtonShowChromosomesActionPerformed
 
     private void valueTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valueTextFieldActionPerformed
         // TODO add your handling code here:
@@ -1255,29 +1224,16 @@ public class MainJFrame extends javax.swing.JFrame {
     void setCustomChrSelected(boolean isSelected) {
         if (isSelected) {
             isCustomChromosomesSelected = true;
-            jButtonCustomChr.setForeground(new Color(0, 128, 0));
-            setChrMYSelected(false);
-            setChrMYEnabled(false);
+            jButtonShowChromosomes.setForeground(new Color(0, 128, 0));
         } else {
             isCustomChromosomesSelected = false;
-            jButtonCustomChr.setForeground(Color.black);
-            setChrMYEnabled(true);
+            jButtonShowChromosomes.setForeground(Color.black);
         }
     }
     
-    void setChrMYSelected(boolean selected){
-        chrMCheckBox.setSelected(selected);
-        chrYCheckBox.setSelected(selected);
-    }
-
-    void setChrMYEnabled(boolean selected){
-        chrMCheckBox.setEnabled(selected);
-        chrYCheckBox.setEnabled(selected);
-    }
-    
-    void resetCustomChrButton() {
+    void resetShowChromosomesButton() {
         setCustomChrSelected(false);
-        jButtonCustomChr.setEnabled(false);
+        jButtonShowChromosomes.setEnabled(false);
     }
 
     private File lastpath;
@@ -1290,8 +1246,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu aboutJMenu;
     private java.awt.TextField adapterSequenceTextfeild;
     private javax.swing.JLabel adapterjLabel;
-    private javax.swing.JCheckBox chrMCheckBox;
-    private javax.swing.JCheckBox chrYCheckBox;
     private javax.swing.JLabel cpuJLabel;
     private javax.swing.JSpinner cpuJSpinner;
     private java.awt.TextField errorRate;
@@ -1300,9 +1254,10 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField inserSizeTextField;
     private javax.swing.JLabel insertSizeJLabel;
     private javax.swing.JButton jButtonBrowseIndex;
-    private javax.swing.JButton jButtonCustomChr;
+    private javax.swing.JButton jButtonShowChromosomes;
     private javax.swing.JComboBox<String> jComboBoxAligner;
     private javax.swing.JComboBox<String> jComboBoxGenome;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelGenomeVersion;

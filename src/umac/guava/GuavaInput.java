@@ -35,6 +35,7 @@ public class GuavaInput extends Input {
     private boolean trim;
     private String aligner;
     private int mapQ;
+    private Genome genomeObject;
     
 // constructor     
     public GuavaInput(){
@@ -53,7 +54,6 @@ public class GuavaInput extends Input {
         this.pqString = "-q";
         this.mapQ = 10;
         this.aligner = "bowtie";
-
     }
 
     
@@ -366,6 +366,20 @@ public class GuavaInput extends Input {
      */
     public void setMapQ(int mapQ) {
         this.mapQ = mapQ;
+    }
+
+    /**
+     * @return the genomeObject
+     */
+    public Genome getGenomeObject() {
+        return genomeObject;
+    }
+
+    /**
+     * @param genomeObject the genomeObject to set
+     */
+    public void setGenomeObject(Genome genomeObject) {
+        this.genomeObject = genomeObject;
     }
     
     

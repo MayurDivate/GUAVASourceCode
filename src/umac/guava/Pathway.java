@@ -93,9 +93,9 @@ public class Pathway {
             return pathwayHashMap;
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(GeneOntology.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Pathway.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(GeneOntology.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Pathway.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
@@ -144,7 +144,7 @@ public class Pathway {
             double pv = Double.parseDouble(pvalue);
             this.setPvalue(pv);
         }catch(NumberFormatException ex){
-            Logger.getLogger(Peak.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Pathway.class.getName()).log(Level.SEVERE, null, ex);
         }
      
     }
@@ -162,26 +162,6 @@ public class Pathway {
     public void setKeggID(String keggID) {
         this.keggID = keggID;
     }
-
-//    public Pathway(String pathwayname, double pvalue, String keggID) {
-//        this.pathwayname = pathwayname;
-//        this.pvalue = pvalue;
-//        this.keggID = keggID;
-//    }
-//    
-//    public Pathway(String pathwayname, String pvalue, String keggID) {
-//        this.pathwayname = pathwayname;
-//        try{
-//            double pv = Double.parseDouble(pvalue);
-//            this.pvalue = pv;
-//        }catch(NumberFormatException ex){
-//            Logger.getLogger(Peak.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        this.keggID = keggID;
-//    }
-//    
-    
-    
 
     @Override
     public boolean equals(Object obj) {

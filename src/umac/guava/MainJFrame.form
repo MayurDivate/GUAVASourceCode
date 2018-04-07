@@ -323,6 +323,7 @@
         <Component class="javax.swing.JLabel" name="jLabelHitsQuality">
           <Properties>
             <Property name="text" type="java.lang.String" value="No. of genomic hits (m)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Higher mapping quality means less number of genomic hits.  If mapping quality is 30 then expected genomic hits ~1."/>
           </Properties>
         </Component>
         <Component class="java.awt.TextField" name="jTextFieldBowtieIndex">
@@ -336,7 +337,7 @@
         <Component class="javax.swing.JComboBox" name="jComboBoxGenome">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;-select-&quot;,&quot;hg19&quot;, &quot;mm10&quot;, &quot;mm9&quot;})" type="code"/>
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(genomes)" type="code"/>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Default Cursor"/>
@@ -346,6 +347,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxGenomeActionPerformed"/>
           </Events>
           <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="String[] genomes = Genome.getGenomeArray();"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
@@ -480,20 +482,18 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="chrMCheckBox" min="-2" pref="173" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="chrYCheckBox" min="-2" pref="72" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButtonCustomChr" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                  <Component id="ramJLabel" min="-2" pref="80" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="ramJSpinner" min="-2" pref="49" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" pref="146" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                  <Component id="jButtonShowChromosomes" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="ramJLabel" min="-2" pref="80" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="ramJSpinner" min="-2" pref="49" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                   <Component id="cpuJLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="cpuJSpinner" min="-2" pref="49" max="-2" attributes="0"/>
-                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -509,11 +509,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="ramJLabel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           <Component id="ramJSpinner" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="jButtonCustomChr" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="chrYCheckBox" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                          <Component id="chrMCheckBox" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="jButtonShowChromosomes" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="jLabel1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
@@ -522,25 +519,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JCheckBox" name="chrMCheckBox">
-          <Properties>
-            <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="true" type="code"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="chrM (recommended)"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chrMCheckBoxActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="chrYCheckBox">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="chr Y"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chrYCheckBoxActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="ramJLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="RAM ( GB )"/>
@@ -565,14 +543,21 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonCustomChr">
+        <Component class="javax.swing.JButton" name="jButtonShowChromosomes">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Custom Chr"/>
+            <Property name="text" type="java.lang.String" value="Show Chromosomes"/>
+            <Property name="toolTipText" type="java.lang.String" value="it is recommended to fillter mitochondrial reads"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCustomChrActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonShowChromosomesActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Select chromosomes:"/>
+            <Property name="toolTipText" type="java.lang.String" value="it is recommended to fillter mitochondrial reads"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -596,23 +581,22 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <Component id="macs2PqvalueComboBox" min="-2" pref="106" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="valueTextField" min="-2" pref="68" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="319" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="206" max="-2" attributes="0"/>
                           <Component id="jLabel8" min="-2" pref="75" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabelOrgName" pref="93" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jLabelOrgName" min="-2" pref="189" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <Component id="outputDirJButton" min="-2" pref="120" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="outputDirTextField" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -627,7 +611,7 @@
                       </Group>
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="jLabel8" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="jLabelOrgName" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="jLabelOrgName" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
@@ -791,6 +775,7 @@
         <Component class="javax.swing.JLabel" name="maxNjLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Maximum Ns "/>
+            <Property name="toolTipText" type="java.lang.String" value="number of Ns in the read = number mismatches in the alignment.  Therefore low Ns = higher alignment rate"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>

@@ -651,9 +651,9 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 }
             }
         } catch (URISyntaxException ex) {
-            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RunStatusJframe.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RunStatusJframe.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed

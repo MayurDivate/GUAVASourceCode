@@ -56,6 +56,7 @@ public class CustomChromosomesFrame extends javax.swing.JFrame {
         jButtonAdd = new javax.swing.JButton();
         jButtonRemove = new javax.swing.JButton();
         jButtonReset = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jListRemove = new javax.swing.JList<>();
         jPanel4 = new javax.swing.JPanel();
@@ -127,6 +128,9 @@ public class CustomChromosomesFrame extends javax.swing.JFrame {
             }
         });
         jPanel5.add(jButtonReset);
+
+        jLabel3.setText(" chrM recommended");
+        jPanel5.add(jLabel3);
 
         jPanel3.add(jPanel5);
 
@@ -309,13 +313,13 @@ public class CustomChromosomesFrame extends javax.swing.JFrame {
         completeChrList = chrs;
     }
     
-    private DefaultListModel chrListModel = new DefaultListModel();
-    private DefaultListModel removeListModel = new DefaultListModel();
+    private DefaultListModel chrListModel = new DefaultListModel();     // 
+    private DefaultListModel removeListModel = new DefaultListModel();  // current selected chromosomes for filtering
     
-    private static List<String> cancelAddList = new ArrayList<>();
-    private static List<String> cancelRemoveList = new ArrayList<>();
+    private static List<String> cancelAddList = new ArrayList<>();      // selected chrs for filter but not added 
+    private static List<String> cancelRemoveList = new ArrayList<>();   // selected chrs to remove from filter but not removed 
     
-    static List<String> completeChrList;
+    static List<String> completeChrList; // all chromosomes
     
     
     
@@ -327,6 +331,7 @@ public class CustomChromosomesFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonReset;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jListChrs;
     private javax.swing.JList<String> jListRemove;
     private javax.swing.JPanel jPanel1;

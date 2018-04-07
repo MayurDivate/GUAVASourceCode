@@ -16,7 +16,6 @@ public class AnalysisResultWriter {
     private AlignmentResult alignmentResult;
     private FilteredAlignment alignmentFilteringResult;
     private File insertSizePlot ;
-    private ChIPseeker chipSeeker;
     private int macs2PeakCount;
 
     /**
@@ -62,20 +61,6 @@ public class AnalysisResultWriter {
     }
 
     /**
-     * @return the chipSeeker
-     */
-    public ChIPseeker getChipSeeker() {
-        return chipSeeker;
-    }
-
-    /**
-     * @param chipSeeker the chipSeeker to set
-     */
-    public void setChipSeeker(ChIPseeker chipSeeker) {
-        this.chipSeeker = chipSeeker;
-    }
-
-    /**
      * @return the macs2PeakCount
      */
     public int getMacs2PeakCount() {
@@ -88,10 +73,6 @@ public class AnalysisResultWriter {
     public void setMacs2PeakCount(int macs2PeakCount) {
         this.macs2PeakCount = macs2PeakCount;
     }
-    
-    
-    
-    
     
     
 }

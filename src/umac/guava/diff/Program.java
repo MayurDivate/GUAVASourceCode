@@ -111,7 +111,7 @@ public abstract class Program {
             pw.close();
             return true;
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DESeq2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Program.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }

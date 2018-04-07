@@ -42,6 +42,8 @@ public class Peak {
     private int start;
     private int end;
     private String name;
+    private String sampleName;
+    private String replicate;
     
     public boolean writePeaks(ArrayList<Peak> peakList, File outputFile){
         
@@ -153,6 +155,61 @@ public class Peak {
         return resultPeakList;
     }
     
+    
+    public ArrayList<Peak> mergeOnlyOverlappingPeaks(ArrayList<Peak> peakList){
+        System.out.println("Input peaks == "+peakList.size());
+
+        // sort peaks
+        Collections.sort(peakList,new PeakSortComparator());
+
+        // list after merging overlapping peaks
+        ArrayList<Peak> resultPeakList = new ArrayList<>();
+
+        Peak previousPeak = null;
+        Peak currentPeak = null; 
+        Peak mergePeak = null;
+        
+        boolean wasOverlapped = false;
+        
+        Iterator<Peak> iterator =  peakList.iterator();
+        
+        if(iterator.hasNext()){
+            previousPeak =  iterator.next();
+        }
+        
+        while(iterator.hasNext()){
+            currentPeak = iterator.next();
+            
+            if(previousPeak.isOverlapping(currentPeak)){
+                // merge overlapping peaks 
+                mergePeak = mergeOverlappingPeak(previousPeak, currentPeak);
+                wasOverlapped = true;
+                // change previous peak to merged peak
+                previousPeak = mergePeak;
+            }
+            else{
+                
+                // add previous non overlapping peak to result list 
+                if(wasOverlapped){
+                    resultPeakList.add(previousPeak);
+                }
+                wasOverlapped = false;
+                // change previous peak to current peak
+                previousPeak = currentPeak;
+                
+            }
+            
+            if(! iterator.hasNext()){
+               if(wasOverlapped){
+                    resultPeakList.add(previousPeak);
+                }
+            }
+           
+        }
+        
+        System.out.println("merged List => "+resultPeakList.size());
+        return resultPeakList;
+    }
     
     
     public ArrayList<Peak> mergePeakLists(ArrayList<Peak> list1, ArrayList<Peak> list2){

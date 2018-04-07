@@ -677,7 +677,8 @@ public class AnalysisWorkflow {
     public boolean getBlacklistFilteredBAM(GuavaInput atacseqInput, GuavaOutputFiles outFiles) {
         Samtools samtools = new Samtools();
         if (outFiles.getChrFilteredBam().exists()) {
-            String[] log = samtools.runCommand(samtools.getCommand(atacseqInput, outFiles.getChrFilteredBam(), outFiles.getBlackListFilteredBam(), outFiles.getTempBam(), GuavaInput.getBLACKLIST()));
+            String[] log = samtools.runCommand(samtools.getCommand(atacseqInput, outFiles.getChrFilteredBam(), 
+                    outFiles.getBlackListFilteredBam(), outFiles.getTempBam(), GuavaInput.getBLACKLIST()));
             samtools.deleteFile(outFiles.getTempBam());
             samtools.writeLog(log, "Black list region filtering");
             return true;

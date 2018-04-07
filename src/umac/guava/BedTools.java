@@ -143,19 +143,19 @@ public class BedTools extends Tool{
         try {
             jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
             String libDir = jarFile.getParentFile()+System.getProperty("file.separator")+"lib";
-            File genomes = new File(libDir+System.getProperty("file.separator")+"genomes");
+            File genomes = new File(libDir,"genomes");
         
             if(build.equalsIgnoreCase("hg19")){
-                File chrSizes =  new File(genomes.getAbsoluteFile()+System.getProperty("file.separator")+"human.hg19.genome");
+                File chrSizes =  new File(genomes.getAbsoluteFile(),"human.hg19.genome");
                 return chrSizes;
                 }
             else if(build.equalsIgnoreCase("mm9")){
-                File chrSizes =  new File(genomes.getAbsoluteFile()+System.getProperty("file.separator")+"mouse.mm9.genome");
+                File chrSizes =  new File(genomes.getAbsoluteFile(),"mouse.mm9.genome");
                 return chrSizes;
                 }
             
             if(build.equalsIgnoreCase("mm10")){
-                File chrSizes =  new File(genomes.getAbsoluteFile()+System.getProperty("file.separator")+"mouse.mm10.genome");
+                File chrSizes =  new File(genomes.getAbsoluteFile(),"mouse.mm10.genome");
                 return chrSizes;
                 }
             } catch (URISyntaxException ex) {

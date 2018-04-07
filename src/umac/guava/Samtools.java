@@ -277,7 +277,7 @@ public class Samtools extends Tool {
                     return true;
             }
         } catch (URISyntaxException ex) {
-            Logger.getLogger(Picard.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Samtools.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("BlackList bed files are absent");
         return false;

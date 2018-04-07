@@ -492,6 +492,10 @@ public class ChIPpeakAnno extends Tool {
         this.acrTxt = acrTxt;
     }
 
+    public ChIPpeakAnno() {
+    }
+    
+
     @Override
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outputFile) {
         String[] commandArray
@@ -515,8 +519,8 @@ public class ChIPpeakAnno extends Tool {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(commandArray);
             Process process = processBuilder.start();
-            String stdOUT = new ChIPseeker().getSTDoutput(process);
-            String errorLog = new ChIPseeker().getSTDerror(process);
+            String stdOUT = new ChIPpeakAnno().getSTDoutput(process);
+            String errorLog = new ChIPpeakAnno().getSTDerror(process);
             log[0] = stdOUT;
             log[1] = errorLog;
             return log;

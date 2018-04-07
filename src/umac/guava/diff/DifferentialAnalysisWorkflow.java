@@ -216,8 +216,9 @@ public class DifferentialAnalysisWorkflow {
             System.out.println(peakFiles.get(i).getDiifInputFile().getName() + " == " + peakList.size());
             mergedPeakList.addAll(peakList);
         }
+        
         Peak p = new Peak();
-        ArrayList<Peak> conditionPeaks = p.mergeOverlappingPeaks(mergedPeakList);
+        ArrayList<Peak> conditionPeaks = p.mergeOnlyOverlappingPeaks(mergedPeakList);
         return conditionPeaks;
     }
 
