@@ -268,7 +268,7 @@ public class Samtools extends Tool {
             ArrayList<File> blacklistBeds =  new ArrayList<>();
             blacklistBeds.add(new File(lib,"hg19.bed"));
             blacklistBeds.add(new File(lib,"hg19.bed"));
-            blacklistBeds.add(new File(lib,"hg318.bed"));
+            blacklistBeds.add(new File(lib,"hg38.bed"));
             blacklistBeds.add(new File(lib,"mm10.bed"));
             blacklistBeds.add(new File(lib,"mm9.bed"));
             
