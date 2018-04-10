@@ -640,8 +640,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         try{
-            File jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            File manual =  new File(jarFile.getParentFile().getAbsolutePath()+System.getProperty("file.separator")+"GUAVA_Manual.pdf");
+            File manual =  new File(GUAVA.getPackageBase(),"GUAVA_Manual.pdf");
             if(manual.exists()){
                 if(Desktop.isDesktopSupported()){
                     Desktop.getDesktop().open(manual);
@@ -650,8 +649,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
                     System.out.println("Desktop is not supported");
                 }
             }
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(RunStatusJframe.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(RunStatusJframe.class.getName()).log(Level.SEVERE, null, ex);
         }

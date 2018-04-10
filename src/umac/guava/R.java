@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -125,10 +124,8 @@ public class R extends Tool{
         System.out.println("\t\tChecking required R packages, This may take a while.");
         System.out.println("\t\tPlease wait...");
         
-    try{
-        File jarFile = new File(MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-        File rScript = new File(jarFile.getParentFile()+System.getProperty("file.separator")+""
-                       + "lib"+System.getProperty("file.separator")+"InstallRequiredPackages.R");
+        File lib = new File(GUAVA.getPackageBase(),"lib");
+        File rScript = new File(lib,"InstallRequiredPackages.R");
 
         if(rScript.exists() && rScript.isFile()){
             
@@ -153,11 +150,6 @@ public class R extends Tool{
         System.out.println("\t\tR Packages:\tclear! :)");
         return true;
 
-        } catch (URISyntaxException ex) {   
-            System.out.println("\t\t R : F A I L E D ! )");
-            Logger.getLogger(R.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
             
     }
 

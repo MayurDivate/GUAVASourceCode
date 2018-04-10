@@ -39,7 +39,7 @@ public class AnalysisWorkflow {
 
         System.out.println("Operating System of machine :" + System.getProperty("os.name"));
         ArrayList<Boolean> dependencies = new ArrayList<>();
-        System.out.println("umac.guava.AnalysisWorkflow.validateToolPaths()");
+        
         dependencies.add(new Bowtie().isWorking());
         dependencies.add(new Bowtie2().isWorking());
         dependencies.add(new FastQC().isWorking());
@@ -525,10 +525,23 @@ public class AnalysisWorkflow {
         //Black list filtered bam
         if (go) {
             System.out.print("filter blacklist...");
-            go = aw.getBlacklistFilteredBAM(atacseqInput, outFiles);
-            alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
-            samtools.deleteFile(outFiles.getChrFilteredBam());
-            System.out.println("Done!");
+
+            if (!GuavaInput.getBLACKLIST().isFile()) {
+                String[] log = {
+                    "Blacklist file is not available, so skipping this step\n",
+                    "Blacklist file is not available, so skipping this step\n"};
+
+                samtools.writeLog(log, "Black list region filtering");
+                System.out.println("No blacklist filtering");
+                outFiles.setBlackListFilteredBam(outFiles.getChrFilteredBam());
+                alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
+            } else {
+
+                go = aw.getBlacklistFilteredBAM(atacseqInput, outFiles);
+                alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
+                samtools.deleteFile(outFiles.getChrFilteredBam());
+                System.out.println("Done!");
+            }
         }
 
         if (!go) {
@@ -538,7 +551,7 @@ public class AnalysisWorkflow {
 
         return go;
     }
-
+                 //runAlignmentFiltering
     public boolean runAlignmentFiltering(GuavaInput atacseqInput, GuavaOutputFiles outFiles) {
 
         Samtools samtools = new Samtools();
@@ -579,10 +592,21 @@ public class AnalysisWorkflow {
         //Black list filtered bam
         if (go) {
             System.out.print("filter blacklist...");
-            go = aw.getBlacklistFilteredBAM(atacseqInput, outFiles);
-            alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
-            samtools.deleteFile(outFiles.getChrFilteredBam());
-            System.out.println("Done!");
+            if (!GuavaInput.getBLACKLIST().isFile()) {
+                String[] log = {
+                    "Blacklist file is not available, so skipping this step\n",
+                    "Blacklist file is not available, so skipping this step\n"};
+
+                samtools.writeLog(log, "Black list region filtering");
+                System.out.println("No blacklist filtering");
+                outFiles.setBlackListFilteredBam(outFiles.getChrFilteredBam());
+                alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
+            } else {
+                go = aw.getBlacklistFilteredBAM(atacseqInput, outFiles);
+                alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
+                samtools.deleteFile(outFiles.getChrFilteredBam());
+                System.out.println("Done!");
+            }
         }
 
         if (!go) {
@@ -676,7 +700,9 @@ public class AnalysisWorkflow {
 
     public boolean getBlacklistFilteredBAM(GuavaInput atacseqInput, GuavaOutputFiles outFiles) {
         Samtools samtools = new Samtools();
+        
         if (outFiles.getChrFilteredBam().exists()) {
+            
             String[] log = samtools.runCommand(samtools.getCommand(atacseqInput, outFiles.getChrFilteredBam(), 
                     outFiles.getBlackListFilteredBam(), outFiles.getTempBam(), GuavaInput.getBLACKLIST()));
             samtools.deleteFile(outFiles.getTempBam());

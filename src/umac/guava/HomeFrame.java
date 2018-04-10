@@ -167,11 +167,12 @@ public class HomeFrame extends javax.swing.JFrame {
         boolean flag = AnalysisWorkflow.validateToolPaths(true);
 
         if(!flag){
-                System.out.println("\n***There are missing dependancies!");
-                System.out.println("***Please use configure.sh to install dependencies.");
-                System.out.println("***If you are having difficulties in installing dependencies, please report issue at *GitHub*.");
-                System.err.println("");
-                System.err.println("***killing GUAVA ... ***");
+                System.out.println("");
+                System.out.println("There are missing dependancies!");
+                System.out.println("Please use configure.sh to install dependencies.");
+                System.out.println("If you are having difficulties in installing dependencies, please report issue at *GitHub*.");
+                System.out.println(">>> https://github.com/MayurDivate/GUAVASourceCode/issues");
+                System.err.println("EXIT(GUAVA) ... ");
                 System.exit(-1);
         }
 

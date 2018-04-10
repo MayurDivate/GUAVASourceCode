@@ -84,9 +84,6 @@ public class FilteredAlignment {
     public FilteredAlignment() {
     }
     
-    
-
-    
     private int totalReads;
     private int totalAligned;
     private int usefulReads;
@@ -135,8 +132,6 @@ public class FilteredAlignment {
     public void setTotalReads(int totalReads) {
         this.totalReads = totalReads;
     }
-    
-    
     
     
 }

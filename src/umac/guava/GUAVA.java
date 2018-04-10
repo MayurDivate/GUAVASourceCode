@@ -6,7 +6,10 @@
 package umac.guava;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import umac.guava.commandline.Command;
 import umac.guava.commandline.CommandlineWorkflow;
@@ -32,13 +35,25 @@ public class GUAVA {
     
     private static String pwd;
 
+
+    public static File getPackageBase(){
+        try {
+
+            File jarFile = new File(GUAVA.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            return jarFile.getParentFile();
+
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(GUAVA.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+
     public static void main(String[] args) {
         setPWD();
         
         if(args.length == 0){
                uiVersion();
-//               System.err.println("TEST MODE");
-//               testOveralap();
         }
         else{
             runGUAVAcommandline(args);
@@ -53,8 +68,8 @@ public class GUAVA {
 
     private static void runGUAVAcommandline(String[] args){
         
-        System.out.println();
-        // roger that 
+        //System.out.println("GUAVA commandline version");
+        
         Command command =  Command.getCommand(args);
         
         CommandlineWorkflow cmdWorkflow = new CommandlineWorkflow();
@@ -65,6 +80,8 @@ public class GUAVA {
 
     public static void uiVersion() {
         
+        //System.out.println("GUAVA GUI version");
+
         try {
                 for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -82,28 +99,5 @@ public class GUAVA {
         homeFrame.setVisible(true);
 
     }
-
-    private static void testOveralap() {
-        
-        File bed1 = new File("/Users/mayurdivate/Work/Guava_testing/Gdiff_test/Test_Overlapping/SRR3929040_DMSO_Rep1_R1_peaks.narrowPeak");
-        File bed2 = new File("/Users/mayurdivate/Work/Guava_testing/Gdiff_test/Test_Overlapping/SRR3929041_DMSO_Rep2_R1_peaks.narrowPeak");
-        
-        ArrayList<Peak> peakList1 = Peak.getPeakList(bed1);
-        ArrayList<Peak> peakList2 = Peak.getPeakList(bed2);
-        
-        System.out.println("umac.guava.GUAVA.testOveralap()");
-        System.out.println(peakList1.size());
-        System.out.println(peakList2.size());
-        
-        ArrayList<Peak> mergedList = new ArrayList<>();
-        mergedList.addAll(peakList1);
-        mergedList.addAll(peakList2);
-        System.out.println(mergedList.size());
-
-        ArrayList<Peak> mergedOverlappingList2 = new Peak().mergeOnlyOverlappingPeaks(mergedList);
-        for(Peak peak : mergedOverlappingList2){
-            System.out.println(peak.getChromosome()+": "+peak.getStart()+" - "+peak.getEnd());
-        }
-                
-    }
+    
 }

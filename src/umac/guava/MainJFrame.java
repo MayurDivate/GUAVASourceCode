@@ -58,8 +58,6 @@ public class MainJFrame extends javax.swing.JFrame {
         jComboBoxAligner = new javax.swing.JComboBox<>();
         jButtonBrowseIndex = new javax.swing.JButton();
         jTextFieldHitsQuality = new javax.swing.JTextField();
-        jPanelTopSpacer = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
         jPanelStartAnalysis = new javax.swing.JPanel();
         startJButton = new javax.swing.JButton();
         resetJButton = new javax.swing.JButton();
@@ -163,6 +161,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanelAlignmentParameters.setPreferredSize(new java.awt.Dimension(660, 155));
 
         insertSizeJLabel.setText("Maximum insert size");
+        insertSizeJLabel.setToolTipText("recommended value is 2000.");
 
         inserSizeTextField.setText("2000");
         inserSizeTextField.setToolTipText("Only numbers");
@@ -260,12 +259,6 @@ public class MainJFrame extends javax.swing.JFrame {
         );
 
         jButtonBrowseIndex.getAccessibleContext().setAccessibleName("jButtonBrowseIndex");
-
-        jPanelTopSpacer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setToolTipText("");
-        jPanelTopSpacer.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 5));
 
         jPanelStartAnalysis.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -609,20 +602,17 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelAlignmentParameters, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
-                    .addComponent(jPanelTopSpacer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanelCutadapt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelFastqInput, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
                     .addComponent(jPanelChromosomeFiltering, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(macs2Japnel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelStartAnalysis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanelTopSpacer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(10, 10, 10)
                 .addComponent(jPanelFastqInput, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanelCutadapt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -634,10 +624,10 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(macs2Japnel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanelStartAnalysis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(10, 10, 10))
         );
 
-        setSize(new java.awt.Dimension(708, 580));
+        setSize(new java.awt.Dimension(716, 589));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -975,8 +965,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         try {
-            File jarFile = new File(MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            File manual = new File(jarFile.getParentFile().getAbsolutePath() + System.getProperty("file.separator") + "GUAVA_Manual.pdf");
+            File jarFile = GUAVA.getPackageBase();
+            File manual = new File(jarFile, "GUAVA_Manual.pdf");
             if (manual.exists()) {
                 if (Desktop.isDesktopSupported()) {
                     Desktop.getDesktop().open(manual);
@@ -984,8 +974,6 @@ public class MainJFrame extends javax.swing.JFrame {
                     System.out.println("Desktop is not supported");
                 }
             }
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1259,7 +1247,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBoxGenome;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelGenomeVersion;
     private javax.swing.JLabel jLabelHitsQuality;
     private javax.swing.JLabel jLabelOrgName;
@@ -1274,7 +1261,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelCutadapt;
     private javax.swing.JPanel jPanelFastqInput;
     private javax.swing.JPanel jPanelStartAnalysis;
-    private javax.swing.JPanel jPanelTopSpacer;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private java.awt.TextField jTextFieldBowtieIndex;
     private javax.swing.JTextField jTextFieldHitsQuality;

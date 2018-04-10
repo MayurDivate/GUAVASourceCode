@@ -7,10 +7,8 @@ package umac.guava;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -209,7 +207,7 @@ public class Samtools extends Tool {
         String[] log = new Samtools().runCommand(commandArray);
         
         if(log != null && (log[0] != null && log[1] != null)){
-            System.out.println("\t\t"+commandArray[0]+":\t\tWorking!");
+            System.out.println("\t\t"+commandArray[0]+":\tWorking!");
             return true;
         }
 
@@ -264,24 +262,35 @@ public class Samtools extends Tool {
     }
     
     public static boolean checkBlackListFile(){
-        try {
-            File jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            String baseBlacklist = jarFile.getParentFile()+System.getProperty("file.separator")+"lib"+System.getProperty("file.separator");
-            File hg19Blacklist = new File(baseBlacklist+"hg19.bed");
-            File hg38Blacklist = new File(baseBlacklist+"hg38.bed");
-            File mm10Blacklist = new File(baseBlacklist+"mm10.bed");
-            File mm9Blacklist = new File(baseBlacklist+"mm9.bed");
+            File packageBase = GUAVA.getPackageBase();
+            File lib = new File(packageBase,"lib");
             
-            if(hg19Blacklist.exists() && hg38Blacklist.exists() && mm10Blacklist.exists() && mm9Blacklist.exists()){
-                    GuavaInput.setBasenameBLACKLIST(baseBlacklist);
+            ArrayList<File> blacklistBeds =  new ArrayList<>();
+            blacklistBeds.add(new File(lib,"hg19.bed"));
+            blacklistBeds.add(new File(lib,"hg19.bed"));
+            blacklistBeds.add(new File(lib,"hg318.bed"));
+            blacklistBeds.add(new File(lib,"mm10.bed"));
+            blacklistBeds.add(new File(lib,"mm9.bed"));
+            
+            if(areAllFilesExists(blacklistBeds)){
+                    GuavaInput.setBasenameBLACKLIST(lib.getAbsolutePath());
                     return true;
             }
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(Samtools.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("BlackList bed files are absent");
+            
+        System.out.println("EROOR: BlackList bed files are absent");
         return false;
     
+    }
+    
+    public static boolean areAllFilesExists(ArrayList<File> files){
+        for(File f: files){
+            if(!f.exists()){
+                System.err.println("File Not Found: "+f.getAbsolutePath());
+                return false;
+            }
+        }
+        
+        return true;
     }
     
     
