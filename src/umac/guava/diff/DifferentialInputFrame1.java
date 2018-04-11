@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import umac.guava.GUAVA;
 import umac.guava.MainJFrame;
+import umac.guava.genomeindexbuilder.GenomeIndexBuilderGUI;
 
 /**
  *
@@ -93,11 +94,14 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuTools = new javax.swing.JMenu();
         jMenuItemGUAVA = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemGenomeIndexBuilder = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItemQuit = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOAD DATA");
@@ -249,9 +253,17 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
     });
     jMenuTools.add(jMenuItemGUAVA);
 
-    jMenuItem2.setText("Differential Analysis");
-    jMenuItem2.setEnabled(false);
-    jMenuTools.add(jMenuItem2);
+    jMenuItemGenomeIndexBuilder.setText("Differential Analysis");
+    jMenuItemGenomeIndexBuilder.setEnabled(false);
+    jMenuTools.add(jMenuItemGenomeIndexBuilder);
+
+    jMenuItem1.setText("Genome Index Builder");
+    jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem1ActionPerformed(evt);
+        }
+    });
+    jMenuTools.add(jMenuItem1);
     jMenuTools.add(jSeparator1);
 
     jMenuItemQuit.setText("Quit");
@@ -265,9 +277,17 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
     jMenuBar1.add(jMenuTools);
 
     jMenu1.setText("About");
+
+    jMenuItem2.setText("Prof. Edwin Cheung's lab,\nUniversity of Macau, All rights reserved");
+    jMenu1.add(jMenuItem2);
+
     jMenuBar1.add(jMenu1);
 
     jMenu2.setText("Help");
+
+    jMenuItem3.setText("Manual");
+    jMenu2.add(jMenuItem3);
+
     jMenuBar1.add(jMenu2);
 
     setJMenuBar(jMenuBar1);
@@ -432,6 +452,13 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jTextFieldProjectNameKeyTyped
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        GenomeIndexBuilderGUI genomeIndexBuilderGUI = new GenomeIndexBuilderGUI();
+        genomeIndexBuilderGUI.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
         
     public JComboBox getReplicateComboBox(){
         String[] values = {"I","II", "III","IV"};
@@ -474,8 +501,11 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemGUAVA;
+    private javax.swing.JMenuItem jMenuItemGenomeIndexBuilder;
     private javax.swing.JMenuItem jMenuItemQuit;
     private javax.swing.JMenu jMenuTools;
     private javax.swing.JPanel jPanel2;

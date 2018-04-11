@@ -40,6 +40,7 @@ public class AnalysisWorkflow {
         System.out.println("Operating System of machine :" + System.getProperty("os.name"));
         ArrayList<Boolean> dependencies = new ArrayList<>();
         
+        dependencies.add(new Cutadapt().isWorking());
         dependencies.add(new Bowtie().isWorking());
         dependencies.add(new Bowtie2().isWorking());
         dependencies.add(new FastQC().isWorking());
@@ -82,6 +83,7 @@ public class AnalysisWorkflow {
 
         if (go) {
             go = aw.createDir(outFiles.getRootDir());
+            workflowSamtools.writeLog(guavaInput.getInputSummary(), "------------ Input Sumary ------------");
         }
 
         try {

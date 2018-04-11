@@ -21,6 +21,8 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import umac.guava.MainJFrame;
+import umac.guava.diff.DifferentialInputFrame1;
 
 /**
  *
@@ -174,11 +176,22 @@ public class GenomeIndexBuilderGUI extends javax.swing.JFrame {
         fileMenu.add(openMenuItem);
 
         saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Diff");
+        saveMenuItem.setText("Differential Analysis");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setMnemonic('a');
-        saveAsMenuItem.setText("GenomeIndexBuilder");
+        saveAsMenuItem.setText("Genome Index Builder");
+        saveAsMenuItem.setEnabled(false);
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveAsMenuItem);
 
         exitMenuItem.setMnemonic('x');
@@ -283,6 +296,20 @@ public class GenomeIndexBuilderGUI extends javax.swing.JFrame {
         System.out.println("close");
         System.exit(0);
     }//GEN-LAST:event_jButtonStartActionPerformed
+
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        MainJFrame mainJFrame = new MainJFrame();
+        mainJFrame.setVisible(true);
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        DifferentialInputFrame1 dfInputFrame = new DifferentialInputFrame1();
+        dfInputFrame.setVisible(true);
+    }//GEN-LAST:event_saveMenuItemActionPerformed
 
     public File getOutputFfile(File outputFolder, File genomeFasta) {
         String outName =  genomeFasta.getName();

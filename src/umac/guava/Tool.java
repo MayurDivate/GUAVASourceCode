@@ -105,6 +105,29 @@ public abstract class Tool {
     
     }
     
+    public void writeLog(String log,String header){
+        
+        try {
+            FileWriter logFileWriter = new FileWriter(GuavaOutputFiles.logFile,true);
+            BufferedWriter logFileBufferedWriter =  new BufferedWriter(logFileWriter);
+            PrintWriter logPrintWriter = new PrintWriter(logFileBufferedWriter);
+            
+            logPrintWriter.append("\n\n"+header+"\n");
+            logPrintWriter.flush();
+
+            logPrintWriter.append("------------------------------\n");
+            logPrintWriter.append(log+"\n");
+            logPrintWriter.flush();
+            logPrintWriter.append("------------------------------\n");
+            logPrintWriter.flush();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Tool.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    
+    }
+    
     public boolean deleteFile(File myFile){
  
         File bamIndex = new File(myFile.getAbsolutePath()+".bai");

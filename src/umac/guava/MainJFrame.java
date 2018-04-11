@@ -11,9 +11,6 @@ import java.awt.Desktop;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import umac.guava.genomeindexbuilder.GenomeIndexBuilderGUI;
 
 /**
  *
@@ -89,8 +87,9 @@ public class MainJFrame extends javax.swing.JFrame {
         minLen = new java.awt.TextField();
         mainframeJMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItemGuava = new javax.swing.JMenuItem();
+        jMenuItemGdiff = new javax.swing.JMenuItem();
+        jMenuItemGenomeIndexBuilder = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
         aboutJMenu = new javax.swing.JMenu();
@@ -545,17 +544,25 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jMenu1.setText("Tools");
 
-        jMenuItem3.setText("GUAVA");
-        jMenuItem3.setEnabled(false);
-        jMenu1.add(jMenuItem3);
+        jMenuItemGuava.setText("GUAVA");
+        jMenuItemGuava.setEnabled(false);
+        jMenu1.add(jMenuItemGuava);
 
-        jMenuItem4.setText("Differential Analysis");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemGdiff.setText("Differential Analysis");
+        jMenuItemGdiff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                jMenuItemGdiffActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem4);
+        jMenu1.add(jMenuItemGdiff);
+
+        jMenuItemGenomeIndexBuilder.setText("Genome Index Builder");
+        jMenuItemGenomeIndexBuilder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemGenomeIndexBuilderActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemGenomeIndexBuilder);
         jMenu1.add(jSeparator1);
 
         jMenuItem5.setText("Close");
@@ -781,8 +788,13 @@ public class MainJFrame extends javax.swing.JFrame {
         //complete Input object construction
         
         Genome genomeObj =  Genome.getGenomeObject(jComboBoxGenome.getItemAt(jComboBoxGenome.getSelectedIndex()));
+        String aligner = "bowtie2";
+        if(AnalysisWorkflow.bowtie){
+            aligner = "bowtie";
+        }
         
         guavaInput.setBowtieIndex(jTextFieldBowtieIndex.getText());
+        guavaInput.setAligner(aligner);
         guavaInput.setCpu_units((int) cpuJSpinner.getValue());
         guavaInput.setMaxGenomicHits(Integer.parseInt(jTextFieldHitsQuality.getText()));
         guavaInput.setInsertSize(Integer.parseInt(inserSizeTextField.getText()));
@@ -792,7 +804,7 @@ public class MainJFrame extends javax.swing.JFrame {
         guavaInput.setCutOff(valueTextField.getText());
         
         guavaInput.setGenome(jComboBoxGenome.getSelectedItem().toString());
-        guavaInput.setOrganism(jLabelOrgName.getText());
+        guavaInput.setOrganism(genomeObj.getOrganismName());
         guavaInput.setGenomeObject(genomeObj);
         
         boolean disposeFlag = validateInput(guavaInput);
@@ -1077,12 +1089,12 @@ public class MainJFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_adapterSequenceTextfeildKeyReleased
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void jMenuItemGdiffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGdiffActionPerformed
         // TODO add your handling code here:
         this.dispose();
         DifferentialInputFrame1 dfInputFrame = new DifferentialInputFrame1();
         dfInputFrame.setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_jMenuItemGdiffActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         this.dispose();
@@ -1209,6 +1221,13 @@ public class MainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_valueTextFieldActionPerformed
 
+    private void jMenuItemGenomeIndexBuilderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGenomeIndexBuilderActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        GenomeIndexBuilderGUI genomeIndexBuilderGUI = new GenomeIndexBuilderGUI();
+        genomeIndexBuilderGUI.setVisible(true);
+    }//GEN-LAST:event_jMenuItemGenomeIndexBuilderActionPerformed
+
     void setCustomChrSelected(boolean isSelected) {
         if (isSelected) {
             isCustomChromosomesSelected = true;
@@ -1253,9 +1272,10 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItemGdiff;
+    private javax.swing.JMenuItem jMenuItemGenomeIndexBuilder;
+    private javax.swing.JMenuItem jMenuItemGuava;
     private javax.swing.JPanel jPanelAlignmentParameters;
     private javax.swing.JPanel jPanelChromosomeFiltering;
     private javax.swing.JPanel jPanelCutadapt;
