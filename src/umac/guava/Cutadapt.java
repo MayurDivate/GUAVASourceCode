@@ -159,9 +159,6 @@ public class Cutadapt extends Tool {
         
         String[] commandArray =  {"cutadapt", "--version" };
         String[] log = new Cutadapt().runCommand(commandArray);
-        System.out.println("0\t"+log[0]);
-        System.out.println("1\t"+log[1]);
-        
         if(log[0] != null ){
             System.out.println("\t\t"+commandArray[0]+":\t\tWorking!");
             return true;

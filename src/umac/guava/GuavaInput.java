@@ -44,7 +44,7 @@ public class GuavaInput extends Input {
         inputSummary = inputSummary +""
                 + "R1 fastq: "+this.getR1Fastq().getAbsolutePath()+"\n"
                 + "R2 fatsq: "+this.getR2Fastq().getAbsolutePath()+"\n"
-                + "Genome Index: "+this.getbowtieIndexString().replaceAll(".*\\/", "")+"\n"
+                + "Genome Index: "+this.getbowtieIndexString()+"\n\n"
                 + "Aligner: "+ this.getAligner()+"\n"
                 + "Max insert size: "+this.getInsertSize()+"\n";
         
@@ -54,22 +54,21 @@ public class GuavaInput extends Input {
         else if(this.aligner.equals("bowtie2")){
             inputSummary = inputSummary + "Min mapping quality: "+this.getMapQ()+"\n";
         }
-        
         inputSummary = inputSummary +""
+                + "chrs: "+this.getChromosome()+"\n";
+
+        inputSummary = inputSummary +"\n"
                 + "Genome : "+ this.getGenomeObject().getGenomeName()+" ("+ this.getGenomeObject().getOrganismName()+")\n";
         
         if(this.isTrim()){
             inputSummary = inputSummary +""
                     + "Adapter trimming using Cutadapt" + "\n"
                     + ""+this.getCutadapt().toString()
-                    + "\n\n";
+                    + "\n";
             
         }
         
         inputSummary = inputSummary +""
-                + "Alignment filtering "+"\n"
-                + "chrs: "+this.getChromosome()+"\n"
-                + "\n"
                 + "Peak calling: "+this.getPqString()+" = "+this.getPqCutOff()+"\n"
                 + "\n";
         

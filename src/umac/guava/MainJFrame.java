@@ -203,6 +203,11 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jTextFieldHitsQuality.setText("1");
         jTextFieldHitsQuality.setToolTipText("Only numbers");
+        jTextFieldHitsQuality.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldHitsQualityActionPerformed(evt);
+            }
+        });
         jTextFieldHitsQuality.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldHitsQualityKeyTyped(evt);
@@ -788,24 +793,31 @@ public class MainJFrame extends javax.swing.JFrame {
         //complete Input object construction
         
         Genome genomeObj =  Genome.getGenomeObject(jComboBoxGenome.getItemAt(jComboBoxGenome.getSelectedIndex()));
+        
+        // Set aligner
         String aligner = "bowtie2";
         if(AnalysisWorkflow.bowtie){
             aligner = "bowtie";
+            guavaInput.setMaxGenomicHits(Integer.parseInt(jTextFieldHitsQuality.getText()));
+        }
+        else{
+            guavaInput.setMapQ(Integer.parseInt(jTextFieldHitsQuality.getText()));
         }
         
-        guavaInput.setBowtieIndex(jTextFieldBowtieIndex.getText());
         guavaInput.setAligner(aligner);
-        guavaInput.setCpu_units((int) cpuJSpinner.getValue());
-        guavaInput.setMaxGenomicHits(Integer.parseInt(jTextFieldHitsQuality.getText()));
+        guavaInput.setBowtieIndex(jTextFieldBowtieIndex.getText());
         guavaInput.setInsertSize(Integer.parseInt(inserSizeTextField.getText()));
+        guavaInput.setGenome(jComboBoxGenome.getSelectedItem().toString());
+        guavaInput.setOrganism(genomeObj.getOrganismName());
+        guavaInput.setGenomeObject(genomeObj);
         
         guavaInput.setPqString(macs2PqvalueComboBox.getSelectedItem().toString());
         guavaInput.setChromosome(getSelectedChromosomes());
         guavaInput.setCutOff(valueTextField.getText());
         
-        guavaInput.setGenome(jComboBoxGenome.getSelectedItem().toString());
-        guavaInput.setOrganism(genomeObj.getOrganismName());
-        guavaInput.setGenomeObject(genomeObj);
+        guavaInput.setCpu_units((int) cpuJSpinner.getValue());
+        
+        
         
         boolean disposeFlag = validateInput(guavaInput);
         boolean isTrimValid = true;
@@ -1227,6 +1239,10 @@ public class MainJFrame extends javax.swing.JFrame {
         GenomeIndexBuilderGUI genomeIndexBuilderGUI = new GenomeIndexBuilderGUI();
         genomeIndexBuilderGUI.setVisible(true);
     }//GEN-LAST:event_jMenuItemGenomeIndexBuilderActionPerformed
+
+    private void jTextFieldHitsQualityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHitsQualityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldHitsQualityActionPerformed
 
     void setCustomChrSelected(boolean isSelected) {
         if (isSelected) {
