@@ -705,8 +705,8 @@
                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   <Component id="outputDirJButton" min="-2" pref="120" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabelGeneFilter" min="-2" pref="79" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jLabelGeneFilter" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Component id="jTextFieldSearch" min="-2" pref="200" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jButtonIGV" min="-2" pref="100" max="-2" attributes="0"/>
@@ -762,6 +762,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelGeneFilter">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="Gene Name"/>
           </Properties>
           <AuxValues>

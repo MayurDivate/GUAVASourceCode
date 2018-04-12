@@ -50,6 +50,8 @@ public class ChIPpeakAnno extends Tool {
         String txDb = this.getGenome().getTxdb();
         String orgDB = this.getGenome().getOrgdb();
         String orgSymbol = this.getGenome().getOrgdbSymbol();
+        int upstreamTss = -5000;
+        int downstreamTss= 3000;
 
         // load lobraries
         String code = "\n"
@@ -68,7 +70,7 @@ public class ChIPpeakAnno extends Tool {
         code = code + "ucscGenes <- genes(" + txDb + ")" + "\n";
         code = code + "macs.anno <- annotatePeakInBatch(macsOutput, AnnotationData=ucscGenes, \n"
                 + "output = \"nearestBiDirectionalPromoters\", \n"
-                + "bindingRegion = c(-5000, 3000))" + "\n";
+                + "bindingRegion = c("+upstreamTss+ ", "+downstreamTss+" ))" + "\n";
 
         // add gene symbols
         code = code + "OrgEgDb <- \"" + orgDB + "\"" + "\n"
@@ -246,7 +248,7 @@ public class ChIPpeakAnno extends Tool {
                 + "\n"
                 + "p <- ggplot(acrDF, aes(Regions,Freq, fill=Regions))\n"
                 + "p <- p + geom_col()\n"
-                + "p <- p + ylab(label = \"Percentage of Peaks\")\n"
+                + "p <- p + ylab(label = \"Percentage of Annotated Peaks\")\n"
                 + "p <- p + theme(plot.title = element_text(hjust = 0.5,size = " + titleFS + "))\n"
                 + "p <- p + ggtitle(\"Peak distribution in chromosomal regions\")\n"
                 + "p <- p + theme(legend.position = \"none\",axis.title.x = element_blank())\n"

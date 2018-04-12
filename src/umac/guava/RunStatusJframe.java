@@ -475,6 +475,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
             }
         });
 
+        jLabelGeneFilter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelGeneFilter.setText("Gene Name");
 
         jButtonIGV.setText("View in IGV");
@@ -493,8 +494,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addComponent(outputDirJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabelGeneFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jLabelGeneFilter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonIGV, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -610,8 +611,13 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private void jTextFieldSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSearchKeyReleased
         // TODO add your handling code here:
         jButtonIGV.setEnabled(false);
-        String query =  jTextFieldSearch.getText().trim();
-        filterTableEntries(query);
+        
+        if(resultTabs.getSelectedIndex() == 3){
+            String query =  jTextFieldSearch.getText().trim();
+            filterTableEntries(query);
+        }
+        
+        
     }//GEN-LAST:event_jTextFieldSearchKeyReleased
 
     private void jButtonIGVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIGVActionPerformed
@@ -656,12 +662,16 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
     private void resultTabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultTabsMouseClicked
         // TODO add your handling code here:
+
+        // annotated peaks tab
         if(resultTabs.getSelectedIndex() == 3){
             jTextFieldSearch.setVisible(true);
             jTextFieldSearch.setEditable(true);
             jLabelGeneFilter.setVisible(true);
+            jLabelGeneFilter.setText("Gene Name");
             jButtonIGV.setVisible(true);
         }
+        
         else{
             jTextFieldSearch.setVisible(false);
             jTextFieldSearch.setEditable(false);
@@ -858,6 +868,18 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jTableGO.setRowSorter(tableRowSorterGO);
         
         tableRowSorterGO.setRowFilter(RowFilter.regexFilter("(?i)"+query, geneColumnIndex));
+        
+        
+        // Pathway TABLE
+        geneColumnIndex = 4;
+        
+        DefaultTableModel dfModelPathway =  (DefaultTableModel) jTableGO.getModel();
+        TableRowSorter<DefaultTableModel> tableRowSorterPathway = new TableRowSorter<DefaultTableModel>(dfModelPathway);
+        jTableGO.setRowSorter(tableRowSorterPathway);
+        
+        tableRowSorterPathway.setRowFilter(RowFilter.regexFilter("(?i)"+query, geneColumnIndex));
+        
+        
     }
 
     public void addGoTableRows(File geneAnnotationFile){
