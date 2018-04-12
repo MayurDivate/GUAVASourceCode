@@ -313,7 +313,7 @@ public class ExcelPrinter {
                 Cell cell;
 
                 for (String chromosome : chrs) {
-                    System.out.println("chr stat:" + chromosome);
+                    //System.out.println("chr stat:" + chromosome);
                     if (chrSTAT.containsKey(chromosome)) {
                         row = spreadsheet.createRow(rowid++);
                         cell = row.createCell(0);

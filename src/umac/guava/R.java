@@ -33,6 +33,7 @@ public class R extends Tool{
                 FileWriter rCodeWriter = new FileWriter(outFiles.getrCode());
                 PrintWriter rCodePrintWriter = new PrintWriter(new BufferedWriter(rCodeWriter));
 
+                    
                 String rCodeString = "setwd(\""+outFiles.getRootDir()+"\")\n";
                        rCodePrintWriter.append(rCodeString);
                        rCodePrintWriter.flush();
@@ -41,21 +42,28 @@ public class R extends Tool{
                        rCodePrintWriter.append(rCodeString);
                        rCodePrintWriter.flush();
 
-                       rCodeString = "jpeg("+"\""+outFiles.getFragmentSizeDistributionPlot().getAbsoluteFile()+"\""+",height="+height+",width="+width+")\n";
-                       rCodePrintWriter.append(rCodeString);
-                       rCodePrintWriter.flush();
                        
-                       rCodeString = "par(mar=c(3,3,0.2,1),mgp=c(1.5,0.5,0))\n";
-                       rCodePrintWriter.append(rCodeString);
-                       rCodePrintWriter.flush();
-                       
-                       rCodeString = "plot(insertsizes$insert_size,insertsizes$count,type =\"h\",col=\"red\",lwd=2,xlab = \"Fragment Size (bp)\",ylab = \"Read Count\")\n";
-                       rCodePrintWriter.append(rCodeString);
-                       rCodePrintWriter.flush();
-                       
-                       rCodeString = "dev.off()\n";
-                       rCodePrintWriter.append(rCodeString);
-                       rCodePrintWriter.flush();                
+                rCodeString = ""
+                        + "options(scipen=99)" + "\n"
+                        + "library(ggplot2)" + "\n"
+                        + "p <- ggplot(insertsizes, aes(insert_size,count))" + "\n"
+                        + "p <- p + geom_area(fill=\"red\",col=\"black\")" + "\n"
+                        + "p <- p + theme_grey()" + "\n"
+                        + "p <- p + theme(axis.text.y = element_text(angle = 90,hjust = 0.5, vjust = 0.5,face = \"bold\"))" + "\n"
+                        + "p <- p + theme(axis.text.y = element_text(angle = 90,hjust = 0.5, vjust = 0.5,face = \"bold\"))" + "\n"
+                        + "p <- p + theme(legend.position = \"none\")" + "\n"
+                        + "p <- p + theme(plot.title = element_text(hjust = 0.5))" + "\n"
+                        + "p <- p + ggtitle(\"Fragment size distribution\")" + "\n"
+                        + "p <- p + xlab(\"Fragment Size (bp)\")" + "\n"
+                        + "p <- p + ylab(\"Read Count\")" + "\n"
+                        + "\n"
+                        + "jpeg("+"\""+outFiles.getFragmentSizeDistributionPlot().getAbsoluteFile()+"\""+",height="+height+",width="+width+")" + "\n"
+                        + "print(p)" + "\n"
+                        + "dev.off()" + "\n"                        
+                        + "\n";
+
+                rCodePrintWriter.append(rCodeString);
+                rCodePrintWriter.flush();                
                 
             }
         } catch (IOException ex) {
@@ -71,7 +79,7 @@ public class R extends Tool{
     }
 
     public String[] getCommand(GuavaInput atacseqInput, File inputFile) {
-        System.out.println("call for Insert size R plot header");
+        
         String[] commandArray =   
             {   "Rscript",
                 inputFile.getAbsolutePath()

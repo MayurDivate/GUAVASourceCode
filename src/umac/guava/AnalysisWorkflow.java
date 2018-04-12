@@ -121,7 +121,7 @@ public class AnalysisWorkflow {
                 ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults, true);
             }
         } else {
-            System.out.print("Alignment...");
+            System.out.println("Alignment...");
             //"---------- bowtie2 ----------"
             Bowtie2 bowtie2 = Bowtie2.getBowtie2(guavaInput, outFiles);
             outFiles.setAlignedSam(bowtie2.getMapQBam());
@@ -381,6 +381,7 @@ public class AnalysisWorkflow {
             System.out.print("Fragmentsize plot...");
             success = aw.createFragmentSizeDistributionGraph(guavaInput, outFiles);
             workflowSamtools.deleteFile(outFiles.getrCode());
+            workflowSamtools.deleteFile(outFiles.getInsertSizeTextFile());
             ExcelPrinter.printImage(R.fragmentSizeDistributionPlot, "insertsize",4, 15.0, 25.0);
         }
 
@@ -396,6 +397,7 @@ public class AnalysisWorkflow {
             
             ChIPpeakAnno chipPeakAnno = outFiles.getChipPeakAnno();
             success = aw.runChIPpeakAnno(chipPeakAnno);
+            chipPeakAnno.deleteFile(chipPeakAnno.getrCodeFile());
             
             if(chipPeakAnno.getPeakAnnoated().isFile()){
                 ExcelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated(),"AnnotatedPeaks",3);
@@ -503,6 +505,7 @@ public class AnalysisWorkflow {
         if (!commandLine) {
             runStatusJframe.setChrStat(chrSTAT, atacseqInput.getChromosome());
         }
+        
         //duplicate filtering
         if (go) {
             System.out.print("Remove duplicates...");
@@ -553,7 +556,7 @@ public class AnalysisWorkflow {
 
         return go;
     }
-                 //runAlignmentFiltering
+    //runAlignmentFiltering
     public boolean runAlignmentFiltering(GuavaInput atacseqInput, GuavaOutputFiles outFiles) {
 
         Samtools samtools = new Samtools();
@@ -679,7 +682,7 @@ public class AnalysisWorkflow {
         String retainChr = "";
 
         for (String chr : atacseqInput.getChromosome().split(" ")) {
-            System.out.print("Filter [" + chr + "] reads...");
+            System.out.println("Filter [" + chr + "] reads...");
             chromosomes.remove(chr);
         }
         chromosomes.remove("*");
@@ -795,7 +798,7 @@ public class AnalysisWorkflow {
             String log[] = rplot.runCommand(rplot.getCommand(runATACseq, outFiles.getrCode()));
             rplot.writeLog(log, "**************************** Fragment distribution plot log ****************************");
             R.fragmentSizeDistributionPlot = outFiles.getFragmentSizeDistributionPlot();
-
+            System.out.println("Done !");
             return true;
         } catch (IOException ex) {
             Logger.getLogger(AnalysisWorkflow.class.getName()).log(Level.SEVERE, null, ex);
@@ -908,7 +911,7 @@ public class AnalysisWorkflow {
 
         IGVdataTrack iGVdataTrack = new IGVdataTrack(outfiles.getAtacseqBam(), outfiles.getBedgraphFile(),
                 outfiles.getBigwigFile(), runATACseq.getGenome());
-
+        System.out.println("Done!");
         return iGVdataTrack.createDataTrackFromBamFile();
 
     }

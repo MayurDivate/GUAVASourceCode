@@ -122,7 +122,7 @@ public class Samtools extends Tool {
 
     }
 
-    //samtools idxstats 
+    //samtools index agains
     public String[] getIndexCommand(File inFile) {
        // System.out.println("Call for bam indexing");
         String[] commandArray =  
@@ -219,17 +219,18 @@ public class Samtools extends Tool {
         
         Samtools samtools = new Samtools();
         File indexFile = new File(inBamFile.getAbsolutePath()+".bai");
+        // create bam index in doest not exists.
             if(!indexFile.exists()){
                 samtools.runCommand(samtools.getIndexCommand(inBamFile));
         }
         
         HashMap <String, Integer> chrStat =  new HashMap<>();
         
-        String[] prefilteringLog = samtools.runCommand(samtools.getCommand(inBamFile));
-        samtools.writeLog(prefilteringLog, "idxstats");
-        String[] chromosomes = prefilteringLog[1].trim().split("\n");
+        String[] idxstatsLog = samtools.runCommand(samtools.getCommand(inBamFile));
+        samtools.writeLog(idxstatsLog, "idxstats");
+        String[] chromosomes = idxstatsLog[1].trim().split("\n");
         
-        for(String chrRecord : prefilteringLog[0].split("\n")){
+        for(String chrRecord : idxstatsLog[0].split("\n")){
             Pattern pattern = Pattern.compile("(.*?)\t(.*?)\t(.*?)\t(.*?)");
             Matcher matcher = pattern.matcher(chrRecord);
            

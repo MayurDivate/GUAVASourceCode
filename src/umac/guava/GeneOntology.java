@@ -114,7 +114,7 @@ public class GeneOntology {
     }
 
     public static HashMap<GeneOntology, GeneOntology> parseGOAnalysisOutputFile(File goAnalysisFile) {
-        System.out.println("umac.guava.GeneOntology.parseGOAnalysisOutputFile()");
+        //System.out.println("umac.guava.GeneOntology.parseGOAnalysisOutputFile()");
         try {
             FileReader goFileReader = new FileReader(goAnalysisFile);
             BufferedReader goBufferedReader = new BufferedReader(goFileReader);

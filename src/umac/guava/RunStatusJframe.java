@@ -268,6 +268,10 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
         resultTabs.addTab("Alignment Filtering", alignmentFilteringJPanel);
 
+        graphJPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        graphJLabel.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -344,6 +348,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         });
         jTablePeaks.setToolTipText("");
         jTablePeaks.setGridColor(new java.awt.Color(153, 153, 153));
+        jTablePeaks.setShowGrid(true);
         jTablePeaks.getTableHeader().setReorderingAllowed(false);
         jTablePeaks.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -364,6 +369,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
         );
 
         resultTabs.addTab("Annotated Peaks", jPanelPeaks);
+
+        jPanelBarChart.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabelACRbarChart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -410,6 +417,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
             }
         });
         jTableGO.setGridColor(new java.awt.Color(153, 153, 153));
+        jTableGO.setShowGrid(true);
         jTableGO.getTableHeader().setReorderingAllowed(false);
         jScrollPaneGO.setViewportView(jTableGO);
         if (jTableGO.getColumnModel().getColumnCount() > 0) {
@@ -442,6 +450,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
             }
         });
         jTablePathways.setGridColor(new java.awt.Color(153, 153, 153));
+        jTablePathways.setShowGrid(true);
         jScrollPanePathway.setViewportView(jTablePathways);
         if (jTablePathways.getColumnModel().getColumnCount() > 0) {
             jTablePathways.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -721,7 +730,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
     
     void displayAlignmentResults(AlignmentResult alignmentResults, boolean bowtie){
         
-        System.out.println("Publishing results for  alignment");
+        // System.out.println("Displaying results for  alignment");
     
            alignmentStatTable.setValueAt("Total Reads", 5, 0);
            totalReads = alignmentResults.getTotalReads();
