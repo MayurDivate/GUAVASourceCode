@@ -44,7 +44,8 @@ public class R extends Tool{
 
                        
                 rCodeString = ""
-                        + "options(scipen=99)" + "\n"
+                        + "options(scipen=6)" + "\n"
+                        + "insertsizes$density <- insertsizes$count * 1000 / sum(insertsizes$count)" + "\n"
                         + "library(ggplot2)" + "\n"
                         + "p <- ggplot(insertsizes, aes(insert_size,count))" + "\n"
                         + "p <- p + geom_area(fill=\"red\",col=\"black\")" + "\n"
@@ -55,7 +56,7 @@ public class R extends Tool{
                         + "p <- p + theme(plot.title = element_text(hjust = 0.5))" + "\n"
                         + "p <- p + ggtitle(\"Fragment size distribution\")" + "\n"
                         + "p <- p + xlab(\"Fragment Size (bp)\")" + "\n"
-                        + "p <- p + ylab(\"Read Count\")" + "\n"
+                        + "p <- p + ylab(expression(Normalised~read~density~x~10^-3))" + "\n"
                         + "\n"
                         + "jpeg("+"\""+outFiles.getFragmentSizeDistributionPlot().getAbsoluteFile()+"\""+",height="+height+",width="+width+")" + "\n"
                         + "print(p)" + "\n"
