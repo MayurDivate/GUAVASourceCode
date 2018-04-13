@@ -14,7 +14,6 @@ import java.io.File;
 
 public class GuavaInput extends Input {
     
-    private static String basenameBLACKLIST;
     
 // object attributes    
     private File r1Fastq;
@@ -303,21 +302,6 @@ public class GuavaInput extends Input {
     }
 
     /**
-     * @return the basenameBLACKLIST
-     */
-    public static String getBasenameBLACKLIST() {
-        return basenameBLACKLIST;
-    }
-
-    /**
-     * @param aBasenameBLACKLIST the basenameBLACKLIST to set
-     */
-    public static void setBasenameBLACKLIST(String aBasenameBLACKLIST) {
-        basenameBLACKLIST = aBasenameBLACKLIST;
-    }
-
-
-    /**
      * @return the pqCutOff
      */
     public double getPqCutOff() {
@@ -382,11 +366,8 @@ public class GuavaInput extends Input {
     }
 
     public void setBlacklistFile(Genome genome) {
-        File blacklistFile = new File(GuavaInput.getBasenameBLACKLIST(),genome.getGenomeName()+".bed");
-        this.blacklistFile = blacklistFile;
+        this.blacklistFile = new File(GUAVA.getBlacklistDir(),genome.getGenomeName()+".bed");
         //GuavaInput.setBLACKLIST(blacklistFile);
     }
-    
-    
     
 }

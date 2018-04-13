@@ -136,7 +136,7 @@ public class Genome {
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         orgName = "Sus scrofa";
         genomeSize = "2.2e9";
-        Genome susScr3 =  new Genome("susSc3", "Ss", "TxDb.Sscrofa.UCSC.susScr3.refGene", "org.Ss.eg.db", "org.Ss.egSYMBOL",orgName,genomeSize);
+        Genome susScr3 =  new Genome("susScr3", "Ss", "TxDb.Sscrofa.UCSC.susScr3.refGene", "org.Ss.eg.db", "org.Ss.egSYMBOL",orgName,genomeSize);
         genomeHashMap.put("susScr3",susScr3 );
         
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

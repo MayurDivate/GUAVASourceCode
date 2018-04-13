@@ -262,18 +262,16 @@ public class Samtools extends Tool {
     }
     
     public static boolean checkBlackListFile(){
-            File packageBase = GUAVA.getPackageBase();
-            File lib = new File(packageBase,"lib");
-            
+        
+            File blacklistDir = GUAVA.getBlacklistDir();
             ArrayList<File> blacklistBeds =  new ArrayList<>();
-            blacklistBeds.add(new File(lib,"hg19.bed"));
-            blacklistBeds.add(new File(lib,"hg19.bed"));
-            blacklistBeds.add(new File(lib,"hg38.bed"));
-            blacklistBeds.add(new File(lib,"mm10.bed"));
-            blacklistBeds.add(new File(lib,"mm9.bed"));
+            blacklistBeds.add(new File(blacklistDir,"hg19.bed"));
+            blacklistBeds.add(new File(blacklistDir,"hg19.bed"));
+            blacklistBeds.add(new File(blacklistDir,"hg38.bed"));
+            blacklistBeds.add(new File(blacklistDir,"mm10.bed"));
+            blacklistBeds.add(new File(blacklistDir,"mm9.bed"));
             
             if(areAllFilesExists(blacklistBeds)){
-                    GuavaInput.setBasenameBLACKLIST(lib.getAbsolutePath());
                     return true;
             }
             

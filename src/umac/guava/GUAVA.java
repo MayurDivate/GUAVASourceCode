@@ -48,6 +48,13 @@ public class GUAVA {
         
         return null;
     }
+    
+    public static File getBlacklistDir(){
+        File packageBase =  getPackageBase();
+        File lib =  new File(packageBase,"lib");
+        File blacklistDir =  new File(lib,"blacklists");
+        return blacklistDir;
+    }
 
     public static void main(String[] args) {
         setPWD();
