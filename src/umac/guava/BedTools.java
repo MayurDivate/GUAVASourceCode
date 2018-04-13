@@ -143,8 +143,6 @@ public class BedTools extends Tool{
         File libDir = new File(packageBaseName,"lib");
         File genomes = new File(libDir,"genomes");
         File chrSizes =  new File(genomes,genome.getGenomeName()+".genome");
-        System.out.println("umac.guava.BedTools.getGenomeSize()");
-        System.out.println("build: "+chrSizes.getAbsolutePath());
         return chrSizes;
     }
 

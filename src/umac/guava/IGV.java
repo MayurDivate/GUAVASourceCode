@@ -37,11 +37,8 @@ public class IGV extends Tool implements Runnable{
     
     public void viewInIGV(){
        
-       //System.out.println("START : View in IGV : "+this.getIGVLocation());
        String[] command =  this.getCommand();
        this.runCommand(command);
-       //System.out.println("END : View in IGV :"+this.getIGVLocation());
-       
     }
     
     public static String getLocationbyDistance(String chr, int start, int end, int distance){
@@ -64,16 +61,13 @@ public class IGV extends Tool implements Runnable{
 
     public String[] getCommand() {
         
-        String command = "igv "; 
+        String command = "igv -g "+IGV.genome.getGenomeName()+" "; 
         String tracks = "";
             for(File track : this.getTracks()){
                     tracks = tracks+","+track.getAbsolutePath()+"";
                 }
         tracks = tracks.replaceFirst(",", "");
         command = command + tracks + " " + this.getIGVLocation();
-        
-        System.out.println("umac.guava.IGV.getCommand()");
-        System.out.println("IGV command : "+command);
         
         return command.split("\\s");
     }
