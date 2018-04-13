@@ -807,9 +807,13 @@ public class MainJFrame extends javax.swing.JFrame {
         guavaInput.setAligner(aligner);
         guavaInput.setBowtieIndex(jTextFieldBowtieIndex.getText());
         guavaInput.setInsertSize(Integer.parseInt(inserSizeTextField.getText()));
-        guavaInput.setGenome(jComboBoxGenome.getSelectedItem().toString());
         guavaInput.setOrganism(genomeObj.getOrganismName());
-        guavaInput.setGenomeObject(genomeObj);
+        guavaInput.setGenome(genomeObj);
+
+        //blacklist file
+        if(genomeObj != null){
+            guavaInput.setBlacklistFile(genomeObj);
+        }
         
         guavaInput.setPqString(macs2PqvalueComboBox.getSelectedItem().toString());
         guavaInput.setChromosome(getSelectedChromosomes());
@@ -837,7 +841,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         // set genome for IGV before starting analysis workflow
         if (isTrimValid && disposeFlag) {
-            IGV.genome = jComboBoxGenome.getSelectedItem().toString();
+            IGV.genomeObj =  genomeObj;
             this.setVisible(false);
             AnalysisWorkflow analysisWorkflow = new AnalysisWorkflow();
             analysisWorkflow.startGUIGuavaAnalysis(guavaInput);

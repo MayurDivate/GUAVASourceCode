@@ -37,6 +37,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import umac.guava.GeneOntology;
+import umac.guava.Genome;
 import umac.guava.IGV;
 import umac.guava.IGVdataTrack;
 import umac.guava.RunStatusJframe;
@@ -457,7 +458,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             tracks[tracks.length - 1] = DifferentialOutputFiles.getDifferentialOutputFiles(outputFolder).getControlTreatmentCommonPeakBed();
             
             
-            IGV.genome = "hg19";
+            IGV.genomeObj = Genome.getGenomeObject("hg19");
             IGV igv =  new IGV(tracks, chr, start, end, distance);
             
             Thread t1 = new Thread(igv);

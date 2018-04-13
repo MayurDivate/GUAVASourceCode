@@ -8,8 +8,6 @@ package umac.guava;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -18,7 +16,7 @@ import java.util.logging.Logger;
 
 public class IGV extends Tool implements Runnable{
     public static HashMap<String, Integer> chromosomes;
-    public static String genome;
+    public static Genome genomeObj;
 
     private File[] tracks;
     private String chromosome;
@@ -39,11 +37,10 @@ public class IGV extends Tool implements Runnable{
     
     public void viewInIGV(){
        
-       System.out.println("START : View in IGV : "+this.getIGVLocation());
-       
+       //System.out.println("START : View in IGV : "+this.getIGVLocation());
        String[] command =  this.getCommand();
        this.runCommand(command);
-       System.out.println("END : View in IGV :"+this.getIGVLocation());
+       //System.out.println("END : View in IGV :"+this.getIGVLocation());
        
     }
     
@@ -74,6 +71,10 @@ public class IGV extends Tool implements Runnable{
                 }
         tracks = tracks.replaceFirst(",", "");
         command = command + tracks + " " + this.getIGVLocation();
+        
+        System.out.println("umac.guava.IGV.getCommand()");
+        System.out.println("IGV command : "+command);
+        
         return command.split("\\s");
     }
     
@@ -111,8 +112,6 @@ public class IGV extends Tool implements Runnable{
   
     @Override
     public void run() {
-        System.out.println("umac.guava.IGV.run()");
-        System.out.println(this.getTracks().length);
         this.viewInIGV();
     }
 
@@ -162,8 +161,6 @@ public class IGV extends Tool implements Runnable{
         this.distance = distance;
     }
 
-    
-    
     public int getStart() {
         return this.start;
     }
@@ -176,11 +173,5 @@ public class IGV extends Tool implements Runnable{
     public String getIGVLocation() {
         return this.chromosome+":"+this.getStart()+"-"+this.getEnd();
     }
-    
-    
-  
-
-
-    
     
 }

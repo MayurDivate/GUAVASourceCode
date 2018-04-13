@@ -15,7 +15,6 @@ import java.io.File;
 public class GuavaInput extends Input {
     
     private static String basenameBLACKLIST;
-    private static File BLACKLIST;
     
 // object attributes    
     private File r1Fastq;
@@ -27,7 +26,6 @@ public class GuavaInput extends Input {
     private int insertSize;
     private int ramMemory;
     private String Organism;
-    private String genome;
     private String chromosome;
     private double pqCutOff;
     private String pqString;
@@ -35,7 +33,8 @@ public class GuavaInput extends Input {
     private boolean trim;
     private String aligner;
     private int mapQ;
-    private Genome genomeObject;
+    private Genome genome;
+    private File blacklistFile;
     
     
     public String getInputSummary(){
@@ -58,7 +57,7 @@ public class GuavaInput extends Input {
                 + "chrs: "+this.getChromosome()+"\n";
 
         inputSummary = inputSummary +"\n"
-                + "Genome : "+ this.getGenomeObject().getGenomeName()+" ("+ this.getGenomeObject().getOrganismName()+")\n";
+                + "Genome : "+ this.getGenome().getGenomeName()+" ("+ this.getGenome().getOrganismName()+")\n";
         
         if(this.isTrim()){
             inputSummary = inputSummary +""
@@ -93,6 +92,7 @@ public class GuavaInput extends Input {
         this.pqString = "-q";
         this.mapQ = 10;
         this.aligner = "bowtie";
+        this.blacklistFile = null;
     }
    
     /**
@@ -186,31 +186,11 @@ public class GuavaInput extends Input {
 
     }
     
-    public void setGenome(String genome) {
-        if( genome.equals("hg19") || genome.equals("mm9") || genome.equals("mm10") ){
-            IGV.genome = genome;
-            setBlacklist(genome);
-            this.genome = genome;
-        }
-        else{
-            this.genome = null; 
-        }
-    }
-    
-    public static void setBlacklist(String genome) {
-        if(genome.equals("hg19")){
-            GuavaInput.setBLACKLIST(new File(GuavaInput.getBasenameBLACKLIST() + "hg19.bed"));
-        }
-        else if(genome.equals("mm9") ){
-            GuavaInput.setBLACKLIST(new File(GuavaInput.getBasenameBLACKLIST() + "mm9.bed"));
-        }
-        else if(genome.equals("mm10") ){
-            GuavaInput.setBLACKLIST(new File(GuavaInput.getBasenameBLACKLIST() + "mm10.bed"));
-        }
-        else if(genome.equals("hg38") ){
-            GuavaInput.setBLACKLIST(new File(GuavaInput.getBasenameBLACKLIST() + "mm10.bed"));
-        }
-
+    public void setGenome(String genomeName) {
+        Genome genome = Genome.getGenomeObject(genomeName);
+        System.out.println("umac.guava.GuavaInput.setGenome()");
+        System.out.println(" >> "+genomeName);
+        this.setGenome(genome); 
     }
     
     public String getChromosome() {
@@ -257,10 +237,6 @@ public class GuavaInput extends Input {
         this.pqString = pqString;
     }
 
-    public String getGenome() {
-        return genome;
-    }
-
     @Override
     public String toString() {
         
@@ -268,7 +244,7 @@ public class GuavaInput extends Input {
                 + "R1 fastq : " + this.getR1Fastq()+"\n"
                 + "R2 fastq : " +this.getR2Fastq()+"\n"
                 + "Bowtie Index: " +this.getBowtieIndex()+"\n"
-                + "Genome version: " +this.getGenome()+"\n"
+                + "Genome version: " +this.getGenome().getGenomeName()+"\n"
                 + "Max genomic hits: " +this.getMaxGenomicHits()+"\n"
                 + "Max Insert Size:" +this.getInsertSize()+"\n"
                 + "CPU: " +this.getCpu_units()+"\n"
@@ -340,19 +316,6 @@ public class GuavaInput extends Input {
         basenameBLACKLIST = aBasenameBLACKLIST;
     }
 
-    /**
-     * @return the BLACKLIST
-     */
-    public static File getBLACKLIST() {
-        return BLACKLIST;
-    }
-
-    /**
-     * @param aBLACKLIST the BLACKLIST to set
-     */
-    public static void setBLACKLIST(File aBLACKLIST) {
-        BLACKLIST = aBLACKLIST;
-    }
 
     /**
      * @return the pqCutOff
@@ -398,19 +361,31 @@ public class GuavaInput extends Input {
     }
 
     /**
-     * @return the genomeObject
+     * @return the genome
      */
-    public Genome getGenomeObject() {
-        return genomeObject;
+    public Genome getGenome() {
+        return genome;
     }
 
     /**
-     * @param genomeObject the genomeObject to set
+     * @param genomeObject the genome to set
      */
-    public void setGenomeObject(Genome genomeObject) {
-        this.genomeObject = genomeObject;
+    public void setGenome(Genome genomeObject) {
+        this.genome = genomeObject;
     }
-    
+
+    /**
+     * @return the blacklistFile
+     */
+    public File getBlacklistFile() {
+        return blacklistFile;
+    }
+
+    public void setBlacklistFile(Genome genome) {
+        File blacklistFile = new File(GuavaInput.getBasenameBLACKLIST(),genome.getGenomeName()+".bed");
+        this.blacklistFile = blacklistFile;
+        //GuavaInput.setBLACKLIST(blacklistFile);
+    }
     
     
     

@@ -78,7 +78,6 @@ public class Samtools extends Tool {
         return commandArray;
     }
     
-    
     // BLACK LIST filtering
     public String[] getCommand(GuavaInput atacseqInput,File inFile, File outFile, File tempFile, File BlacklistFile) {
        // System.out.println("Call for black list filtering");

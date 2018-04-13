@@ -531,10 +531,10 @@ public class AnalysisWorkflow {
         if (go) {
             System.out.print("filter blacklist...");
 
-            if (!GuavaInput.getBLACKLIST().isFile()) {
+            if (!atacseqInput.getBlacklistFile().isFile()) {
                 String[] log = {
                     "Blacklist file is not available, so skipping this step\n",
-                    "Blacklist file is not available, so skipping this step\n"};
+                    "Genome:"+atacseqInput.getGenome().getGenomeName()+"\n"};
 
                 samtools.writeLog(log, "Black list region filtering");
                 System.out.println("No blacklist filtering");
@@ -597,10 +597,10 @@ public class AnalysisWorkflow {
         //Black list filtered bam
         if (go) {
             System.out.print("filter blacklist...");
-            if (!GuavaInput.getBLACKLIST().isFile()) {
+            if (!atacseqInput.getBlacklistFile().isFile()) {
                 String[] log = {
                     "Blacklist file is not available, so skipping this step\n",
-                    "Blacklist file is not available, so skipping this step\n"};
+                    "Genome:"+atacseqInput.getGenome().getGenomeName()+"\n"};
 
                 samtools.writeLog(log, "Black list region filtering");
                 System.out.println("No blacklist filtering");
@@ -709,7 +709,7 @@ public class AnalysisWorkflow {
         if (outFiles.getChrFilteredBam().exists()) {
             
             String[] log = samtools.runCommand(samtools.getCommand(atacseqInput, outFiles.getChrFilteredBam(), 
-                    outFiles.getBlackListFilteredBam(), outFiles.getTempBam(), GuavaInput.getBLACKLIST()));
+                    outFiles.getBlackListFilteredBam(), outFiles.getTempBam(), atacseqInput.getBlacklistFile()));
             samtools.deleteFile(outFiles.getTempBam());
             samtools.writeLog(log, "Black list region filtering");
             return true;
@@ -910,9 +910,10 @@ public class AnalysisWorkflow {
     private boolean createIGVTracks(GuavaInput runATACseq, GuavaOutputFiles outfiles) {
 
         IGVdataTrack iGVdataTrack = new IGVdataTrack(outfiles.getAtacseqBam(), outfiles.getBedgraphFile(),
-                outfiles.getBigwigFile(), runATACseq.getGenome());
+                outfiles.getBigwigFile(), runATACseq.getGenome().getGenomeName());
+        boolean isCreated = iGVdataTrack.createDataTrackFromBamFile();
         System.out.println("Done!");
-        return iGVdataTrack.createDataTrackFromBamFile();
+        return  isCreated;
 
     }
 

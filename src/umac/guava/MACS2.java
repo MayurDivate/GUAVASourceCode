@@ -84,7 +84,7 @@ public class MACS2 extends Tool{
                         "callpeak",
                         "-t", inputFile.getAbsolutePath(),
                         "-f", "BAM",
-                        "-g", atacseqInput.getGenomeObject().getGenomeSize(),
+                        "-g", atacseqInput.getGenome().getGenomeSize(),
                         "--keep-dup", "all",
                         "--outdir", outputFile.getAbsolutePath(),
                         "-n", name,
