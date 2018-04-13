@@ -910,7 +910,7 @@ public class AnalysisWorkflow {
     private boolean createIGVTracks(GuavaInput runATACseq, GuavaOutputFiles outfiles) {
 
         IGVdataTrack iGVdataTrack = new IGVdataTrack(outfiles.getAtacseqBam(), outfiles.getBedgraphFile(),
-                outfiles.getBigwigFile(), runATACseq.getGenome().getGenomeName());
+                outfiles.getBigwigFile(), runATACseq.getGenome());
         boolean isCreated = iGVdataTrack.createDataTrackFromBamFile();
         System.out.println("Done!");
         return  isCreated;

@@ -19,10 +19,7 @@ package umac.guava.diff;
 import umac.guava.Pathway;
 import java.awt.Desktop;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -31,7 +28,6 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JTabbedPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -40,7 +36,6 @@ import umac.guava.GeneOntology;
 import umac.guava.Genome;
 import umac.guava.IGV;
 import umac.guava.IGVdataTrack;
-import umac.guava.RunStatusJframe;
 
 /**
  *
@@ -444,6 +439,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     private void jButtonIGVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIGVActionPerformed
         
         String build = "hg19";
+        Genome genome = Genome.getGenomeObject(build);
         
         if(jTableDifferentialPeaks.getSelectedRow() > -1){
             int rowIndex = jTableDifferentialPeaks.convertRowIndexToModel(jTableDifferentialPeaks.getSelectedRow());
@@ -454,11 +450,10 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             int end = Integer.parseInt(tableModel.getValueAt(rowIndex, 2).toString());
             int distance = 100;
             
-            File[] tracks =  IGVdataTrack.getDifferentialTracks(DifferentialInputFrame1.dfInputList,build);
+            File[] tracks =  IGVdataTrack.getDifferentialTracks(DifferentialInputFrame1.dfInputList,genome);
             tracks[tracks.length - 1] = DifferentialOutputFiles.getDifferentialOutputFiles(outputFolder).getControlTreatmentCommonPeakBed();
             
-            
-            IGV.genomeObj = Genome.getGenomeObject("hg19");
+            IGV.genome = genome;
             IGV igv =  new IGV(tracks, chr, start, end, distance);
             
             Thread t1 = new Thread(igv);

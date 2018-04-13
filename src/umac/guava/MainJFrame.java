@@ -841,7 +841,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         // set genome for IGV before starting analysis workflow
         if (isTrimValid && disposeFlag) {
-            IGV.genomeObj =  genomeObj;
+            IGV.genome =  genomeObj;
             this.setVisible(false);
             AnalysisWorkflow analysisWorkflow = new AnalysisWorkflow();
             analysisWorkflow.startGUIGuavaAnalysis(guavaInput);

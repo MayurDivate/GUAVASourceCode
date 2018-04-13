@@ -46,7 +46,7 @@ public class BedTools extends Tool{
                         "-bg", "-pc", 
                         "-scale", Double.toString(igvDataTrack.getScale()),
                         "-ibam", igvDataTrack.getBamFile().getAbsolutePath(),
-                        "-g", getGenomeSize(igvDataTrack.getBuild()).getAbsolutePath(),
+                        "-g", getGenomeSize(igvDataTrack.getGenome()).getAbsolutePath(),
                         };
         return commandArray;
     
@@ -137,33 +137,15 @@ public class BedTools extends Tool{
         return false;
     }
     
-    public static File getGenomeSize(String build){
+    public static File getGenomeSize(Genome genome){
         
-        File jarFile;
-        try {
-            jarFile = new File( MainJFrame.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            String libDir = jarFile.getParentFile()+System.getProperty("file.separator")+"lib";
-            File genomes = new File(libDir,"genomes");
-        
-            if(build.equalsIgnoreCase("hg19")){
-                File chrSizes =  new File(genomes.getAbsoluteFile(),"human.hg19.genome");
-                return chrSizes;
-                }
-            else if(build.equalsIgnoreCase("mm9")){
-                File chrSizes =  new File(genomes.getAbsoluteFile(),"mouse.mm9.genome");
-                return chrSizes;
-                }
-            
-            if(build.equalsIgnoreCase("mm10")){
-                File chrSizes =  new File(genomes.getAbsoluteFile(),"mouse.mm10.genome");
-                return chrSizes;
-                }
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(BedTools.class.getName()).log(Level.SEVERE, null, ex);
-            }
-    
-        return null;
-       
+        File packageBaseName =  GUAVA.getPackageBase();
+        File libDir = new File(packageBaseName,"lib");
+        File genomes = new File(libDir,"genomes");
+        File chrSizes =  new File(genomes,genome.getGenomeName()+".genome");
+        System.out.println("umac.guava.BedTools.getGenomeSize()");
+        System.out.println("build: "+chrSizes.getAbsolutePath());
+        return chrSizes;
     }
 
     /**

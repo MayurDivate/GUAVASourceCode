@@ -109,7 +109,7 @@ public class GuavaOutputFiles {
         
         //chippeak anno files
         File macs2Xls = new File(macs2Dir,outBaseName+"peaks.xls");
-        Genome genome = IGV.genomeObj;
+        Genome genome = IGV.genome;
         
         ChIPpeakAnno chIPpeakAnno = ChIPpeakAnno.getChIPpeakAnnoObject(macs2Xls, "MACS2", genome);
         

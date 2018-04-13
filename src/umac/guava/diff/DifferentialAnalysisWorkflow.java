@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import umac.guava.ChIPpeakAnno;
+import umac.guava.Genome;
 import umac.guava.IGVdataTrack;
 
 /**
@@ -243,14 +244,14 @@ public class DifferentialAnalysisWorkflow {
         return true;
     }
 
-    private boolean createIGVTracks(File inputBam, String genomebuild) {
+    private boolean createIGVTracks(File inputBam, Genome genome) {
 
         String bamPath = inputBam.getAbsolutePath();
         File bedgraphFile = new File(bamPath.replaceFirst("bam$", "bdg"));
         File bigwigFile = new File(bamPath.replaceFirst("bam$", "bw"));
 
         if (!bigwigFile.exists()) {
-            IGVdataTrack iGVdataTrack = new IGVdataTrack(inputBam, bedgraphFile, bigwigFile, genomebuild);
+            IGVdataTrack iGVdataTrack = new IGVdataTrack(inputBam, bedgraphFile, bigwigFile, genome);
             return iGVdataTrack.createDataTrackFromBamFile();
         }
 

@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class IGV extends Tool implements Runnable{
     public static HashMap<String, Integer> chromosomes;
-    public static Genome genomeObj;
+    public static Genome genome;
 
     private File[] tracks;
     private String chromosome;

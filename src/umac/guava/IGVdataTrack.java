@@ -32,8 +32,7 @@ public class IGVdataTrack {
     private File bdgFile;
     private File bigWigFile;
     private double scale;
-    private String build;
-    
+    private Genome genome;
     
     public double getRPMScale(){
         int totalReads =  new Samtools().getReadCount(this.getBamFile());
@@ -42,11 +41,11 @@ public class IGVdataTrack {
         return scale;
     }
 
-    public IGVdataTrack(File bamFile, File bdgFile, File bigWigFile, String build) {
+    public IGVdataTrack(File bamFile, File bdgFile, File bigWigFile, Genome genome) {
         this.bamFile = bamFile;
         this.bdgFile = bdgFile;
         this.bigWigFile = bigWigFile;
-        this.build = build;
+        this.genome = genome;
     }
     
     public boolean createDataTrackFromBamFile(){
@@ -117,7 +116,7 @@ public class IGVdataTrack {
         return success;
     }
     
-    public static File[]  getDifferentialTracks(ArrayList<DifferentialInputFile> dfInputList, String build){
+    public static File[]  getDifferentialTracks(ArrayList<DifferentialInputFile> dfInputList, Genome genome){
         
         File[] igvtracks =  new File[1+(dfInputList.size() / 2)];
         int tindex = 0;
@@ -133,7 +132,7 @@ public class IGVdataTrack {
                     System.out.println("No such track found");
                     System.out.println(bwFile.getAbsolutePath());
                     System.out.println("Creating new track, this may take while please wait...");
-                    IGVdataTrack igvDataTrack = new IGVdataTrack(bamFile, bdgFile, bwFile, build);
+                    IGVdataTrack igvDataTrack = new IGVdataTrack(bamFile, bdgFile, bwFile, genome);
                     boolean track = igvDataTrack.createDataTrackFromBamFile();
                     if(track){
                         igvtracks[tindex] = bwFile;
@@ -203,14 +202,6 @@ public class IGVdataTrack {
         this.scale = scale;
     }
 
-    public String getBuild() {
-        return build;
-    }
-
-    public void setBuild(String build) {
-        this.build = build;
-    }
-
     public double getScale() {
         return scale;
     }
@@ -228,6 +219,21 @@ public class IGVdataTrack {
         }    
         return false;
     }
+
+    /**
+     * @return the genome
+     */
+    public Genome getGenome() {
+        return genome;
+    }
+
+    /**
+     * @param genome the genome to set
+     */
+    public void setGenome(Genome genome) {
+        this.genome = genome;
+    }
+    
     
     
     

@@ -18,8 +18,6 @@ package umac.guava;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -38,7 +36,7 @@ public class UCSCtools extends Tool{
         String[] commandArray =  
                     {   "bedGraphToBigWig",
                         igvTrack.getBdgFile().getAbsolutePath(),
-                        getGenomeSize(igvTrack.getBuild()).getAbsolutePath(),
+                        getGenomeSize(igvTrack.getGenome()).getAbsolutePath(),
                         igvTrack.getBigWigFile().getAbsolutePath(),
                         };
         return commandArray;
@@ -76,8 +74,8 @@ public class UCSCtools extends Tool{
 
     }
     
-    public File getGenomeSize(String build){
-        File chrSizes =  BedTools.getGenomeSize(build);
+    public File getGenomeSize(Genome genome){
+        File chrSizes =  BedTools.getGenomeSize(genome);
         return chrSizes;
 
     }
