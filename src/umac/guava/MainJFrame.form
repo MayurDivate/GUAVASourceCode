@@ -392,7 +392,6 @@
             <Property name="toolTipText" type="java.lang.String" value="Only numbers"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldHitsQualityActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldHitsQualityKeyTyped"/>
           </Events>
         </Component>
@@ -633,10 +632,6 @@
             <Property name="text" type="java.lang.String" value="0.05"/>
             <Property name="toolTipText" type="java.lang.String" value="should be only numbers and 0 &lt; num &gt; 0.05"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="valueTextFieldActionPerformed"/>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="valueTextFieldKeyTyped"/>
-          </Events>
         </Component>
         <Component class="java.awt.TextField" name="outputDirTextField">
           <Properties>

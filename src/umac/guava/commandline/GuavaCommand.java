@@ -182,7 +182,6 @@ public class GuavaCommand extends CommandlineTool{
             guavaInput.setCpu_units(guavaCommand.getCpu_units());
             guavaInput.setInsertSize(guavaCommand.getInsertSize());
             guavaInput.setRamMemory(guavaCommand.getRamMemory());
-            guavaInput.setOrganism(guavaCommand.getOrganism());
             guavaInput.setGenome(guavaCommand.getGenome());
             guavaInput.setChromosome(guavaCommand.getChromosome());
             guavaInput.setPqCutOff(guavaCommand.getPqCutOff());

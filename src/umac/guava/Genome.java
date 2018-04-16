@@ -47,25 +47,25 @@ public class Genome {
     public static String[] getGenomeArray(){
         String[] genomes = {
             "-select-",
-            "hg18",
             "hg19",
             "hg38",
+            "hg18",
             "mm10",
             "mm9",
-            "rheMac3",
             "rheMac8",
-            "rn4",
-            "rn5",
+            "rheMac3",
             "rn6",
+            "rn5",
+            "rn4",
             "danRer10",
             "galGal4",
             "panTro4",
             "susScr3",
-            "dm3",
             "dm6",
+            "dm3",
             "canFam3",
-            "ce6",
             "ce11",
+            "ce6",
             "bosTau8"};
       
         return genomes;

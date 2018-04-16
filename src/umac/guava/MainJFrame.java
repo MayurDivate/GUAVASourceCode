@@ -203,11 +203,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jTextFieldHitsQuality.setText("1");
         jTextFieldHitsQuality.setToolTipText("Only numbers");
-        jTextFieldHitsQuality.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldHitsQualityActionPerformed(evt);
-            }
-        });
         jTextFieldHitsQuality.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldHitsQualityKeyTyped(evt);
@@ -366,16 +361,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         valueTextField.setText("0.05");
         valueTextField.setToolTipText("should be only numbers and 0 < num > 0.05");
-        valueTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                valueTextFieldActionPerformed(evt);
-            }
-        });
-        valueTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                valueTextFieldKeyTyped(evt);
-            }
-        });
 
         outputDirTextField.setEditable(false);
         outputDirTextField.setText("/path/output_dir");
@@ -807,7 +792,6 @@ public class MainJFrame extends javax.swing.JFrame {
         guavaInput.setAligner(aligner);
         guavaInput.setBowtieIndex(jTextFieldBowtieIndex.getText());
         guavaInput.setInsertSize(Integer.parseInt(inserSizeTextField.getText()));
-        guavaInput.setOrganism(genomeObj.getOrganismName());
         guavaInput.setGenome(genomeObj);
 
         //blacklist file
@@ -815,7 +799,11 @@ public class MainJFrame extends javax.swing.JFrame {
             guavaInput.setBlacklistFile(genomeObj);
         }
         
-        guavaInput.setPqString(macs2PqvalueComboBox.getSelectedItem().toString());
+        if(macs2PqvalueComboBox.getSelectedIndex() == 0){
+            guavaInput.setPqString("q");
+        }else{
+            guavaInput.setPqString("p");
+        }
         guavaInput.setChromosome(getSelectedChromosomes());
         guavaInput.setCutOff(valueTextField.getText());
         
@@ -1006,10 +994,6 @@ public class MainJFrame extends javax.swing.JFrame {
             Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void valueTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_valueTextFieldKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_valueTextFieldKeyTyped
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
@@ -1233,20 +1217,12 @@ public class MainJFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonShowChromosomesActionPerformed
 
-    private void valueTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valueTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_valueTextFieldActionPerformed
-
     private void jMenuItemGenomeIndexBuilderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGenomeIndexBuilderActionPerformed
         // TODO add your handling code here:
         this.dispose();
         GenomeIndexBuilderGUI genomeIndexBuilderGUI = new GenomeIndexBuilderGUI();
         genomeIndexBuilderGUI.setVisible(true);
     }//GEN-LAST:event_jMenuItemGenomeIndexBuilderActionPerformed
-
-    private void jTextFieldHitsQualityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHitsQualityActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldHitsQualityActionPerformed
 
     void setCustomChrSelected(boolean isSelected) {
         if (isSelected) {

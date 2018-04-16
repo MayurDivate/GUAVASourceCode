@@ -24,7 +24,6 @@ public class GuavaInput extends Input {
     private int cpu_units;
     private int insertSize;
     private int ramMemory;
-    private String Organism;
     private String chromosome;
     private double pqCutOff;
     private String pqString;
@@ -76,7 +75,6 @@ public class GuavaInput extends Input {
     
 // constructor     
     public GuavaInput(){
-        this.Organism = null;
         this.chromosome = "chrM";
         this.cpu_units = 1;
         this.ramMemory = 1;
@@ -172,19 +170,6 @@ public class GuavaInput extends Input {
         this.cpu_units = cpu_units;
     }
 
-    public String getOrganism() {
-        return getOrgCode(Organism);
-    }
-
-    public boolean setOrganism(String Organism) {
-        if (Organism == null) {
-            return false;
-        }
-        this.Organism = Organism;
-        return true;
-
-    }
-    
     public void setGenome(String genomeName) {
         Genome genome = Genome.getGenomeObject(genomeName);
         System.out.println("umac.guava.GuavaInput.setGenome()");
@@ -268,21 +253,15 @@ public class GuavaInput extends Input {
         return null;
     }
     
-    private static String getOrgCode(String organismName){
-        if(organismName.equals("Human")){
-            return "hs";
-        }
-        else if(organismName.equals("Mouse")){
-            return "mm";
-        }
-        return null;
-    }
-
+    
     private static String getValueCode(String pqValueString){
         if(pqValueString.equals("p")){
             return "-p";
-        }  
+        }
+        else if(pqValueString.equals("q")){
             return "-q";
+        }
+        return null;
     }
 
     public void setCutadapt(Cutadapt cutadapt) {
