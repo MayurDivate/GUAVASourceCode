@@ -7,13 +7,11 @@ package umac.guava;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import umac.guava.commandline.Command;
 import umac.guava.commandline.CommandlineWorkflow;
-import umac.guava.diff.Peak;
 
 
 /**
@@ -34,7 +32,6 @@ public class GUAVA {
     }
     
     private static String pwd;
-
 
     public static File getPackageBase(){
         try {

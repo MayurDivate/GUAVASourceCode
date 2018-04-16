@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import umac.guava.diff.Peak;
 
 /**
  *

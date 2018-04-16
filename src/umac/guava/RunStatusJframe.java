@@ -98,7 +98,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        resultTabs.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        resultTabs.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.gray, java.awt.Color.gray));
         resultTabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         resultTabs.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         resultTabs.setPreferredSize(new java.awt.Dimension(658, 431));
@@ -107,6 +107,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 resultTabsMouseClicked(evt);
             }
         });
+
+        alignStatJPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         alignmentStatTable.setFont(new java.awt.Font("Menlo", 0, 12)); // NOI18N
         alignmentStatTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -148,17 +150,19 @@ public class RunStatusJframe extends javax.swing.JFrame {
             alignStatJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(alignStatJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
                 .addContainerGap())
         );
         alignStatJPanelLayout.setVerticalGroup(
             alignStatJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(alignStatJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
         );
 
         resultTabs.addTab("Alignment Statistics", alignStatJPanel);
+
+        alignmentFilteringJPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         alignFilterStatTable.setFont(new java.awt.Font("Menlo", 0, 12)); // NOI18N
         alignFilterStatTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -238,11 +242,11 @@ public class RunStatusJframe extends javax.swing.JFrame {
             alignmentFilteringJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(alignmentFilteringJPanelLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
                 .addGap(6, 6, 6))
             .addGroup(alignmentFilteringJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
                 .addContainerGap())
         );
         alignmentFilteringJPanelLayout.setVerticalGroup(
@@ -252,12 +256,13 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(109, Short.MAX_VALUE))
         );
 
         resultTabs.addTab("Alignment Filtering", alignmentFilteringJPanel);
 
         graphJPanel.setBackground(new java.awt.Color(255, 255, 255));
+        graphJPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
         graphJPanel.setPreferredSize(new java.awt.Dimension(778, 452));
 
         graphJLabel.setBackground(new java.awt.Color(255, 255, 255));
@@ -275,11 +280,13 @@ public class RunStatusJframe extends javax.swing.JFrame {
             graphJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(graphJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(graphJLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                .addComponent(graphJLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         resultTabs.addTab("Fragment Size Distribution", graphJPanel);
+
+        jPanelPeaks.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         jTablePeaks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -319,16 +326,17 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jPanelPeaks.setLayout(jPanelPeaksLayout);
         jPanelPeaksLayout.setHorizontalGroup(
             jPanelPeaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
         );
         jPanelPeaksLayout.setVerticalGroup(
             jPanelPeaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
         );
 
         resultTabs.addTab("Annotated Peaks", jPanelPeaks);
 
         jPanelBarChart.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelBarChart.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         jLabelACRbarChart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -338,19 +346,20 @@ public class RunStatusJframe extends javax.swing.JFrame {
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBarChartLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE)
+                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanelBarChartLayout.setVerticalGroup(
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBarChartLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         resultTabs.addTab("Plot", jPanelBarChart);
 
+        jTableGO.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
         jTableGO.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -391,6 +400,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
 
         resultTabs.addTab("Gene Ontologies", jScrollPaneGO);
 
+        jTablePathways.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
         jTablePathways.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -473,14 +483,14 @@ public class RunStatusJframe extends javax.swing.JFrame {
         doneCancelJPanelLayout.setVerticalGroup(
             doneCancelJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, doneCancelJPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(5, 5, 5)
                 .addGroup(doneCancelJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(outputDirJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(closeJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelGeneFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonIGV, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTextFieldSearch.setVisible(false);
@@ -536,9 +546,9 @@ public class RunStatusJframe extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(resultTabs, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(doneCancelJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(10, 10, 10))
         );
 
         pack();
