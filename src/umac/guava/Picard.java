@@ -30,7 +30,7 @@ public class Picard extends Tool{
     
     @Override
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outputFile) {
-        String[] commandStrings =  
+        String[] commandArray =  
                 {   
                     "picard",
                     "MarkDuplicates",
@@ -39,13 +39,14 @@ public class Picard extends Tool{
                     "O="+outputFile.getAbsolutePath(),
                     "M="+outputFile.getAbsolutePath()+"_matrix.txt"
                     };
-        return commandStrings;
+        
+        return commandArray;
     }
 
     // method for insertSize distribution
     public String[] getCommand(GuavaInput atacseqInput, File inputFile, File outFile, File outPDF, double min_pct) {
         
-        String[] commandStrings =  
+        String[] commandArray =  
                 {   
                     "picard",
                     "CollectInsertSizeMetrics",
@@ -54,7 +55,7 @@ public class Picard extends Tool{
                     "H="+outPDF.getAbsolutePath(),
                     "M="+min_pct
                 };
-        return commandStrings;
+        return commandArray;
     }
     
     @Override

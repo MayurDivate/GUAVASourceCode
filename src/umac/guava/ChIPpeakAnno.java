@@ -232,7 +232,7 @@ public class ChIPpeakAnno extends Tool {
 
     String getBarChartCode(File barPlotFile) {
 
-        int width = 740;
+        int width = 757;
         int height = 420;
         int legendFS = 12;
         int titleFS = 15;
@@ -504,6 +504,8 @@ public class ChIPpeakAnno extends Tool {
                 = {"Rscript",
                     inputFile.getAbsolutePath()
                 };
+        System.out.println("umac.guava.ChIPpeakAnno.getCommand()");
+        printCommand(commandArray);
         return commandArray;
     }
 

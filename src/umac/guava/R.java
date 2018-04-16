@@ -26,7 +26,7 @@ public class R extends Tool{
     
     public boolean createRcode(GuavaOutputFiles outFiles){
         int height = 420;
-        int width = 770;
+        int width = 757;
                 
         try {
             if(outFiles.getrCode().createNewFile()){
@@ -85,7 +85,6 @@ public class R extends Tool{
             {   "Rscript",
                 inputFile.getAbsolutePath()
             };
-        
         return commandArray;
     }
 

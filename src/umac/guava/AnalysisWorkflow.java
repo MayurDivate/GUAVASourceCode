@@ -30,7 +30,7 @@ public class AnalysisWorkflow {
     public static boolean go = true;
     public static boolean bowtie = true;
     public static boolean commandLine = false;
-    public static FilteredAlignment alignmentFilteringResults = new FilteredAlignment(-1, -1, -1, -1, -1);
+    public static FilteredAlignment filteredAlignment = new FilteredAlignment(-1, -1, -1, -1, -1);
     public static HashMap<String, Integer> chrSTAT;
     public static AlignmentResult alignmentResults;
     public static AnalysisResultWriter analysisResultWriter = new AnalysisResultWriter();
@@ -74,7 +74,7 @@ public class AnalysisWorkflow {
         if (!commandLine) {
             runStatusJframe = new RunStatusJframe();
             runStatusJframe.setVisible(false);
-            runStatusJframe.displayInputSummary(guavaInput, bowtie);
+            runStatusJframe.fillAlignmentTable(guavaInput, bowtie);
         }
         // ------------ start of workflow ------------------        
         AnalysisWorkflow aw = new AnalysisWorkflow();
@@ -111,8 +111,8 @@ public class AnalysisWorkflow {
 
             if (go) {
                 analysisResultWriter.setAlignmentResult(alignmentResults);
-                alignmentFilteringResults.setTotalReads(alignmentResults.getTotalReads());
-                alignmentFilteringResults.setTotalAligned(alignmentResults.getReadsAligned());
+                filteredAlignment.setTotalReads(alignmentResults.getTotalReads());
+                filteredAlignment.setTotalAligned(alignmentResults.getReadsAligned());
 
                 if (!commandLine) {
                     runStatusJframe.displayAlignmentResults(alignmentResults, bowtie);
@@ -135,12 +135,16 @@ public class AnalysisWorkflow {
                 Samtools samtools = new Samtools();
                 int mapQ_alignedReads = samtools.getReadCount(outFiles.getAlignedCsrtBam());
                 int suppressedReads = alignmentResults.getReadsAligned() - mapQ_alignedReads;
+
+                // mapq / supressed reads
                 alignmentResults.setReadsAligned(mapQ_alignedReads);
                 alignmentResults.setReadsSuppressed(suppressedReads);
 
                 analysisResultWriter.setAlignmentResult(alignmentResults);
-                alignmentFilteringResults.setTotalReads(alignmentResults.getTotalReads());
-                alignmentFilteringResults.setTotalAligned(alignmentResults.getReadsAligned());
+                // total reads
+                filteredAlignment.setTotalReads(alignmentResults.getTotalReads());
+                // total aligned reads
+                filteredAlignment.setTotalAligned(alignmentResults.getReadsAligned());
 
                 if (!commandLine) {
                     runStatusJframe.displayAlignmentResults(alignmentResults, bowtie);
@@ -159,13 +163,13 @@ public class AnalysisWorkflow {
             System.out.print("Alignment shifting...");
 
             go = aw.getAlignmentShiftedBAM(guavaInput, outFiles);
-            alignmentFilteringResults.setUsefulReads(workflowSamtools.getReadCount(outFiles.getAtacseqBam()));
-            analysisResultWriter.setAlignmentFilteringResult(alignmentFilteringResults);
+            filteredAlignment.setUsefulReads(workflowSamtools.getReadCount(outFiles.getAtacseqBam()));
+            analysisResultWriter.setAlignmentFilteringResult(filteredAlignment);
 
             if (!commandLine) {
-                runStatusJframe.setFilteredResults(alignmentFilteringResults);
+                runStatusJframe.setFilteredResults(filteredAlignment);
             }
-            ExcelPrinter.printAlignmentFilteringResult(alignmentFilteringResults);
+            ExcelPrinter.printAlignmentFilteringResult(filteredAlignment);
 
         }
         if (go) {
@@ -266,7 +270,7 @@ public class AnalysisWorkflow {
             runStatusJframe.setVisible(go);
         }
         if (commandLine) {
-            printCommandlineResults(guavaInput, alignmentResults, alignmentFilteringResults, chrSTAT, guavaInput.getChromosome());
+            printCommandlineResults(guavaInput, alignmentResults, filteredAlignment, chrSTAT, guavaInput.getChromosome());
         }
 
     }
@@ -310,8 +314,8 @@ public class AnalysisWorkflow {
 
             if (success) {
                 analysisResultWriter.setAlignmentResult(alignmentResults);
-                alignmentFilteringResults.setTotalReads(alignmentResults.getTotalReads());
-                alignmentFilteringResults.setTotalAligned(alignmentResults.getReadsAligned());
+                filteredAlignment.setTotalReads(alignmentResults.getTotalReads());
+                filteredAlignment.setTotalAligned(alignmentResults.getReadsAligned());
                 ExcelPrinter.createExcelWoorkBook();
                 ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults, true);
             }
@@ -331,12 +335,17 @@ public class AnalysisWorkflow {
                 Samtools samtools = new Samtools();
                 int mapQ_alignedReads = samtools.getReadCount(outFiles.getAlignedCsrtBam());
                 int suppressedReads = alignmentResults.getReadsAligned() - mapQ_alignedReads;
+                
+                // suppressed or mapQ filtered reads
                 alignmentResults.setReadsAligned(mapQ_alignedReads);
                 alignmentResults.setReadsSuppressed(suppressedReads);
-
+                
                 analysisResultWriter.setAlignmentResult(alignmentResults);
-                alignmentFilteringResults.setTotalReads(alignmentResults.getTotalReads());
-                alignmentFilteringResults.setTotalAligned(alignmentResults.getReadsAligned());
+                
+                // total reads
+                filteredAlignment.setTotalReads(alignmentResults.getTotalReads());
+                // total aligned reads
+                filteredAlignment.setTotalAligned(alignmentResults.getReadsAligned());
 
                 ExcelPrinter.createExcelWoorkBook();
                 ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults, false);
@@ -353,9 +362,13 @@ public class AnalysisWorkflow {
         if (success) {
             System.out.print("Alignment shifting...");
             success = aw.getAlignmentShiftedBAM(guavaInput, outFiles);
-            alignmentFilteringResults.setUsefulReads(workflowSamtools.getReadCount(outFiles.getAtacseqBam()));
-            analysisResultWriter.setAlignmentFilteringResult(alignmentFilteringResults);
-            ExcelPrinter.printAlignmentFilteringResult(alignmentFilteringResults);
+            
+            //useful reads
+            filteredAlignment.setUsefulReads(workflowSamtools.getReadCount(outFiles.getAtacseqBam()));
+            
+            analysisResultWriter.setAlignmentFilteringResult(filteredAlignment);
+            
+            ExcelPrinter.printAlignmentFilteringResult(filteredAlignment);
 
         }
 
@@ -419,7 +432,7 @@ public class AnalysisWorkflow {
 
 //------------------- print results ------------------        
         if (success) {
-            printCommandlineResults(guavaInput, alignmentResults, alignmentFilteringResults, chrSTAT, guavaInput.getChromosome());
+            printCommandlineResults(guavaInput, alignmentResults, filteredAlignment, chrSTAT, guavaInput.getChromosome());
             System.out.println("\n");
             System.out.println("----------- F I N I S H E D -------------");
             Date finish = new Date();
@@ -510,7 +523,7 @@ public class AnalysisWorkflow {
         if (go) {
             System.out.print("Remove duplicates...");
             go = aw.getDuplicateFilteredBAM(atacseqInput, outFiles);
-            alignmentFilteringResults.setDuplicateFilteredReads(samtools.getReadCount(outFiles.getDuplicateFilteredBam()));
+            filteredAlignment.setDuplicateFilteredReads(samtools.getReadCount(outFiles.getDuplicateFilteredBam()));
             System.out.println("Done!");
         }
         //properly aligned bam
@@ -523,7 +536,7 @@ public class AnalysisWorkflow {
         if (go) {
 
             go = aw.getChrFilteredBAM(atacseqInput, outFiles, chrSTAT.keySet());
-            alignmentFilteringResults.setChromosomeFilteredReads(samtools.getReadCount(outFiles.getChrFilteredBam()));
+            filteredAlignment.setChromosomeFilteredReads(samtools.getReadCount(outFiles.getChrFilteredBam()));
             samtools.deleteFile(outFiles.getProperlyAlignedBam());
             System.out.println("Done!");
         }
@@ -539,11 +552,11 @@ public class AnalysisWorkflow {
                 samtools.writeLog(log, "Black list region filtering");
                 System.out.println("No blacklist filtering");
                 outFiles.setBlackListFilteredBam(outFiles.getChrFilteredBam());
-                alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
+                filteredAlignment.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
             } else {
 
                 go = aw.getBlacklistFilteredBAM(atacseqInput, outFiles);
-                alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
+                filteredAlignment.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
                 samtools.deleteFile(outFiles.getChrFilteredBam());
                 System.out.println("Done!");
             }
@@ -559,67 +572,67 @@ public class AnalysisWorkflow {
     //runAlignmentFiltering
     public boolean runAlignmentFiltering(GuavaInput atacseqInput, GuavaOutputFiles outFiles) {
 
+        boolean isSuccess = false;
+
         Samtools samtools = new Samtools();
         AnalysisWorkflow aw = new AnalysisWorkflow();
 
         //Sam to sorted BAM
-        if (go) {
-            if (!outFiles.getAlignedCsrtBam().exists()) {
-                go = aw.getCsrtBAM(atacseqInput, outFiles);
-                samtools.deleteFile(outFiles.getAlignedSam());
-            }
+        if (!outFiles.getAlignedCsrtBam().exists()) {
+            isSuccess = aw.getCsrtBAM(atacseqInput, outFiles);
+            samtools.deleteFile(outFiles.getAlignedSam());
         }
+
         //Pre filtering stat
         chrSTAT = samtools.getChrStat(outFiles.getAlignedCsrtBam());
         ExcelPrinter.printChrStat(chrSTAT, atacseqInput.getChromosome());
 
         //duplicate filtering
-        if (go) {
+        if (isSuccess) {
             System.out.print("Remove duplicates...");
-            go = aw.getDuplicateFilteredBAM(atacseqInput, outFiles);
-            alignmentFilteringResults.setDuplicateFilteredReads(samtools.getReadCount(outFiles.getDuplicateFilteredBam()));
+            isSuccess = aw.getDuplicateFilteredBAM(atacseqInput, outFiles);
+            filteredAlignment.setDuplicateFilteredReads(samtools.getReadCount(outFiles.getDuplicateFilteredBam()));
             System.out.println("Done!");
         }
         //properly aligned bam
-        if (go) {
-            go = aw.getProperlyAlignedBAM(atacseqInput, outFiles);
+        if (isSuccess) {
+            isSuccess = aw.getProperlyAlignedBAM(atacseqInput, outFiles);
             samtools.deleteFile(outFiles.getDuplicateFilteredBam());
             samtools.deleteFile(outFiles.getDuplicateMatrix());
         }
         //chromosome filtered BAM 
-        if (go) {
+        if (isSuccess) {
 
-            go = aw.getChrFilteredBAM(atacseqInput, outFiles, chrSTAT.keySet());
-            alignmentFilteringResults.setChromosomeFilteredReads(samtools.getReadCount(outFiles.getChrFilteredBam()));
+            isSuccess = aw.getChrFilteredBAM(atacseqInput, outFiles, chrSTAT.keySet());
+            filteredAlignment.setChromosomeFilteredReads(samtools.getReadCount(outFiles.getChrFilteredBam()));
             samtools.deleteFile(outFiles.getProperlyAlignedBam());
             System.out.println("Done!");
         }
         //Black list filtered bam
-        if (go) {
+        if (isSuccess) {
             System.out.print("filter blacklist...");
             if (!atacseqInput.getBlacklistFile().isFile()) {
                 String[] log = {
                     "Blacklist file is not available, so skipping this step\n",
-                    "Genome:"+atacseqInput.getGenome().getGenomeName()+"\n"};
+                    "Genome:" + atacseqInput.getGenome().getGenomeName() + "\n"};
 
                 samtools.writeLog(log, "Black list region filtering");
                 System.out.println("No blacklist filtering");
                 outFiles.setBlackListFilteredBam(outFiles.getChrFilteredBam());
-                alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
+                filteredAlignment.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
             } else {
-                go = aw.getBlacklistFilteredBAM(atacseqInput, outFiles);
-                alignmentFilteringResults.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
+                isSuccess = aw.getBlacklistFilteredBAM(atacseqInput, outFiles);
+                filteredAlignment.setBlacklistFilteredReads(samtools.getReadCount(outFiles.getBlackListFilteredBam()));
                 samtools.deleteFile(outFiles.getChrFilteredBam());
                 System.out.println("Done!");
             }
         }
 
-        if (!go) {
+        if (!isSuccess) {
             System.err.println("*********************\n please check log, call from runAlignmentFiltering\n***************************");
-            return go;
         }
 
-        return go;
+        return isSuccess;
     }
 
     public boolean getAlignmentShiftedBAM(GuavaInput atacseqInput, GuavaOutputFiles outFiles) {
@@ -829,7 +842,7 @@ public class AnalysisWorkflow {
     }
 
     private static void printCommandlineResults(GuavaInput atacseqInput, AlignmentResult alignmentResults,
-            FilteredAlignment afRes, HashMap<String, Integer> chrSTAT, String chrString) {
+            FilteredAlignment filteredAlignment, HashMap<String, Integer> chrSTAT, String chrString) {
 
         System.out.println("________________________________________________________");
 
@@ -860,21 +873,21 @@ public class AnalysisWorkflow {
         }
         System.out.println("");
 
-        int dupReads = afRes.getTotalAligned() - afRes.getDuplicateFilteredReads();
-        int chrReads = afRes.getDuplicateFilteredReads() - afRes.getChromosomeFilteredReads();
-        int blacklistReads = afRes.getDuplicateFilteredReads() - afRes.getBlacklistFilteredReads();
+        int dupReads = filteredAlignment.getTotalAligned() - filteredAlignment.getDuplicateFilteredReads();
+        int chrReads = filteredAlignment.getDuplicateFilteredReads() - filteredAlignment.getChromosomeFilteredReads();
+        int blacklistReads = filteredAlignment.getDuplicateFilteredReads() - filteredAlignment.getBlacklistFilteredReads();
 
-        double dup_pc = afRes.getPercentage(dupReads, afRes.getTotalReads());
-        double chr_pc = afRes.getPercentage(chrReads, afRes.getTotalReads());
-        double blist_pc = afRes.getPercentage(blacklistReads, afRes.getTotalReads());
-        double useful_pc = afRes.getPercentage(afRes.getUsefulReads(), afRes.getTotalReads());
+        double dup_pc = filteredAlignment.getPercentage(dupReads, filteredAlignment.getTotalReads());
+        double chr_pc = filteredAlignment.getPercentage(chrReads, filteredAlignment.getTotalReads());
+        double blist_pc = filteredAlignment.getPercentage(blacklistReads, filteredAlignment.getTotalReads());
+        double useful_pc = filteredAlignment.getPercentage(filteredAlignment.getUsefulReads(), filteredAlignment.getTotalReads());
 
         System.out.println("________________________________________________________");
         System.out.println("___Alignment Filtering Results _________________________");
         System.out.println("#Total Duplicate Reads: " + dupReads + " (" + dup_pc + "%)");
         System.out.println("#Chr[MY] Reads after duplicate filtering: " + chrReads + " (" + chr_pc + "%)");
         System.out.println("#ChrM Blacklist Region Reads: " + blacklistReads + " (" + blist_pc + "%)");
-        System.out.println("#Total Useful Reads: " + afRes.getUsefulReads() + " (" + useful_pc + "%)");
+        System.out.println("#Total Useful Reads: " + filteredAlignment.getUsefulReads() + " (" + useful_pc + "%)");
         System.out.println("________________________________________________________");
 
     }

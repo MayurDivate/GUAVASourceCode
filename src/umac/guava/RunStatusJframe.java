@@ -33,7 +33,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
      */
     
     public static ArrayList<PeakTable> peakTableList;
-    private int totalReads;        
+    private int totalReads;   
+    
     public RunStatusJframe() {
         initComponents();
     }
@@ -60,7 +61,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
         peakCallingResultTable = new javax.swing.JTable();
         graphJPanel = new javax.swing.JPanel();
         graphJLabel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
         jPanelPeaks = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTablePeaks = new javax.swing.JTable();
@@ -111,17 +111,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         alignmentStatTable.setFont(new java.awt.Font("Menlo", 0, 12)); // NOI18N
         alignmentStatTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Parameter", "Value"
@@ -268,38 +258,25 @@ public class RunStatusJframe extends javax.swing.JFrame {
         resultTabs.addTab("Alignment Filtering", alignmentFilteringJPanel);
 
         graphJPanel.setBackground(new java.awt.Color(255, 255, 255));
+        graphJPanel.setPreferredSize(new java.awt.Dimension(778, 452));
 
         graphJLabel.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout graphJPanelLayout = new javax.swing.GroupLayout(graphJPanel);
         graphJPanel.setLayout(graphJPanelLayout);
         graphJPanelLayout.setHorizontalGroup(
             graphJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(graphJPanelLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(graphJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(226, 226, 226)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addComponent(graphJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
         graphJPanelLayout.setVerticalGroup(
             graphJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(graphJPanelLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(276, Short.MAX_VALUE))
-            .addComponent(graphJLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(graphJLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         resultTabs.addTab("Fragment Size Distribution", graphJPanel);
@@ -360,15 +337,15 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jPanelBarChartLayout.setHorizontalGroup(
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBarChartLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 743, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
         jPanelBarChartLayout.setVerticalGroup(
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelBarChartLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBarChartLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelACRbarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -684,104 +661,98 @@ public class RunStatusJframe extends javax.swing.JFrame {
        peakCallingResultTable.setValueAt(peakCount, 1, 1);
        
     }
-
-    void displayInputSummary(GuavaInput atacseqInput, boolean bowtie){
+    
+    void fillAlignmentTable(GuavaInput atacseqInput, boolean bowtie){
+        DefaultTableModel alignmentTableDFModel =  (DefaultTableModel) alignmentStatTable.getModel();
         
-        alignmentStatTable.setValueAt("R1 fastq", 0, 0);
-        alignmentStatTable.setValueAt(atacseqInput.getR1Fastq().getName(), 0, 1);
+        String[] rowData = {"R1 fastq",atacseqInput.getR1Fastq().getName()};
+        alignmentTableDFModel.addRow(rowData);
+        
+        rowData[0] = "R2 fastq";
+        rowData[1] = atacseqInput.getR2Fastq().getName();
+        alignmentTableDFModel.addRow(rowData);
 
-        alignmentStatTable.setValueAt("R2 Fastq", 1, 0);
-        alignmentStatTable.setValueAt(atacseqInput.getR2Fastq().getName(), 1, 1);
 
-        alignmentStatTable.setValueAt("Genome", 2, 0);
-        alignmentStatTable.setValueAt(atacseqInput.getbowtieIndexString().replaceAll(".*\\/", ""), 2, 1);
+        rowData[0] = "Genome index";
+        rowData[1] = atacseqInput.getbowtieIndexString().replaceAll(".*\\/", "");
+        alignmentTableDFModel.addRow(rowData);
 
-        alignmentStatTable.setValueAt("Maximum Insert Size", 3, 0);
-        alignmentStatTable.setValueAt(atacseqInput.getInsertSize(), 3, 1);
+        rowData[0] = "Maximum Insert Size";
+        rowData[1] = ""+atacseqInput.getInsertSize();
+        alignmentTableDFModel.addRow(rowData);
+
 
         if(bowtie){
-            alignmentStatTable.setValueAt("Maximum genomic hits", 4, 0);
+            rowData[0] = "Maximum genomic hits";
+            rowData[1] = ""+atacseqInput.getMaxGenomicHits();
+            alignmentTableDFModel.addRow(rowData);
         }
         else{
-            alignmentStatTable.setValueAt("Minimum Mapping Quality", 4, 0);
+            rowData[0] = "Minimum Mapping Quality";
+            rowData[1] = ""+atacseqInput.getMapQ();
+            alignmentTableDFModel.addRow(rowData);
         }
-        alignmentStatTable.setValueAt(atacseqInput.getMaxGenomicHits(), 4, 1);
-    
+        
     }
     
     void displayAlignmentResults(AlignmentResult alignmentResults, boolean bowtie){
         
-        // System.out.println("Displaying results for  alignment");
+        System.out.println("Displaying results for  alignment");
     
-           alignmentStatTable.setValueAt("Total Reads", 5, 0);
-           totalReads = alignmentResults.getTotalReads();
-           alignmentStatTable.setValueAt(alignmentResults.getTotalReads(), 5, 1);
-           
-           alignmentStatTable.setValueAt("Total Aligned Reads", 6, 0);
-           alignmentStatTable.setValueAt(alignmentResults.getReadsAligned()+" ("+alignmentResults.getReadsAligned_pc()+"%)", 6, 1);
-           
-           alignmentStatTable.setValueAt("Total Reads Failed to Align", 7, 0);
-           alignmentStatTable.setValueAt(alignmentResults.getReadsUnaligned()+" ("+alignmentResults.getReadsUnaligned_pc()+"%)", 7, 1);
-           
-           if(bowtie){
-               alignmentStatTable.setValueAt("Total Suppressed Reads", 8, 0);
-           }
-           else{
-               alignmentStatTable.setValueAt("Total Reads with Low Mapping Quality", 8, 0);
-           }
-           alignmentStatTable.setValueAt(alignmentResults.getReadsSuppressed()+" ("+alignmentResults.getReadsSuppressed_pc()+"%)", 8, 1);
-           
-           
-           alignFilterStatTable.setValueAt("Total Reads", 0, 0);
-           alignFilterStatTable.setValueAt(alignmentResults.getTotalReads(), 0, 1);
-           alignFilterStatTable.setValueAt("Total Aligned Reads", 1, 0);
-           alignFilterStatTable.setValueAt(alignmentResults.getReadsAligned()+" ("+alignmentResults.getReadsAligned_pc()+"%)", 1, 1);
-    }
-    
-    void displayBowtie2AlignmentResults(AlignmentResult alignmentResults){
+        DefaultTableModel alignmentTableDFModel =  (DefaultTableModel) alignmentStatTable.getModel();
+        totalReads = alignmentResults.getTotalReads();
         
-        System.out.println("Publishing results for bowitie 2 alignment");
-    
-           alignmentStatTable.setValueAt("Total Reads", 5, 0);
-           alignmentStatTable.setValueAt(alignmentResults.getTotalReads(), 5, 1);
+        String[] rowData =  new String[2];
+        rowData[0] = "Total Reads";
+        rowData[1] = ""+totalReads;
+        alignmentTableDFModel.addRow(rowData);
+            
+        rowData[0] = "Total Aligned Reads";
+        rowData[1] = alignmentResults.getReadsAligned()+" ("+alignmentResults.getReadsAligned_pc()+"%)";
+        alignmentTableDFModel.addRow(rowData);
            
-           alignmentStatTable.setValueAt("Total Aligned Reads", 6, 0);
-           alignmentStatTable.setValueAt(alignmentResults.getReadsAligned()+" ("+alignmentResults.getReadsAligned_pc()+"%)", 6, 1);
+        rowData[0] = "Total Reads Failed to Align";
+        rowData[1] = alignmentResults.getReadsUnaligned()+" ("+alignmentResults.getReadsUnaligned_pc()+"%)";
+        alignmentTableDFModel.addRow(rowData);
            
-           alignmentStatTable.setValueAt("Total Reads Failed to Align", 7, 0);
-           alignmentStatTable.setValueAt(alignmentResults.getReadsUnaligned()+" ("+alignmentResults.getReadsUnaligned_pc()+"%)", 7, 1);
-           
-           alignmentStatTable.setValueAt("Minimum Mapping Quality", 3, 0);
-           alignmentStatTable.setValueAt("Total Reads with Low Mapping Quality", 8, 0);
-           alignmentStatTable.setValueAt(alignmentResults.getReadsSuppressed()+" ("+alignmentResults.getReadsSuppressed_pc()+"%)", 8, 1);
-           
+        if(bowtie){
+            rowData[0] = "Total Suppressed Reads";
+        } else {
+            rowData[0] = "Total Reads with Low Mapping Quality";
+        }
+
+        rowData[1] = alignmentResults.getReadsSuppressed()+" ("+alignmentResults.getReadsSuppressed_pc()+"%)";
+        alignmentTableDFModel.addRow(rowData);
            
            alignFilterStatTable.setValueAt("Total Reads", 0, 0);
            alignFilterStatTable.setValueAt(alignmentResults.getTotalReads(), 0, 1);
+
            alignFilterStatTable.setValueAt("Total Aligned Reads", 1, 0);
            alignFilterStatTable.setValueAt(alignmentResults.getReadsAligned()+" ("+alignmentResults.getReadsAligned_pc()+"%)", 1, 1);
     }
 
     void setChrStat(HashMap<String, Integer> chrSTAT, String chrString){
-        
+        System.out.println("umac.guava.RunStatusJframe.setChrStat()");
+        DefaultTableModel alignmentTableDFModel =  (DefaultTableModel) alignmentStatTable.getModel();
+
         String[] chrs = chrString.trim().split("\\s");
-        int i = 9;
         
         for(String chromosome : chrs){
+            Object[] rowData = new Object[2];
             if(chrSTAT.containsKey(chromosome)){
-                alignmentStatTable.setValueAt("Total "+chromosome+" Reads", i, 0);
+               rowData[0] = "Total "+chromosome+" Reads";
                 
                 int readCount = chrSTAT.get(chromosome);
                 readCount = readCount / 2;
                 
-                double pc = AlignmentResult.getPercentage(readCount,totalReads );
-                alignmentStatTable.setValueAt(readCount+" ("+pc+"%)", i, 1);
-                i++;
+                double pc  = AlignmentResult.getPercentage(readCount,totalReads );
+                rowData[1] = readCount+" ("+pc+"%)";
+                alignmentTableDFModel.addRow(rowData);
             }
             else if(!chromosome.equals("")){
-                alignmentStatTable.setValueAt("Total "+chromosome+" Reads", i, 0);
-                alignmentStatTable.setValueAt("0", i, 1);
-                i++;
+               rowData[0] = "Total "+chromosome+" Reads";
+               rowData[1] = 0;
+               alignmentTableDFModel.addRow(rowData);
             }
         }
     }
@@ -790,7 +761,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         
         int dupReads = afRes.getTotalAligned() - afRes.getDuplicateFilteredReads();
         int chrReads = afRes.getDuplicateFilteredReads() - afRes.getChromosomeFilteredReads();
-        int blacklistReads = afRes.getDuplicateFilteredReads() - afRes.getBlacklistFilteredReads();
+        int blacklistReads = afRes.getDuplicateFilteredReads() - ( afRes.getBlacklistFilteredReads() + chrReads );
 
         double dup_pc = afRes.getPercentage(dupReads, afRes.getTotalReads()); 
         double chr_pc = afRes.getPercentage(chrReads, afRes.getTotalReads()); 
@@ -801,10 +772,10 @@ public class RunStatusJframe extends javax.swing.JFrame {
         alignFilterStatTable.setValueAt("Total Duplicate Reads", 2, 0);
         alignFilterStatTable.setValueAt(dupReads+" ("+dup_pc+"%)", 2, 1);
 
-        alignFilterStatTable.setValueAt("Chr[MY] Reads after duplicate filtering", 3, 0);
+        alignFilterStatTable.setValueAt("Chr* Reads after duplicate filtering", 3, 0);
         alignFilterStatTable.setValueAt(chrReads+" ("+chr_pc +"%)", 3, 1);
 
-        alignFilterStatTable.setValueAt("ChrM Blacklist Region Reads", 4, 0);
+        alignFilterStatTable.setValueAt("Blacklist Region Reads", 4, 0);
         alignFilterStatTable.setValueAt(blacklistReads+" ("+blist_pc +"%)", 4, 1);
 
         alignFilterStatTable.setValueAt("Total Useful Reads", 5, 0);
@@ -937,7 +908,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuHelp;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemAboutUs;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelBarChart;
     private javax.swing.JPanel jPanelPeaks;
     private javax.swing.JScrollPane jScrollPane1;

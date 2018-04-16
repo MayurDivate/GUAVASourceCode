@@ -54,7 +54,6 @@ public class Samtools extends Tool {
                 "-O", outformat,
                 inFile.getAbsolutePath()
             };
-        
         return commandArray;
     }
 
@@ -74,7 +73,6 @@ public class Samtools extends Tool {
                 "-O", outformat,
                 inFile.getAbsolutePath()
             };
-        
         return commandArray;
     }
     
@@ -105,7 +103,6 @@ public class Samtools extends Tool {
                 inFile.getAbsolutePath()
             };
         return commandArray;
-
     }
     
     //samtools idxstats 
@@ -144,7 +141,7 @@ public class Samtools extends Tool {
                 "-O"  , "bam",
                 outFiles.getDuplicateFilteredBam().getAbsolutePath()
             };
-        
+
         return commandArray;
 
     }
@@ -162,7 +159,7 @@ public class Samtools extends Tool {
                 "-O", "bam",
                 inpuSBAMfile.getAbsolutePath()
             };
-        
+
         return commandArray;
     }
     
@@ -176,7 +173,7 @@ public class Samtools extends Tool {
                 "-O"  , "sam",
                 samFile.getAbsolutePath()
             };
-        
+
         return commandArray;
 
     }
@@ -226,8 +223,7 @@ public class Samtools extends Tool {
         HashMap <String, Integer> chrStat =  new HashMap<>();
         
         String[] idxstatsLog = samtools.runCommand(samtools.getCommand(inBamFile));
-        samtools.writeLog(idxstatsLog, "idxstats");
-        String[] chromosomes = idxstatsLog[1].trim().split("\n");
+        samtools.writeLog(idxstatsLog, inBamFile.getName()+"idxstats");
         
         for(String chrRecord : idxstatsLog[0].split("\n")){
             Pattern pattern = Pattern.compile("(.*?)\t(.*?)\t(.*?)\t(.*?)");

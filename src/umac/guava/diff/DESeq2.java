@@ -261,7 +261,8 @@ public class DESeq2 extends Program {
                 = {"Rscript",
                     inputFile.getAbsolutePath()
                 };
-
+        System.out.println("umac.guava.diff.DESeq2.getCommand()");
+        printCommand(commandArray);
         return commandArray;
     }
 

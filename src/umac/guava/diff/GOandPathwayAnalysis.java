@@ -81,6 +81,8 @@ public class GOandPathwayAnalysis extends Program {
             {   "Rscript",
                 inputFile.getAbsolutePath()
             };
+        System.out.println("umac.guava.diff.GOandPathwayAnalysis.getCommand()");
+        printCommand(commandArray);
         return commandArray;
     }
 

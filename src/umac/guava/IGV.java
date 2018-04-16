@@ -68,7 +68,8 @@ public class IGV extends Tool implements Runnable{
                 }
         tracks = tracks.replaceFirst(",", "");
         command = command + tracks + " " + this.getIGVLocation();
-        
+        System.out.println("umac.guava.IGV.getCommand()");
+        System.out.println(command);
         return command.split("\\s");
     }
     

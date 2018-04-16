@@ -91,6 +91,9 @@ public class MACS2 extends Tool{
                         atacseqInput.getPqString(), atacseqInput.getCutOff(),
                         "--bdg", "--trackline", "--nomodel", "--nolambda"
                         };
+        
+        System.out.println("umac.guava.MACS2.getCommand()");
+        printCommand(commandArray);
         return commandArray;
     }
 

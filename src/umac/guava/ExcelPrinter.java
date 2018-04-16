@@ -86,7 +86,7 @@ public class ExcelPrinter {
 
             if (excelWorkBook.isFile() && excelWorkBook.exists()) {
                 XSSFSheet spreadsheet = workbook.createSheet("Alignment");
-                spreadsheet.setColumnWidth(0, 8000);
+                spreadsheet.setColumnWidth(0, 10000);
                 spreadsheet.setColumnWidth(1, 5000);
 
                 XSSFRow row;
@@ -125,17 +125,30 @@ public class ExcelPrinter {
                 cell.setCellValue(input.getInsertSize());
                 cell.setCellStyle(regularStyle);
 
+                //genomic hits or mapping quality and value
                 row = spreadsheet.createRow(rowid++);
-                cell = row.createCell(0);
+                
                 if (bowtie) {
+                    cell = row.createCell(0);
                     cell.setCellValue("Maximum genomic hits");
+                    cell.setCellStyle(headerStyle);
+                 
+                    cell = row.createCell(1);
+                    cell.setCellValue(input.getMaxGenomicHits());
+                    cell.setCellStyle(regularStyle);
+
                 } else {
+                    cell = row.createCell(0);
                     cell.setCellValue("Minimum Mapping Quality");
+                    cell.setCellStyle(headerStyle);
+                 
+                    cell = row.createCell(1);
+                    cell.setCellValue(input.getMapQ());
+                    cell.setCellStyle(regularStyle);
                 }
-                cell.setCellStyle(headerStyle);
-                cell = row.createCell(1);
-                cell.setCellValue(input.getMaxGenomicHits());
-                cell.setCellStyle(regularStyle);
+                
+                
+                
 
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
@@ -208,7 +221,7 @@ public class ExcelPrinter {
 
         int dupReads = afRes.getTotalAligned() - afRes.getDuplicateFilteredReads();
         int chrReads = afRes.getDuplicateFilteredReads() - afRes.getChromosomeFilteredReads();
-        int blacklistReads = afRes.getDuplicateFilteredReads() - afRes.getBlacklistFilteredReads();
+        int blacklistReads = afRes.getDuplicateFilteredReads() - ( afRes.getBlacklistFilteredReads() + chrReads ) ;
 
         double dup_pc = afRes.getPercentage(dupReads, afRes.getTotalReads());
         double chr_pc = afRes.getPercentage(chrReads, afRes.getTotalReads());
@@ -251,7 +264,7 @@ public class ExcelPrinter {
 
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("Chr[MY] Reads after duplicate filtering");
+                cell.setCellValue("Chr* Reads after duplicate filtering");
                 cell.setCellStyle(headerStyle);
                 cell = row.createCell(1);
                 cell.setCellValue(chrReads + " (" + chr_pc + "%)");
@@ -259,7 +272,7 @@ public class ExcelPrinter {
 
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("ChrM Blacklist Region Reads");
+                cell.setCellValue("Blacklist Region Reads");
                 cell.setCellStyle(headerStyle);
                 cell = row.createCell(1);
                 cell.setCellValue(blacklistReads + " (" + blist_pc + "%)");
@@ -311,7 +324,7 @@ public class ExcelPrinter {
                 XSSFRow row;
                 int rowid = 9;
                 Cell cell;
-
+                
                 for (String chromosome : chrs) {
                     //System.out.println("chr stat:" + chromosome);
                     if (chrSTAT.containsKey(chromosome)) {
@@ -320,7 +333,8 @@ public class ExcelPrinter {
                         cell.setCellValue("Total " + chromosome + " Reads");
                         cell.setCellStyle(headerStyle);
                         cell = row.createCell(1);
-                        cell.setCellValue(chrSTAT.get(chromosome));
+                        int chr_reads =  chrSTAT.get(chromosome) / 2;
+                        cell.setCellValue(chr_reads);
                         cell.setCellStyle(regularStyle);
                         i++;
                     } else if (!chromosome.equals("")) {
@@ -817,7 +831,7 @@ public class ExcelPrinter {
 
             if (excelWorkBook.isFile() && excelWorkBook.exists()) {
                 XSSFSheet spreadsheet = workbook.getSheet("Plot");
-
+                spreadsheet.setColumnWidth(1, 7000);
                 XSSFRow row;
                 int rowid = 1;
                 Cell cell;
