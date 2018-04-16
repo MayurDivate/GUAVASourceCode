@@ -697,8 +697,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
     
     void displayAlignmentResults(AlignmentResult alignmentResults, boolean bowtie){
         
-        System.out.println("Displaying results for  alignment");
-    
         DefaultTableModel alignmentTableDFModel =  (DefaultTableModel) alignmentStatTable.getModel();
         totalReads = alignmentResults.getTotalReads();
         
@@ -732,7 +730,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
     }
 
     void setChrStat(HashMap<String, Integer> chrSTAT, String chrString){
-        System.out.println("umac.guava.RunStatusJframe.setChrStat()");
         DefaultTableModel alignmentTableDFModel =  (DefaultTableModel) alignmentStatTable.getModel();
 
         String[] chrs = chrString.trim().split("\\s");

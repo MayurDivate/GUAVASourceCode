@@ -92,8 +92,6 @@ public class MACS2 extends Tool{
                         "--bdg", "--trackline", "--nomodel", "--nolambda"
                         };
         
-        System.out.println("umac.guava.MACS2.getCommand()");
-        printCommand(commandArray);
         return commandArray;
     }
 

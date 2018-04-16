@@ -48,8 +48,6 @@ public class BedTools extends Tool{
                         "-ibam", igvDataTrack.getBamFile().getAbsolutePath(),
                         "-g", getGenomeSize(igvDataTrack.getGenome()).getAbsolutePath(),
                         };
-        System.out.println("umac.guava.BedTools.getBamTobdgCommand()");
-        printCommand(commandArray);
         return commandArray;
     
     }   
@@ -60,8 +58,6 @@ public class BedTools extends Tool{
                     {   "sortBed",
                         "-i", input.getAbsolutePath(),
                         };
-        System.out.println("umac.guava.BedTools.getBedSortCommand()");
-        printCommand(commandArray);
         return commandArray;
     
     }   
