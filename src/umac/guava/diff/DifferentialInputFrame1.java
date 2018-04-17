@@ -79,18 +79,18 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jPanelWelcome = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabelProjectName = new javax.swing.JLabel();
-        jTextFieldProjectName = new javax.swing.JTextField();
         jPanelDataTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableDiff = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
         jPanelDFACinput = new javax.swing.JPanel();
         jButtonRemoveFile = new javax.swing.JButton();
         jButtonNext = new javax.swing.JButton();
         jButtonReset = new javax.swing.JButton();
         jButtonAddFile = new javax.swing.JButton();
+        jPanelWelcome = new javax.swing.JPanel();
+        jLabelProjectName = new javax.swing.JLabel();
+        jTextFieldProjectName = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuTools = new javax.swing.JMenu();
         jMenuItemGUAVA = new javax.swing.JMenuItem();
@@ -105,47 +105,17 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOAD DATA");
+        setMaximumSize(new java.awt.Dimension(600, 440));
         setName("LOAD DATA"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(600, 380));
         setResizable(false);
 
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel1.setText("welcome to differential analysis tool, select input bam and bed file files");
-        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanelDataTable.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
+        jPanelDataTable.setPreferredSize(new java.awt.Dimension(582, 200));
 
-        jLabelProjectName.setText("Project Name");
-
-        jTextFieldProjectName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldProjectNameKeyTyped(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelWelcomeLayout = new javax.swing.GroupLayout(jPanelWelcome);
-        jPanelWelcome.setLayout(jPanelWelcomeLayout);
-        jPanelWelcomeLayout.setHorizontalGroup(
-            jPanelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelWelcomeLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelWelcomeLayout.createSequentialGroup()
-                        .addComponent(jLabelProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10))
-        );
-        jPanelWelcomeLayout.setVerticalGroup(
-            jPanelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelWelcomeLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(7, Short.MAX_VALUE))
-        );
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(580, 404));
 
         jTableDiff.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTableDiff.setFont(new java.awt.Font("Andale Mono", 0, 14)); // NOI18N
@@ -171,22 +141,31 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
     jTableDiff.getTableHeader().setReorderingAllowed(false);
     jScrollPane1.setViewportView(jTableDiff);
 
+    jLabel1.setText("Please add bam and narrowPeak / bed file for each reaplicate.");
+    jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    jLabel1.setPreferredSize(new java.awt.Dimension(568, 16));
+
     javax.swing.GroupLayout jPanelDataTableLayout = new javax.swing.GroupLayout(jPanelDataTable);
     jPanelDataTable.setLayout(jPanelDataTableLayout);
     jPanelDataTableLayout.setHorizontalGroup(
         jPanelDataTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanelDataTableLayout.createSequentialGroup()
-            .addGap(10, 10, 10)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(5, 5, 5)
+            .addGroup(jPanelDataTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addGap(5, 5, 5))
     );
     jPanelDataTableLayout.setVerticalGroup(
         jPanelDataTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanelDataTableLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
-            .addContainerGap())
+            .addGap(5, 5, 5)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
     );
+
+    jPanelDFACinput.setPreferredSize(new java.awt.Dimension(560, 40));
 
     jButtonRemoveFile.setText("Remove");
     jButtonRemoveFile.addActionListener(new java.awt.event.ActionListener() {
@@ -221,15 +200,15 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
     jPanelDFACinputLayout.setHorizontalGroup(
         jPanelDFACinputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanelDFACinputLayout.createSequentialGroup()
-            .addGap(10, 10, 10)
+            .addGap(5, 5, 5)
             .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(43, 43, 43)
             .addComponent(jButtonAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButtonRemoveFile, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(59, 59, 59)
             .addComponent(jButtonNext, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(10, 10, 10))
+            .addContainerGap())
     );
     jPanelDFACinputLayout.setVerticalGroup(
         jPanelDFACinputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +219,43 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
                 .addComponent(jButtonNext, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jButtonAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(10, 10, 10))
+            .addGap(5, 5, 5))
+    );
+
+    jPanelWelcome.setPreferredSize(new java.awt.Dimension(580, 40));
+
+    jLabelProjectName.setText("Project Name");
+
+    jTextFieldProjectName.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jTextFieldProjectNameActionPerformed(evt);
+        }
+    });
+    jTextFieldProjectName.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            jTextFieldProjectNameKeyTyped(evt);
+        }
+    });
+
+    javax.swing.GroupLayout jPanelWelcomeLayout = new javax.swing.GroupLayout(jPanelWelcome);
+    jPanelWelcome.setLayout(jPanelWelcomeLayout);
+    jPanelWelcomeLayout.setHorizontalGroup(
+        jPanelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanelWelcomeLayout.createSequentialGroup()
+            .addGap(5, 5, 5)
+            .addComponent(jLabelProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(jTextFieldProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    );
+    jPanelWelcomeLayout.setVerticalGroup(
+        jPanelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanelWelcomeLayout.createSequentialGroup()
+            .addGap(2, 2, 2)
+            .addGroup(jPanelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabelProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(2, 2, 2))
     );
 
     jMenuTools.setText("Tools");
@@ -296,25 +311,27 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(5, 5, 5)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanelDataTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanelDFACinput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanelWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGap(5, 5, 5))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(10, 10, 10)
+                    .addComponent(jPanelWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(10, 10, 10)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanelDFACinput, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+                        .addComponent(jPanelDataTable, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE))))
+            .addGap(10, 10, 10))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jPanelWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(5, 5, 5)
-            .addComponent(jPanelDataTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 0, 0)
+            .addComponent(jPanelWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 0, 0)
+            .addComponent(jPanelDataTable, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(5, 5, 5)
             .addComponent(jPanelDFACinput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(10, 10, 10))
@@ -459,6 +476,10 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
         GenomeIndexBuilderGUI genomeIndexBuilderGUI = new GenomeIndexBuilderGUI();
         genomeIndexBuilderGUI.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jTextFieldProjectNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldProjectNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldProjectNameActionPerformed
         
     public JComboBox getReplicateComboBox(){
         String[] values = {"I","II", "III","IV"};

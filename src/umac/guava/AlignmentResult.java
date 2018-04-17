@@ -154,7 +154,7 @@ public class AlignmentResult {
     public void setReadsAligned(int readsAligned) {
         this.readsAligned = readsAligned;
         if(this.getReadsAligned() > 0 ){
-            double new_pc = this.getPercentage(readsAligned, this.getTotalReads());
+            double new_pc = AlignmentResult.getPercentage(readsAligned, this.getTotalReads());
             this.setReadsAligned_pc(new_pc);
         }
     }
@@ -172,7 +172,7 @@ public class AlignmentResult {
     public void setReadsUnaligned(int readsUnaligned) {
         this.readsUnaligned = readsUnaligned;
         if(this.getReadsAligned() > 0 ){
-            double new_pc = this.getPercentage(readsUnaligned, this.getTotalReads());
+            double new_pc = AlignmentResult.getPercentage(readsUnaligned, this.getTotalReads());
             this.setReadsUnaligned_pc(new_pc);
         }
     }
@@ -190,7 +190,7 @@ public class AlignmentResult {
     public void setReadsSuppressed(int readsSuppressed) {
         this.readsSuppressed = readsSuppressed;
         if(this.getReadsAligned() > 0 ){
-            double new_pc = this.getPercentage(readsSuppressed, this.getTotalReads());
+            double new_pc = AlignmentResult.getPercentage(readsSuppressed, this.getTotalReads());
             this.setReadsSuppressed_pc(new_pc);
         }
     }

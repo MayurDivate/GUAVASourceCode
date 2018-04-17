@@ -49,7 +49,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame1 = new javax.swing.JFrame();
         resultTabs = new javax.swing.JTabbedPane();
         alignStatJPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -77,23 +76,10 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jLabelGeneFilter = new javax.swing.JLabel();
         jButtonIGV = new javax.swing.JButton();
         runstatusJMenuBar = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemAboutUs = new javax.swing.JMenuItem();
         jMenuHelp = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -255,8 +241,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         resultTabs.addTab("Alignment Filtering", alignmentFilteringJPanel);
@@ -311,7 +297,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTablePeaks.setToolTipText("");
         jTablePeaks.setGridColor(new java.awt.Color(153, 153, 153));
         jTablePeaks.setShowGrid(true);
         jTablePeaks.getTableHeader().setReorderingAllowed(false);
@@ -496,13 +481,6 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jTextFieldSearch.setVisible(false);
         jLabelGeneFilter.setVisible(false);
         jButtonIGV.setVisible(false);
-
-        jMenu2.setText("Tools");
-
-        jMenu3.setText("DFAC");
-        jMenu2.add(jMenu3);
-
-        runstatusJMenuBar.add(jMenu2);
 
         jMenu1.setText("About");
 
@@ -794,7 +772,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
     public void addPeakTableRow(File geneAnnotationFile){
         
         DefaultTableModel dfModel =  (DefaultTableModel) jTablePeaks.getModel();
-        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(dfModel);
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(dfModel);
         jTablePeaks.setRowSorter(tableRowSorter);
 
         RunStatusJframe.peakTableList =  PeakTable.getPeakList(geneAnnotationFile);
@@ -823,37 +801,16 @@ public class RunStatusJframe extends javax.swing.JFrame {
         
         // ANNOTATION TABLE
         DefaultTableModel dfModel =  (DefaultTableModel) jTablePeaks.getModel();
-        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(dfModel);
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(dfModel);
         jTablePeaks.setRowSorter(tableRowSorter);
         
         tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+query, geneColumnIndex));
-        
-        // GO TABLE
-        geneColumnIndex = 5;
-        
-        DefaultTableModel dfModelGO =  (DefaultTableModel) jTableGO.getModel();
-        TableRowSorter<DefaultTableModel> tableRowSorterGO = new TableRowSorter<DefaultTableModel>(dfModelGO);
-        jTableGO.setRowSorter(tableRowSorterGO);
-        
-        tableRowSorterGO.setRowFilter(RowFilter.regexFilter("(?i)"+query, geneColumnIndex));
-        
-        
-        // Pathway TABLE
-        geneColumnIndex = 4;
-        
-        DefaultTableModel dfModelPathway =  (DefaultTableModel) jTableGO.getModel();
-        TableRowSorter<DefaultTableModel> tableRowSorterPathway = new TableRowSorter<DefaultTableModel>(dfModelPathway);
-        jTableGO.setRowSorter(tableRowSorterPathway);
-        
-        tableRowSorterPathway.setRowFilter(RowFilter.regexFilter("(?i)"+query, geneColumnIndex));
-        
-        
     }
 
     public void addGoTableRows(File geneAnnotationFile){
         
         DefaultTableModel dfModel =  (DefaultTableModel) jTableGO.getModel();
-        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<DefaultTableModel>(dfModel);
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(dfModel);
         jTableGO.setRowSorter(tableRowSorter);
         
         HashMap<GeneOntology, GeneOntology> goHashMap =  GeneOntology.parseGOAnalysisOutputFile(geneAnnotationFile);
@@ -906,12 +863,9 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JLabel graphJLabel;
     private javax.swing.JPanel graphJPanel;
     private javax.swing.JButton jButtonIGV;
-    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabelACRbarChart;
     private javax.swing.JLabel jLabelGeneFilter;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenuHelp;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemAboutUs;

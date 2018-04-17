@@ -142,18 +142,18 @@ public class AlignmentShifter {
             fileReader = new FileReader(headerFile);
             BufferedReader fileBufferedReader = new BufferedReader(fileReader);
 
-                    String line = null;
-                    while((line = fileBufferedReader.readLine()) != null ){
-                        Pattern pattern = Pattern.compile("^@SQ\tSN:(.*?)\tLN:(\\d+)$");
-                        Matcher matcher = pattern.matcher(line);
-                            if(matcher.find()){
-                                String chr =  matcher.group(1);
-                                int len    =  Integer.parseInt(matcher.group(2));
-                                chrSizes.put(chr,len);
-                        }
-                    }
+            String line;
+            while ((line = fileBufferedReader.readLine()) != null) {
+                Pattern pattern = Pattern.compile("^@SQ\tSN:(.*?)\tLN:(\\d+)$");
+                Matcher matcher = pattern.matcher(line);
+                if (matcher.find()) {
+                    String chr = matcher.group(1);
+                    int len = Integer.parseInt(matcher.group(2));
+                    chrSizes.put(chr, len);
+                }
+            }
             new Samtools().deleteFile(headerFile);
-            IGV.chromosomes =  new HashMap<>(chrSizes);
+            IGV.chromosomes = new HashMap<>(chrSizes);
             return chrSizes;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AlignmentShifter.class.getName()).log(Level.SEVERE, null, ex);
