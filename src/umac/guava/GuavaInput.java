@@ -75,11 +75,12 @@ public class GuavaInput extends Input {
     
 // constructor     
     public GuavaInput(){
-        this.chromosome = "chrM";
+        this.chromosome = "";
         this.cpu_units = 1;
         this.ramMemory = 1;
         this.insertSize = 2000;
         this.maxGenomicHits = 1;
+        this.mapQ = 30;
         this.bowtieIndex = null;
         this.genome = null;
         this.r1Fastq = null;
@@ -87,7 +88,6 @@ public class GuavaInput extends Input {
         this.outputFolder = null;
         this.pqCutOff = 0.05;
         this.pqString = "-q";
-        this.mapQ = 10;
         this.aligner = "bowtie";
         this.blacklistFile = null;
     }

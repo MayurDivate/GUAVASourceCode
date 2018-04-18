@@ -285,7 +285,7 @@ public class AnalysisWorkflow {
         AnalysisWorkflow aw = new AnalysisWorkflow();                               // to run other methods in this class
         GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(guavaInput);        // outputfiles 
         Samtools workflowSamtools = new Samtools();                                 // to run samtools
-        
+
         success = aw.createDir(outFiles.getRootDir());                              //create root dir and get started 
 
         if (success) {
@@ -420,6 +420,7 @@ public class AnalysisWorkflow {
             System.out.println("----------- Peak annotation -------------");
             
             ChIPpeakAnno chipPeakAnno = outFiles.getChipPeakAnno();
+            chipPeakAnno.setGenome(guavaInput.getGenome());
             success = aw.runChIPpeakAnno(chipPeakAnno);
             chipPeakAnno.deleteFile(chipPeakAnno.getrCodeFile());
             

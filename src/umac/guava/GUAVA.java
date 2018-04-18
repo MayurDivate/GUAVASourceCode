@@ -68,7 +68,8 @@ public class GUAVA {
    
     private static void setPWD(){
         File file =  new File(".");
-        pwd = file.getAbsolutePath();
+        file = new File(file.getAbsolutePath());
+        pwd = file.getParentFile().getAbsolutePath();
     }
 
     private static void runGUAVAcommandline(String[] args){

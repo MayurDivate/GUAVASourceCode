@@ -174,27 +174,34 @@ public class GuavaCommand extends CommandlineTool{
 
             guavaInput.setR1Fastq(guavaCommand.getR1Fastq());
             guavaInput.setR2Fastq(guavaCommand.getR2Fastq());
+            
+            guavaInput.setGenome(guavaCommand.getGenome());                 //genome
             guavaInput.setBowtieIndex(guavaCommand.getBowtieIndex());
             guavaInput.setAligner(guavaCommand.getAligner());
-            guavaInput.setOutputFolder(guavaCommand.getOutputFolder());
-            guavaInput.setMaxGenomicHits(guavaCommand.getMaxGenomicHits());
-            guavaInput.setMapQ(guavaCommand.getMapQ());
-            guavaInput.setCpu_units(guavaCommand.getCpu_units());
             guavaInput.setInsertSize(guavaCommand.getInsertSize());
+            guavaInput.setMaxGenomicHits(guavaCommand.getMaxGenomicHits()); 
+            guavaInput.setMapQ(guavaCommand.getMapQ());
+            
+            guavaInput.setOutputFolder(guavaCommand.getOutputFolder());
+            
+            guavaInput.setCpu_units(guavaCommand.getCpu_units());
             guavaInput.setRamMemory(guavaCommand.getRamMemory());
-            guavaInput.setGenome(guavaCommand.getGenome());
-            guavaInput.setChromosome(guavaCommand.getChromosome());
+
+            guavaInput.setChromosome(guavaCommand.getChromosome());     //chr
+            guavaInput.setBlacklistFile(guavaInput.getGenome());        //blacklist
             guavaInput.setPqCutOff(guavaCommand.getPqCutOff());
             guavaInput.setPqString(guavaCommand.getPqString());
             guavaInput.setTrim(guavaCommand.isTrim());
-            
-            guavaInput.setCutadapt(guavaCommand.getCutadapt());
-            
-            
-                    
+            if(guavaInput.isTrim()){
+                
+                Cutadapt cutadapt = Cutadapt.getCutadapt(guavaInput, 
+                        guavaCommand.getCutadapt().getAdapter(),
+                        guavaCommand.getCutadapt().getErrorRate(),
+                        guavaCommand.getCutadapt().getMaxNs(),
+                        guavaCommand.getCutadapt().getMinLength());
+                guavaInput.setCutadapt(cutadapt);
+            }
            return guavaInput;
-
-            
         }
         else{
             System.out.println("ToolCommand is not a GuavaCommand");
@@ -356,6 +363,11 @@ public class GuavaCommand extends CommandlineTool{
         if(command.isUsed(outdirPattern)){
             File outdir =  command.getFileParameter(outdirPattern,4);
             guavaCommand.setOutputFolder(outdir);
+        }else{
+            System.out.println("umac.guava.commandline.GuavaCommand.getGuavaCommand()");
+            System.out.println(GUAVA.getPwDir().getAbsolutePath());
+            
+            guavaCommand.setOutputFolder(GUAVA.getPwDir());
         }
         
         if(command.isUsed(maxGenomicHitsPattern)){

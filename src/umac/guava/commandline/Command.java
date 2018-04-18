@@ -168,7 +168,6 @@ public class Command {
     }
     
     public double getDoubleParameter(String patternString, int group){
-        System.out.println("umac.guava.commandline.Command.getDoubleParameter() MAYUR");
         Pattern pattern = Pattern.compile(patternString);
         System.out.println(patternString);
         Matcher match = pattern.matcher(this.getCommand());
