@@ -234,7 +234,7 @@ public class Samtools extends Tool {
                 chrStat.put(matcher.group(1),alignedReads);
             }
             else{
-                System.out.println("No patternsfound for idxstats\t"+chrRecord);
+                System.out.println("No chr found for idxstats\t");
                 return null;
             }
         }

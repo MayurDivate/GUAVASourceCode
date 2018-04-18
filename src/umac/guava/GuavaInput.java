@@ -172,8 +172,6 @@ public class GuavaInput extends Input {
 
     public void setGenome(String genomeName) {
         Genome genome = Genome.getGenomeObject(genomeName);
-        System.out.println("umac.guava.GuavaInput.setGenome()");
-        System.out.println(" >> "+genomeName);
         this.setGenome(genome); 
     }
     

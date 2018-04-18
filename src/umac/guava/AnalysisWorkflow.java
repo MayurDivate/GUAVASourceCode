@@ -83,7 +83,6 @@ public class AnalysisWorkflow {
 
         if (go) {
             go = aw.createDir(outFiles.getRootDir());
-            workflowSamtools.writeLog(guavaInput.getInputSummary(), "------------ Input Sumary ------------");
         }
 
         try {
@@ -92,6 +91,9 @@ public class AnalysisWorkflow {
             System.out.println(GuavaOutputFiles.logFile);
             Logger.getLogger(AnalysisWorkflow.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        workflowSamtools.writeLog(guavaInput.getInputSummary(), "------------ Input Sumary ------------");
+        
         if (guavaInput.isTrim()) {
             System.out.print("Adapter trimming...");
             go = aw.runCutadapt(guavaInput, outFiles);
@@ -283,18 +285,25 @@ public class AnalysisWorkflow {
         AnalysisWorkflow aw = new AnalysisWorkflow();                               // to run other methods in this class
         GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(guavaInput);        // outputfiles 
         Samtools workflowSamtools = new Samtools();                                 // to run samtools
-
+        
         success = aw.createDir(outFiles.getRootDir());                              //create root dir and get started 
+
         if (success) {
-            System.out.println("1");
-            System.out.println(guavaInput.isTrim());
             success = aw.createFile(outFiles.logFile);
+            workflowSamtools.writeLog(guavaInput.getInputSummary(), "------------ Input Sumary ------------");
         }
 
 //------------------- ADAPTER TRIMMING ------------------        
         if (guavaInput.isTrim()) {
             System.out.println("Adapter trimming...");
+            Cutadapt cutadapt = guavaInput.getCutadapt();
+            guavaInput.getCutadapt().setCutadaptDir(outFiles.getCutadaptOUT());     // real cutadaptdir
+            guavaInput.getCutadapt().setTrimmed_R1(new File(outFiles.getCutadaptOUT(), cutadapt.getTrimmed_R1().getName()));  
+            guavaInput.getCutadapt().setTrimmed_R2(new File(outFiles.getCutadaptOUT(), cutadapt.getTrimmed_R2().getName()));  
+            guavaInput.getCutadapt().setCutadaptDir(outFiles.getCutadaptOUT());     // real cutadaptdir
+            
             success = aw.runCutadapt(guavaInput, outFiles);                          // Trim adapter 
+            
             guavaInput.setR1Fastq(guavaInput.getCutadapt().getTrimmed_R1());        // change R1 and R2 fastq 
             guavaInput.setR2Fastq(guavaInput.getCutadapt().getTrimmed_R2());        // to trimmed fastq
         }
@@ -305,10 +314,12 @@ public class AnalysisWorkflow {
             success = aw.runFastQC(guavaInput, outFiles);
         }
 
-//------------------- ALignment ------------------        
-        if (success && guavaInput.getAligner().equals("bowtie")) {
-
-            System.out.println("Alignment...");
+//------------------- ALignment ------------------
+        boolean bowtie = guavaInput.getAligner().equals("bowtie");
+        
+        if (success && bowtie) {
+            
+            System.out.println("Bowtie Alignment...");
             //"---------- bowtie ----------"
             success = aw.runBowtie(guavaInput, outFiles);
 
@@ -320,8 +331,8 @@ public class AnalysisWorkflow {
                 ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults, true);
             }
 
-        } else if (success && guavaInput.getAligner().equals("bowtie2")) {
-            System.out.println("Alignment...");
+        } else if (success && !bowtie) {
+            System.out.println("Bowtie2 Alignment...");
             //"---------- bowtie2 ----------"
             Bowtie2 bowtie2 = Bowtie2.getBowtie2(guavaInput, outFiles);
             outFiles.setAlignedSam(bowtie2.getMapQBam());
@@ -572,7 +583,7 @@ public class AnalysisWorkflow {
     //runAlignmentFiltering
     public boolean runAlignmentFiltering(GuavaInput atacseqInput, GuavaOutputFiles outFiles) {
 
-        boolean isSuccess = false;
+        boolean isSuccess = true;
 
         Samtools samtools = new Samtools();
         AnalysisWorkflow aw = new AnalysisWorkflow();
@@ -586,7 +597,7 @@ public class AnalysisWorkflow {
         //Pre filtering stat
         chrSTAT = samtools.getChrStat(outFiles.getAlignedCsrtBam());
         ExcelPrinter.printChrStat(chrSTAT, atacseqInput.getChromosome());
-
+        
         //duplicate filtering
         if (isSuccess) {
             System.out.print("Remove duplicates...");
@@ -611,6 +622,7 @@ public class AnalysisWorkflow {
         //Black list filtered bam
         if (isSuccess) {
             System.out.print("filter blacklist...");
+            
             if (!atacseqInput.getBlacklistFile().isFile()) {
                 String[] log = {
                     "Blacklist file is not available, so skipping this step\n",

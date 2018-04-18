@@ -79,18 +79,12 @@ public class Command {
     
     // helper method for getCommand()
     private static boolean isGuavaCall(String[] args){
-        if(args[0].equals("guava")){
-            return true;
-        }
-        return false;
+        return args[0].equals("guava");
     }
     
     // helper method for getCommand()
     private static boolean isGdiffCall(String[] args){
-        if(args[0].equals("gdiff")){
-            return true;
-        }
-        return false;
+        return args[0].equals("gdiff");
     }
     
     // helper method for getCommand()
@@ -107,10 +101,7 @@ public class Command {
     private static boolean isGuavaHelpCall(String[] args){
         
         if(args.length > 1){
-           if(args[0].equals("guava") && (args[1].equals("-h") || args[1].equals("--help"))){
-                return true;
-            }
-          return false;
+          return args[0].equals("guava") && (args[1].equals("-h") || args[1].equals("--help"));
         }
         else if(args.length == 1){
             return true;
@@ -124,10 +115,7 @@ public class Command {
     private static boolean isGdiffHelpCall(String[] args){
         
         if(args.length > 1){
-           if(args[0].equals("gdiff") && (args[1].equals("-h") || args[1].equals("--help"))){
-                return true;
-            }
-          return false;
+          return args[0].equals("gdiff") && (args[1].equals("-h") || args[1].equals("--help"));
         }
             
         else if(args.length == 1){
@@ -290,11 +278,7 @@ public class Command {
         
         Pattern pattern = Pattern.compile(patternString);
         Matcher match = pattern.matcher(this.getCommand());
-        
-        if(match.find()){
-            return true;
-        }
-        return false;
+        return match.find();
     }
     
     // method to kill commandline execution of program 

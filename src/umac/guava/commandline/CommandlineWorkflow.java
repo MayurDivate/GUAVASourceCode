@@ -70,16 +70,15 @@ public class CommandlineWorkflow {
 
             // check command compulsory and duplicates
             if(guavaCommand.isCorrectCommand(command)){
-
                 // get guava command
                 guavaCommand = GuavaCommand.getGuavaCommand(command);
-                System.out.println(guavaCommand.toString());
                 // create input object from guava
                 Input input = guavaCommand.getInput(guavaCommand);
-
+                
                 if(input instanceof GuavaInput){
                     GuavaInput guavaInput = (GuavaInput) input;
                     AnalysisWorkflow aw = new AnalysisWorkflow();
+                    guavaInput.setBlacklistFile(guavaInput.getGenome());
                     aw.startCommandlineGuavaAnalysis(guavaInput);
                 }
                 else{

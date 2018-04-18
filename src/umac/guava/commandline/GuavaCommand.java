@@ -48,8 +48,7 @@ public class GuavaCommand extends CommandlineTool{
             "-m",
             "-ram",
             "-cpu",
-            "-chrM",
-            "-chrY",
+            "-chrs",
             "--aligner",
             "--trim",
             "-n",
@@ -73,7 +72,7 @@ public class GuavaCommand extends CommandlineTool{
     private String pqString = "q";
     private Cutadapt cutadapt;
     private boolean trim = false;
-    private String aligner ;
+//    private String aligner ;
     private int mapQ = 10;
     
     
@@ -176,6 +175,7 @@ public class GuavaCommand extends CommandlineTool{
             guavaInput.setR1Fastq(guavaCommand.getR1Fastq());
             guavaInput.setR2Fastq(guavaCommand.getR2Fastq());
             guavaInput.setBowtieIndex(guavaCommand.getBowtieIndex());
+            guavaInput.setAligner(guavaCommand.getAligner());
             guavaInput.setOutputFolder(guavaCommand.getOutputFolder());
             guavaInput.setMaxGenomicHits(guavaCommand.getMaxGenomicHits());
             guavaInput.setMapQ(guavaCommand.getMapQ());
@@ -187,7 +187,10 @@ public class GuavaCommand extends CommandlineTool{
             guavaInput.setPqCutOff(guavaCommand.getPqCutOff());
             guavaInput.setPqString(guavaCommand.getPqString());
             guavaInput.setTrim(guavaCommand.isTrim());
+            
             guavaInput.setCutadapt(guavaCommand.getCutadapt());
+            
+            
                     
            return guavaInput;
 
@@ -201,7 +204,7 @@ public class GuavaCommand extends CommandlineTool{
     }
     
     //cutadapter options
-    private static Cutadapt getCutadapt(File r1, File r2, File outdir ,Command command){
+    private static Cutadapt getCutadapt(File r1, File r2, Command command){
        
 
         // cut adpter relater patterns 
@@ -233,7 +236,7 @@ public class GuavaCommand extends CommandlineTool{
                 adapter = command.getStringParameter(adapterPattern);
             }
             
-            Cutadapt cutadapt = Cutadapt.getCutadapt(r1, r2, outdir, adapter, errorRate, maxN, minLen);
+            Cutadapt cutadapt = Cutadapt.getCutadapt(r1, r2, adapter, errorRate, maxN, minLen);
             return cutadapt;
         
     }
@@ -241,11 +244,8 @@ public class GuavaCommand extends CommandlineTool{
     
     private static boolean isTrimCall(Command command){
         
-        String trimPattern = "-trim\\s+([TF])\\s+";
-        if(command.isUsed(trimPattern)){
-            return true;
-        }
-        return false;
+        String trimPattern = "-trim\\s+(T)\\s+";
+        return command.isUsed(trimPattern);
     }
     
         
@@ -265,8 +265,7 @@ public class GuavaCommand extends CommandlineTool{
        guavaHelpMessage = guavaHelpMessage +"\t"+"-R2"+      "\t"+"path to the fastq file containing downstream mates"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-g"+       "\t"+"path to the bowtie genome index"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-a"+       "\t"+"Genome assembly"+"\n";
-       guavaHelpMessage = guavaHelpMessage +"\t"+"  "+       "\t"+"Human: [ hg18 | hg19 | hg38 ]"+"\n";
-       guavaHelpMessage = guavaHelpMessage +"\t"+"  "+       "\t"+"Mouse: [ mm9  | mm10 ]"+"\n";
+       guavaHelpMessage = guavaHelpMessage +"\t"+"  "+       "\t"+"e.g. hg19, mm10"+"\n";
        guavaHelpMessage = guavaHelpMessage +"cutadapt realated:"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"--trim"+   "\t"+"[TF] default:F do not perform adapter trimming"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-n"+       "\t"+"INT Discard read if contains Ns more than n "+"\n";
@@ -284,11 +283,10 @@ public class GuavaCommand extends CommandlineTool{
        guavaHelpMessage = guavaHelpMessage +" "+"-O | --outdir"+"\t"+"path for output directory "+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"  "+       "\t"+"default: current directory "+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-m"+       "\t"+"INT If used with bowtie then Maximum number of genomic hits. default: 1"+"\n";
-       guavaHelpMessage = guavaHelpMessage +"\t"+"  "+       "\t"+"INT If used with bowtie2 then minimum mapping quality. default: 10"+"\n";
+       guavaHelpMessage = guavaHelpMessage +"\t"+"  "+       "\t"+"INT If used with bowtie2 then minimum mapping quality. default: 30"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-ram"+     "\t"+"INT RAM memory in GB. Default: 1"+"\n";
        guavaHelpMessage = guavaHelpMessage +"\t"+"-cpu"+     "\t"+"INT Number of cpus. Default 1"+"\n";
-       guavaHelpMessage = guavaHelpMessage +"\t"+"-chr"+     "\t"+"[TF] Default: T - Filter chromosome M reads"+"\n";
-       guavaHelpMessage = guavaHelpMessage +"\t"+"-chY"+     "\t"+"[TF] Default: F - Do not filter chromosome M reads"+"\n";
+       guavaHelpMessage = guavaHelpMessage +"\t"+"-chrs"+     "\t"+"comma separeted list of chromosomes e.g. chrM,chrY"+"\n";
        guavaHelpMessage = guavaHelpMessage + "\n";
        
        return guavaHelpMessage;
@@ -312,8 +310,7 @@ public class GuavaCommand extends CommandlineTool{
         String mapQPattern = "-m\\s+(\\d+)\\s+";
         String ramPattern = "-ram\\s+(\\d+)\\s+";
         String cpuPattern = "-cpu\\s+(\\d+)\\s+";
-        String chrMPattern = "-chrM\\s+([TF])\\s+";
-        String chrYPattern = "-chrY\\s+([TF])\\s+";
+        String chrsPattern = "-chrs\\s+(.*?)\\s+";
         
 
         // R1 and R2 fastq files  
@@ -385,33 +382,20 @@ public class GuavaCommand extends CommandlineTool{
    //________________________________________________________________________
    //________________________________________________________________________
         //  chromosome filtering parameter
-        boolean m = true;
-        boolean y = false;
-        
-        if(command.isUsed(chrMPattern)){
-            String chrM  =  command.getStringParameter(chrMPattern);
-            if(chrM.equals("F")){
-                m = false;
+        if(command.isUsed(chrsPattern)){
+            String chrs  =  command.getStringParameter(chrsPattern);
+            if(chrs != null ){
+                 guavaCommand.setChromosome(chrs);
             }
         }
-        
-        if(command.isUsed(chrYPattern)){
-            String chrY =  command.getStringParameter(chrYPattern);
-            if(chrY.equals("T")){
-                m = true;
-            }
-        }
-        
-        // Set chromosome string
-        guavaCommand.setChromosome(getChromosomes(m, y));
-        
-   //________________________________________________________________________
+
+    //________________________________________________________________________
    //________________________________________________________________________
    //________________________________________________________________________
         
         // cutadapt paramters 
         if(isTrimCall(command)){
-            Cutadapt cutadapt = getCutadapt(guavaCommand.getR1Fastq(), guavaCommand.getR2Fastq(),guavaCommand.getOutputFolder(),command);
+            Cutadapt cutadapt = getCutadapt(guavaCommand.getR1Fastq(), guavaCommand.getR2Fastq(), command);
             guavaCommand.setTrim(true);
             guavaCommand.setCutadapt(cutadapt);
         }
@@ -424,20 +408,6 @@ public class GuavaCommand extends CommandlineTool{
         
     }
     
-    private static String getChromosomes(boolean chrM, boolean chrY){
-        String chrFilter = ""; // default filter
-        
-        if(chrM){
-            chrFilter = "chrM ";
-        }
-        if(chrY){
-            chrFilter = chrFilter + "chrY ";
-        }
-        
-        return chrFilter.trim();
-    }
-    
-
     @Override
     public boolean validateInput(Input input) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -633,6 +603,7 @@ public class GuavaCommand extends CommandlineTool{
      * @param chromosome the chromosome to set
      */
     public void setChromosome(String chromosome) {
+        chromosome =  chromosome.replaceAll(",", " ");
         this.chromosome = chromosome;
     }
 

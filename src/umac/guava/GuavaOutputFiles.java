@@ -68,7 +68,7 @@ public class GuavaOutputFiles {
         }
         return null;
     }
-    
+
     public GuavaOutputFiles getOutputFiles(GuavaInput guavaInput){
         setRootDir(guavaInput);
         String outBaseName = getOutBaseName();
