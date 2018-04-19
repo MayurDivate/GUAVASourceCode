@@ -45,16 +45,16 @@ public class Gdiffcommand extends CommandlineTool{
     private double foldchange = 2;
     private double pvalue = 0.05;
     private String method = "deseq2";
-    private String genome = "hg19";
-    private int upstreamDistance =  1000;
-    private int downstreamDistance =  1000;
+    private Genome genome;
+    private int upstreamDistance =  5000;
+    private int downstreamDistance =  3000;
     private File outdir;
     private File inFile;
     private String projectName;
    
     // gdiff options 
-    private static Set<String> gdiffOptions = new HashSet<>(Arrays.asList("-fc","-p","-m","-g","-o","-u","-d","-files","-n"));
-    private static Set<String> gdiffCompulsoryOptions = new HashSet<>(Arrays.asList("-files","-n","-o"));
+    private static Set<String> gdiffOptions = new HashSet<>(Arrays.asList("-fc","-p","-m","-o","-u","-d","-files","-n"));
+    private static Set<String> gdiffCompulsoryOptions = new HashSet<>(Arrays.asList("-files","-n","-o","-g"));
     
     /*
     This method will return if all compulsory parameters, no duplicates and correct format detected 
@@ -265,19 +265,18 @@ public class Gdiffcommand extends CommandlineTool{
        gdiffHelpMessage = gdiffHelpMessage + "\t"+"-n"+"\t"+"project name  "+"\n";
        gdiffHelpMessage = gdiffHelpMessage + "\t"+"-o" +"\t"+"output folder to save results"+"\n";
        gdiffHelpMessage = gdiffHelpMessage + "\t"+"-files" +"\t"+"text file containing input bed and bam files "+"\n";
+       gdiffHelpMessage = gdiffHelpMessage + "\t"+"-g" +"\t"+"genome build e.g. hg19"+"\n";
     
        gdiffHelpMessage = gdiffHelpMessage +"optional"+"\n";
        gdiffHelpMessage = gdiffHelpMessage + "\t"+"-fc"+"\t"+"log2(FoldChange) >=  1, default: 2 "+"\n";
        gdiffHelpMessage = gdiffHelpMessage + "\t"+"-p" +"\t"+"p value =< 0.05"+"\n";
        gdiffHelpMessage = gdiffHelpMessage + "\t"+"-m" +"\t"+"[deseq2] Differential analysis method. default deseq2"+"\n";
-       gdiffHelpMessage = gdiffHelpMessage + "\t"+"-g" +"\t"+"[hg19] genome build."+"\n";
-       gdiffHelpMessage = gdiffHelpMessage + "\t"+"-u" +"\t"+"upstream distance cut off in bp, default 1000"+"\n";
-       gdiffHelpMessage = gdiffHelpMessage + "\t"+"-d" +"\t"+"downstream distance cut off in bp, default 1000"+"\n";
+       gdiffHelpMessage = gdiffHelpMessage + "\t"+"-u" +"\t"+"upstream distance cut off in bp, default 5000"+"\n";
+       gdiffHelpMessage = gdiffHelpMessage + "\t"+"-d" +"\t"+"downstream distance cut off in bp, default 3000"+"\n";
        
        return gdiffHelpMessage;
     }
     
-  
 
     /*****
      *
@@ -319,8 +318,15 @@ public class Gdiffcommand extends CommandlineTool{
             gdiffCommand.setMethod(method);
         }
         if(command.isUsed(genomePattern)){
-            String genome     =  command.getStringParameter(genomePattern);
-            gdiffCommand.setGenome(genome);
+            String genomeName     =  command.getStringParameter(genomePattern);
+            Genome genome = Genome.getGenomeObject(genomeName);
+            if(genome != null){
+                gdiffCommand.setGenome(genome);
+            }
+            else{
+                System.err.println("Invalid genome build");
+                return null;
+            }
         }
         if(command.isUsed(projectNamePatern)){
             String project    =  command.getStringParameter(projectNamePatern);
@@ -346,8 +352,6 @@ public class Gdiffcommand extends CommandlineTool{
         return gdiffCommand;
         
      }
-     
-    
      
     public File[] getFilesFromString(String inputFileString){
         inputFileString = inputFileString.trim();
@@ -426,22 +430,16 @@ public class Gdiffcommand extends CommandlineTool{
     /**
      * @return the genome
      */
-    public String getGenome() {
+    public Genome getGenome() {
         return genome;
     }
 
     /**
      * @param genome the genome to set
      */
-    public void setGenome(String genome) {
+    public void setGenome(Genome genome) {
+       this.genome = genome;
         
-        if(genome.equals("hg19")){
-            this.genome = genome;
-        }
-        else{
-            System.out.println("Invalid genome: "+genome);
-            killExecution();
-        }
     }
 
     /**
@@ -533,7 +531,6 @@ public class Gdiffcommand extends CommandlineTool{
             killExecution();
         }
     }
-
     
     
     public Gdiffcommand() {
@@ -547,7 +544,7 @@ public class Gdiffcommand extends CommandlineTool{
         gdiffCommand =  gdiffCommand+" foldchange = "+this.getFoldchange()+"\n";
         gdiffCommand =  gdiffCommand+" pvalue = "+this.getPvalue()+"\n";
         gdiffCommand =  gdiffCommand+" method = "+this.getMethod()+"\n";
-        gdiffCommand =  gdiffCommand+" genome"+this.getGenome()+"\n";
+        gdiffCommand =  gdiffCommand+" genome"+this.getGenome().getGenomeName()+"\n";
         gdiffCommand =  gdiffCommand+" upstream = "+this.getUpstreamDistance()+"\n";
         gdiffCommand =  gdiffCommand+" downstream = "+this.getDownstreamDistance()+"\n";
         gdiffCommand =  gdiffCommand+" outputdir = "+this.getOutdir().getAbsolutePath()+"\n";

@@ -72,7 +72,6 @@ public class CommandlineWorkflow {
                     GuavaInput guavaInput = (GuavaInput) input;
 
                     AnalysisWorkflow aw = new AnalysisWorkflow();
-//                    guavaInput.setBlacklistFile(guavaInput.getGenome());
                     aw.startCommandlineGuavaAnalysis(guavaInput);
                 } else {
                     System.out.println("Is not a GuavaInput");
