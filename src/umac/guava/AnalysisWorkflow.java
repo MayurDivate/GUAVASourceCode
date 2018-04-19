@@ -227,6 +227,7 @@ public class AnalysisWorkflow {
                 ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getPathwayAnalysisOutputFile(),"Pathways",6);
             }
             
+            chipPeakAnno.deleteFile(chipPeakAnno.getrCodeFile());
             
 
         }
@@ -439,6 +440,8 @@ public class AnalysisWorkflow {
             if(chipPeakAnno.getPathwayAnalysisOutputFile().isFile()){
                 ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getPathwayAnalysisOutputFile(),"Pathways",6);
             }
+
+            chipPeakAnno.deleteFile(chipPeakAnno.getrCodeFile());
 
         }
 

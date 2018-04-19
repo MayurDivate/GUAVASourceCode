@@ -320,7 +320,7 @@
         <Component class="javax.swing.JTextField" name="inserSizeTextField">
           <Properties>
             <Property name="text" type="java.lang.String" value="2000"/>
-            <Property name="toolTipText" type="java.lang.String" value="Only numbers"/>
+            <Property name="toolTipText" type="java.lang.String" value="recommended value is 2000."/>
           </Properties>
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inserSizeTextFieldKeyTyped"/>
@@ -329,7 +329,7 @@
         <Component class="javax.swing.JLabel" name="jLabelHitsQuality">
           <Properties>
             <Property name="text" type="java.lang.String" value="No. of genomic hits (m)"/>
-            <Property name="toolTipText" type="java.lang.String" value="Higher mapping quality means less number of genomic hits.  If mapping quality is 30 then expected genomic hits ~1."/>
+            <Property name="toolTipText" type="java.lang.String" value="Higher mapping quality means less number of genomic hits.&#xa;If mapping quality is 30 then expected genomic hits ~1."/>
           </Properties>
         </Component>
         <Component class="java.awt.TextField" name="jTextFieldBowtieIndex">
@@ -389,7 +389,7 @@
         <Component class="javax.swing.JTextField" name="jTextFieldHitsQuality">
           <Properties>
             <Property name="text" type="java.lang.String" value="1"/>
-            <Property name="toolTipText" type="java.lang.String" value="Only numbers"/>
+            <Property name="toolTipText" type="java.lang.String" value="recommended: mapping quality is 30 / genomic hits 1"/>
           </Properties>
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldHitsQualityKeyTyped"/>
@@ -543,7 +543,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Select chromosomes:"/>
-            <Property name="toolTipText" type="java.lang.String" value="it is recommended to fillter mitochondrial reads"/>
+            <Property name="toolTipText" type="java.lang.String" value="It is recommended to fillter mitochondrial (mt) reads, &#xa;because mt contamination is usually higher in ATACseq data."/>
           </Properties>
         </Component>
       </SubComponents>
@@ -630,7 +630,7 @@
         <Component class="javax.swing.JTextField" name="valueTextField">
           <Properties>
             <Property name="text" type="java.lang.String" value="0.05"/>
-            <Property name="toolTipText" type="java.lang.String" value="should be only numbers and 0 &lt; num &gt; 0.05"/>
+            <Property name="toolTipText" type="java.lang.String" value="recommended 0 &lt; p/q value &lt; 0.05"/>
           </Properties>
         </Component>
         <Component class="java.awt.TextField" name="outputDirTextField">
@@ -735,6 +735,7 @@
         <Component class="javax.swing.JLabel" name="errorRatejLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Error Rate"/>
+            <Property name="toolTipText" type="java.lang.String" value="If error rate is 0.1 means 1 mistach is allowed in the match of 10 bp adapter.&#xa;recommended 0.1"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
@@ -765,6 +766,7 @@
         <Component class="javax.swing.JLabel" name="minLenjLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Minimum Read length"/>
+            <Property name="toolTipText" type="java.lang.String" value="After adapter trimming keep only reads with read length =&gt; minimum read length&#xa;recommended: 30 "/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>

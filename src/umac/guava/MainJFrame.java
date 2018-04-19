@@ -163,7 +163,7 @@ public class MainJFrame extends javax.swing.JFrame {
         insertSizeJLabel.setToolTipText("recommended value is 2000.");
 
         inserSizeTextField.setText("2000");
-        inserSizeTextField.setToolTipText("Only numbers");
+        inserSizeTextField.setToolTipText("recommended value is 2000.");
         inserSizeTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 inserSizeTextFieldKeyTyped(evt);
@@ -171,7 +171,7 @@ public class MainJFrame extends javax.swing.JFrame {
         });
 
         jLabelHitsQuality.setText("No. of genomic hits (m)");
-        jLabelHitsQuality.setToolTipText("Higher mapping quality means less number of genomic hits.  If mapping quality is 30 then expected genomic hits ~1.");
+        jLabelHitsQuality.setToolTipText("Higher mapping quality means less number of genomic hits.\nIf mapping quality is 30 then expected genomic hits ~1.");
 
         jTextFieldBowtieIndex.setEditable(false);
         jTextFieldBowtieIndex.setText("/path/bowtie1Index.ebwt");
@@ -202,7 +202,7 @@ public class MainJFrame extends javax.swing.JFrame {
         });
 
         jTextFieldHitsQuality.setText("1");
-        jTextFieldHitsQuality.setToolTipText("Only numbers");
+        jTextFieldHitsQuality.setToolTipText("recommended: mapping quality is 30 / genomic hits 1");
         jTextFieldHitsQuality.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldHitsQualityKeyTyped(evt);
@@ -316,7 +316,7 @@ public class MainJFrame extends javax.swing.JFrame {
         });
 
         jLabel1.setText("Select chromosomes:");
-        jLabel1.setToolTipText("it is recommended to fillter mitochondrial reads");
+        jLabel1.setToolTipText("It is recommended to fillter mitochondrial (mt) reads, \nbecause mt contamination is usually higher in ATACseq data.");
 
         javax.swing.GroupLayout jPanelChromosomeFilteringLayout = new javax.swing.GroupLayout(jPanelChromosomeFiltering);
         jPanelChromosomeFiltering.setLayout(jPanelChromosomeFilteringLayout);
@@ -360,7 +360,7 @@ public class MainJFrame extends javax.swing.JFrame {
         macs2PqvalueComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "q value", "p value" }));
 
         valueTextField.setText("0.05");
-        valueTextField.setToolTipText("should be only numbers and 0 < num > 0.05");
+        valueTextField.setToolTipText("recommended 0 < p/q value < 0.05");
 
         outputDirTextField.setEditable(false);
         outputDirTextField.setText("/path/output_dir");
@@ -414,6 +414,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanelCutadapt.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Adapter Trimming", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Andale Mono", 0, 13))); // NOI18N
 
         errorRatejLabel.setText("Error Rate");
+        errorRatejLabel.setToolTipText("If error rate is 0.1 means 1 mistach is allowed in the match of 10 bp adapter.\nrecommended 0.1");
         errorRatejLabel.setEnabled(false);
 
         maxNs.setEnabled(false);
@@ -432,6 +433,7 @@ public class MainJFrame extends javax.swing.JFrame {
         maxNjLabel.setEnabled(false);
 
         minLenjLabel.setText("Minimum Read length");
+        minLenjLabel.setToolTipText("After adapter trimming keep only reads with read length => minimum read length\nrecommended: 30 ");
         minLenjLabel.setEnabled(false);
 
         nextraAdapterCheckBox.setSelected(true);
