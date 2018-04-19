@@ -56,7 +56,7 @@ public class GUAVA {
 
     public static void main(String[] args) {
         setPWD();
-        
+        System.out.println("GUAVA version 1");
         if(args.length == 0){
                uiVersion();
         }
