@@ -123,8 +123,9 @@ public class Gdiffcommand extends CommandlineTool{
         if(toolCommand instanceof Gdiffcommand){
             
             Gdiffcommand gdiff = (Gdiffcommand) toolCommand;
+            
             // get ouput files for differential analysis 
-            DifferentialOutputFiles diffOutputFiles = DifferentialOutputFiles.getDifferentialOutputFiles(gdiff.getOutdir());
+            DifferentialOutputFiles diffOutputFiles = DifferentialOutputFiles.getDifferentialOutputFiles(gdiff.getOutdir(),gdiff.getGenome());
             
             // build ArrayList of differential input file 
             ArrayList<DifferentialInputFile> differentialInputFiles = gdiff.getDifferentialInputFiles();

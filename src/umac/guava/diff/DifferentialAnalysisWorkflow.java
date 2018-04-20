@@ -34,16 +34,21 @@ public class DifferentialAnalysisWorkflow {
     boolean errorFlag;
     boolean abortFlag;
 
-    public boolean startDifferentialAnalysis(GdiffInput atacSeqDiffInput) {
+    public boolean startDifferentialAnalysis(GdiffInput gdiff_Input) {
 
         DifferentialResultFrame resultFrame = new DifferentialResultFrame();
         resultFrame.setVisible(true);
-        resultFrame.addSummary(atacSeqDiffInput);
+        resultFrame.addSummary(gdiff_Input);
 
         boolean doNext = true;
         // get output files 
-        DifferentialOutputFiles outputfiles = atacSeqDiffInput.getDifferentialOutputFiles();
-        doNext = createDir(outputfiles.getOutputFolder());
+        DifferentialOutputFiles gdiff_outputfiles = gdiff_Input.getDifferentialOutputFiles();
+        doNext = createDir(gdiff_outputfiles.getOutputFolder());
+        
+        DIfferentialAnalysisExcelPrinter excelPrinter = new DIfferentialAnalysisExcelPrinter(gdiff_outputfiles.getOutExcel(), "summary");
+        int sheetNumber = 0;
+        excelPrinter.printSummary(gdiff_Input);
+        sheetNumber++;
         
         // create log file
         if(doNext){
@@ -54,27 +59,33 @@ public class DifferentialAnalysisWorkflow {
             }
         }
         // write input summary
-        doNext = outputfiles.writeSummary(atacSeqDiffInput);
+        doNext = gdiff_outputfiles.writeSummary(gdiff_Input);
 
         if (doNext) {
             System.out.println("---------- Create read count matrix ----------");
             int minRep = 1; // to get peaks present in min number of replicates;
-            doNext = createCommonPeakList(atacSeqDiffInput.getDiffInputfiles(), outputfiles.getControlTreatmentCommonPeakBed(), minRep);
+            doNext = createCommonPeakList(gdiff_Input.getDiffInputfiles(), gdiff_outputfiles.getControlTreatmentCommonPeakBed(), minRep);
         }
 
         if (doNext) {
             System.out.println("---------- Run DESeq2 code ----------");
 
-            DESeq2 deseq2 = new DESeq2(outputfiles.getDeseqResult(), atacSeqDiffInput.getDiffInputfiles(),
-                    outputfiles.getControlTreatmentCommonPeakBed(), outputfiles.getDeseqRcode(),
-                    atacSeqDiffInput.getPvalue(), atacSeqDiffInput.getFoldChange(), outputfiles.getVolcanoPlot(), outputfiles.getPcaPlot());
+            DESeq2 deseq2 = new DESeq2(gdiff_outputfiles.getDeseqResult(), gdiff_Input.getDiffInputfiles(),
+                    gdiff_outputfiles.getControlTreatmentCommonPeakBed(), gdiff_outputfiles.getDeseqRcode(),
+                    gdiff_Input.getPvalue(), gdiff_Input.getFoldChange(), gdiff_outputfiles.getVolcanoPlot(), gdiff_outputfiles.getPcaPlot());
 
-            doNext = runDifferentialAnalysis(atacSeqDiffInput, deseq2);
+            doNext = runDifferentialAnalysis(gdiff_Input, deseq2);
 
             if (doNext) {
                 System.out.println("---------- Display volcano plot ----------");
                 resultFrame.displayVplot(deseq2.getVolcanoPlotFile());
                 resultFrame.displayPCAplot(deseq2.getPcaPlotFile());
+                
+                excelPrinter.setSheetName("VolcanoPlot");
+                excelPrinter.printImage(deseq2.getVolcanoPlotFile(), sheetNumber++, 15, 20);
+                excelPrinter.setSheetName("PCA_plot");
+                excelPrinter.printImage(deseq2.getPcaPlotFile(), sheetNumber++, 15, 20);
+                
             } else {
                 System.err.println("Error in the differential analysis step");
             }
@@ -83,8 +94,8 @@ public class DifferentialAnalysisWorkflow {
         if (doNext) {
             System.out.println("---------- functional annotation ----------");
 
-            ChIPpeakAnno chipPeakAnno = outputfiles.getChipPeakAnno();
-            doNext =  runFunctionalAnnotation(atacSeqDiffInput, chipPeakAnno);
+            ChIPpeakAnno chipPeakAnno = gdiff_outputfiles.getChipPeakAnno();
+            doNext =  runFunctionalAnnotation(gdiff_Input, chipPeakAnno);
 
             if (doNext) {
                 System.out.println("---------- Display go and pathway results and plots ----------");
@@ -92,11 +103,24 @@ public class DifferentialAnalysisWorkflow {
                 resultFrame.displayBarChart(chipPeakAnno.getBarChart());
                 resultFrame.displayGO(chipPeakAnno.getGoAnalysisOutputFile());
                 resultFrame.displayPathways(chipPeakAnno.getPathwayAnalysisOutputFile());
+                
+                
+                excelPrinter.setSheetName("AnnotatedPeaks");
+                excelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated(),sheetNumber++);
+                
+                excelPrinter.setSheetName("BarChart");
+                excelPrinter.printImage(chipPeakAnno.getBarChart(), sheetNumber++, 15, 25);
+                
+                excelPrinter.setSheetName("GeneOntology");
+                excelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile(), sheetNumber++);
+                
+                excelPrinter.setSheetName("Pathways");
+                excelPrinter.printPathwayTable(chipPeakAnno.getPathwayAnalysisOutputFile(), sheetNumber++);
             }
         }
 
         if (doNext) {
-            doNext = deleteIntermediateFiles(outputfiles);
+            doNext = deleteIntermediateFiles(gdiff_outputfiles);
         }
 
         if (!doNext) {
@@ -111,7 +135,7 @@ public class DifferentialAnalysisWorkflow {
 
     public boolean startCommandlineDifferentialAnalysis(GdiffInput atacSeqDiffInput) {
         boolean doNext = true;
-        // get outputfiles
+        // get gdiff_outputfiles
         DifferentialOutputFiles outputfiles = atacSeqDiffInput.getDifferentialOutputFiles();
         
         // create output dir
@@ -145,7 +169,7 @@ public class DifferentialAnalysisWorkflow {
 
         if (doNext) {
             System.out.println("---------- Run Functional analysis ----------");
-            //doNext = createGOPathwayRcode(outputfiles, atacSeqDiffInput.getUpstream(), atacSeqDiffInput.getDownstream());
+            //doNext = createGOPathwayRcode(gdiff_outputfiles, atacSeqDiffInput.getUpstream(), atacSeqDiffInput.getDownstream());
             ChIPpeakAnno chipPeakAnno =  ChIPpeakAnno.getChIPpeakAnnoObject(outputfiles.getDeseqResult(),
                     atacSeqDiffInput.getProjectName(), "BED", atacSeqDiffInput.getGenome());
             doNext = runFunctionalAnnotation(atacSeqDiffInput, chipPeakAnno);

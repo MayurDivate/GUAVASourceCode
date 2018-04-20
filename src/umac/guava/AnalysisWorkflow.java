@@ -224,7 +224,7 @@ public class AnalysisWorkflow {
                 ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile(),"GO",5);
             }
             if(chipPeakAnno.getPathwayAnalysisOutputFile().isFile()){
-                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getPathwayAnalysisOutputFile(),"Pathways",6);
+                ExcelPrinter.printPathwayTable(chipPeakAnno.getPathwayAnalysisOutputFile(),"Pathways",6);
             }
             
             chipPeakAnno.deleteFile(chipPeakAnno.getrCodeFile());

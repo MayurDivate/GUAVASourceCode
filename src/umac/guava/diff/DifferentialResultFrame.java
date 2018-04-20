@@ -42,6 +42,8 @@ import umac.guava.IGVdataTrack;
  * @author mayurdivate
  */
 public class DifferentialResultFrame extends javax.swing.JFrame {
+    
+    public static Genome genome;
 
     /**
      * Creates new form DifferentialResultFrame
@@ -503,9 +505,6 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
 
     private void jButtonIGVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIGVActionPerformed
         
-        String build = "hg19";
-        Genome genome = Genome.getGenomeObject(build);
-        
         if(jTableDifferentialPeaks.getSelectedRow() > -1){
             int rowIndex = jTableDifferentialPeaks.convertRowIndexToModel(jTableDifferentialPeaks.getSelectedRow());
             TableModel tableModel = jTableDifferentialPeaks.getModel();
@@ -515,10 +514,10 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             int end = Integer.parseInt(tableModel.getValueAt(rowIndex, 2).toString());
             int distance = 100;
             
-            File[] tracks =  IGVdataTrack.getDifferentialTracks(DifferentialInputFrame1.dfInputList,genome);
-            tracks[tracks.length - 1] = DifferentialOutputFiles.getDifferentialOutputFiles(outputFolder).getControlTreatmentCommonPeakBed();
+            File[] tracks =  IGVdataTrack.getDifferentialTracks(DifferentialInputFrame1.dfInputList, DifferentialResultFrame.genome);
+            tracks[tracks.length - 1] = DifferentialOutputFiles.getDifferentialOutputFiles(outputFolder,DifferentialResultFrame.genome).getControlTreatmentCommonPeakBed();
             
-            IGV.genome = genome;
+            IGV.genome = DifferentialResultFrame.genome;
             IGV igv =  new IGV(tracks, chr, start, end, distance);
             
             Thread t1 = new Thread(igv);
@@ -765,8 +764,6 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         dfModel.addRow(rowData);
         }
     
-        
-        
     }
     
     static File outputFolder;

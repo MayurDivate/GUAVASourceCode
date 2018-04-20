@@ -44,10 +44,11 @@ public class DifferentialOutputFiles {
     private File pcaPlot;
     private File diffpeakBed;
     private ChIPpeakAnno chipPeakAnno;
+    private File outExcel;
     
     public DifferentialOutputFiles(File outputFolder, File controlTreatmentCommonPeakBed,
             File deseqRcode, File deseqResult, File volcanoPlot, File pcaplot,
-            File diffpeakBed, ChIPpeakAnno chipPeakAnno) {
+            File diffpeakBed, ChIPpeakAnno chipPeakAnno, File outExcel) {
         this.outputFolder = outputFolder;
         this.controlTreatmentCommonPeakBed = controlTreatmentCommonPeakBed;
         this.deseqRcode = deseqRcode;
@@ -56,9 +57,10 @@ public class DifferentialOutputFiles {
         this.pcaPlot = pcaplot;    
         this.diffpeakBed = diffpeakBed;
         this.chipPeakAnno = chipPeakAnno;
+        this.outExcel = outExcel;
     }
     
-    public static DifferentialOutputFiles getDifferentialOutputFiles(File destination){
+    public static DifferentialOutputFiles getDifferentialOutputFiles(File destination, Genome genome){
         
         String project = DifferentialInputFrame1.projectName + "_";
         
@@ -71,13 +73,12 @@ public class DifferentialOutputFiles {
         File deseqResult         = new File(outputFolder, project + "DESeq2_results.txt");
         File vplot               = new File(outputFolder, project + "vplot.jpg");
         File pcaPlot             = new File(outputFolder, project + "PCA_plot.jpg");
-        
-        Genome genome = Genome.getGenomeObject("hg19");
+        File outExcel             = new File(outputFolder, project + "Results.xlsx");
         
         ChIPpeakAnno chipPeakAnno = ChIPpeakAnno.getChIPpeakAnnoObject(deseqResult, project, "BED", genome);
         
         DifferentialOutputFiles dof = new DifferentialOutputFiles(outputFolder, controlTreatmentBed,
-                deseqRcode, deseqResult, vplot, pcaPlot, diffPeakBed, chipPeakAnno);
+                deseqRcode, deseqResult, vplot, pcaPlot, diffPeakBed, chipPeakAnno,outExcel);
         
         GuavaOutputFiles.logFile = DifferentialOutputFiles.getLogFile();
 
@@ -267,6 +268,20 @@ public class DifferentialOutputFiles {
 
     public void setPcaPlot(File pcaPlot) {
         this.pcaPlot = pcaPlot;
+    }
+
+    /**
+     * @return the outExcel
+     */
+    public File getOutExcel() {
+        return outExcel;
+    }
+
+    /**
+     * @param outExcel the outExcel to set
+     */
+    public void setOutExcel(File outExcel) {
+        this.outExcel = outExcel;
     }
 
     
