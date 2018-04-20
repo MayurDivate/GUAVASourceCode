@@ -71,10 +71,10 @@ public class Pathway {
                 String[] lineData = line.split("\t");
 
                 if (lineData.length == 11) {
-                    String pathwayID = lineData[1];
-                    String pathwayName = lineData[9];
-                    double adjPvalue = Double.parseDouble(lineData[3]);
-                    double pvalue = Double.parseDouble(lineData[8]);
+                    String pathwayID = lineData[1];                         
+                    String pathwayName = lineData[9];                       
+                    double pvalue = Double.parseDouble(lineData[3]);
+                    double adjPvalue = Double.parseDouble(lineData[8]);     
                     String entrezID = lineData[2];
                     String geneSymbol = lineData[10];
 

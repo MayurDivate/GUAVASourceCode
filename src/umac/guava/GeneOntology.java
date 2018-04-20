@@ -67,52 +67,6 @@ public class GeneOntology {
         this.geneSymbols = geneSymbol;
     }
 
-    public static HashMap<GeneOntology, GeneOntology> parseDiffGeneOntologyAnalysisOutput(File goAnalysisFile) {
-
-        try {
-
-            FileReader goFileReader = new FileReader(goAnalysisFile);
-            BufferedReader goBufferedReader = new BufferedReader(goFileReader);
-            String line = goBufferedReader.readLine(); // discarding line 1
-            HashMap<GeneOntology, GeneOntology> goHashMap = new HashMap<>();
-
-            while ((line = goBufferedReader.readLine()) != null) {
-
-                line = line.replaceAll("\"", "");
-                String[] lineData = line.split("\t");
-
-                //"go.id"	"go.term"	"Definition"	"Ontology"	"pvalue"	"EntrezID"	"symbol"
-                String id = lineData[1];
-                String term = lineData[2];
-                String def = lineData[3];
-                String type = lineData[4];
-                double pvalue = Double.parseDouble(lineData[5]);
-                String entrezIDs = lineData[6];
-                String symbol = lineData[7];
-
-                GeneOntology go = new GeneOntology(id, term, def, type, pvalue, entrezIDs, symbol);
-
-                if (!goHashMap.containsKey(go)) {
-                    goHashMap.put(go, go);
-                } else {
-                    goHashMap.get(go).addEntrezID(lineData[6]);
-                    goHashMap.get(go).addGeneSymbol(lineData[7]);
-                }
-
-            }
-
-            return goHashMap;
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GeneOntology.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(GeneOntology.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return null;
-
-    }
-
     public static HashMap<GeneOntology, GeneOntology> parseGOAnalysisOutputFile(File goAnalysisFile) {
         //System.out.println("umac.guava.GeneOntology.parseGOAnalysisOutputFile()");
         try {
@@ -126,15 +80,15 @@ public class GeneOntology {
                 String[] lineData = line.split("\t");
 
                 if (lineData.length == 13) {
-                    String goID = lineData[1];
-                    String goTerm = lineData[2];
-                    String goDef = lineData[3];
-                    String goType = lineData[4];
-                    double pvalue = Double.parseDouble(lineData[5]);
-                    double adjPvalue = Double.parseDouble(lineData[10]);
-                    int count = Integer.parseInt(lineData[6]);
-                    String entrezID = lineData[11];
-                    String geneSymbol = lineData[12];
+                    String goID = lineData[1];  //
+                    String goTerm = lineData[2];    //  
+                    String goDef = lineData[3];     //
+                    String goType = lineData[4];    //
+                    double pvalue = Double.parseDouble(lineData[5]);    //
+                    double adjPvalue = Double.parseDouble(lineData[10]);    //
+                    int count = Integer.parseInt(lineData[6]);  //
+                    String entrezID = lineData[11]; //
+                    String geneSymbol = lineData[12];   //
 
                     GeneOntology go = new GeneOntology(goTerm, goID, goDef, goType,
                             pvalue, adjPvalue, count, entrezID, geneSymbol);

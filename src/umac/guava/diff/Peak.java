@@ -105,7 +105,7 @@ public class Peak {
     // Merge Two Peak list
     
     public ArrayList<Peak> mergeOverlappingPeaks(ArrayList<Peak> peakList){
-        System.out.println("Input peaks == "+peakList.size());
+        //System.out.println("Input peaks == "+peakList.size());
 
         // sort peaks
         Collections.sort(peakList,new PeakSortComparator());
@@ -151,13 +151,13 @@ public class Peak {
            
         }
         
-        System.out.println("New mothod merged List => "+resultPeakList.size());
+        //System.out.println("New mothod merged List => "+resultPeakList.size());
         return resultPeakList;
     }
     
     
     public ArrayList<Peak> mergeOnlyOverlappingPeaks(ArrayList<Peak> peakList){
-        System.out.println("Input peaks == "+peakList.size());
+        //System.out.println("Input peaks == "+peakList.size());
 
         // sort peaks
         Collections.sort(peakList,new PeakSortComparator());
@@ -207,20 +207,20 @@ public class Peak {
            
         }
         
-        System.out.println("merged List => "+resultPeakList.size());
+        //System.out.println("merged List => "+resultPeakList.size());
         return resultPeakList;
     }
     
     
     public ArrayList<Peak> mergePeakLists(ArrayList<Peak> list1, ArrayList<Peak> list2){
-        System.out.println("Merge Control and Treatment <"+list1.size()+" + "+list2.size()+">");
+        //System.out.println("Merge Control and Treatment <"+list1.size()+" + "+list2.size()+">");
         
         ArrayList<Peak> uniquePeaks = getUniquePeaks(list1, list2);
         ArrayList<Peak> meregedPeaks = new ArrayList<>();
-        System.out.println("Non redundant Peaks ==> "+uniquePeaks.size());
+        //System.out.println("Non redundant Peaks ==> "+uniquePeaks.size());
         
         meregedPeaks = mergeOverlappingPeaks(uniquePeaks);
-        System.out.println("Merged unique Peaks ==> "+meregedPeaks.size());
+        //System.out.println("Merged unique Peaks ==> "+meregedPeaks.size());
         return meregedPeaks;
     }
     

@@ -396,7 +396,6 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
         
         boolean flag = true;
         
-        
         // Check project name 
         if(!isProjectName()){
             jLabelProjectName.setForeground(Color.red);
@@ -420,6 +419,8 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
                     DifferentialInputFrame1.dfInputList.add(dfInput);
                 }
             }
+            
+            flag = validateInputFiles(DifferentialInputFrame1.dfInputList);
         }
         else if(flag) {
             JOptionPane.showMessageDialog(null, "Please add both control and treatment files to proceed further");
@@ -435,6 +436,28 @@ public class DifferentialInputFrame1 extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButtonNextActionPerformed
 
+    private boolean validateInputFiles(ArrayList<DifferentialInputFile> dflist){
+       
+        int controlCount = 0 ;
+        int treatmentCount = 0 ;
+        
+        for(DifferentialInputFile f : dflist){
+            if(f.getCondition().equalsIgnoreCase("Control")){
+                controlCount++;
+            }
+           
+            if(f.getCondition().equalsIgnoreCase("Treatment")){
+                treatmentCount++;
+            }
+        }
+        
+        if(controlCount > 3 && treatmentCount > 3){
+            return true;
+        }
+        return false;
+        
+    }
+    
     private boolean isProjectName(){
 
         String  projetctName =  jTextFieldProjectName.getText();

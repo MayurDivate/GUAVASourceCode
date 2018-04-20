@@ -161,8 +161,8 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         jPanelVolcanoPlotLayout.setHorizontalGroup(
             jPanelVolcanoPlotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelVolcanoPlotLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelVplot, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jLabelVplot, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanelVolcanoPlotLayout.setVerticalGroup(
@@ -559,6 +559,10 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             jTextFieldSerachKey.setEnabled(true);
             jTextFieldSerachKey.setEditable(true);
             jLabelGeneSearch.setEnabled(true);
+            jTextFieldSerachKey.setVisible(true);
+            jLabelGeneSearch.setVisible(true);
+            jButtonIGV.setVisible(true);
+            
         }else{
             jButtonIGV.setEnabled(false);
             jTextFieldSerachKey.setEnabled(false);

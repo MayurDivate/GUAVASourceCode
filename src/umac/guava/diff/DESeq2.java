@@ -273,7 +273,7 @@ public class DESeq2 extends Program {
         String[] log = new String[2];
 
         try {
-            System.out.println(getArrayToString(commandArray));
+            
             ProcessBuilder processBuilder = new ProcessBuilder(commandArray);
             Process process = processBuilder.start();
             String stdOUT = getSTDoutput(process);
