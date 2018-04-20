@@ -57,13 +57,13 @@ public class DifferentialAnalysisWorkflow {
         doNext = outputfiles.writeSummary(atacSeqDiffInput);
 
         if (doNext) {
-            System.out.println("---------- create common peaks ----------");
+            System.out.println("---------- Create read count matrix ----------");
             int minRep = 1; // to get peaks present in min number of replicates;
             doNext = createCommonPeakList(atacSeqDiffInput.getDiffInputfiles(), outputfiles.getControlTreatmentCommonPeakBed(), minRep);
         }
 
         if (doNext) {
-            System.out.println("---------- create DESeq2 code ----------");
+            System.out.println("---------- Run DESeq2 code ----------");
 
             DESeq2 deseq2 = new DESeq2(outputfiles.getDeseqResult(), atacSeqDiffInput.getDiffInputfiles(),
                     outputfiles.getControlTreatmentCommonPeakBed(), outputfiles.getDeseqRcode(),
@@ -164,15 +164,14 @@ public class DifferentialAnalysisWorkflow {
 
     public boolean createCommonPeakList(ArrayList<DifferentialInputFile> inputFiles, File outFile, int minRep) {
 
-        System.out.println("umac.guava.diff.DifferentialAnalysisFlow.createCommonPeakList()" + "BUG");
        
         //get control common peaks  
         ArrayList<Peak> controlCommonPeaks = getCommonPeaksForConditionByOverlap(inputFiles, "control", minRep);
-        System.out.println("=======>" + "Control peaks == " + controlCommonPeaks.size());
+        //System.out.println("=======>" + "Control peaks == " + controlCommonPeaks.size());
 
         //get treatment common peaks  
         ArrayList<Peak> treatmentCommonPeaks = getCommonPeaksForConditionByOverlap(inputFiles, "treatment", minRep);
-        System.out.println("=======>" + "Treatment peaks == " + treatmentCommonPeaks.size());
+        //System.out.println("=======>" + "Treatment peaks == " + treatmentCommonPeaks.size());
 
         //get control-treatment common peaks  
         if (controlCommonPeaks != null && treatmentCommonPeaks != null) {
@@ -183,16 +182,11 @@ public class DifferentialAnalysisWorkflow {
                 return commonPeaks.get(0).writePeaks(commonPeaks, outFile);
             }
         }
-        /**
-         * *******************************************************
-         */
+        
         return false;
     }
 
     public boolean runDifferentialAnalysis(GdiffInput gdiffInput, DESeq2 deseq2) {
-        System.out.println("umac.guava.diff.DifferentialAnalysisWorkflow.runDifferentialAnalysis()");
-
-        System.out.println("Step 1: create and Write R Code");
         // DESeq2 code
         String code = deseq2.getDESeq2Code(gdiffInput.getCpus());
 
@@ -225,22 +219,24 @@ public class DifferentialAnalysisWorkflow {
 
     public boolean runFunctionalAnnotation(GdiffInput gdiffInput, ChIPpeakAnno chipPeakaAnno) {
 
-        System.out.println("umac.guava.diff.DifferentialAnalysisWorkflow.runFunctionalAnnotation()");
-
         String chipPeakAnnoCode = chipPeakaAnno.getChIPpeakAnnoDiffRcode(gdiffInput.getUpstream(), gdiffInput.getDownstream());
         
         if (chipPeakaAnno.writeCode(chipPeakAnnoCode, chipPeakaAnno.getrCodeFile())) {
-            System.out.println("run chippeaknno");
             String[] log = chipPeakaAnno.runCommand(chipPeakaAnno.getCommand());
-            chipPeakaAnno.writeLog(log, "----------- ChIPpeakAnno -----------");
             return chipPeakaAnno.isSuccessful(log);
         }
         return false;
     }
 
     boolean deleteIntermediateFiles(DifferentialOutputFiles outFiles) {
-        boolean flag = false;
-
+        
+        if(!deleteFile(outFiles.getDeseqRcode())){
+            return false;
+        }
+        if(!deleteFile(outFiles.getChipPeakAnno().getrCodeFile())){
+            return false;
+        }
+        
         return true;
     }
 
@@ -280,6 +276,16 @@ public class DifferentialAnalysisWorkflow {
             }
         }
         return dir.delete();
+    }
+    
+    public boolean deleteFile(File file){
+        if(file.exists() && file.isFile()){
+            return file.delete();
+        }
+        else if(!file.exists()){
+            return true;
+        }
+        return false;
     }
 
 }

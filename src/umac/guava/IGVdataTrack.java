@@ -140,10 +140,6 @@ public class IGVdataTrack {
                     }
                 }else{
                     igvtracks[tindex] = bwFile;
-                    System.out.println("umac.guava.IGVdataTrack.getDifferentialTracks()");
-                    System.out.println(">>>"+bwFile.getAbsolutePath());
-                    System.out.println("igvtracks["+tindex+"]");
-                    System.out.println(igvtracks[tindex].getAbsolutePath());
                     tindex++;
                 }
             }

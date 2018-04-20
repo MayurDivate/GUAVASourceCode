@@ -370,7 +370,7 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             jTextFieldUpstream.setForeground(Color.red);
         }
         
-        if(jComboBoxGenome.getSelectedIndex() > 0){
+        if(jComboBoxGenome.getSelectedIndex() == 0){
             flag = false;
             jLabelGenome.setForeground(Color.red);
         }

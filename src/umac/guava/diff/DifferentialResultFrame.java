@@ -59,23 +59,27 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelMain = new javax.swing.JPanel();
         jOutputTabs = new javax.swing.JTabbedPane();
+        jPanelSummary = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSummary = new javax.swing.JTable();
         jPanelVolcanoPlot = new javax.swing.JPanel();
         jLabelVplot = new javax.swing.JLabel();
         jPanelPCA = new javax.swing.JPanel();
         jLabelPCAplot = new javax.swing.JLabel();
+        jPanelAnnotatedPeaks = new javax.swing.JPanel();
         jScrollPaneAnnotatedPeaks = new javax.swing.JScrollPane();
         jTableDifferentialPeaks = new javax.swing.JTable();
         jPanelBarChart = new javax.swing.JPanel();
         jLabelBarChart = new javax.swing.JLabel();
+        jPanelGO = new javax.swing.JPanel();
         jScrollPaneGoTable = new javax.swing.JScrollPane();
         jTableGO = new javax.swing.JTable();
+        jPanelPathway = new javax.swing.JPanel();
         jScrollPanePathwayTable = new javax.swing.JScrollPane();
         jTablePathway = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
+        jPanelFooter = new javax.swing.JPanel();
         jButtonOuputFolder = new javax.swing.JButton();
         jLabelGeneSearch = new javax.swing.JLabel();
         jTextFieldSerachKey = new javax.swing.JTextField();
@@ -92,12 +96,16 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         setResizable(false);
 
         jOutputTabs.setBackground(new java.awt.Color(153, 153, 153));
+        jOutputTabs.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.gray, java.awt.Color.gray));
+        jOutputTabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jOutputTabs.setPreferredSize(new java.awt.Dimension(780, 480));
         jOutputTabs.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jOutputTabsMouseClicked(evt);
             }
         });
+
+        jPanelSummary.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         jTableSummary.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTableSummary.setFont(new java.awt.Font("Andale Mono", 0, 14)); // NOI18N
@@ -117,9 +125,8 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableSummary.setGridColor(new java.awt.Color(153, 153, 153));
         jTableSummary.setRowHeight(25);
-        jTableSummary.setShowGrid(true);
+        jTableSummary.setShowGrid(false);
         jScrollPane1.setViewportView(jTableSummary);
         if (jTableSummary.getColumnModel().getColumnCount() > 0) {
             jTableSummary.getColumnModel().getColumn(0).setMinWidth(200);
@@ -127,30 +134,49 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             jTableSummary.getColumnModel().getColumn(0).setMaxWidth(250);
         }
 
-        jOutputTabs.addTab("Summary", jScrollPane1);
+        javax.swing.GroupLayout jPanelSummaryLayout = new javax.swing.GroupLayout(jPanelSummary);
+        jPanelSummary.setLayout(jPanelSummaryLayout);
+        jPanelSummaryLayout.setHorizontalGroup(
+            jPanelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSummaryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanelSummaryLayout.setVerticalGroup(
+            jPanelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSummaryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jOutputTabs.addTab("Summary", jPanelSummary);
 
         jPanelVolcanoPlot.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelVolcanoPlot.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         javax.swing.GroupLayout jPanelVolcanoPlotLayout = new javax.swing.GroupLayout(jPanelVolcanoPlot);
         jPanelVolcanoPlot.setLayout(jPanelVolcanoPlotLayout);
         jPanelVolcanoPlotLayout.setHorizontalGroup(
             jPanelVolcanoPlotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelVolcanoPlotLayout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(jLabelVplot, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelVolcanoPlotLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelVplot, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanelVolcanoPlotLayout.setVerticalGroup(
             jPanelVolcanoPlotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelVolcanoPlotLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jLabelVplot, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabelVplot, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jOutputTabs.addTab("Volcano Plot", jPanelVolcanoPlot);
 
         jPanelPCA.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelPCA.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         jLabelPCAplot.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -158,20 +184,22 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         jPanelPCA.setLayout(jPanelPCALayout);
         jPanelPCALayout.setHorizontalGroup(
             jPanelPCALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPCALayout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(jLabelPCAplot, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77))
+            .addGroup(jPanelPCALayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(jLabelPCAplot, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanelPCALayout.setVerticalGroup(
             jPanelPCALayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPCALayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelPCAplot, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                .addComponent(jLabelPCAplot, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jOutputTabs.addTab("PCA Plot", jPanelPCA);
+
+        jPanelAnnotatedPeaks.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         jTableDifferentialPeaks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -206,9 +234,21 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         });
         jScrollPaneAnnotatedPeaks.setViewportView(jTableDifferentialPeaks);
 
-        jOutputTabs.addTab("Annotated Peaks", jScrollPaneAnnotatedPeaks);
+        javax.swing.GroupLayout jPanelAnnotatedPeaksLayout = new javax.swing.GroupLayout(jPanelAnnotatedPeaks);
+        jPanelAnnotatedPeaks.setLayout(jPanelAnnotatedPeaksLayout);
+        jPanelAnnotatedPeaksLayout.setHorizontalGroup(
+            jPanelAnnotatedPeaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneAnnotatedPeaks, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
+        );
+        jPanelAnnotatedPeaksLayout.setVerticalGroup(
+            jPanelAnnotatedPeaksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneAnnotatedPeaks, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+        );
+
+        jOutputTabs.addTab("Annotated Peaks", jPanelAnnotatedPeaks);
 
         jPanelBarChart.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelBarChart.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         javax.swing.GroupLayout jPanelBarChartLayout = new javax.swing.GroupLayout(jPanelBarChart);
         jPanelBarChart.setLayout(jPanelBarChartLayout);
@@ -216,18 +256,20 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBarChartLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelBarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)
+                .addComponent(jLabelBarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelBarChartLayout.setVerticalGroup(
             jPanelBarChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBarChartLayout.createSequentialGroup()
+            .addGroup(jPanelBarChartLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelBarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                .addComponent(jLabelBarChart, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jOutputTabs.addTab("Bar Chart", jPanelBarChart);
+
+        jPanelGO.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         jTableGO.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -275,7 +317,20 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             jTableGO.getColumnModel().getColumn(5).setPreferredWidth(100);
         }
 
-        jOutputTabs.addTab("GO analysis", jScrollPaneGoTable);
+        javax.swing.GroupLayout jPanelGOLayout = new javax.swing.GroupLayout(jPanelGO);
+        jPanelGO.setLayout(jPanelGOLayout);
+        jPanelGOLayout.setHorizontalGroup(
+            jPanelGOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneGoTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
+        );
+        jPanelGOLayout.setVerticalGroup(
+            jPanelGOLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneGoTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+        );
+
+        jOutputTabs.addTab("Gene Ontology", jPanelGO);
+
+        jPanelPathway.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
         jTablePathway.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -314,27 +369,38 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             jTablePathway.getColumnModel().getColumn(4).setPreferredWidth(130);
         }
 
-        jOutputTabs.addTab("Pathway Analysis", jScrollPanePathwayTable);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jOutputTabs, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanelPathwayLayout = new javax.swing.GroupLayout(jPanelPathway);
+        jPanelPathway.setLayout(jPanelPathwayLayout);
+        jPanelPathwayLayout.setHorizontalGroup(
+            jPanelPathwayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPanePathwayTable, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelPathwayLayout.setVerticalGroup(
+            jPanelPathwayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPanePathwayTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+        );
+
+        jOutputTabs.addTab("Pathway", jPanelPathway);
+
+        javax.swing.GroupLayout jPanelMainLayout = new javax.swing.GroupLayout(jPanelMain);
+        jPanelMain.setLayout(jPanelMainLayout);
+        jPanelMainLayout.setHorizontalGroup(
+            jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMainLayout.createSequentialGroup()
+                .addComponent(jOutputTabs, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelMainLayout.setVerticalGroup(
+            jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMainLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(jOutputTabs, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.setMaximumSize(new java.awt.Dimension(780, 45));
-        jPanel3.setMinimumSize(new java.awt.Dimension(780, 45));
-        jPanel3.setPreferredSize(new java.awt.Dimension(780, 45));
+        jPanelFooter.setMaximumSize(new java.awt.Dimension(780, 45));
+        jPanelFooter.setMinimumSize(new java.awt.Dimension(780, 45));
+        jPanelFooter.setPreferredSize(new java.awt.Dimension(780, 45));
 
         jButtonOuputFolder.setText("Output Folder");
         jButtonOuputFolder.setPreferredSize(new java.awt.Dimension(150, 30));
@@ -373,11 +439,11 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelFooterLayout = new javax.swing.GroupLayout(jPanelFooter);
+        jPanelFooter.setLayout(jPanelFooterLayout);
+        jPanelFooterLayout.setHorizontalGroup(
+            jPanelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFooterLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jButtonOuputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -390,11 +456,11 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        jPanelFooterLayout.setVerticalGroup(
+            jPanelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFooterLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOuputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelGeneSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldSerachKey, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -415,20 +481,19 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelFooter, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE))
                 .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jPanelFooter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10))
         );
 
@@ -490,8 +555,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     private void jOutputTabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jOutputTabsMouseClicked
         // TODO add your handling code here:
         
-        if(jOutputTabs.getSelectedIndex() == 2 || jOutputTabs.getSelectedIndex() == 4 || jOutputTabs.getSelectedIndex() == 5 ){
-            jButtonIGV.setEnabled(true);
+        if(jOutputTabs.getSelectedIndex() == 3){
             jTextFieldSerachKey.setEnabled(true);
             jTextFieldSerachKey.setEditable(true);
             jLabelGeneSearch.setEnabled(true);
@@ -500,6 +564,9 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             jTextFieldSerachKey.setEnabled(false);
             jTextFieldSerachKey.setEditable(false);
             jLabelGeneSearch.setEnabled(false);
+            jTextFieldSerachKey.setVisible(false);
+            jLabelGeneSearch.setVisible(false);
+            jButtonIGV.setVisible(false);
         }
     }//GEN-LAST:event_jOutputTabsMouseClicked
 
@@ -712,10 +779,14 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JTabbedPane jOutputTabs;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanelAnnotatedPeaks;
     private javax.swing.JPanel jPanelBarChart;
+    private javax.swing.JPanel jPanelFooter;
+    private javax.swing.JPanel jPanelGO;
+    private javax.swing.JPanel jPanelMain;
     private javax.swing.JPanel jPanelPCA;
+    private javax.swing.JPanel jPanelPathway;
+    private javax.swing.JPanel jPanelSummary;
     private javax.swing.JPanel jPanelVolcanoPlot;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneAnnotatedPeaks;

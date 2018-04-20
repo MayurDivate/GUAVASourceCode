@@ -192,7 +192,7 @@ public class ChIPpeakAnno extends Tool {
         code = code + "" + "\n";
 
         // barplot 
-        code = code + getBarChartCode(this.getBarChart());
+        code = code + getBarChartCode(this.getBarChart(), 750, 400);
         code = code + "write.table(acrDF[,c(1,3)],file = \"" + this.getAcrTxt() + "\",sep = \"\\t\", quote = FALSE)" + "\n";
 
         // write acr.txt
@@ -231,9 +231,14 @@ public class ChIPpeakAnno extends Tool {
     }
 
     String getBarChartCode(File barPlotFile) {
-
-        int width = 757;
-        int height = 420;
+      int width = 757;
+      int height = 420;
+      return getBarChartCode(barPlotFile,width,height);
+    }
+    
+    
+    String getBarChartCode(File barPlotFile, int width, int height ) {
+        
         int legendFS = 12;
         int titleFS = 15;
 

@@ -66,7 +66,7 @@ public class DESeq2 extends Program {
             if (this.dfInputFiles.get(index).getType().equalsIgnoreCase("bam")) {
 
                 if (this.dfInputFiles.get(index).getCondition().equalsIgnoreCase("control")) {
-                    coldata_conditons = coldata_conditons + "\"" + "untreated" + "\",";
+                    coldata_conditons = coldata_conditons + "\"" + "control" + "\",";
                 } else {
                     coldata_conditons = coldata_conditons + "\"" + "treated" + "\",";
                 }
@@ -126,7 +126,7 @@ public class DESeq2 extends Program {
                 + "dds <- dds[keep,]" + "\n"
                 + "\n" + ""
                 + "### relevel conditions\n"
-                + "dds$condition <- factor(dds$condition , levels=c(\"untreated\",\"treated\"))" + "\n"
+                + "dds$condition <- factor(dds$condition , levels=c(\"control\",\"treated\"))" + "\n"
                 + "dds <- DESeq(dds)" + "\n"
                 + "res <- results(dds)" + "\n"
                 + "\n";
@@ -162,7 +162,7 @@ public class DESeq2 extends Program {
 
     private String getPlotPCACode() {
 
-        int width = 600;
+        int width = 640;
         int height = 400;
 
         String code = "\n"
@@ -175,6 +175,8 @@ public class DESeq2 extends Program {
                 + "  geom_point(size=3) +\n"
                 + "  xlab(paste0(\"PC1: \",percentVar[1],\"% variance\")) +\n"
                 + "  ylab(paste0(\"PC2: \",percentVar[2],\"% variance\")) \n"
+                + "p <- p + theme(legend.text = element_text(size = 11))\n"
+                + "p <- p + theme(legend.title = element_text(size = 12))\n"
                 + "\n"
                 + "jpeg(\"" + this.getPcaPlotFile().getAbsolutePath() + "\",width = " + width + ", height = " + height + ")\n"
                 + "print(p)\n"
@@ -186,7 +188,7 @@ public class DESeq2 extends Program {
 
     private String getVplotCode(double pvalue, double foldChange, File outFile) {
         int height = 400;
-        int width = 600;
+        int width = 730;
 
         String code = "";
         code = code + "\n"
@@ -201,7 +203,7 @@ public class DESeq2 extends Program {
                 + "plotDF$regulation <- factor(plotDF$regulation,levels = c(closeText,noText,openText))" + "\n"
                 + "downColor <- \"red\"" + "\n"
                 + "noChangeColor <- \"black\"" + "\n"
-                + "upColor <- \"green\"" + "\n"
+                + "upColor <- \"green4\"" + "\n"
                 + "levels(plotDF$regulation)" + "\n"
                 + "titleSum <- summary(plotDF$regulation)" + "\n"
                 + "titleSum" + "\n"
@@ -217,19 +219,22 @@ public class DESeq2 extends Program {
                 + "}" + "\n"
                 + "\n" 
                 + "plotSubTitle <- paste(paste(\"gained-closed regions =\",closeX,sep = \" \")," + "\n"
-                + "                      paste(\"gained-open regions=\",openX,sep = \" \")," + "\n"
+                + "                      paste(\"gained-open regions =\",openX,sep = \" \")," + "\n"
                 + "                      sep = \"      \")" + "\n"
                 + "\n"
                 + "\n"
+                + "xlimit <- round(max(abs(plotDF$log2FoldChange))+1.1)\n"
+                + ""
                 + "p <- ggplot(plotDF, aes(x = log2FoldChange, y = -1 * log10(pvalue), col=regulation))\n"
-                + "p <- p + geom_point()" + "\n"
+                + "p <- p + geom_point(size=0.8)" + "\n"
                 + "p <- p + scale_color_manual(name = \"Regulation\", values = c(downColor,noChangeColor,upColor))" + "\n"
                 + "p <- p + scale_shape_manual(name = \"Regulation\" , values = c(20,20,20))" + "\n"
+                + "p <- p + scale_x_continuous(limits = c(-xlimit, xlimit))" + "\n"
                 + "p <- p + labs(subtitle = plotSubTitle,x = \"log2(FoldChange)\", y = \"-log10(Pvalue)\")\n"
                 + "p <- p + theme(legend.text = element_text(size = 10))\n"
-                + "p <- p + theme(legend.title = element_text(size = 10))\n"
+                + "p <- p + theme(legend.title = element_text(size = 11))\n"
                 + "p <- p + theme(axis.title = element_text(size = 10))\n"
-                + "p <- p + theme(plot.subtitle = element_text(size = 12,hjust = 0.5))"+ "\n" 
+                + "p <- p + theme(plot.subtitle = element_text(size = 11,hjust = 0.5))"+ "\n" 
                 + "\n" 
                 + "jpeg(" + "\"" + outFile.getAbsoluteFile() + "\"" + ",height=" + height + ",width=" + width + ",res = 100,quality = 100)" + "\n"
                 + "print(p)" + "\n" 
@@ -256,13 +261,10 @@ public class DESeq2 extends Program {
 
     @Override
     public String[] getCommand(File inputFile) {
-        System.out.println("DESeq2");
         String[] commandArray
                 = {"Rscript",
                     inputFile.getAbsolutePath()
                 };
-        System.out.println("umac.guava.diff.DESeq2.getCommand()");
-        printCommand(commandArray);
         return commandArray;
     }
 

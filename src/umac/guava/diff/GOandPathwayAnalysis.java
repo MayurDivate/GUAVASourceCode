@@ -76,13 +76,10 @@ public class GOandPathwayAnalysis extends Program {
     
     @Override
     public String[] getCommand(File inputFile) {
-        System.out.println("DESeq2");
         String[] commandArray =  
             {   "Rscript",
                 inputFile.getAbsolutePath()
             };
-        System.out.println("umac.guava.diff.GOandPathwayAnalysis.getCommand()");
-        printCommand(commandArray);
         return commandArray;
     }
 
