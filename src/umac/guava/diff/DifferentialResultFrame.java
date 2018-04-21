@@ -586,22 +586,6 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         jTableDifferentialPeaks.setRowSorter(tableRowSorter);
         tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+query, geneColumnIndex));
         
-        
-        int goColumnIndex = 5;
-        DefaultTableModel goDfModel =  (DefaultTableModel) jTableGO.getModel();
-        TableRowSorter<DefaultTableModel> goTableRowSorter = new TableRowSorter<DefaultTableModel>(goDfModel);
-        jTableGO.setRowSorter(goTableRowSorter);
-        goTableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+query, goColumnIndex));
-        
-        
-        int pathwayColumnIndex = 4;
-        DefaultTableModel pathwayDfModel =  (DefaultTableModel) jTablePathway.getModel();
-        TableRowSorter<DefaultTableModel> pathwayTableRowSorter = new TableRowSorter<DefaultTableModel>(pathwayDfModel);
-        jTablePathway.setRowSorter(pathwayTableRowSorter);
-        pathwayTableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+query, pathwayColumnIndex));
-        
-        
-        
     }
     
     public void displayVplot(File plot){

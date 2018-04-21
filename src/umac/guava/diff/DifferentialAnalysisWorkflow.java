@@ -45,7 +45,7 @@ public class DifferentialAnalysisWorkflow {
         DifferentialOutputFiles gdiff_outputfiles = gdiff_Input.getDifferentialOutputFiles();
         doNext = createDir(gdiff_outputfiles.getOutputFolder());
         
-        DIfferentialAnalysisExcelPrinter excelPrinter = new DIfferentialAnalysisExcelPrinter(gdiff_outputfiles.getOutExcel(), "summary");
+        DIfferentialAnalysisExcelPrinter excelPrinter = new DIfferentialAnalysisExcelPrinter(gdiff_outputfiles.getOutExcel(), "Summary");
         int sheetNumber = 0;
         excelPrinter.printSummary(gdiff_Input);
         sheetNumber++;
