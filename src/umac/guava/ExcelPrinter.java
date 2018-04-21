@@ -71,6 +71,28 @@ public class ExcelPrinter {
 
     }
 
+    public void setColumnWidth(int colid, int width){
+        
+        try {
+            
+            FileInputStream fileInputStream = new FileInputStream(this.getExcelWorkBook());
+            XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
+            XSSFSheet spreadsheet = workbook.getSheet(this.getSheetName()); 
+            spreadsheet.setColumnWidth(colid, width);
+            
+            FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
+            workbook.write(out);
+            out.close();
+            fileInputStream.close();
+            
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ExcelPrinter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ExcelPrinter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void addAlignmentResults(GuavaInput input, AlignmentResult alignmentResults, String alignmentFilteringSheetName ,boolean bowtie) {
 
         try {
@@ -566,7 +588,11 @@ public class ExcelPrinter {
             SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(workbook, 500, true);
             Sheet sxSheet = sxssfWorkbook.createSheet(this.getSheetName());
             sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
-
+            sxSheet.setColumnWidth(0, 3500);
+            sxSheet.setColumnWidth(1, 10500);
+            sxSheet.setColumnWidth(3, 3500);
+            sxSheet.setColumnWidth(4, 3500);
+            
             if (this.getExcelWorkBook().isFile()) {
                 HashMap<GeneOntology, GeneOntology> goHashMap = GeneOntology.parseGOAnalysisOutputFile(gofile);
 
@@ -660,6 +686,11 @@ public class ExcelPrinter {
             SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(workbook, 500, true);
             Sheet sxSheet = sxssfWorkbook.createSheet(this.getSheetName());
             sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
+            sxSheet.setColumnWidth(0, 3500);
+            sxSheet.setColumnWidth(1, 10500);
+            sxSheet.setColumnWidth(2, 3500);
+            sxSheet.setColumnWidth(3, 3500);
+            
 
             if (this.getExcelWorkBook().isFile()) {
                 HashMap<Pathway, Pathway> pathwayHashMap = Pathway.parsePathwayAnalysisOutputFile(pathwayfile);
@@ -677,7 +708,7 @@ public class ExcelPrinter {
                 headerStyle = getStyle(headerStyle, 1);
 
                 Row row = sxSheet.createRow(rowid++);
-                String[] headerData = {"KEGG ID", "Pathways Name", "P value", "adj. P value"};
+                String[] headerData = {"KEGG ID", "Pathway Name", "P value", "adj. P value"};
 
                 int cellid = 0;
                 for (String item : headerData) {
@@ -832,11 +863,11 @@ public class ExcelPrinter {
 
     }
 
-    public void printImage(File imageFile, int sheetNumber, double ncols, double nrows) {
-        printImage(imageFile, sheetNumber, ncols, nrows, 1, 1);
+    public void printImage(File imageFile, int sheetNumber, double nrows, double ncols) {
+        printImage(imageFile, sheetNumber, nrows, ncols, 1, 1);
     }
 
-    public void printImage(File imageFile, int sheetNumber, double ncols, double nrows, int rowNumber, int colNumber) {
+    public void printImage(File imageFile, int sheetNumber, double nrows, double ncols, int rowNumber, int colNumber) {
 
         try {
             FileInputStream wbInputStream = new FileInputStream(this.getExcelWorkBook());
@@ -856,7 +887,7 @@ public class ExcelPrinter {
             anchor.setCol1(colNumber);
             anchor.setRow1(rowNumber);
             Picture pict = drawing.createPicture(anchor, pictureIdx);
-            pict.resize(ncols, nrows);
+            pict.resize(nrows, ncols);
 
             OutputStream fileOutputStream = new FileOutputStream(this.getExcelWorkBook());
             workbook.write(fileOutputStream);
