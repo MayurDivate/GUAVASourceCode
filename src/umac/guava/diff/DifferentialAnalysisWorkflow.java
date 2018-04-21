@@ -82,9 +82,9 @@ public class DifferentialAnalysisWorkflow {
                 resultFrame.displayPCAplot(deseq2.getPcaPlotFile());
                 
                 excelPrinter.setSheetName("VolcanoPlot");
-                excelPrinter.printImage(deseq2.getVolcanoPlotFile(), sheetNumber++, 15, 20);
+                excelPrinter.printImage(deseq2.getVolcanoPlotFile(), sheetNumber++, 13, 27);
                 excelPrinter.setSheetName("PCA_plot");
-                excelPrinter.printImage(deseq2.getPcaPlotFile(), sheetNumber++, 15, 20);
+                excelPrinter.printImage(deseq2.getPcaPlotFile(), sheetNumber++, 12, 27);
                 
             } else {
                 System.err.println("Error in the differential analysis step");
@@ -109,7 +109,7 @@ public class DifferentialAnalysisWorkflow {
                 excelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated(),sheetNumber++);
                 
                 excelPrinter.setSheetName("BarChart");
-                excelPrinter.printImage(chipPeakAnno.getBarChart(), sheetNumber++, 15, 25);
+                excelPrinter.printImage(chipPeakAnno.getBarChart(), sheetNumber++, 14, 27,1,3);
                 
                 excelPrinter.setSheetName("GeneOntology");
                 excelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile(), sheetNumber++);

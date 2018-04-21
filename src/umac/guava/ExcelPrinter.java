@@ -48,15 +48,21 @@ import org.junit.Assert;
  */
 public class ExcelPrinter {
 
-    private static File excelWorkBook;
+    private File excelWorkBook;
+    private String sheetName;
 
-    public static void createExcelWoorkBook() {
+    public ExcelPrinter(File excelWorkBook, String sheetName) {
+        this.excelWorkBook = excelWorkBook;
+        this.sheetName = sheetName;
+    }
+    
+    
+
+    public void createExcelWoorkBook() {
 
         try {
-            String sname = GuavaOutputFiles.rootDir.getName().replaceAll("_OUTPUT", "");
-            excelWorkBook = new File(GuavaOutputFiles.rootDir.getAbsolutePath() + System.getProperty("file.separator") + sname + "_Result.xlsx");
             XSSFWorkbook xssfw = new XSSFWorkbook();
-            FileOutputStream xssfwOutputStream = new FileOutputStream(excelWorkBook);
+            FileOutputStream xssfwOutputStream = new FileOutputStream(this.getExcelWorkBook());
             xssfw.write(xssfwOutputStream);
             xssfwOutputStream.close();
         } catch (IOException ex) {
@@ -65,10 +71,10 @@ public class ExcelPrinter {
 
     }
 
-    public static void addAlignmentResults(GuavaInput input, AlignmentResult alignmentResults, boolean bowtie) {
+    public void addAlignmentResults(GuavaInput input, AlignmentResult alignmentResults, String alignmentFilteringSheetName ,boolean bowtie) {
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(excelWorkBook);
+            FileInputStream fileInputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 
             //header
@@ -84,8 +90,8 @@ public class ExcelPrinter {
             CellStyle regularStyle = workbook.createCellStyle();
             regularStyle = getStyle(regularStyle, 2);
 
-            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
-                XSSFSheet spreadsheet = workbook.createSheet("Alignment");
+            if (this.getExcelWorkBook().isFile()) {
+                XSSFSheet spreadsheet = workbook.createSheet(this.getSheetName());
                 spreadsheet.setColumnWidth(0, 10000);
                 spreadsheet.setColumnWidth(1, 5000);
 
@@ -186,7 +192,7 @@ public class ExcelPrinter {
                 cell.setCellValue(alignmentResults.getReadsSuppressed() + " (" + alignmentResults.getReadsSuppressed_pc() + "%)");
                 cell.setCellStyle(regularStyle);
 
-                spreadsheet = workbook.createSheet("Filtering");
+                spreadsheet = workbook.createSheet(alignmentFilteringSheetName);
                 rowid = 0;
 
                 row = spreadsheet.createRow(rowid++);
@@ -205,7 +211,7 @@ public class ExcelPrinter {
                 cell.setCellValue(alignmentResults.getReadsAligned() + " (" + alignmentResults.getReadsAligned_pc() + "%)");
                 cell.setCellStyle(regularStyle);
 
-                FileOutputStream out = new FileOutputStream(excelWorkBook);
+                FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
                 workbook.write(out);
                 out.close();
 
@@ -217,7 +223,7 @@ public class ExcelPrinter {
 
     }
 
-    public static void printAlignmentFilteringResult(FilteredAlignment afRes) {
+    public void printAlignmentFilteringResult(FilteredAlignment afRes) {
 
         int dupReads = afRes.getTotalAligned() - afRes.getDuplicateFilteredReads();
         int chrReads = afRes.getDuplicateFilteredReads() - afRes.getChromosomeFilteredReads();
@@ -229,7 +235,7 @@ public class ExcelPrinter {
         double useful_pc = afRes.getPercentage(afRes.getUsefulReads(), afRes.getTotalReads());
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(excelWorkBook);
+            FileInputStream fileInputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 
             //header
@@ -245,8 +251,8 @@ public class ExcelPrinter {
             CellStyle regularStyle = workbook.createCellStyle();
             regularStyle = getStyle(regularStyle, 2);
 
-            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
-                XSSFSheet spreadsheet = workbook.getSheet("Filtering");
+            if (this.getExcelWorkBook().isFile() ) {
+                XSSFSheet spreadsheet = workbook.getSheet(this.getSheetName());
                 spreadsheet.setColumnWidth(0, 8000);
                 spreadsheet.setColumnWidth(1, 5000);
 
@@ -286,7 +292,7 @@ public class ExcelPrinter {
                 cell.setCellValue(afRes.getUsefulReads() + " (" + useful_pc + "%)");
                 cell.setCellStyle(regularStyle);
 
-                FileOutputStream out = new FileOutputStream(excelWorkBook);
+                FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
                 workbook.write(out);
                 out.close();
                 fileInputStream.close();
@@ -299,11 +305,11 @@ public class ExcelPrinter {
 
     }
 
-    public static void printChrStat(HashMap<String, Integer> chrSTAT, String chrString) {
+    public void printChrStat(HashMap<String, Integer> chrSTAT, String chrString) {
         String[] chrs = chrString.trim().split("\\s");
         int i = 9;
         try {
-            FileInputStream fileInputStream = new FileInputStream(excelWorkBook);
+            FileInputStream fileInputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 
             //header
@@ -319,8 +325,8 @@ public class ExcelPrinter {
             CellStyle regularStyle = workbook.createCellStyle();
             regularStyle = getStyle(regularStyle, 2);
 
-            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
-                XSSFSheet spreadsheet = workbook.getSheet("Alignment");
+            if (this.getExcelWorkBook().isFile()) {
+                XSSFSheet spreadsheet = workbook.getSheet(this.getSheetName());
                 XSSFRow row;
                 int rowid = 9;
                 Cell cell;
@@ -377,7 +383,7 @@ public class ExcelPrinter {
                 cell.setCellStyle(regularStyle);
 
 
-                FileOutputStream out = new FileOutputStream(excelWorkBook);
+                FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
                 workbook.write(out);
                 out.close();
                 fileInputStream.close();
@@ -390,10 +396,10 @@ public class ExcelPrinter {
         }
     }
 
-    public static void printMACS2results(GuavaInput atacseq, int peakCount) {
+    public void printMACS2results(GuavaInput atacseq, int peakCount) {
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(excelWorkBook);
+            FileInputStream fileInputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 
             //header
@@ -409,8 +415,8 @@ public class ExcelPrinter {
             CellStyle regularStyle = workbook.createCellStyle();
             regularStyle = getStyle(regularStyle, 2);
 
-            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
-                XSSFSheet spreadsheet = workbook.getSheet("Filtering");
+            if (this.getExcelWorkBook().isFile()) {
+                XSSFSheet spreadsheet = workbook.getSheet(this.getSheetName());
 
                 XSSFRow row;
                 int rowid = 7;
@@ -460,7 +466,7 @@ public class ExcelPrinter {
 
             }
 
-            FileOutputStream out = new FileOutputStream(excelWorkBook);
+            FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
             workbook.write(out);
             out.close();
             fileInputStream.close();
@@ -473,15 +479,15 @@ public class ExcelPrinter {
 
     }
 
-    public static void printPeakTable(File geneAnnotationFile,String sheetName, int sheetNumber) {
+    public void printPeakTable(File geneAnnotationFile, int sheetNumber) {
 
         try {
-            FileInputStream inputStream = new FileInputStream(excelWorkBook);
+            FileInputStream inputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(workbook, 500, true);
-            Sheet sxSheet = sxssfWorkbook.createSheet(sheetName);
+            Sheet sxSheet = sxssfWorkbook.createSheet(this.getSheetName());
             sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
-            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
+            if (this.getExcelWorkBook().isFile()) {
                 FileReader peakFileReader = new FileReader(geneAnnotationFile);
                 BufferedReader peakBufferedReader = new BufferedReader(peakFileReader);
                 String line;
@@ -535,7 +541,7 @@ public class ExcelPrinter {
                         Assert.assertNotNull(sxSheet.getRow(rownum));
                     }
                 }
-                FileOutputStream out = new FileOutputStream(excelWorkBook);
+                FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
                 sxssfWorkbook.write(out);
                 out.flush();
                 out.close();
@@ -552,16 +558,16 @@ public class ExcelPrinter {
 
     }
 
-    public static void printGeneOntologyTable(File gofile, String sheetName, int sheetNumber) {
+    public void printGeneOntologyTable(File gofile, int sheetNumber) {
 
         try {
-            FileInputStream inputStream = new FileInputStream(excelWorkBook);
+            FileInputStream inputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(workbook, 500, true);
-            Sheet sxSheet = sxssfWorkbook.createSheet(sheetName);
+            Sheet sxSheet = sxssfWorkbook.createSheet(this.getSheetName());
             sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
 
-            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
+            if (this.getExcelWorkBook().isFile()) {
                 HashMap<GeneOntology, GeneOntology> goHashMap = GeneOntology.parseGOAnalysisOutputFile(gofile);
 
                 int rowid = 0;
@@ -629,7 +635,7 @@ public class ExcelPrinter {
                         Assert.assertNotNull(sxSheet.getRow(rownum));
                     }
                 }
-                FileOutputStream out = new FileOutputStream(excelWorkBook);
+                FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
                 sxssfWorkbook.write(out);
                 out.flush();
                 out.close();
@@ -646,16 +652,16 @@ public class ExcelPrinter {
 
     }
 
-    public static void printPathwayTable(File pathwayfile,String sheetName, int sheetNumber) {
+    public void printPathwayTable(File pathwayfile,int sheetNumber) {
 
         try {
-            FileInputStream inputStream = new FileInputStream(excelWorkBook);
+            FileInputStream inputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(workbook, 500, true);
-            Sheet sxSheet = sxssfWorkbook.createSheet(sheetName);
+            Sheet sxSheet = sxssfWorkbook.createSheet(this.getSheetName());
             sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
 
-            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
+            if (this.getExcelWorkBook().isFile()) {
                 HashMap<Pathway, Pathway> pathwayHashMap = Pathway.parsePathwayAnalysisOutputFile(pathwayfile);
 
                 int rowid = 0;
@@ -721,7 +727,7 @@ public class ExcelPrinter {
                         Assert.assertNotNull(sxSheet.getRow(rownum));
                     }
                 }
-                FileOutputStream out = new FileOutputStream(excelWorkBook);
+                FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
                 sxssfWorkbook.write(out);
                 out.flush();
                 out.close();
@@ -767,10 +773,10 @@ public class ExcelPrinter {
         return null;
     }
 
-    public static void printACRresults(File acrTXT, String sheetName) {
+    public void printACRresults(File acrTXT) {
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(excelWorkBook);
+            FileInputStream fileInputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 
             //header
@@ -786,8 +792,8 @@ public class ExcelPrinter {
             CellStyle regularStyle = workbook.createCellStyle();
             regularStyle = getStyle(regularStyle, 2);
 
-            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
-                XSSFSheet spreadsheet = workbook.getSheet(sheetName);
+            if (this.getExcelWorkBook().isFile()) {
+                XSSFSheet spreadsheet = workbook.getSheet(this.getSheetName());
 
                 XSSFRow row;
                 int rowid = 0;
@@ -813,7 +819,7 @@ public class ExcelPrinter {
                 }
             }
 
-            FileOutputStream out = new FileOutputStream(excelWorkBook);
+            FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
             workbook.write(out);
             out.close();
             fileInputStream.close();
@@ -826,14 +832,14 @@ public class ExcelPrinter {
 
     }
 
-    public static void printImage(File imageFile, String sheetName, int sheetNumber, double v1, double v2) {
-        printImage(imageFile, sheetName, sheetNumber, v1, v2, 1, 1);
+    public void printImage(File imageFile, int sheetNumber, double ncols, double nrows) {
+        printImage(imageFile, sheetNumber, ncols, nrows, 1, 1);
     }
 
-    public static void printImage(File imageFile, String sheetName, int sheetNumber, double v1, double v2, int rowNumber, int colNumber) {
+    public void printImage(File imageFile, int sheetNumber, double ncols, double nrows, int rowNumber, int colNumber) {
 
         try {
-            FileInputStream wbInputStream = new FileInputStream(excelWorkBook);
+            FileInputStream wbInputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(wbInputStream);
 
             CreationHelper helper = workbook.getCreationHelper();
@@ -842,7 +848,7 @@ public class ExcelPrinter {
             imageInputStream.close();
             int pictureIdx = workbook.addPicture(imageBytes, Workbook.PICTURE_TYPE_JPEG);
 
-            XSSFSheet sheet = workbook.createSheet(sheetName);
+            XSSFSheet sheet = workbook.createSheet(this.getSheetName());
 
             Drawing<?> drawing = sheet.createDrawingPatriarch();
 
@@ -850,9 +856,9 @@ public class ExcelPrinter {
             anchor.setCol1(colNumber);
             anchor.setRow1(rowNumber);
             Picture pict = drawing.createPicture(anchor, pictureIdx);
-            pict.resize(v1, v2);
+            pict.resize(ncols, nrows);
 
-            OutputStream fileOutputStream = new FileOutputStream(excelWorkBook);
+            OutputStream fileOutputStream = new FileOutputStream(this.getExcelWorkBook());
             workbook.write(fileOutputStream);
             fileOutputStream.close();
             wbInputStream.close();
@@ -865,10 +871,10 @@ public class ExcelPrinter {
 
     }
 
-    public static void printACRresults(ArrayList<ACRresult> acrResults) {
+    public void printACRresults(ArrayList<ACRresult> acrResults) {
 
         try {
-            FileInputStream fileInputStream = new FileInputStream(excelWorkBook);
+            FileInputStream fileInputStream = new FileInputStream(this.getExcelWorkBook());
             XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 
             //header
@@ -884,8 +890,8 @@ public class ExcelPrinter {
             CellStyle regularStyle = workbook.createCellStyle();
             regularStyle = getStyle(regularStyle, 2);
 
-            if (excelWorkBook.isFile() && excelWorkBook.exists()) {
-                XSSFSheet spreadsheet = workbook.getSheet("Plot");
+            if (this.getExcelWorkBook().isFile()) {
+                XSSFSheet spreadsheet = workbook.getSheet(this.getSheetName());
                 spreadsheet.setColumnWidth(1, 7000);
                 XSSFRow row;
                 int rowid = 1;
@@ -902,7 +908,7 @@ public class ExcelPrinter {
 
             }
 
-            FileOutputStream out = new FileOutputStream(excelWorkBook);
+            FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
             workbook.write(out);
             out.close();
             fileInputStream.close();
@@ -913,6 +919,34 @@ public class ExcelPrinter {
             Logger.getLogger(ExcelPrinter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    /**
+     * @return the excelWorkBook
+     */
+    public File getExcelWorkBook() {
+        return excelWorkBook;
+    }
+
+    /**
+     * @param excelWorkBook the excelWorkBook to set
+     */
+    public void setExcelWorkBook(File excelWorkBook) {
+        this.excelWorkBook = excelWorkBook;
+    }
+
+    /**
+     * @return the sheetName
+     */
+    public String getSheetName() {
+        return sheetName;
+    }
+
+    /**
+     * @param sheetName the sheetName to set
+     */
+    public void setSheetName(String sheetName) {
+        this.sheetName = sheetName;
     }
 
 }

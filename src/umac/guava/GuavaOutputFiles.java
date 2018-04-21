@@ -49,6 +49,8 @@ public class GuavaOutputFiles {
     private File bedgraphFile;
     private File bigwigFile;
 
+    private File outExcel;
+    
     @Override
     public String toString() {
         String guavaOutputFilesString = "";
@@ -106,6 +108,7 @@ public class GuavaOutputFiles {
         File cutadaptOutdir         = new File(rootFolder,outBaseName+"Adapter_Trimming");
         File bedgraph               = new File(rootFolder,outBaseName+"aligned_ATACseq.bdg");
         File bigwig                 = new File(rootFolder,outBaseName+"aligned_ATACseq.bw");
+        File outExcel                 = new File(rootFolder,outBaseName+"Result.xlsx");
         
         //chippeak anno files
         File macs2Xls = new File(macs2Dir,outBaseName+"peaks.xls");
@@ -116,7 +119,7 @@ public class GuavaOutputFiles {
         return new GuavaOutputFiles(rootDir, logFile, alignedSam, alignedCsrtBam, duplicateFilteredBam,duplicateMatrix ,properlyAlignedBam,
                                     chrFilteredBam, blackListFilteredBam, tempBam,filteredSrtSam ,atacseqBam,atacseqSam, macs2Dir, 
                                     insertSizeTextFile, insertSizePDF, rInsertSize,rCode,chIPpeakAnno,fragmentSizePlot,fastqcDir,cutadaptOutdir,
-                                    bedgraph, bigwig);
+                                    bedgraph, bigwig,outExcel);
     }
     
     
@@ -126,7 +129,7 @@ public class GuavaOutputFiles {
     public GuavaOutputFiles(File rootDir, File logFile, File alignedSam, File alignedCsrtBam, File duplicateFilteredBam,File duplicateMatrix ,File properlyAlignedBam,
                               File chrFilteredBam, File blackListFilteredBam, File tempBam,File filteredSrtSam, File atacseqBam, File atacseqSam, File macs2Dir,
                               File insertSizeTextFile, File  insertSizePDF, File rInsertSize, File rCode, ChIPpeakAnno chipPeakAnno,File fragmentSizeDistributionPlot,
-                              File fastqcDir, File cutadaptOutdir, File bedgraph, File bigwig) {
+                              File fastqcDir, File cutadaptOutdir, File bedgraph, File bigwig, File outExcel) {
         this.rootDir = rootDir;
         this.alignedSam = alignedSam;
         this.logFile = logFile;
@@ -151,6 +154,7 @@ public class GuavaOutputFiles {
         this.cutadaptOUT =  cutadaptOutdir;
         this.bedgraphFile =  bedgraph;
         this.bigwigFile = bigwig;
+        this.outExcel = outExcel;
     }
 
     
@@ -416,6 +420,20 @@ public class GuavaOutputFiles {
      */
     public void setChipPeakAnno(ChIPpeakAnno chipPeakAnno) {
         this.chipPeakAnno = chipPeakAnno;
+    }
+
+    /**
+     * @return the outExcel
+     */
+    public File getOutExcel() {
+        return outExcel;
+    }
+
+    /**
+     * @param outExcel the outExcel to set
+     */
+    public void setOutExcel(File outExcel) {
+        this.outExcel = outExcel;
     }
     
     

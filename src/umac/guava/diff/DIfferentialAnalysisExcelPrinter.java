@@ -262,8 +262,8 @@ public class DIfferentialAnalysisExcelPrinter {
                     String[] headerData = line.split("\\t");
                     int cellid = 0;
                     for (String item : headerData) {
-                        Cell cell = row.createCell(cellid++);
                         sxSheet.setColumnWidth(cellid, 3500);
+                        Cell cell = row.createCell(cellid++);
                         cell.setCellValue(item);
                         cell.setCellStyle(headerStyle);
                     }
@@ -321,6 +321,12 @@ public class DIfferentialAnalysisExcelPrinter {
             Sheet sxSheet = sxssfWorkbook.createSheet(this.getSheetName());
             sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
 
+            sxSheet.setColumnWidth(0, 3500);
+            sxSheet.setColumnWidth(1, 10500);
+            sxSheet.setColumnWidth(3, 3500);
+            sxSheet.setColumnWidth(4, 3500);
+            
+            
             if (this.excelWorkBook.isFile()) {
                 HashMap<GeneOntology, GeneOntology> goHashMap = GeneOntology.parseGOAnalysisOutputFile(gofile);
 
@@ -414,7 +420,11 @@ public class DIfferentialAnalysisExcelPrinter {
             SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(workbook, 500, true);
             Sheet sxSheet = sxssfWorkbook.createSheet(this.getSheetName());
             sxssfWorkbook.setSheetOrder(sxSheet.getSheetName(), sheetNumber);
-
+            sxSheet.setColumnWidth(0, 3500);
+            sxSheet.setColumnWidth(1, 10500);
+            sxSheet.setColumnWidth(3, 3500);
+            sxSheet.setColumnWidth(4, 3500);
+            
             if (this.getExcelWorkBook().isFile()) {
                 HashMap<Pathway, Pathway> pathwayHashMap = Pathway.parsePathwayAnalysisOutputFile(pathwayfile);
 
@@ -436,7 +446,6 @@ public class DIfferentialAnalysisExcelPrinter {
                 int cellid = 0;
                 for (String item : headerData) {
                     Cell cell = row.createCell(cellid++);
-                    sxSheet.setColumnWidth(cellid, 3500);
                     cell.setCellValue(item);
                     cell.setCellStyle(headerStyle);
                 }
@@ -586,11 +595,11 @@ public class DIfferentialAnalysisExcelPrinter {
 
     }
 
-    public void printImage(File imageFile, int sheetNumber, double v1, double v2) {
-        this.printImage(imageFile, sheetNumber, v1, v2, 1, 1);
+    public void printImage(File imageFile, int sheetNumber, double nrows, double ncols) {
+        this.printImage(imageFile, sheetNumber, nrows, ncols, 1, 1);
     }
 
-    public void printImage(File imageFile, int sheetNumber, double v1, double v2, int rowNumber, int colNumber) {
+    public void printImage(File imageFile, int sheetNumber, double nrows, double ncols, int rowNumber, int colNumber) {
 
         try {
             FileInputStream wbInputStream = new FileInputStream(this.getExcelWorkBook());
@@ -610,7 +619,7 @@ public class DIfferentialAnalysisExcelPrinter {
             anchor.setCol1(colNumber);
             anchor.setRow1(rowNumber);
             Picture pict = drawing.createPicture(anchor, pictureIdx);
-            pict.resize(v1, v2);
+            pict.resize(ncols, nrows);
 
             OutputStream fileOutputStream = new FileOutputStream(this.getExcelWorkBook());
             workbook.write(fileOutputStream);

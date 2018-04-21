@@ -80,7 +80,10 @@ public class AnalysisWorkflow {
         AnalysisWorkflow aw = new AnalysisWorkflow();
         GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(guavaInput);
         Samtools workflowSamtools = new Samtools();
-
+        
+        ExcelPrinter excelPrinter = new ExcelPrinter(outFiles.getOutExcel(), "Alignment");
+        
+        
         if (go) {
             go = aw.createDir(outFiles.getRootDir());
         }
@@ -119,8 +122,9 @@ public class AnalysisWorkflow {
                 if (!commandLine) {
                     runStatusJframe.displayAlignmentResults(alignmentResults, bowtie);
                 }
-                ExcelPrinter.createExcelWoorkBook();
-                ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults, true);
+                //Alignment sheet
+                excelPrinter.createExcelWoorkBook();
+                excelPrinter.addAlignmentResults(guavaInput, alignmentResults, "Filtering", true);
             }
         } else {
             System.out.println("Alignment...");
@@ -152,8 +156,8 @@ public class AnalysisWorkflow {
                     runStatusJframe.displayAlignmentResults(alignmentResults, bowtie);
                 }
 
-                ExcelPrinter.createExcelWoorkBook();
-                ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults, false);
+                excelPrinter.createExcelWoorkBook();
+                excelPrinter.addAlignmentResults(guavaInput, alignmentResults,"Filtering", bowtie);
             }
         }
 
@@ -171,7 +175,8 @@ public class AnalysisWorkflow {
             if (!commandLine) {
                 runStatusJframe.setFilteredResults(filteredAlignment);
             }
-            ExcelPrinter.printAlignmentFilteringResult(filteredAlignment);
+            excelPrinter.setSheetName("Filtering");
+            excelPrinter.printAlignmentFilteringResult(filteredAlignment);
 
         }
         if (go) {
@@ -199,7 +204,8 @@ public class AnalysisWorkflow {
             System.out.print("Fragmentsize plot...");
             go = aw.createFragmentSizeDistributionGraph(guavaInput, outFiles);
             workflowSamtools.deleteFile(outFiles.getrCode());
-            ExcelPrinter.printImage(R.fragmentSizeDistributionPlot, "insertsize",3, 15.0, 25.0);
+            excelPrinter.setSheetName("insertsize");
+            excelPrinter.printImage(R.fragmentSizeDistributionPlot, 3, 15.0, 25.0);
         }
         if (!commandLine && go) {
             System.out.println("Display graph...Done!");
@@ -212,19 +218,23 @@ public class AnalysisWorkflow {
             go = aw.runChIPpeakAnno(chipPeakAnno);
             
             if(chipPeakAnno.getPeakAnnoated().isFile()){
-                ExcelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated(),"AnnotatedPeaks",3);
+                excelPrinter.setSheetName("AnnotatedPeaks");
+                excelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated(),3);
             }
             if(chipPeakAnno.getBarChart().isFile()){
-                ExcelPrinter.printImage(chipPeakAnno.getBarChart(), "Plot", 4, 15.0, 25.0, 1,4);
+                excelPrinter.setSheetName("Plot");
+                excelPrinter.printImage(chipPeakAnno.getBarChart(), 4, 15.0, 25.0, 1,4);
             }
             if(chipPeakAnno.getAcrTxt().isFile()){
-                ExcelPrinter.printACRresults(chipPeakAnno.getAcrTxt(), "Plot");
+                excelPrinter.printACRresults(chipPeakAnno.getAcrTxt());
             }
             if(chipPeakAnno.getGoAnalysisOutputFile().isFile()){
-                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile(),"GO",5);
+                excelPrinter.setSheetName("GeneOntology");
+                excelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile(),5);
             }
             if(chipPeakAnno.getPathwayAnalysisOutputFile().isFile()){
-                ExcelPrinter.printPathwayTable(chipPeakAnno.getPathwayAnalysisOutputFile(),"Pathways",6);
+                excelPrinter.setSheetName("Pathways");
+                excelPrinter.printPathwayTable(chipPeakAnno.getPathwayAnalysisOutputFile(),6);
             }
             
             chipPeakAnno.deleteFile(chipPeakAnno.getrCodeFile());
@@ -286,7 +296,7 @@ public class AnalysisWorkflow {
         AnalysisWorkflow aw = new AnalysisWorkflow();                               // to run other methods in this class
         GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(guavaInput);        // outputfiles 
         Samtools workflowSamtools = new Samtools();                                 // to run samtools
-
+        ExcelPrinter excelPrinter = new ExcelPrinter(outFiles.getOutExcel(), "Alignment");
         success = aw.createDir(outFiles.getRootDir());                              //create root dir and get started 
 
         if (success) {
@@ -328,8 +338,8 @@ public class AnalysisWorkflow {
                 analysisResultWriter.setAlignmentResult(alignmentResults);
                 filteredAlignment.setTotalReads(alignmentResults.getTotalReads());
                 filteredAlignment.setTotalAligned(alignmentResults.getReadsAligned());
-                ExcelPrinter.createExcelWoorkBook();
-                ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults, true);
+                excelPrinter.createExcelWoorkBook();
+                excelPrinter.addAlignmentResults(guavaInput, alignmentResults, "Filtering", true);
             }
 
         } else if (success && !bowtie) {
@@ -359,8 +369,8 @@ public class AnalysisWorkflow {
                 // total aligned reads
                 filteredAlignment.setTotalAligned(alignmentResults.getReadsAligned());
 
-                ExcelPrinter.createExcelWoorkBook();
-                ExcelPrinter.addAlignmentResults(guavaInput, alignmentResults, false);
+                excelPrinter.createExcelWoorkBook();
+                excelPrinter.addAlignmentResults(guavaInput, alignmentResults, "Filtering", false);
             }
         }
 
@@ -379,8 +389,8 @@ public class AnalysisWorkflow {
             filteredAlignment.setUsefulReads(workflowSamtools.getReadCount(outFiles.getAtacseqBam()));
             
             analysisResultWriter.setAlignmentFilteringResult(filteredAlignment);
-            
-            ExcelPrinter.printAlignmentFilteringResult(filteredAlignment);
+            excelPrinter.setSheetName("Filtering");
+            excelPrinter.printAlignmentFilteringResult(filteredAlignment);
 
         }
 
@@ -407,7 +417,8 @@ public class AnalysisWorkflow {
             success = aw.createFragmentSizeDistributionGraph(guavaInput, outFiles);
             workflowSamtools.deleteFile(outFiles.getrCode());
             workflowSamtools.deleteFile(outFiles.getInsertSizeTextFile());
-            ExcelPrinter.printImage(R.fragmentSizeDistributionPlot, "insertsize",4, 15.0, 25.0);
+            excelPrinter.setSheetName("insertsize");
+            excelPrinter.printImage(R.fragmentSizeDistributionPlot,4, 15.0, 25.0);
         }
 
 //------------------- peak calling ------------------        
@@ -426,19 +437,23 @@ public class AnalysisWorkflow {
             chipPeakAnno.deleteFile(chipPeakAnno.getrCodeFile());
             
             if(chipPeakAnno.getPeakAnnoated().isFile()){
-                ExcelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated(),"AnnotatedPeaks",3);
+                excelPrinter.setSheetName("AnnotatedPeaks");
+                excelPrinter.printPeakTable(chipPeakAnno.getPeakAnnoated(),3);
             }
             if(chipPeakAnno.getBarChart().isFile()){
-                ExcelPrinter.printImage(chipPeakAnno.getBarChart(), "Plot", 4, 15.0, 25.0, 1,4);
+                excelPrinter.setSheetName("Plot");
+                excelPrinter.printImage(chipPeakAnno.getBarChart(), 4, 15.0, 25.0, 1,4);
             }
             if(chipPeakAnno.getAcrTxt().isFile()){
-                ExcelPrinter.printACRresults(chipPeakAnno.getAcrTxt(), "Plot");
+                excelPrinter.printACRresults(chipPeakAnno.getAcrTxt());
             }
             if(chipPeakAnno.getGoAnalysisOutputFile().isFile()){
-                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile(),"GO",5);
+                excelPrinter.setSheetName("GeneOntology");
+                excelPrinter.printGeneOntologyTable(chipPeakAnno.getGoAnalysisOutputFile(),5);
             }
             if(chipPeakAnno.getPathwayAnalysisOutputFile().isFile()){
-                ExcelPrinter.printGeneOntologyTable(chipPeakAnno.getPathwayAnalysisOutputFile(),"Pathways",6);
+                excelPrinter.setSheetName("Pathways");
+                excelPrinter.printGeneOntologyTable(chipPeakAnno.getPathwayAnalysisOutputFile(),6);
             }
 
             chipPeakAnno.deleteFile(chipPeakAnno.getrCodeFile());
@@ -528,7 +543,8 @@ public class AnalysisWorkflow {
         }
         //Pre filtering stat
         chrSTAT = samtools.getChrStat(outFiles.getAlignedCsrtBam());
-        ExcelPrinter.printChrStat(chrSTAT, atacseqInput.getChromosome());
+        ExcelPrinter excelPrinter = new ExcelPrinter(outFiles.getOutExcel(), "Alignment" );
+        excelPrinter.printChrStat(chrSTAT, atacseqInput.getChromosome());
 
         if (!commandLine) {
             runStatusJframe.setChrStat(chrSTAT, atacseqInput.getChromosome());
@@ -600,7 +616,8 @@ public class AnalysisWorkflow {
 
         //Pre filtering stat
         chrSTAT = samtools.getChrStat(outFiles.getAlignedCsrtBam());
-        ExcelPrinter.printChrStat(chrSTAT, atacseqInput.getChromosome());
+        ExcelPrinter excelPrinter = new ExcelPrinter(outFiles.getOutExcel(), "Alignment");
+        excelPrinter.printChrStat(chrSTAT, atacseqInput.getChromosome());
         
         //duplicate filtering
         if (isSuccess) {
@@ -753,8 +770,9 @@ public class AnalysisWorkflow {
         macs2.writeLog(log, "********************************** MACS2 Peak calling log **********************************");
         MACS2 resMacs2 = MACS2.getMACS2();
         int peakCount = macs2.getPeakCount(resMacs2);
-
-        ExcelPrinter.printMACS2results(atacseqInput, peakCount);
+        
+        ExcelPrinter excelPrinter = new ExcelPrinter(outFiles.getOutExcel(), "Filtering");
+        excelPrinter.printMACS2results(atacseqInput, peakCount);
 
         if (!commandLine) {
             runStatusJframe.setPeakCallingResult(atacseqInput, peakCount);
@@ -772,7 +790,8 @@ public class AnalysisWorkflow {
         macs2.writeLog(log, "********************************** MACS2 Peak calling log **********************************");
         MACS2 resMacs2 = MACS2.getMACS2();
         int peakCount = macs2.getPeakCount(resMacs2);
-        ExcelPrinter.printMACS2results(atacseqInput, peakCount);
+        ExcelPrinter excelPrinter = new ExcelPrinter(outFiles.getOutExcel(), "Filtering");
+        excelPrinter.printMACS2results(atacseqInput, peakCount);
         System.out.println("Done!");
         // write code to check success
         return true;
