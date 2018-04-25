@@ -58,6 +58,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
         alignFilterStatTable = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         peakCallingResultTable = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         graphJPanel = new javax.swing.JPanel();
         graphJLabel = new javax.swing.JLabel();
         jPanelPeaks = new javax.swing.JPanel();
@@ -222,6 +224,16 @@ public class RunStatusJframe extends javax.swing.JFrame {
             peakCallingResultTable.getColumnModel().getColumn(1).setResizable(false);
         }
 
+        jTextArea1.setBackground(new java.awt.Color(238, 238, 238));
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(3);
+        jTextArea1.setText("* should be more than ~50 Million and for TF footprinting ~200 Million reads\n** mitochondrial reads could be 10-50%\n*** should be more than ~20 Million and  for TF footprinting ~100 Million useful reads");
+        jTextArea1.setAutoscrolls(false);
+        jTextArea1.setBorder(null);
+        jTextArea1.setCaretColor(new java.awt.Color(238, 238, 238));
+        jTextArea1.setDragEnabled(false);
+        jScrollPane5.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout alignmentFilteringJPanelLayout = new javax.swing.GroupLayout(alignmentFilteringJPanel);
         alignmentFilteringJPanel.setLayout(alignmentFilteringJPanelLayout);
         alignmentFilteringJPanelLayout.setHorizontalGroup(
@@ -234,6 +246,10 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(alignmentFilteringJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5)
+                .addContainerGap())
         );
         alignmentFilteringJPanelLayout.setVerticalGroup(
             alignmentFilteringJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,7 +258,9 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         resultTabs.addTab("Alignment Filtering", alignmentFilteringJPanel);
@@ -713,7 +731,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
            alignFilterStatTable.setValueAt("Total Reads", 0, 0);
            alignFilterStatTable.setValueAt(alignmentResults.getTotalReads(), 0, 1);
 
-           alignFilterStatTable.setValueAt("Total Aligned Reads", 1, 0);
+           alignFilterStatTable.setValueAt("Total Aligned Reads *", 1, 0);
            alignFilterStatTable.setValueAt(alignmentResults.getReadsAligned()+" ("+alignmentResults.getReadsAligned_pc()+"%)", 1, 1);
     }
 
@@ -757,13 +775,13 @@ public class RunStatusJframe extends javax.swing.JFrame {
         alignFilterStatTable.setValueAt("Total Duplicate Reads", 2, 0);
         alignFilterStatTable.setValueAt(dupReads+" ("+dup_pc+"%)", 2, 1);
 
-        alignFilterStatTable.setValueAt("Chr* Reads after duplicate filtering", 3, 0);
+        alignFilterStatTable.setValueAt("Chr# Reads after duplicate filtering **", 3, 0);
         alignFilterStatTable.setValueAt(chrReads+" ("+chr_pc +"%)", 3, 1);
 
         alignFilterStatTable.setValueAt("Blacklist Region Reads", 4, 0);
         alignFilterStatTable.setValueAt(blacklistReads+" ("+blist_pc +"%)", 4, 1);
 
-        alignFilterStatTable.setValueAt("Total Useful Reads", 5, 0);
+        alignFilterStatTable.setValueAt("Total Useful Reads ***", 5, 0);
         alignFilterStatTable.setValueAt(afRes.getUsefulReads() +" ("+useful_pc +"%)", 5, 1);
 
         
@@ -875,11 +893,13 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPaneGO;
     private javax.swing.JScrollPane jScrollPanePathway;
     private javax.swing.JTable jTableGO;
     private javax.swing.JTable jTablePathways;
     private javax.swing.JTable jTablePeaks;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JButton outputDirJButton;
     private javax.swing.JTable peakCallingResultTable;

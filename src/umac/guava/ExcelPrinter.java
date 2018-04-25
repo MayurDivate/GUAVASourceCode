@@ -378,33 +378,6 @@ public class ExcelPrinter {
                 }
                 
                                 
-                rowid = rowid+3;
-                row = spreadsheet.createRow(rowid++);
-                cell = row.createCell(0);
-                cell.setCellValue("For the regular chromatin accessibility study more than 50 Million mapped reads are needed");
-                cell.setCellStyle(regularStyle);
-                
-                row = spreadsheet.createRow(rowid++);
-                cell = row.createCell(0);
-                cell.setCellValue("and more than 20 Million useful reads are needed");
-                cell.setCellStyle(regularStyle);
-
-                row = spreadsheet.createRow(rowid++);
-                cell = row.createCell(0);
-                cell.setCellValue("For the transcription footprinting study arround 200 Million maped reads are needed");
-                cell.setCellStyle(regularStyle);
-
-                row = spreadsheet.createRow(rowid++);
-                cell = row.createCell(0);
-                cell.setCellValue("and 100 Million useful maped reads are needed");
-                cell.setCellStyle(regularStyle);
-
-                row = spreadsheet.createRow(rowid++);
-                cell = row.createCell(0);
-                cell.setCellValue("mitochondrial reads could be 10-50%");
-                cell.setCellStyle(regularStyle);
-
-
                 FileOutputStream out = new FileOutputStream(this.getExcelWorkBook());
                 workbook.write(out);
                 out.close();
@@ -463,27 +436,17 @@ public class ExcelPrinter {
                 rowid = rowid+3;
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("For the regular chromatin accessibility study more than 50 Million mapped reads are needed");
+                cell.setCellValue("* should be more than ~50 Million and for TF footprinting ~200 Million reads");
                 cell.setCellStyle(regularStyle);
                 
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("and more than 20 Million useful reads are needed");
+                cell.setCellValue("** mitochondrial reads could be 10-50%");
                 cell.setCellStyle(regularStyle);
 
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("For the transcription footprinting study arround 200 Million maped reads are needed");
-                cell.setCellStyle(regularStyle);
-
-                row = spreadsheet.createRow(rowid++);
-                cell = row.createCell(0);
-                cell.setCellValue("and 100 Million useful maped reads are needed");
-                cell.setCellStyle(regularStyle);
-
-                row = spreadsheet.createRow(rowid++);
-                cell = row.createCell(0);
-                cell.setCellValue("mitochondrial reads could be 10-50%");
+                cell.setCellValue("*** should be more than ~20 Million and for TF footprinting ~100 Million useful reads");
                 cell.setCellStyle(regularStyle);
 
             }
