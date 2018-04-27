@@ -21,7 +21,6 @@ import umac.guava.GuavaInput;
 import umac.guava.Input;
 import umac.guava.diff.GdiffInput;
 import umac.guava.diff.DifferentialAnalysisWorkflow;
-import umac.guava.diff.DifferentialInputFrame1;
 
 /**
  *
@@ -95,21 +94,13 @@ public class CommandlineWorkflow {
             gdiffcommand = Gdiffcommand.getGdiffCommand(command);
             Input input = gdiffcommand.getInput(gdiffcommand);
 
+            
             if (input instanceof GdiffInput) {
-
-                GdiffInput atacdi = (GdiffInput) input;
-
-                // improve method to of input file list validation    
-                // System.out.println("valid input"+DifferentialInputFile.isValidInput(atacdi.getDiffInputfiles()));
+                GdiffInput gdiffInput = (GdiffInput) input;
                 DifferentialAnalysisWorkflow analysisFlow = new DifferentialAnalysisWorkflow();
-
-                // set project name 
-                DifferentialInputFrame1.projectName = atacdi.getProjectName();
-
-                analysisFlow.startCommandlineDifferentialAnalysis(atacdi);
+                analysisFlow.startCommandlineDifferentialAnalysis(gdiffInput);
             }
         }
-
         return false;
     }
 

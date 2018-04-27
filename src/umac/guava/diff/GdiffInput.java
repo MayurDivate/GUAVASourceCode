@@ -69,7 +69,11 @@ public class GdiffInput extends Input{
         gdiffInput = gdiffInput + " out dir = "+this.getOutputfolder()+ "\n";
         
         for(int i=0; i < this.getDiffInputfiles().size(); i++ ){
-            gdiffInput = gdiffInput + "Diff file["+i+"]"+this.getDiffInputfiles().get(i) +"\n";
+            gdiffInput = gdiffInput + i+"\t"
+                    +this.getDiffInputfiles().get(i).getCondition()+"\t"
+                    +this.getDiffInputfiles().get(i).getReplicateNumber()+"\t"
+                    +this.getDiffInputfiles().get(i).getType()+"\t"
+                    +this.getDiffInputfiles().get(i) +"\n";
         }
         
         return gdiffInput; 

@@ -81,6 +81,30 @@ public class DifferentialOutputFiles {
                 deseqRcode, deseqResult, vplot, pcaPlot, diffPeakBed, chipPeakAnno,outExcel);
         
         GuavaOutputFiles.logFile = DifferentialOutputFiles.getLogFile();
+        
+        return dof;
+
+    }
+    
+    public static DifferentialOutputFiles getDifferentialOutputFiles(File destination,String project, Genome genome){
+        
+        File outputFolder        = new File(destination, project + "GUAVA_Differental_analysis");
+        DifferentialOutputFiles.setLogFile(new File(outputFolder, project + "log.txt"));
+        
+        File controlTreatmentBed = new File(outputFolder, project + "controlTreatmentPeaks.bed");
+        File diffPeakBed         = new File(outputFolder, project + "diffpeaks.bed");
+        File deseqRcode          = new File(outputFolder, project + "DESeq2.R");
+        File deseqResult         = new File(outputFolder, project + "DESeq2_results.txt");
+        File vplot               = new File(outputFolder, project + "vplot.jpg");
+        File pcaPlot             = new File(outputFolder, project + "PCA_plot.jpg");
+        File outExcel             = new File(outputFolder, project + "Results.xlsx");
+        
+        ChIPpeakAnno chipPeakAnno = ChIPpeakAnno.getChIPpeakAnnoObject(deseqResult, project, "BED", genome);
+        
+        DifferentialOutputFiles dof = new DifferentialOutputFiles(outputFolder, controlTreatmentBed,
+                deseqRcode, deseqResult, vplot, pcaPlot, diffPeakBed, chipPeakAnno,outExcel);
+        
+        GuavaOutputFiles.logFile = DifferentialOutputFiles.getLogFile();
 
         return dof;
 

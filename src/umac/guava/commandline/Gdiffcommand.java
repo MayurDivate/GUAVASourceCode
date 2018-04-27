@@ -53,7 +53,7 @@ public class Gdiffcommand extends CommandlineTool{
     private String projectName;
    
     // gdiff options 
-    private static Set<String> gdiffOptions = new HashSet<>(Arrays.asList("-fc","-p","-m","-o","-u","-d","-files","-n"));
+    private static Set<String> gdiffOptions = new HashSet<>(Arrays.asList("-fc","-p","-m","-o","-u","-d","-files","-n","-g"));
     private static Set<String> gdiffCompulsoryOptions = new HashSet<>(Arrays.asList("-files","-n","-o","-g"));
     
     /*
@@ -125,7 +125,8 @@ public class Gdiffcommand extends CommandlineTool{
             Gdiffcommand gdiff = (Gdiffcommand) toolCommand;
             
             // get ouput files for differential analysis 
-            DifferentialOutputFiles diffOutputFiles = DifferentialOutputFiles.getDifferentialOutputFiles(gdiff.getOutdir(),gdiff.getGenome());
+            DifferentialOutputFiles diffOutputFiles = DifferentialOutputFiles.getDifferentialOutputFiles(gdiff.getOutdir(),
+                    gdiff.getProjectName()+"_", gdiff.getGenome());
             
             // build ArrayList of differential input file 
             ArrayList<DifferentialInputFile> differentialInputFiles = gdiff.getDifferentialInputFiles();
@@ -265,7 +266,17 @@ public class Gdiffcommand extends CommandlineTool{
        gdiffHelpMessage = gdiffHelpMessage +"required options"+"\n";
        gdiffHelpMessage = gdiffHelpMessage + "\t"+"-n"+"\t"+"project name  "+"\n";
        gdiffHelpMessage = gdiffHelpMessage + "\t"+"-o" +"\t"+"output folder to save results"+"\n";
-       gdiffHelpMessage = gdiffHelpMessage + "\t"+"-files" +"\t"+"text file containing input bed and bam files "+"\n";
+       gdiffHelpMessage = gdiffHelpMessage + "\t"+"-files" +"\t"+"text file containing input bed and bam files. \n\t\t\t e.g "+"\n"
+                                           + "\t"+"\t" +"\t"+"#------------------------------------------------------"+"\n"
+                                           + "\t"+"\t" +"\t"+"# /path/to/sample1.rep1.bam\t1\tcontrol\t\t#"+"\n"
+                                           + "\t"+"\t" +"\t"+"# /path/to/sample1.rep1.bed\t1\tcontrol\t\t#"+"\n"
+                                           + "\t"+"\t" +"\t"+"# /path/to/sample1.rep2.bam\t2\tcontrol\t\t#"+"\n"
+                                           + "\t"+"\t" +"\t"+"# /path/to/sample1.rep2.bed\t2\tcontrol\t\t#"+"\n"
+                                           + "\t"+"\t" +"\t"+"# /path/to/sample2.rep1.bam\t1\ttreatment\t#"+"\n"
+                                           + "\t"+"\t" +"\t"+"# /path/to/sample2.rep2.bed\t1\ttreatment\t#"+"\n"
+                                           + "\t"+"\t" +"\t"+"# /path/to/sample2.rep1.bam\t2\ttreatment\t#"+"\n"
+                                           + "\t"+"\t" +"\t"+"# /path/to/sample2.rep2.bed\t2\ttreatment\t#"+"\n"
+                                           + "\t"+"\t" +"\t"+"#------------------------------------------------------"+"\n";
        gdiffHelpMessage = gdiffHelpMessage + "\t"+"-g" +"\t"+"genome build e.g. hg19"+"\n";
     
        gdiffHelpMessage = gdiffHelpMessage +"optional"+"\n";
