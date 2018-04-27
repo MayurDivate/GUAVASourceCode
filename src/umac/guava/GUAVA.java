@@ -58,7 +58,7 @@ public class GUAVA {
         setPWD();
         System.out.println("GUAVA version 1");
         if(args.length == 0){
-               uiVersion();
+            uiVersion();
         }
         else{
             runGUAVAcommandline(args);
@@ -99,7 +99,6 @@ public class GUAVA {
             catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
                 java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-   
         HomeFrame homeFrame = new HomeFrame();
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homeFrame.setVisible(true);

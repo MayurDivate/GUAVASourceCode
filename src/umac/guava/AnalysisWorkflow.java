@@ -70,11 +70,11 @@ public class AnalysisWorkflow {
 
         Date start = new Date();
 
-        RunStatusJframe runStatusJframe = null;
+        GuavaOutputJframe guavaOutputJframe = null;
         if (!commandLine) {
-            runStatusJframe = new RunStatusJframe();
-            runStatusJframe.setVisible(false);
-            runStatusJframe.fillAlignmentTable(guavaInput, bowtie);
+            guavaOutputJframe = new GuavaOutputJframe();
+            guavaOutputJframe.setVisible(false);
+            guavaOutputJframe.fillAlignmentTable(guavaInput, bowtie);
         }
         // ------------ start of workflow ------------------        
         AnalysisWorkflow aw = new AnalysisWorkflow();
@@ -120,7 +120,7 @@ public class AnalysisWorkflow {
                 filteredAlignment.setTotalAligned(alignmentResults.getReadsAligned());
 
                 if (!commandLine) {
-                    runStatusJframe.displayAlignmentResults(alignmentResults, bowtie);
+                    guavaOutputJframe.displayAlignmentResults(alignmentResults, bowtie);
                 }
                 //Alignment sheet
                 excelPrinter.createExcelWoorkBook();
@@ -153,7 +153,7 @@ public class AnalysisWorkflow {
                 filteredAlignment.setTotalAligned(alignmentResults.getReadsAligned());
 
                 if (!commandLine) {
-                    runStatusJframe.displayAlignmentResults(alignmentResults, bowtie);
+                    guavaOutputJframe.displayAlignmentResults(alignmentResults, bowtie);
                 }
 
                 excelPrinter.createExcelWoorkBook();
@@ -163,7 +163,7 @@ public class AnalysisWorkflow {
 
         if (go) {
             System.out.println("---- Alignment filtering ------");
-            go = aw.runAlignmentFiltering(guavaInput, outFiles, runStatusJframe);
+            go = aw.runAlignmentFiltering(guavaInput, outFiles, guavaOutputJframe);
         }
         if (go) {
             System.out.print("Alignment shifting...");
@@ -173,7 +173,7 @@ public class AnalysisWorkflow {
             analysisResultWriter.setAlignmentFilteringResult(filteredAlignment);
 
             if (!commandLine) {
-                runStatusJframe.setFilteredResults(filteredAlignment);
+                guavaOutputJframe.setFilteredResults(filteredAlignment);
             }
             excelPrinter.setSheetName("Filtering");
             excelPrinter.printAlignmentFilteringResult(filteredAlignment);
@@ -197,7 +197,7 @@ public class AnalysisWorkflow {
         }
         if (go) {
             System.out.print("Peak calling...");
-            go = aw.callPeaks(guavaInput, outFiles, runStatusJframe);
+            go = aw.callPeaks(guavaInput, outFiles, guavaOutputJframe);
 
         }
         if (go) {
@@ -209,7 +209,7 @@ public class AnalysisWorkflow {
         }
         if (!commandLine && go) {
             System.out.println("Display graph...Done!");
-            runStatusJframe.displayFragmentSizeGraph();
+            guavaOutputJframe.displayFragmentSizeGraph();
 
         }
         if (go) {
@@ -248,25 +248,25 @@ public class AnalysisWorkflow {
             // annotation table 
             if (chipPeakAnno.getPeakAnnoated().exists()) {
                 System.out.println("\n");
-                runStatusJframe.addPeakTableRow(chipPeakAnno.getPeakAnnoated());
+                guavaOutputJframe.addPeakTableRow(chipPeakAnno.getPeakAnnoated());
             }
 
             // bar chart
             if (chipPeakAnno.getBarChart().exists()) {
-                runStatusJframe.displayACRbarChart(chipPeakAnno.getBarChart());
+                guavaOutputJframe.displayACRbarChart(chipPeakAnno.getBarChart());
             }
 
             // Go table
             if (chipPeakAnno.getGoAnalysisOutputFile().exists()) {
-                runStatusJframe.addGoTableRows(chipPeakAnno.getGoAnalysisOutputFile());
+                guavaOutputJframe.addGoTableRows(chipPeakAnno.getGoAnalysisOutputFile());
             }
 
             // pathway table
             if (chipPeakAnno.getPathwayAnalysisOutputFile().exists()) {
-                runStatusJframe.addPathwayTableRows(chipPeakAnno.getPathwayAnalysisOutputFile());
+                guavaOutputJframe.addPathwayTableRows(chipPeakAnno.getPathwayAnalysisOutputFile());
             }
 
-            runStatusJframe.setVisible(true);
+            guavaOutputJframe.setVisible(true);
             System.out.println("----------- F I N I S H E D -------------");
             Date finish = new Date();
             String log[] = {"GUAVA ATAC-seq data analysis", "Started at:" + start + "\nFinished at:" + finish};
@@ -280,7 +280,7 @@ public class AnalysisWorkflow {
         }
 
         if (!commandLine) {
-            runStatusJframe.setVisible(go);
+            guavaOutputJframe.setVisible(go);
         }
         if (commandLine) {
             printCommandlineResults(guavaInput, alignmentResults, filteredAlignment, chrSTAT, guavaInput.getChromosome());
@@ -529,7 +529,7 @@ public class AnalysisWorkflow {
         return false;
     }
 
-    public boolean runAlignmentFiltering(GuavaInput atacseqInput, GuavaOutputFiles outFiles, RunStatusJframe runStatusJframe) {
+    public boolean runAlignmentFiltering(GuavaInput atacseqInput, GuavaOutputFiles outFiles, GuavaOutputJframe guavaOutputJframe) {
 
         Samtools samtools = new Samtools();
         AnalysisWorkflow aw = new AnalysisWorkflow();
@@ -547,7 +547,7 @@ public class AnalysisWorkflow {
         excelPrinter.printChrStat(chrSTAT, atacseqInput.getChromosome());
 
         if (!commandLine) {
-            runStatusJframe.setChrStat(chrSTAT, atacseqInput.getChromosome());
+            guavaOutputJframe.setChrStat(chrSTAT, atacseqInput.getChromosome());
         }
         
         //duplicate filtering
@@ -763,7 +763,7 @@ public class AnalysisWorkflow {
         return false;
     }
 
-    public boolean callPeaks(GuavaInput atacseqInput, GuavaOutputFiles outFiles, RunStatusJframe runStatusJframe) {
+    public boolean callPeaks(GuavaInput atacseqInput, GuavaOutputFiles outFiles, GuavaOutputJframe guavaOutputJframe) {
 
         MACS2 macs2 = new MACS2();
         String[] log = macs2.runCommand(macs2.getCommand(atacseqInput, outFiles.getAtacseqBam(), outFiles.getMacs2Dir()));
@@ -775,7 +775,7 @@ public class AnalysisWorkflow {
         excelPrinter.printMACS2results(atacseqInput, peakCount);
 
         if (!commandLine) {
-            runStatusJframe.setPeakCallingResult(atacseqInput, peakCount);
+            guavaOutputJframe.setPeakCallingResult(atacseqInput, peakCount);
         }
         System.out.println("Done!");
         // write code to check success

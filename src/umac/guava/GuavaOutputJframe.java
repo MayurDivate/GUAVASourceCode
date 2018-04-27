@@ -26,16 +26,16 @@ import javax.swing.table.TableRowSorter;
  *
  * @author mayurdivate
  */
-public class RunStatusJframe extends javax.swing.JFrame {
+public class GuavaOutputJframe extends javax.swing.JFrame {
 
     /**
-     * Creates new form RunStatusJframe
+     * Creates new form GuavaOutputJframe
      */
     
     public static ArrayList<PeakTable> peakTableList;
     private int totalReads;   
     
-    public RunStatusJframe() {
+    public GuavaOutputJframe() {
         initComponents();
     }
     
@@ -77,7 +77,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jTextFieldSearch = new javax.swing.JTextField();
         jLabelGeneFilter = new javax.swing.JLabel();
         jButtonIGV = new javax.swing.JButton();
-        runstatusJMenuBar = new javax.swing.JMenuBar();
+        guavaOutputJMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemAboutUs = new javax.swing.JMenuItem();
         jMenuHelp = new javax.swing.JMenu();
@@ -151,6 +151,8 @@ public class RunStatusJframe extends javax.swing.JFrame {
         resultTabs.addTab("Alignment Statistics", alignStatJPanel);
 
         alignmentFilteringJPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
+        alignmentFilteringJPanel.setAlignmentX(0.9F);
+        alignmentFilteringJPanel.setAlignmentY(0.9F);
 
         alignFilterStatTable.setFont(new java.awt.Font("Menlo", 0, 12)); // NOI18N
         alignFilterStatTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -224,14 +226,17 @@ public class RunStatusJframe extends javax.swing.JFrame {
             peakCallingResultTable.getColumnModel().getColumn(1).setResizable(false);
         }
 
+        jTextArea1.setEditable(false);
         jTextArea1.setBackground(new java.awt.Color(238, 238, 238));
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Lucida Grande", 2, 13)); // NOI18N
+        jTextArea1.setLineWrap(true);
         jTextArea1.setRows(3);
-        jTextArea1.setText("* should be more than ~50 Million and for TF footprinting ~200 Million reads\n** mitochondrial reads could be 10-50%\n*** should be more than ~20 Million and  for TF footprinting ~100 Million useful reads");
+        jTextArea1.setText("* should be more than ~50 million and for TF footprinting ~200 million reads\n** mitochondrial reads could be 10-50%\n*** should be more than ~20 million and for TF footprinting ~100 million useful reads");
         jTextArea1.setAutoscrolls(false);
         jTextArea1.setBorder(null);
-        jTextArea1.setCaretColor(new java.awt.Color(238, 238, 238));
-        jTextArea1.setDragEnabled(false);
+        jTextArea1.setDisabledTextColor(new java.awt.Color(238, 238, 238));
+        jTextArea1.setMargin(new java.awt.Insets(5, 5, 1, 1));
         jScrollPane5.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout alignmentFilteringJPanelLayout = new javax.swing.GroupLayout(alignmentFilteringJPanel);
@@ -505,7 +510,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         jMenuItemAboutUs.setText("Prof. Edwin Cheung's lab,\nUniversity of Macau, All rights reserved");
         jMenu1.add(jMenuItemAboutUs);
 
-        runstatusJMenuBar.add(jMenu1);
+        guavaOutputJMenuBar.add(jMenu1);
 
         jMenuHelp.setText("Help");
         jMenuHelp.addActionListener(new java.awt.event.ActionListener() {
@@ -522,9 +527,9 @@ public class RunStatusJframe extends javax.swing.JFrame {
         });
         jMenuHelp.add(jMenuItem1);
 
-        runstatusJMenuBar.add(jMenuHelp);
+        guavaOutputJMenuBar.add(jMenuHelp);
 
-        setJMenuBar(runstatusJMenuBar);
+        setJMenuBar(guavaOutputJMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -572,7 +577,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
             Desktop desktop = Desktop.getDesktop();
             desktop.open(GuavaOutputFiles.rootDir.getAbsoluteFile());
         } catch (IOException ex) {
-            Logger.getLogger(RunStatusJframe.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GuavaOutputJframe.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_outputDirJButtonActionPerformed
@@ -628,7 +633,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(RunStatusJframe.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GuavaOutputJframe.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -760,6 +765,52 @@ public class RunStatusJframe extends javax.swing.JFrame {
         }
     }
     
+    public void setFakeResults(){
+        int totalReads = 94208170;
+        int alignedReads = 75771166;
+        int dupReads = 13855635;
+        int chrReads = 823728;
+        int blacklistReads = 134548;
+        int usefulReads = 60956787;
+
+        double dup_pc = getPercentage(dupReads, totalReads); 
+        double chr_pc = getPercentage(chrReads, totalReads); 
+        double blist_pc = getPercentage(blacklistReads, totalReads); 
+        double useful_pc = getPercentage(usefulReads , totalReads); 
+        
+        alignFilterStatTable.setValueAt("Total Reads", 0, 0);
+        alignFilterStatTable.setValueAt(totalReads, 0, 1);
+
+        alignFilterStatTable.setValueAt("Total Aligned Reads *", 1, 0);
+        alignFilterStatTable.setValueAt(alignedReads+ " (80.43%)", 1, 1);
+
+        alignFilterStatTable.setValueAt("Total Duplicate Reads", 2, 0);
+        alignFilterStatTable.setValueAt(dupReads+" ("+dup_pc+"%)", 2, 1);
+
+        alignFilterStatTable.setValueAt("Chr# Reads after duplicate filtering **", 3, 0);
+        alignFilterStatTable.setValueAt(chrReads+" ("+chr_pc +"%)", 3, 1);
+
+        alignFilterStatTable.setValueAt("Blacklist Region Reads", 4, 0);
+        alignFilterStatTable.setValueAt(blacklistReads+" ("+blist_pc +"%)", 4, 1);
+
+        alignFilterStatTable.setValueAt("Total Useful Reads ***", 5, 0);
+        alignFilterStatTable.setValueAt(usefulReads +" ("+useful_pc +"%)", 5, 1);
+
+       peakCallingResultTable.setValueAt("q value cut off ", 0, 0);
+       peakCallingResultTable.setValueAt("0.001", 0, 1);
+       peakCallingResultTable.setValueAt("Total Number of Peaks", 1, 0);
+       peakCallingResultTable.setValueAt("147675", 1, 1);
+        
+    }
+    
+    
+    
+    public double getPercentage(int numerator, int denominator){
+        double percentage =  ( numerator * 100.00 ) / denominator ;
+        percentage = Math.round(percentage * 100.0) / 100.0;
+        return percentage;
+    }
+    
     void setFilteredResults(FilteredAlignment afRes){
         
         int dupReads = afRes.getTotalAligned() - afRes.getDuplicateFilteredReads();
@@ -793,7 +844,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
         TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(dfModel);
         jTablePeaks.setRowSorter(tableRowSorter);
 
-        RunStatusJframe.peakTableList =  PeakTable.getPeakList(geneAnnotationFile);
+        GuavaOutputJframe.peakTableList =  PeakTable.getPeakList(geneAnnotationFile);
         
         Object rowData[] = new Object[jTablePeaks.getColumnCount()];
         
@@ -880,6 +931,7 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JPanel doneCancelJPanel;
     private javax.swing.JLabel graphJLabel;
     private javax.swing.JPanel graphJPanel;
+    private javax.swing.JMenuBar guavaOutputJMenuBar;
     private javax.swing.JButton jButtonIGV;
     private javax.swing.JLabel jLabelACRbarChart;
     private javax.swing.JLabel jLabelGeneFilter;
@@ -904,6 +956,5 @@ public class RunStatusJframe extends javax.swing.JFrame {
     private javax.swing.JButton outputDirJButton;
     private javax.swing.JTable peakCallingResultTable;
     private javax.swing.JTabbedPane resultTabs;
-    private javax.swing.JMenuBar runstatusJMenuBar;
     // End of variables declaration//GEN-END:variables
 }
