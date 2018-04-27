@@ -97,7 +97,7 @@ public class GUAVA {
                 }
             } 
             catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                java.util.logging.Logger.getLogger(GUAVA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
         HomeFrame homeFrame = new HomeFrame();
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

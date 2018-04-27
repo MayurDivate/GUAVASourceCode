@@ -803,8 +803,6 @@ public class GuavaOutputJframe extends javax.swing.JFrame {
         
     }
     
-    
-    
     public double getPercentage(int numerator, int denominator){
         double percentage =  ( numerator * 100.00 ) / denominator ;
         percentage = Math.round(percentage * 100.0) / 100.0;
