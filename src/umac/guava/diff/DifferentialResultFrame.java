@@ -330,7 +330,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             .addComponent(jScrollPaneGoTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
         );
 
-        jOutputTabs.addTab("Gene Ontology", jPanelGO);
+        jOutputTabs.addTab("Gene Ontologies", jPanelGO);
 
         jPanelPathway.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, java.awt.Color.lightGray));
 
@@ -382,7 +382,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
             .addComponent(jScrollPanePathwayTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
         );
 
-        jOutputTabs.addTab("Pathway", jPanelPathway);
+        jOutputTabs.addTab("Pathways", jPanelPathway);
 
         javax.swing.GroupLayout jPanelMainLayout = new javax.swing.GroupLayout(jPanelMain);
         jPanelMain.setLayout(jPanelMainLayout);

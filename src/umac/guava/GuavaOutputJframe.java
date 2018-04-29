@@ -555,12 +555,13 @@ public class GuavaOutputJframe extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    void displayFragmentSizeGraph(){
-        ImageIcon imageIcon  = new ImageIcon(R.fragmentSizeDistributionPlot.getAbsolutePath());
+    
+    void displayFragmentSizeGraph(File plot){
+        ImageIcon imageIcon  = new ImageIcon(plot.getAbsolutePath());
         graphJLabel.setIcon(imageIcon);
         graphJLabel.setAlignmentY(JLabel.CENTER_ALIGNMENT);
     }
+    
 
     public void displayACRbarChart(File barChart){
         ImageIcon imageIconChart  = new ImageIcon(barChart.getAbsolutePath());

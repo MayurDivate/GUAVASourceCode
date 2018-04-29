@@ -22,8 +22,6 @@ import java.util.regex.Pattern;
  */
 public class R extends Tool{
     
-    public static File fragmentSizeDistributionPlot;
-    
     public boolean createRcode(GuavaOutputFiles outFiles){
         int height = 420;
         int width = 757;
@@ -47,7 +45,7 @@ public class R extends Tool{
                         + "options(scipen=6)" + "\n"
                         + "insertsizes$density <- insertsizes$count * 1000 / sum(insertsizes$count)" + "\n"
                         + "library(ggplot2)" + "\n"
-                        + "p <- ggplot(insertsizes, aes(insert_size,count))" + "\n"
+                        + "p <- ggplot(insertsizes, aes(insert_size,density))" + "\n"
                         + "p <- p + geom_area(fill=\"red\",col=\"black\")" + "\n"
                         + "p <- p + theme_grey()" + "\n"
                         + "p <- p + theme(axis.text.y = element_text(angle = 90,hjust = 0.5, vjust = 0.5,face = \"bold\"))" + "\n"
@@ -204,16 +202,5 @@ public class R extends Tool{
         requiredPackages.add("KEGG.db");
         requiredPackages.add("EnsDb.Hsapiens.v75");
         return requiredPackages;
-    }
-    
-//    public void installBiocLite(){
-//    
-//        String source = "source(\"https://bioconductor.org/biocLite.R\")";
-//        String install = "biocLite()";
-//        
-//    }
-    
-     
-    
-    
+    } 
 }

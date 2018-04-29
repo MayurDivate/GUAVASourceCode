@@ -205,11 +205,11 @@ public class AnalysisWorkflow {
             go = aw.createFragmentSizeDistributionGraph(guavaInput, outFiles);
             workflowSamtools.deleteFile(outFiles.getrCode());
             excelPrinter.setSheetName("insertsize");
-            excelPrinter.printImage(R.fragmentSizeDistributionPlot, 3, 15.0, 25.0);
+            excelPrinter.printImage(outFiles.getFragmentSizeDistributionPlot(), 3, 15.0, 25.0);
         }
         if (!commandLine && go) {
             System.out.println("Display graph...Done!");
-            guavaOutputJframe.displayFragmentSizeGraph();
+            guavaOutputJframe.displayFragmentSizeGraph(outFiles.getFragmentSizeDistributionPlot());
 
         }
         if (go) {
@@ -418,7 +418,7 @@ public class AnalysisWorkflow {
             workflowSamtools.deleteFile(outFiles.getrCode());
             workflowSamtools.deleteFile(outFiles.getInsertSizeTextFile());
             excelPrinter.setSheetName("insertsize");
-            excelPrinter.printImage(R.fragmentSizeDistributionPlot,4, 15.0, 25.0);
+            excelPrinter.printImage(outFiles.getFragmentSizeDistributionPlot(),4, 15.0, 25.0);
         }
 
 //------------------- peak calling ------------------        
@@ -845,7 +845,6 @@ public class AnalysisWorkflow {
             go = rplot.createRcode(outFiles);
             String log[] = rplot.runCommand(rplot.getCommand(runATACseq, outFiles.getrCode()));
             rplot.writeLog(log, "**************************** Fragment distribution plot log ****************************");
-            R.fragmentSizeDistributionPlot = outFiles.getFragmentSizeDistributionPlot();
             System.out.println("Done !");
             return true;
         } catch (IOException ex) {

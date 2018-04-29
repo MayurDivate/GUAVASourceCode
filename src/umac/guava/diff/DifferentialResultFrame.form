@@ -490,8 +490,8 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Gene Ontology">
-                    <Property name="tabTitle" type="java.lang.String" value="Gene Ontology"/>
+                  <JTabbedPaneConstraints tabName="Gene Ontologies">
+                    <Property name="tabTitle" type="java.lang.String" value="Gene Ontologies"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
@@ -588,8 +588,8 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Pathway">
-                    <Property name="tabTitle" type="java.lang.String" value="Pathway"/>
+                  <JTabbedPaneConstraints tabName="Pathways">
+                    <Property name="tabTitle" type="java.lang.String" value="Pathways"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
