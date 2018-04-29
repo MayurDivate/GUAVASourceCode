@@ -227,7 +227,7 @@ public class ExcelPrinter {
 
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("Total Aligned Reads");
+                cell.setCellValue("Total Aligned Reads *");
                 cell.setCellStyle(headerStyle);
                 cell = row.createCell(1);
                 cell.setCellValue(alignmentResults.getReadsAligned() + " (" + alignmentResults.getReadsAligned_pc() + "%)");
@@ -292,7 +292,7 @@ public class ExcelPrinter {
 
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("Chr* Reads after duplicate filtering");
+                cell.setCellValue("Chr# Reads after duplicate filtering **");
                 cell.setCellStyle(headerStyle);
                 cell = row.createCell(1);
                 cell.setCellValue(chrReads + " (" + chr_pc + "%)");
@@ -308,7 +308,7 @@ public class ExcelPrinter {
 
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("Total Useful Reads");
+                cell.setCellValue("Total Useful Reads ***");
                 cell.setCellStyle(headerStyle);
                 cell = row.createCell(1);
                 cell.setCellValue(afRes.getUsefulReads() + " (" + useful_pc + "%)");
@@ -436,7 +436,7 @@ public class ExcelPrinter {
                 rowid = rowid+3;
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("* should be more than ~50 Million and for TF footprinting ~200 Million reads");
+                cell.setCellValue("* should be ~50 million and for TF footprinting ~200 million reads");
                 cell.setCellStyle(regularStyle);
                 
                 row = spreadsheet.createRow(rowid++);
@@ -446,7 +446,7 @@ public class ExcelPrinter {
 
                 row = spreadsheet.createRow(rowid++);
                 cell = row.createCell(0);
-                cell.setCellValue("*** should be more than ~20 Million and for TF footprinting ~100 Million useful reads");
+                cell.setCellValue("*** should be ~20 million and for TF footprinting ~100 million useful reads");
                 cell.setCellStyle(regularStyle);
 
             }

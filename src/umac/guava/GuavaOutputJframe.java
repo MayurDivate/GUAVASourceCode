@@ -232,7 +232,7 @@ public class GuavaOutputJframe extends javax.swing.JFrame {
         jTextArea1.setFont(new java.awt.Font("Lucida Grande", 2, 13)); // NOI18N
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(3);
-        jTextArea1.setText("* should be more than ~50 million and for TF footprinting ~200 million reads\n** mitochondrial reads could be 10-50%\n*** should be more than ~20 million and for TF footprinting ~100 million useful reads");
+        jTextArea1.setText("* should be ~50 million and for TF footprinting ~200 million reads\n** mitochondrial reads could be 10-50%\n*** should be ~20 million and for TF footprinting ~100 million useful reads");
         jTextArea1.setAutoscrolls(false);
         jTextArea1.setBorder(null);
         jTextArea1.setDisabledTextColor(new java.awt.Color(238, 238, 238));
