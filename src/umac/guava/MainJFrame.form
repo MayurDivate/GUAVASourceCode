@@ -329,7 +329,7 @@
         <Component class="javax.swing.JLabel" name="jLabelHitsQuality">
           <Properties>
             <Property name="text" type="java.lang.String" value="No. of genomic hits (m)"/>
-            <Property name="toolTipText" type="java.lang.String" value="Higher mapping quality means less number of genomic hits.&#xa;If mapping quality is 30 then expected genomic hits ~1."/>
+            <Property name="toolTipText" type="java.lang.String" value="Higher mapping quality means less number of genomic hits i.e. more unique mapping.&#xa;If mapping quality is 30 then expected genomic hits ~1."/>
           </Properties>
         </Component>
         <Component class="java.awt.TextField" name="jTextFieldBowtieIndex">

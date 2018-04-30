@@ -171,7 +171,7 @@ public class MainJFrame extends javax.swing.JFrame {
         });
 
         jLabelHitsQuality.setText("No. of genomic hits (m)");
-        jLabelHitsQuality.setToolTipText("Higher mapping quality means less number of genomic hits.\nIf mapping quality is 30 then expected genomic hits ~1.");
+        jLabelHitsQuality.setToolTipText("Higher mapping quality means less number of genomic hits i.e. more unique mapping.\nIf mapping quality is 30 then expected genomic hits ~1.");
 
         jTextFieldBowtieIndex.setEditable(false);
         jTextFieldBowtieIndex.setText("/path/bowtie1Index.ebwt");

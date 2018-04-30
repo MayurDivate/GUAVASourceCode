@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import umac.guava.commandline.Command;
 import umac.guava.commandline.CommandlineWorkflow;
+import umac.guava.diff.DifferentialOutputFiles;
+import umac.guava.diff.DifferentialResultFrame;
 
 
 /**
@@ -99,6 +101,7 @@ public class GUAVA {
             catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
                 java.util.logging.Logger.getLogger(GUAVA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
+        
         HomeFrame homeFrame = new HomeFrame();
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homeFrame.setVisible(true);

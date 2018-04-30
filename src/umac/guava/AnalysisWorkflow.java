@@ -845,6 +845,10 @@ public class AnalysisWorkflow {
             go = rplot.createRcode(outFiles);
             String log[] = rplot.runCommand(rplot.getCommand(runATACseq, outFiles.getrCode()));
             rplot.writeLog(log, "**************************** Fragment distribution plot log ****************************");
+            if(outFiles.getInsertSizeTextFile().exists()){
+               outFiles.getInsertSizeTextFile().delete();
+            }
+            
             System.out.println("Done !");
             return true;
         } catch (IOException ex) {
