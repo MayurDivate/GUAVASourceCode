@@ -413,6 +413,7 @@ public class DifferentialResultFrame extends javax.swing.JFrame {
         });
 
         jLabelGeneSearch.setText("Gene Symbol");
+        jLabelGeneSearch.setEnabled(false);
         jLabelGeneSearch.setPreferredSize(new java.awt.Dimension(81, 30));
         jLabelGeneSearch.setEnabled(false);
 

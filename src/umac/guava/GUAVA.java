@@ -12,8 +12,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import umac.guava.commandline.Command;
 import umac.guava.commandline.CommandlineWorkflow;
-import umac.guava.diff.DifferentialOutputFiles;
-import umac.guava.diff.DifferentialResultFrame;
 
 
 /**

@@ -733,6 +733,7 @@
         <Component class="javax.swing.JLabel" name="jLabelGeneSearch">
           <Properties>
             <Property name="text" type="java.lang.String" value="Gene Symbol"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[81, 30]"/>
             </Property>
