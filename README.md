@@ -16,7 +16,7 @@ Step 2: Click on the `Source Code (zip)` <br/>
 Step 3: This will save GUAVA zip package in the downloads folder <br/>
 <br/>
 Then you will need to open the terminal to complete installation.<br/>
-Please check the [**manual**](https://github.com/MayurDivate/GUAVA#guava-manual) to know how to open the terminal.<br/>
+Please check the [**manual**](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/docs/GUAVA_manual.pdf) to know how to open the terminal.<br/>
 <br/>
 If the downloaded package is in the folder ```Downloads```,Then type the commands below to unzip package on the terminal.<br/>
 
@@ -24,7 +24,6 @@ If the downloaded package is in the folder ```Downloads```,Then type the command
 mv ~/Downloads/GUAVA-1.zip ~/
 cd ~/
 unzip GUAVA-1.zip
-mv GUAVA-1 GUAVA 
 ```
 
 NOTE: If you have downloaded and saved GUAVA package in any other folder that Downloads. You will have to use complete path of that folder in above command instead of `~/Downloads/GUAVA-master.zip`. To copy path, simply copy the downloaded package and paste it on the terminal. 
@@ -68,7 +67,7 @@ Then, to continue installation you have enter your password.
 
 without sudo | with sudo
 -----------|------------
-``` cd ~/GUAVA ``` | ``` cd ~/GUAVA ```  
+``` cd ~/GUAVA-1 ``` | ``` cd ~/GUAVA-1 ```  
 ``` python get-pip.py ``` | ``` sudo python get-pip.py ```
 ``` pip install MACS2 ``` | ``` sudo pip install MACS2 ```
 
@@ -109,7 +108,7 @@ conda update anaconda
 ```
 - try to install dependencies again
 ``
-cd ~/GUAVA
+cd ~/GUAVA-1
 sh ./configure.sh
 ``
 
