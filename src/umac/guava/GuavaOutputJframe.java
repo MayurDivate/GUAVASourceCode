@@ -766,44 +766,6 @@ public class GuavaOutputJframe extends javax.swing.JFrame {
         }
     }
     
-    public void setFakeResults(){
-        int totalReads = 94208170;
-        int alignedReads = 75771166;
-        int dupReads = 13855635;
-        int chrReads = 823728;
-        int blacklistReads = 134548;
-        int usefulReads = 60956787;
-
-        double dup_pc = getPercentage(dupReads, totalReads); 
-        double chr_pc = getPercentage(chrReads, totalReads); 
-        double blist_pc = getPercentage(blacklistReads, totalReads); 
-        double useful_pc = getPercentage(usefulReads , totalReads); 
-        
-        alignFilterStatTable.setValueAt("Total Reads", 0, 0);
-        alignFilterStatTable.setValueAt(totalReads, 0, 1);
-
-        alignFilterStatTable.setValueAt("Total Aligned Reads *", 1, 0);
-        alignFilterStatTable.setValueAt(alignedReads+ " (80.43%)", 1, 1);
-
-        alignFilterStatTable.setValueAt("Total Duplicate Reads", 2, 0);
-        alignFilterStatTable.setValueAt(dupReads+" ("+dup_pc+"%)", 2, 1);
-
-        alignFilterStatTable.setValueAt("Chr# Reads after duplicate filtering **", 3, 0);
-        alignFilterStatTable.setValueAt(chrReads+" ("+chr_pc +"%)", 3, 1);
-
-        alignFilterStatTable.setValueAt("Blacklist Region Reads", 4, 0);
-        alignFilterStatTable.setValueAt(blacklistReads+" ("+blist_pc +"%)", 4, 1);
-
-        alignFilterStatTable.setValueAt("Total Useful Reads ***", 5, 0);
-        alignFilterStatTable.setValueAt(usefulReads +" ("+useful_pc +"%)", 5, 1);
-
-       peakCallingResultTable.setValueAt("q value cut off ", 0, 0);
-       peakCallingResultTable.setValueAt("0.001", 0, 1);
-       peakCallingResultTable.setValueAt("Total Number of Peaks", 1, 0);
-       peakCallingResultTable.setValueAt("147675", 1, 1);
-        
-    }
-    
     public double getPercentage(int numerator, int denominator){
         double percentage =  ( numerator * 100.00 ) / denominator ;
         percentage = Math.round(percentage * 100.0) / 100.0;
