@@ -85,6 +85,18 @@ public class R extends Tool{
             };
         return commandArray;
     }
+    
+    public String[] getCommand(String bioconductorPackage) {
+        File guava = GUAVA.getPackageBase();
+        File rscript =  new File(new File(guava,"lib"),"installMissingBCpackage.R");
+        
+        String[] commandArray =   
+            {   "Rscript", 
+                rscript.getAbsolutePath(),
+                bioconductorPackage
+            };
+        return commandArray;
+    }
 
     @Override
     public String[] runCommand(String[] commandArray) {
@@ -158,49 +170,21 @@ public class R extends Tool{
 
             
     }
-
-    public boolean checkRpackages(){
     
-        ArrayList<String> reqPackageList =getListOfRequiredPackages();
-        
-        for(int index=0; index < reqPackageList.size(); index++){
-               String bioCpackage = reqPackageList.get(index);
-               if(!isInstalled(bioCpackage)){
-                   boolean flag = installBiocPackage(bioCpackage);
-                   if(!flag){
-                        System.out.println("Unable to install bioconductor package : "+bioCpackage);
-                        return flag;
-                   }
-               }
+    public boolean isGenomeBCpackages(Genome genome){
+        R r = new R();
+        boolean isTXDB  = r.runCommand(r.getCommand(genome.getTxdb())).equals("[1] TRUE");
+        boolean isOrgDB = r.runCommand(r.getCommand(genome.getOrgdb())).equals("[1] TRUE");
+        if(isOrgDB && isTXDB){
+            return true;
         }
-    
-        return true;
-    }
-    
-    public static boolean isInstalled(String bioConductorPackage){
-        
         return false;
     }
     
-    public static boolean installBiocPackage(String bioConductorPackage){
-        
-        return false;
+    public boolean isBCpackage(String bcPackageName){
+        R r = new R();
+        return r.runCommand(r.getCommand(bcPackageName)).equals("[1] TRUE");
     }
     
-    public static ArrayList<String> getListOfRequiredPackages(){
-        ArrayList<String> requiredPackages = new ArrayList<>();
-        requiredPackages.add("ChIPseeker");
-        requiredPackages.add("ReactomePA");
-        requiredPackages.add("org.Hs.eg.db");
-        requiredPackages.add("org.Mm.eg.db");
-        requiredPackages.add("TxDb.Hsapiens.UCSC.hg19.knownGene");
-        requiredPackages.add("TxDb.Hsapiens.UCSC.hg18.knownGene");
-        requiredPackages.add("TxDb.Mmusculus.UCSC.mm10.knownGene");
-        requiredPackages.add("TxDb.Mmusculus.UCSC.mm9.knownGene");
-        requiredPackages.add("ChIPpeakAnno");
-        requiredPackages.add("GO.db");
-        requiredPackages.add("KEGG.db");
-        requiredPackages.add("EnsDb.Hsapiens.v75");
-        return requiredPackages;
-    } 
+    
 }

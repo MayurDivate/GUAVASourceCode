@@ -83,6 +83,7 @@ public class AnalysisWorkflow {
         
         ExcelPrinter excelPrinter = new ExcelPrinter(outFiles.getOutExcel(), "Alignment");
         
+        go = new R().isGenomeBCpackages(guavaInput.getGenome());
         
         if (go) {
             go = aw.createDir(outFiles.getRootDir());
@@ -290,7 +291,7 @@ public class AnalysisWorkflow {
 
     public boolean startCommandlineGuavaAnalysis(GuavaInput guavaInput) {
 
-        boolean success = true;
+        boolean success = new R().isGenomeBCpackages(guavaInput.getGenome());
         Date start = new Date();
 
         AnalysisWorkflow aw = new AnalysisWorkflow();                               // to run other methods in this class

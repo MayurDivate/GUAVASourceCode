@@ -542,7 +542,6 @@ public class ChIPpeakAnno extends Tool {
     @Override
     public boolean isWorking() {
         // current there is no code to check individual package 
-        System.out.println("Method: umac.guava.ChIPseeker.isWorking()");
         System.out.println("This method is not complete");
         return false;
     }

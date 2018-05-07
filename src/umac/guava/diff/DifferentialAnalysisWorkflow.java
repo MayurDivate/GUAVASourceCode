@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import umac.guava.ChIPpeakAnno;
 import umac.guava.Genome;
 import umac.guava.IGVdataTrack;
+import umac.guava.R;
 
 /**
  *
@@ -40,10 +41,12 @@ public class DifferentialAnalysisWorkflow {
         resultFrame.setVisible(true);
         resultFrame.addSummary(gdiff_Input);
 
-        boolean doNext = true;
+        boolean doNext = new R().isGenomeBCpackages(gdiff_Input.getGenome());
         // get output files 
         DifferentialOutputFiles gdiff_outputfiles = gdiff_Input.getDifferentialOutputFiles();
-        doNext = createDir(gdiff_outputfiles.getOutputFolder());
+        if(doNext){
+            doNext = createDir(gdiff_outputfiles.getOutputFolder());
+        }
         
         DIfferentialAnalysisExcelPrinter excelPrinter = new DIfferentialAnalysisExcelPrinter(gdiff_outputfiles.getOutExcel(), "Summary");
         int sheetNumber = 0;
@@ -134,12 +137,14 @@ public class DifferentialAnalysisWorkflow {
     }
 
     public boolean startCommandlineDifferentialAnalysis(GdiffInput gdiffInput) {
-        boolean doNext = true;
+        boolean doNext = new R().isGenomeBCpackages(gdiffInput.getGenome());
         // get gdiff_outputfiles
         DifferentialOutputFiles outputfiles = gdiffInput.getDifferentialOutputFiles();
         
         // create output dir
-        doNext = createDir(outputfiles.getOutputFolder());
+        if(doNext){
+            doNext = createDir(outputfiles.getOutputFolder());
+        }
         // create log file
         if(doNext){
             try {
