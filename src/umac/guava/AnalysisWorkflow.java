@@ -83,17 +83,22 @@ public class AnalysisWorkflow {
         
         ExcelPrinter excelPrinter = new ExcelPrinter(outFiles.getOutExcel(), "Alignment");
         
-        go = new R().isGenomeBCpackages(guavaInput.getGenome());
-        
         if (go) {
             go = aw.createDir(outFiles.getRootDir());
         }
 
         try {
             go = GuavaOutputFiles.logFile.createNewFile();
+            
         } catch (IOException ex) {
             System.out.println(GuavaOutputFiles.logFile);
             Logger.getLogger(AnalysisWorkflow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (go) {
+            // check bioconductor packages
+            System.out.println("checking bioconductor packages");
+            go = new R().isGenomeBCpackages(guavaInput.getGenome());
         }
         
         workflowSamtools.writeLog(guavaInput.getInputSummary(), "------------ Input Sumary ------------");
@@ -291,20 +296,24 @@ public class AnalysisWorkflow {
 
     public boolean startCommandlineGuavaAnalysis(GuavaInput guavaInput) {
 
-        boolean success = new R().isGenomeBCpackages(guavaInput.getGenome());
         Date start = new Date();
 
         AnalysisWorkflow aw = new AnalysisWorkflow();                               // to run other methods in this class
         GuavaOutputFiles outFiles = new GuavaOutputFiles().getOutputFiles(guavaInput);        // outputfiles 
         Samtools workflowSamtools = new Samtools();                                 // to run samtools
         ExcelPrinter excelPrinter = new ExcelPrinter(outFiles.getOutExcel(), "Alignment");
-        success = aw.createDir(outFiles.getRootDir());                              //create root dir and get started 
+        boolean success = aw.createDir(outFiles.getRootDir());                              //create root dir and get started 
 
         if (success) {
             success = aw.createFile(outFiles.logFile);
             workflowSamtools.writeLog(guavaInput.getInputSummary(), "------------ Input Sumary ------------");
         }
 
+        if (success) {
+            // check bioconductor packages
+            System.out.println("checking bioconductor packages");
+            success = new R().isGenomeBCpackages(guavaInput.getGenome());
+        }
 //------------------- ADAPTER TRIMMING ------------------        
         if (guavaInput.isTrim()) {
             System.out.println("Adapter trimming...");

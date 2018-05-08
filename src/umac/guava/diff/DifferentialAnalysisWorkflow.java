@@ -41,12 +41,11 @@ public class DifferentialAnalysisWorkflow {
         resultFrame.setVisible(true);
         resultFrame.addSummary(gdiff_Input);
 
-        boolean doNext = new R().isGenomeBCpackages(gdiff_Input.getGenome());
+        
         // get output files 
         DifferentialOutputFiles gdiff_outputfiles = gdiff_Input.getDifferentialOutputFiles();
-        if(doNext){
-            doNext = createDir(gdiff_outputfiles.getOutputFolder());
-        }
+        
+        boolean doNext = createDir(gdiff_outputfiles.getOutputFolder());
         
         DIfferentialAnalysisExcelPrinter excelPrinter = new DIfferentialAnalysisExcelPrinter(gdiff_outputfiles.getOutExcel(), "Summary");
         int sheetNumber = 0;
@@ -62,7 +61,14 @@ public class DifferentialAnalysisWorkflow {
             }
         }
         // write input summary
-        doNext = gdiff_outputfiles.writeSummary(gdiff_Input);
+        if(doNext){
+            doNext = gdiff_outputfiles.writeSummary(gdiff_Input);
+        }
+        
+        if(doNext){
+            System.out.println("checking bioconductor packages....");
+            doNext = new R().isGenomeBCpackages(gdiff_Input.getGenome());
+        }
 
         if (doNext) {
             System.out.println("---------- Create read count matrix ----------");
@@ -137,14 +143,13 @@ public class DifferentialAnalysisWorkflow {
     }
 
     public boolean startCommandlineDifferentialAnalysis(GdiffInput gdiffInput) {
-        boolean doNext = new R().isGenomeBCpackages(gdiffInput.getGenome());
+        
         // get gdiff_outputfiles
         DifferentialOutputFiles outputfiles = gdiffInput.getDifferentialOutputFiles();
         
         // create output dir
-        if(doNext){
-            doNext = createDir(outputfiles.getOutputFolder());
-        }
+        boolean doNext = createDir(outputfiles.getOutputFolder());
+
         // create log file
         if(doNext){
             try {
@@ -155,7 +160,12 @@ public class DifferentialAnalysisWorkflow {
                 Logger.getLogger(DifferentialAnalysisWorkflow.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
+        if(doNext){
+            System.out.println("checking bioconductor packages....");
+            doNext = new R().isGenomeBCpackages(gdiffInput.getGenome());
+        }
+
 
         if (doNext) {
             System.out.println("---------- create common peaks ----------");
