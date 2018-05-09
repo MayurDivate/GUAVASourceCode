@@ -120,6 +120,7 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
         jSpinnerCPUs.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
         String[] genomes = Genome.getGenomeArray();
+        jComboBoxGenome.setMaximumRowCount(5);
         jComboBoxGenome.setModel(new javax.swing.DefaultComboBoxModel<>(genomes));
         jComboBoxGenome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

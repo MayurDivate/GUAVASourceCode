@@ -177,6 +177,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jTextFieldBowtieIndex.setText("/path/bowtie1Index.ebwt");
 
         String[] genomes = Genome.getGenomeArray();
+        jComboBoxGenome.setMaximumRowCount(5);
         jComboBoxGenome.setModel(new javax.swing.DefaultComboBoxModel<>(genomes));
         jComboBoxGenome.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jComboBoxGenome.addActionListener(new java.awt.event.ActionListener() {
