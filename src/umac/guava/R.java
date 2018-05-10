@@ -172,9 +172,9 @@ public class R extends Tool{
     }
     
     public boolean isGenomeBCpackages(Genome genome){
-        R r = new R();
-        boolean isTXDB  = r.runCommand(r.getCommand(genome.getTxdb())).equals("[1] TRUE");
-        boolean isOrgDB = r.runCommand(r.getCommand(genome.getOrgdb())).equals("[1] TRUE");
+        boolean isTXDB  = isBCpackage(genome.getTxdb());
+        boolean isOrgDB = isBCpackage(genome.getOrgdb());
+        
         if(isOrgDB && isTXDB){
             return true;
         }
@@ -183,7 +183,13 @@ public class R extends Tool{
     
     public boolean isBCpackage(String bcPackageName){
         R r = new R();
-        return r.runCommand(r.getCommand(bcPackageName)).equals("[1] TRUE");
+        String[] log = r.runCommand(r.getCommand(bcPackageName));
+        log[0] = log[0].trim();
+        
+        if(!log[0].equals("[1] TRUE")){
+            System.out.println(">>>>> "+bcPackageName+": FALSE"); 
+        }
+        return log[0].equals("[1] TRUE");
     }
     
     

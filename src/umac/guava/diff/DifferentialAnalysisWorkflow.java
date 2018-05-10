@@ -41,7 +41,6 @@ public class DifferentialAnalysisWorkflow {
         resultFrame.setVisible(true);
         resultFrame.addSummary(gdiff_Input);
 
-        
         // get output files 
         DifferentialOutputFiles gdiff_outputfiles = gdiff_Input.getDifferentialOutputFiles();
         
@@ -55,7 +54,7 @@ public class DifferentialAnalysisWorkflow {
         // create log file
         if(doNext){
             try {
-                DifferentialOutputFiles.getLogFile().createNewFile();
+                doNext = DifferentialOutputFiles.getLogFile().createNewFile();
             } catch (IOException ex) {
                 Logger.getLogger(DifferentialAnalysisWorkflow.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -133,7 +132,7 @@ public class DifferentialAnalysisWorkflow {
         }
 
         if (!doNext) {
-            System.out.println("Error occured, analysis stopped");
+            System.out.println("Error code 101: Unexpected exit from differential analysis workflow");
             return false;
         }
         
@@ -196,7 +195,7 @@ public class DifferentialAnalysisWorkflow {
         }
 
         if (!doNext) {
-            System.out.println("Error occured, analysis stopped");
+            System.out.println("Error code 101: Unexpected exit from differential analysis workflow");
         }
         return doNext;
 
@@ -295,7 +294,6 @@ public class DifferentialAnalysisWorkflow {
     }
     
     public boolean createDir(File dir) {
-        System.out.println(dir.getAbsolutePath());
         if (!dir.exists()) {
             return dir.mkdir();
         } else {

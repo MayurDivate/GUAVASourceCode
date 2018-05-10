@@ -102,13 +102,14 @@ public class AnalysisWorkflow {
         }
         
         workflowSamtools.writeLog(guavaInput.getInputSummary(), "------------ Input Sumary ------------");
-        
-        if (guavaInput.isTrim()) {
-            System.out.print("Adapter trimming...");
-            go = aw.runCutadapt(guavaInput, outFiles);
-            Cutadapt cutadapt = guavaInput.getCutadapt();
-            guavaInput.setR1Fastq(cutadapt.getTrimmed_R1());
-            guavaInput.setR2Fastq(cutadapt.getTrimmed_R2());
+        if (go) {
+            if (guavaInput.isTrim()) {
+                System.out.print("Adapter trimming...");
+                go = aw.runCutadapt(guavaInput, outFiles);
+                Cutadapt cutadapt = guavaInput.getCutadapt();
+                guavaInput.setR1Fastq(cutadapt.getTrimmed_R1());
+                guavaInput.setR2Fastq(cutadapt.getTrimmed_R2());
+            }
         }
         if (go) {
             System.out.println("fastq QC...");
@@ -314,21 +315,22 @@ public class AnalysisWorkflow {
             System.out.println("checking bioconductor packages");
             success = new R().isGenomeBCpackages(guavaInput.getGenome());
         }
-//------------------- ADAPTER TRIMMING ------------------        
-        if (guavaInput.isTrim()) {
-            System.out.println("Adapter trimming...");
-            Cutadapt cutadapt = guavaInput.getCutadapt();
-            guavaInput.getCutadapt().setCutadaptDir(outFiles.getCutadaptOUT());     // real cutadaptdir
-            guavaInput.getCutadapt().setTrimmed_R1(new File(outFiles.getCutadaptOUT(), cutadapt.getTrimmed_R1().getName()));  
-            guavaInput.getCutadapt().setTrimmed_R2(new File(outFiles.getCutadaptOUT(), cutadapt.getTrimmed_R2().getName()));  
-            guavaInput.getCutadapt().setCutadaptDir(outFiles.getCutadaptOUT());     // real cutadaptdir
-            
-            success = aw.runCutadapt(guavaInput, outFiles);                          // Trim adapter 
-            
-            guavaInput.setR1Fastq(guavaInput.getCutadapt().getTrimmed_R1());        // change R1 and R2 fastq 
-            guavaInput.setR2Fastq(guavaInput.getCutadapt().getTrimmed_R2());        // to trimmed fastq
-        }
+//------------------- ADAPTER TRIMMING ------------------
+        if (success) {
+            if (guavaInput.isTrim()) {
+                System.out.println("Adapter trimming...");
+                Cutadapt cutadapt = guavaInput.getCutadapt();
+                guavaInput.getCutadapt().setCutadaptDir(outFiles.getCutadaptOUT());     // real cutadaptdir
+                guavaInput.getCutadapt().setTrimmed_R1(new File(outFiles.getCutadaptOUT(), cutadapt.getTrimmed_R1().getName()));
+                guavaInput.getCutadapt().setTrimmed_R2(new File(outFiles.getCutadaptOUT(), cutadapt.getTrimmed_R2().getName()));
+                guavaInput.getCutadapt().setCutadaptDir(outFiles.getCutadaptOUT());     // real cutadaptdir
 
+                success = aw.runCutadapt(guavaInput, outFiles);                          // Trim adapter 
+
+                guavaInput.setR1Fastq(guavaInput.getCutadapt().getTrimmed_R1());        // change R1 and R2 fastq 
+                guavaInput.setR2Fastq(guavaInput.getCutadapt().getTrimmed_R2());        // to trimmed fastq
+            }
+        }
 //------------------- FASTQC ------------------        
         if (success) {
             System.out.println("FastQC quality check...");

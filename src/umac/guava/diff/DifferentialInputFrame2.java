@@ -328,9 +328,9 @@ public class DifferentialInputFrame2 extends javax.swing.JFrame {
             DifferentialOutputFiles dof = DifferentialOutputFiles.getDifferentialOutputFiles(outputFolder,genome);
         
             double foldchange =  Double.parseDouble(jComboBoxFC.getSelectedItem().toString());
-            double pvalue =  Double.parseDouble(jTextFieldPvalue.getText());
-            int downstream = Integer.parseInt(jTextFieldDownstream.getText());
-            int upstream = Integer.parseInt(jTextFieldUpstream.getText());
+            double pvalue     =  Double.parseDouble(jTextFieldPvalue.getText());
+            int downstream    = Integer.parseInt(jTextFieldDownstream.getText());
+            int upstream      = Integer.parseInt(jTextFieldUpstream.getText());
             
             String method = jComboBoxMetho.getSelectedItem().toString();
             int cpus = (int) jSpinnerCPUs.getValue();
