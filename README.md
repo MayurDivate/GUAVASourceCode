@@ -52,7 +52,7 @@ sh ./configure.sh
 
 > Error: [**Anaconda Error**](https://github.com/MayurDivate/GUAVA#anaconda-error-missing-write-permissions-in)
 
-** End of the installation, Close the terminal. **
+**End of the installation, Close the terminal.**
 
 <br/>
 
