@@ -115,20 +115,19 @@ sh ./configure.sh
 - bedGraphToBigWig
 
 ### List of required R Packages
-- ChIPseeker
 - DESeq2
-- ReactomePA
-- TxDb.Hsapiens.UCSC.hg19.knownGene
-- TxDb.Mmusculus.UCSC.mm9.knownGene
-- TxDb.Mmusculus.UCSC.mm10.knownGene
-- org.Hs.eg.db
-- org.Mm.eg.db
 - ChIPpeakAnno
 - GO.db
 - KEGG.db
 - EnsDb.Hsapiens.v75
 - Rsubread
 - ggplot2
+- TxDb.Hsapiens.UCSC.hg19.knownGene
+- TxDb.Mmusculus.UCSC.mm9.knownGene
+- TxDb.Mmusculus.UCSC.mm10.knownGene
+- org.Hs.eg.db
+- org.Mm.eg.db
+
 
 ## Support
  If you're having any problem, please [raise an issue](https://github.com/MayurDivate/GUAVASourceCode/issues) on GitHub. 
