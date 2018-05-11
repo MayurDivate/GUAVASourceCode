@@ -54,7 +54,6 @@ sh ./configure.sh
 
 **End of the installation, Close the terminal.**
 
-<br/>
 
 ## How to start GUAVA 
 
