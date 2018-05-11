@@ -69,9 +69,12 @@ sh ./configure.sh
  java -jar GUAVA.jar [options]*
 ```
 
-## GUAVA manual [**click here**](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/docs/GUAVA_manual.pdf)
+## GUAVA manual 
+To download manual [**click here**](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/docs/GUAVA_manual.pdf)
 <br/>
-## Sample Data To download sample data [ **Click Here** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
+
+## Sample Data 
+To download sample data [ **Click Here** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
 
 ## Anaconda Error: Missing write permissions in
 If you encounter error which says "Error: Missing write permissions in:/share/apps/anaconda***",<br/>
