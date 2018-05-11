@@ -39,7 +39,7 @@ unzip GUAVA-1.zip
 GUAVA depends on other tools in order to process ATAC-seq data (e.g. Bowtie for alignment). If any of the dependencies are not found on the system, GUAVA will not work properly. Therefore, to help users to install the dependencies, we have written a program called configure.sh, which automatically downloads and installs the dependencies. Please follow the steps given below to run configure.sh.
 <br/>
 
-## Run configure.sh
+#### Run configure.sh
 
 ```
 cd ~/GUAVA-1
@@ -55,6 +55,7 @@ sh ./configure.sh
 **End of the installation, Close the terminal.**
 
 <br/>
+<br/>
 
 ## To start GUAVA use following command
 
@@ -62,17 +63,15 @@ sh ./configure.sh
 ```
  java –jar GUAVA.jar
 ```
+<br/>
 **For command line interface**
 ```
  java -jar GUAVA.jar [options]*
 ```
 
-## GUAVA manual
-[**click here**](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/docs/GUAVA_manual.pdf)
-
-
-## Sample Data
-To download sample data [ **Click Here** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
+## GUAVA manual [**click here**](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/docs/GUAVA_manual.pdf)
+<br/>
+## Sample Data To download sample data [ **Click Here** ](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/)
 
 ## Anaconda Error: Missing write permissions in
 If you encounter error which says "Error: Missing write permissions in:/share/apps/anaconda***",<br/>
