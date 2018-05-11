@@ -40,15 +40,13 @@ GUAVA depends on other tools in order to process ATAC-seq data (e.g. Bowtie for 
 <br/>
 
 ## Run configure.sh
-```cd ~/GUAVA-1   ```
-```sh configure.sh```
-Note: This may take a while to finish. Also, you will need to press ‘enter’ several times
-to continue. Additionally, answer all question with ‘yes’.
 
 ```
 cd ~/GUAVA-1
 sh ./configure.sh 
 ```
+Note: This may take a while to finish. Also, you will need to press ‘enter’ several times
+to continue. Additionally, answer all question with ‘yes’.
 
 [**Anaconda Error**](https://github.com/MayurDivate/GUAVA#anaconda-error-missing-write-permissions-in)
 
