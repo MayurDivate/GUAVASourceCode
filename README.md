@@ -31,7 +31,7 @@ cd ~/
 unzip GUAVA-1.zip
 ```
 
-> NOTE:
+> NOTE <br/>
 > If you have already unzipped package then remove the '.zip' suffix in the first command and skip the third command.<br/>
 > If you have downloaded and saved GUAVA package in any other folder that Downloads. You will have to use complete path of that folder in above command instead of `~/Downloads/GUAVA-master.zip`. To copy path, simply copy the downloaded package and paste it on the terminal. 
 
@@ -46,7 +46,8 @@ cd ~/GUAVA-1
 sh ./configure.sh 
 ```
 <br/>
-> Note: This may take 15-20 mins to finish. Also, you will need to press ‘enter’ several times to continue. Additionally, answer all questions with ‘yes’. If you see the message about the ‘Xcode’, choose ‘install’ to continue. Some users may need to repeat step 1-3 in the new terminal if it could not load the ‘conda’. 
+> NOTE <br/>
+>  This may take 15-20 mins to finish. Also, you will need to press ‘enter’ several times to continue. Additionally, answer all questions with ‘yes’. If you see the message about the ‘Xcode’, choose ‘install’ to continue. Some users may need to repeat step 1-3 in the new terminal if it could not load the ‘conda’. 
 
 > Error: [**Anaconda Error**](https://github.com/MayurDivate/GUAVA#anaconda-error-missing-write-permissions-in)
 
