@@ -47,6 +47,7 @@ sh ./configure.sh
 ```
 <br/>
 
+> NOTE <br/>
 > NOTE 
 > This may take 15-20 mins to finish. Also, you will need to press ‘enter’ several times to continue. Additionally, answer all questions with ‘yes’. If you see the message about the ‘Xcode’, choose ‘install’ to continue. Some users may need to repeat step 1-3 in the new terminal if it could not load the ‘conda’. 
 
