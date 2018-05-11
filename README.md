@@ -55,9 +55,8 @@ sh ./configure.sh
 **End of the installation, Close the terminal.**
 
 <br/>
-<br/>
 
-## To start GUAVA use following command
+## How to start GUAVA 
 
 **GUI version**
 ```
@@ -104,7 +103,7 @@ sh ./configure.sh
 - Python version 2.7
 - R Version: >= 3.3.2<br/>
 
-## Required bioinformatics tools
+## Required bioinformatic tools
 - Bowtie
 - Bowtie2
 - MACS2 version 2.1.1.20160309
