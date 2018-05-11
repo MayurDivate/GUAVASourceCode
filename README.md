@@ -23,7 +23,7 @@ Step 3: This will save GUAVA zip package in the downloads folder <br/>
 Then you will need to open the terminal to complete installation.<br/>
 Please check the [**manual**](http://ec2-52-201-246-161.compute-1.amazonaws.com/guava/docs/GUAVA_manual.pdf) to know how to open the terminal.<br/>
 <br/>
-If the downloaded package is in the folder ```Downloads```, Then type the commands below in the Terminal to move GUAVA-1.zip to the home folder and unzip it.<br/>
+If the downloaded package is in the folder ```Downloads```, Then type the commands below in the Terminal to move "GUAVA-1.zip" into the home folder and unzip it.<br/>
 
 ```
 mv ~/Downloads/GUAVA-1.zip ~/
@@ -31,9 +31,9 @@ cd ~/
 unzip GUAVA-1.zip
 ```
 
-NOTE: 
-If you have already unzipped package then remove the '.zip' suffix in the first command and skip the third command.<br/>
-If you have downloaded and saved GUAVA package in any other folder that Downloads. You will have to use complete path of that folder in above command instead of `~/Downloads/GUAVA-master.zip`. To copy path, simply copy the downloaded package and paste it on the terminal. 
+> *NOTE:* 
+>If you have already unzipped package then remove the '.zip' suffix in the first command and skip the third command.<br/>
+>If you have downloaded and saved GUAVA package in any other folder that Downloads. You will have to use complete path of that folder in above command instead of `~/Downloads/GUAVA-master.zip`. To copy path, simply copy the downloaded package and paste it on the terminal. 
 
 ## Installing Dependencies
 Though we have written configure.sh script for the easy installation of dependencies, R and MACS2 need to be installed manually.
