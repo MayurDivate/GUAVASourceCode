@@ -63,7 +63,9 @@ sh ./configure.sh
 ```
  java –jar GUAVA.jar
 ```
+
 <br/>
+
 **For command line interface**
 ```
  java -jar GUAVA.jar [options]*
