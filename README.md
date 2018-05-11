@@ -45,10 +45,10 @@ GUAVA depends on other tools in order to process ATAC-seq data (e.g. Bowtie for 
 cd ~/GUAVA-1
 sh ./configure.sh 
 ```
-Note: This may take a while to finish. Also, you will need to press ‘enter’ several times
-to continue. Additionally, answer all question with ‘yes’.
+<br/>
+>Note: This may take 15-20 mins to finish. Also, you will need to press ‘enter’ several times to continue. Additionally, answer all questions with ‘yes’. If you see the message about the ‘Xcode’, choose ‘install’ to continue. Some users may need to repeat step 1-3 in the new terminal if it could not load the ‘conda’. 
 
-[**Anaconda Error**](https://github.com/MayurDivate/GUAVA#anaconda-error-missing-write-permissions-in)
+>Error: [**Anaconda Error**](https://github.com/MayurDivate/GUAVA#anaconda-error-missing-write-permissions-in)
 
 End of the installation part.
 <br/>
