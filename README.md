@@ -77,7 +77,7 @@ End of the installation part.
 
 **GUI version**
 ```
- java –jar GUAVA.jar
+ java -jar GUAVA.jar
 ```
 **For command line interface**
 ```
